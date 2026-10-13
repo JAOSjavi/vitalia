@@ -45,6 +45,9 @@
 - [HU-030 Consultar los documentos del paciente en un visor](../E5-historias-clinicas-del-paciente/HU-030-visor-de-documentos-del-paciente.md)
 - [HU-034 Preguntar al asistente sobre los documentos de un paciente](../E6-asistente-de-ia/HU-034-preguntar-al-asistente.md)
 - [HU-038 Registrar el tratamiento de un paciente](../E8-tratamientos/HU-038-registrar-el-tratamiento-de-un-paciente.md)
+- [HU-040 Corregir los datos de un paciente](../E1-cuentas-e-ingreso/HU-040-corregir-los-datos-de-un-paciente.md)
+- [HU-041 Datos de identificación de la historia clínica](../E9-historia-clinica-del-consultorio/HU-041-datos-de-identificacion-de-la-historia-clinica.md)
+- [HU-042 Pantalla de atención con el asistente al lado](../E9-historia-clinica-del-consultorio/HU-042-pantalla-de-atencion-con-el-asistente-al-lado.md)
 
 ---
 

@@ -1,0 +1,38 @@
+{
+  "v": 3,
+  "createdOnFiles": { "v": 1, "at": "2026-10-13T14:00:00Z" },
+  "title": "Vitalia · Diseño de pantallas",
+  "launch": { "view": "canvas" },
+  "pages": [],
+  "boards": {
+    "Main.dc.html": { "x": 940, "y": 0, "w": 390, "h": 844, "title": "Paciente · Inicio", "radius": 28, "is_interactive": true },
+    "Paciente-Ingreso.dc.html": { "x": 0, "y": 0, "w": 390, "h": 844, "title": "Paciente · Ingresar", "radius": 28, "is_interactive": true },
+    "Paciente-Registro.dc.html": { "x": 470, "y": 0, "w": 390, "h": 844, "title": "Paciente · Tratamiento de datos", "radius": 28, "is_interactive": true },
+    "Paciente-Agendar.dc.html": { "x": 1410, "y": 0, "w": 390, "h": 844, "title": "Paciente · Agendar", "radius": 28, "is_interactive": true },
+    "Paciente-Citas.dc.html": { "x": 1880, "y": 0, "w": 390, "h": 900, "title": "Paciente · Mis citas", "radius": 28, "is_interactive": true },
+    "Paciente-Tratamientos.dc.html": { "x": 2350, "y": 0, "w": 390, "h": 1040, "title": "Paciente · Mis tratamientos", "radius": 28, "is_interactive": true },
+    "Paciente-Documentos.dc.html": { "x": 2820, "y": 0, "w": 390, "h": 900, "title": "Paciente · Mis documentos", "radius": 28, "is_interactive": true },
+    "Medico-Hoy.dc.html": { "x": 0, "y": 1400, "w": 1440, "h": 880, "title": "Médico · Hoy", "expand": "fill", "is_interactive": true },
+    "Medico-Calendario.dc.html": { "x": 1520, "y": 1400, "w": 1440, "h": 940, "title": "Médico · Calendario", "expand": "fill", "is_interactive": true },
+    "Medico-Ficha.dc.html": { "x": 3040, "y": 1400, "w": 1440, "h": 1240, "title": "Médico · Ficha del paciente", "expand": "fill", "is_interactive": true },
+    "Medico-Atencion.dc.html": { "x": 4560, "y": 1400, "w": 1440, "h": 2200, "title": "Médico · Atención", "expand": "fill", "is_interactive": true }
+  },
+  "order": [
+    "Main.dc.html",
+    "Paciente-Ingreso.dc.html",
+    "Paciente-Registro.dc.html",
+    "Paciente-Agendar.dc.html",
+    "Paciente-Citas.dc.html",
+    "Paciente-Tratamientos.dc.html",
+    "Paciente-Documentos.dc.html",
+    "Medico-Hoy.dc.html",
+    "Medico-Calendario.dc.html",
+    "Medico-Ficha.dc.html",
+    "Medico-Atencion.dc.html"
+  ],
+  "notes": {
+    "n-paciente": { "x": 0, "y": -300, "text": "Paciente · celular", "kind": "title1", "maxW": 3210 },
+    "n-medico": { "x": 0, "y": 1100, "text": "Médico · computador", "kind": "title1", "maxW": 6000 }
+  },
+  "designSystems": []
+}

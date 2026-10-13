@@ -15,8 +15,8 @@
 
 ## Criterios de aceptación
 
-- **CA-1** · Dado que escribo mi correo, cuando pido recuperar la contraseña, entonces recibo un enlace que sirve una sola vez y vence en 30 minutos.
-- **CA-2** · Dado que el correo no está registrado, cuando pido recuperar, entonces veo el mismo mensaje que si existiera.
+- **CA-1** · Dado que escribo mi número de documento, cuando pido recuperar la contraseña, entonces llega al correo que tengo registrado un enlace que sirve una sola vez y vence en 30 minutos. *(Ajustado el 13 de octubre.)*
+- **CA-2** · Dado que el documento no está registrado, cuando pido recuperar, entonces veo el mismo mensaje que si existiera, y en ningún caso la pantalla muestra el correo.
 - **CA-3** · Dado que abro un enlace vencido o ya usado, cuando intento cambiar la contraseña, entonces el sistema lo rechaza y me ofrece pedir uno nuevo.
 - **CA-4** · Dado que cambio la contraseña, cuando termino, entonces todas mis sesiones abiertas se cierran.
 

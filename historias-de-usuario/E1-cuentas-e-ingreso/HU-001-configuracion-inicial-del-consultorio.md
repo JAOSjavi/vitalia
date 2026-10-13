@@ -15,7 +15,7 @@
 
 ## Criterios de aceptación
 
-- **CA-1** · Dado que el sistema se acaba de instalar, cuando abro el enlace de puesta en marcha, entonces creo mi cuenta de médico con correo y contraseña propia, y ese enlace deja de servir.
+- **CA-1** · Dado que el sistema se acaba de instalar, cuando abro el enlace de puesta en marcha, entonces creo mi cuenta de médico con mi documento, mi correo y una contraseña propia, y ese enlace deja de servir.
 - **CA-2** · Dado que ya tengo cuenta, cuando registro el nombre del consultorio, la dirección, el teléfono, mi nombre y mi registro profesional, entonces esos datos quedan guardados y aparecen en lo que ve el paciente.
 - **CA-3** · Dado que ya existe una cuenta de médico, cuando alguien intenta crear otra por el enlace de puesta en marcha, entonces el sistema lo rechaza.
 - **CA-4** · Dado que no he definido horario ni tipos de cita, cuando entro al panel, entonces veo la lista de lo que falta por configurar y los pacientes todavía no pueden agendar.

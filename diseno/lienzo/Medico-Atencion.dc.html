@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Médico: atención con la historia clínica y el asistente</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;600&amp;family=Atkinson+Hyperlegible+Next:wght@400;600;700&amp;family=Zilla+Slab:wght@500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1F47B8}a:hover{color:#162F7A}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-wrap: wrap; background: #F1F4F9; color: #121C33; font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', Verdana, sans-serif; font-size: 16px; line-height: 24px">
+
+<aside style="flex: 1 1 240px; box-sizing: border-box; background: #FFFFFF; border-right: 1px solid #D5DCE8; padding: 24px 16px; display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; align-items: center; gap: 10px; padding: 0 8px">
+<span aria-hidden="true" style="width: 36px; height: 36px; flex: none; border-radius: 11px; background: #1F47B8; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-family: 'Zilla Slab', Rockwell, Georgia, serif; font-size: 23px; font-weight: 700">V</span>
+<span style="font-family: 'Zilla Slab', Rockwell, Georgia, serif; font-size: 23px; line-height: 26px; font-weight: 700">Vitalia</span>
+</div>
+<nav aria-label="Panel del médico" style="display: flex; flex-direction: column; gap: 4px">
+<a href="Medico-Hoy.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 12px; border-radius: 10px; background: #E3EAFB; color: #162F7A; font-size: 15.5px; font-weight: 700; text-decoration: none">
+<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg>
+Hoy
+</a>
+<a href="Medico-Calendario.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 12px; border-radius: 10px; color: #4C5973; font-size: 15.5px; font-weight: 600; text-decoration: none">
+<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+Calendario
+</a>
+<a href="Medico-Ficha.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 12px; border-radius: 10px; color: #4C5973; font-size: 15.5px; font-weight: 600; text-decoration: none">
+<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+Pacientes
+</a>
+<a href="#" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 12px; border-radius: 10px; color: #4C5973; font-size: 15.5px; font-weight: 600; text-decoration: none">
+<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><path d="M21 4h-7M10 4H3M21 12h-9M8 12H3M21 20h-5M12 20H3M14 2v4M8 10v4M16 18v4"/></svg>
+Configuración
+</a>
+<a href="#" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 12px; border-radius: 10px; color: #4C5973; font-size: 15.5px; font-weight: 600; text-decoration: none">
+<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4M12 16h4M8 11h.01M8 16h.01"/></svg>
+Bitácora
+</a>
+<a href="#" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 12px; border-radius: 10px; color: #4C5973; font-size: 15.5px; font-weight: 600; text-decoration: none">
+<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+<span style="flex: 1">Cobro</span>
+<span style="color: #4C5973; font-size: 12.5px; line-height: 18px; font-weight: 600">Pronto</span>
+</a>
+</nav>
+<div style="margin-top: auto; display: flex; align-items: center; gap: 10px; padding: 12px 8px 0; border-top: 1px solid #E7ECF4">
+<span aria-hidden="true" style="width: 40px; height: 40px; flex: none; border-radius: 999px; background: #162F7A; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700">CR</span>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column">
+<span style="font-size: 14.5px; line-height: 20px; font-weight: 700">Dra. Camila Ríos</span>
+<span style="font-size: 13px; line-height: 18px; color: #4C5973">RM 79-4521</span>
+</div>
+<button type="button" aria-label="Cerrar sesión" style="width: 44px; height: 44px; flex: none; border: 0; border-radius: 10px; background: transparent; color: #4C5973; display: flex; align-items: center; justify-content: center; cursor: pointer">
+<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
+</button>
+</div>
+</aside>
+
+<main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 24px 32px 40px; display: flex; flex-direction: column; gap: 20px">
+
+<nav aria-label="Ruta" style="display: flex; align-items: center; gap: 8px; font-size: 14.5px; line-height: 20px; color: #4C5973">
+<a href="Medico-Hoy.dc.html" style="color: #1F47B8; font-weight: 700; text-decoration: none">Hoy</a>
+<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+<a href="Medico-Ficha.dc.html" style="color: #1F47B8; font-weight: 700; text-decoration: none">Rosa Elena Duarte Gómez</a>
+<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+<span>Atención</span>
+</nav>
+
+<header style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px 20px; background: #FFFFFF; border: 1px solid #D5DCE8; border-radius: 18px; padding: 20px; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.06), 0 8px 24px rgba(18, 28, 51, 0.08)">
+<span aria-hidden="true" style="width: 56px; height: 56px; flex: none; border-radius: 999px; background: #1F47B8; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-family: 'Zilla Slab', Rockwell, Georgia, serif; font-size: 23px; font-weight: 600">RD</span>
+<div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+<h1 style="margin: 0; font-family: 'Zilla Slab', Rockwell, Georgia, serif; font-size: 28px; line-height: 32px; font-weight: 600">Rosa Elena Duarte Gómez</h1>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; font-size: 14.5px; line-height: 20px; color: #4C5973">
+<span>68 años</span>
+<span style="font-family: 'Atkinson Hyperlegible Mono', ui-monospace, Consolas, monospace">CC 41 652 318</span>
+<span>Atención iniciada a las <span style="font-family: 'Atkinson Hyperlegible Mono', ui-monospace, Consolas, monospace">9:32 a. m.</span></span>
+<span style="display: flex; align-items: center; gap: 8px; padding: 5px 12px 5px 10px; border-radius: 10px; background: #FFFFFF; border: 1px solid #D5DCE8; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.10), 0 2px 6px rgba(18, 28, 51, 0.06); font-size: 13.5px; line-height: 20px; font-weight: 700; color: #121C33; white-space: nowrap"><span aria-hidden="true" style="width: 9px; height: 9px; flex: none; border-radius: 999px; background: #1F9D61"></span>Borrador guardado 9:41 a. m.</span>
+</div>
+</div>
+<button type="button" style="display: flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 18px; border: 0; border-radius: 12px; background: #1F47B8; color: #FFFFFF; font: inherit; font-size: 15.5px; font-weight: 700; cursor: pointer; box-shadow: 0 6px 16px rgba(31, 71, 184, 0.30)">
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+Cerrar y firmar
+</button>
+</header>
+
+<div role="status" style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; background: #FFFFFF; border: 1px solid #D5DCE8; color: #121C33; border-radius: 14px; padding: 12px 16px; font-size: 15px; line-height: 21px; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.06), 0 8px 24px rgba(18, 28, 51, 0.08)">
+<span aria-hidden="true" style="width: 10px; height: 10px; flex: none; border-radius: 999px; background: #D99A00"></span>
+<span style="flex: 1 1 320px; min-width: 0; color: #121C33">A la historia clínica de la paciente le faltan dos datos de identificación: <strong>ocupación</strong> y <strong>aseguradora</strong>. Sin ellos no se puede cerrar la atención.</span>
+<button type="button" style="min-height: 44px; padding: 0 16px; border: 1.5px solid #1F47B8; border-radius: 12px; background: #FFFFFF; color: #1F47B8; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.10), 0 2px 6px rgba(18, 28, 51, 0.06)">Completar ahora</button>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 24px">
+
+<form aria-label="Historia clínica de la atención" style="flex: 1.7 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+
+<nav aria-label="Secciones de la historia clínica" style="display: flex; flex-wrap: wrap; gap: 8px">
+<a href="#sec-consulta" style="display: flex; align-items: center; min-height: 40px; padding: 0 14px; border-radius: 999px; background: #1F47B8; color: #FFFFFF; font-size: 14.5px; font-weight: 700; text-decoration: none; box-shadow: 0 6px 16px rgba(31, 71, 184, 0.30)">1 · Consulta</a>
+<a href="#sec-motivo" style="display: flex; align-items: center; min-height: 40px; padding: 0 14px; border: 1px solid #D5DCE8; border-radius: 999px; background: #FFFFFF; color: #121C33; font-size: 14.5px; font-weight: 600; text-decoration: none; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.10), 0 2px 6px rgba(18, 28, 51, 0.06)">2 · Motivo</a>
+<a href="#sec-antecedentes" style="display: flex; align-items: center; min-height: 40px; padding: 0 14px; border: 1px solid #D5DCE8; border-radius: 999px; background: #FFFFFF; color: #121C33; font-size: 14.5px; font-weight: 600; text-decoration: none; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.10), 0 2px 6px rgba(18, 28, 51, 0.06)">3 · Antecedentes</a>
+<a href="#sec-sistemas" style="display: flex; align-items: center; min-height: 40px; padding: 0 14px; border: 1px solid #D5DCE8; border-radius: 999px; background: #FFFFFF; color: #121C33; font-size: 14.5px; font-weight: 600; text-decoration: none; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.10), 0 2px 6px rgba(18, 28, 51, 0.06)">4 · Sistemas</a>
+<a href="#sec-examen" style="display: flex; align-items: center; min-height: 40px; padding: 0 14px; border: 1px solid #D5DCE8; border-radius: 999px; background: #FFFFFF; color: #121C33; font-size: 14.5px; font-weight: 600; text-decoration: none; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.10), 0 2px 6px rgba(18, 28, 51, 0.06)">5 · Examen</a>
+<a href="#sec-diagnostico" style="display: flex; align-items: center; min-height: 40px; padding: 0 14px; border: 1px solid #D5DCE8; border-radius: 999px; background: #FFFFFF; color: #121C33; font-size: 14.5px; font-weight: 600; text-decoration: none; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.10), 0 2px 6px rgba(18, 28, 51, 0.06)">6 · Diagnóstico</a>
+<a href="#sec-plan" style="display: flex; align-items: center; min-height: 40px; padding: 0 14px; border: 1px solid #D5DCE8; border-radius: 999px; background: #FFFFFF; color: #121C33; font-size: 14.5px; font-weight: 600; text-decoration: none; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.10), 0 2px 6px rgba(18, 28, 51, 0.06)">7 · Plan</a>
+<a href="#sec-cierre" style="display: flex; align-items: center; min-height: 40px; padding: 0 14px; border: 1px solid #D5DCE8; border-radius: 999px; background: #FFFFFF; color: #121C33; font-size: 14.5px; font-weight: 600; text-decoration: none; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.10), 0 2px 6px rgba(18, 28, 51, 0.06)">8 · Cierre</a>
+</nav>
+
+<section id="sec-consulta" style="background: #FFFFFF; border: 1px solid #D5DCE8; border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.06), 0 8px 24px rgba(18, 28, 51, 0.08)">
+<h2 style="margin: 0; font-family: 'Zilla Slab', Rockwell, Georgia, serif; font-size: 20px; line-height: 24px; font-weight: 600">1 · Datos de la consulta</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 14px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="at-tipo" style="font-size: 14.5px; line-height: 20px; font-weight: 700">Tipo de consulta</label>
+<select id="at-tipo" style="height: 48px; box-sizing: border-box; padding: 0 12px; border: 1.5px solid #7F8BA3; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 15.5px; color: #121C33"><option>Primera vez</option><option selected>Control</option></select>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="at-finalidad" style="font-size: 14.5px; line-height: 20px; font-weight: 700">Finalidad</label>
+<select id="at-finalidad" style="height: 48px; box-sizing: border-box; padding: 0 12px; border: 1.5px solid #7F8BA3; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 15.5px; color: #121C33"><option selected>Tratamiento</option><option>Diagnóstico</option><option>Promoción y prevención</option></select>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="at-causa" style="font-size: 14.5px; line-height: 20px; font-weight: 700">Causa que motiva la atención</label>
+<select id="at-causa" style="height: 48px; box-sizing: border-box; padding: 0 12px; border: 1.5px solid #7F8BA3; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 15.5px; color: #121C33"><option selected>Enfermedad general</option><option>Accidente de trabajo</option><option>Accidente de tránsito</option></select>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 14px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="at-acomp" style="font-size: 14.5px; line-height: 20px; font-weight: 700">Acompañante <span style="font-weight: 400; color: #4C5973">(si vino con alguien)</span></label>
+<input id="at-acomp" type="text" value="Marta Duarte, hija" style="height: 48px; box-sizing: border-box; padding: 0 12px; border: 1.5px solid #7F8BA3; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 15.5px; color: #121C33">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="at-acomp-tel" style="font-size: 14.5px; line-height: 20px; font-weight: 700">Teléfono del acompañante</label>
+<input id="at-acomp-tel" type="tel" value="310 555 0188" style="height: 48px; box-sizing: border-box; padding: 0 12px; border: 1.5px solid #7F8BA3; border-radius: 12px; background: #FFFFFF; font-family: 'Atkinson Hyperlegible Mono', ui-monospace, Consolas, monospace; font-size: 15px; color: #121C33">
+</div>
+</div>
+</section>
+
+<section id="sec-motivo" style="background: #FFFFFF; border: 1px solid #D5DCE8; border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.06), 0 8px 24px rgba(18, 28, 51, 0.08)">
+<h2 style="margin: 0; font-family: 'Zilla Slab', Rockwell, Georgia, serif; font-size: 20px; line-height: 24px; font-weight: 600">2 · Motivo de consulta y enfermedad actual</h2>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="at-motivo" style="font-size: 14.5px; line-height: 20px; font-weight: 700">Motivo de consulta</label>
+<textarea id="at-motivo" rows="2" style="box-sizing: border-box; padding: 10px 12px; border: 1.5px solid #7F8BA3; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 15.5px; line-height: 22px; color: #121C33; resize: vertical">Control de hipertensión arterial y diabetes.</textarea>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="at-enfermedad" style="font-size: 14.5px; line-height: 20px; font-weight: 700">Enfermedad actual</label>
+<textarea id="at-enfermedad" rows="4" style="box-sizing: border-box; padding: 10px 12px; border: 1.5px solid #7F8BA3; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 15.5px; line-height: 22px; color: #121C33; resize: vertical">Paciente en control. Refiere tomar los medicamentos todos los días. Niega dolor de cabeza, mareo y visión borrosa. Trae los laboratorios de agosto.</textarea>
+</div>
+</section>
+
+<section id="sec-antecedentes" style="background: #FFFFFF; border: 1px solid #D5DCE8; border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 4px; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.06), 0 8px 24px rgba(18, 28, 51, 0.08)">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; padding-bottom: 8px">
+<h2 style="margin: 0; font-family: 'Zilla Slab', Rockwell, Georgia, serif; font-size: 20px; line-height: 24px; font-weight: 600">3 · Antecedentes</h2>
+<span style="font-size: 13.5px; line-height: 19px; color: #4C5973">Traídos de la atención del 14 sep 2026. Confírmelos o cámbielos.</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 12px 0; border-top: 1px solid #E7ECF4">
+<span style="flex: 0 0 150px; font-size: 14.5px; line-height: 20px; font-weight: 700">Personales</span>
+<span style="flex: 1 1 240px; min-width: 0; font-size: 15.5px; line-height: 22px">Hipertensión arterial desde 2015. Diabetes tipo 2 desde 2019. Colecistectomía en 2025.</span>
+<button type="button" style="min-height: 44px; padding: 0 12px; border: 0; border-radius: 10px; background: transparent; color: #1F47B8; font: inherit; font-size: 14.5px; font-weight: 700; cursor: pointer">Cambiar</button>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 12px 0; border-top: 1px solid #E7ECF4">
+<span style="flex: 0 0 150px; font-size: 14.5px; line-height: 20px; font-weight: 700">Alergias</span>
+<span style="flex: 1 1 240px; min-width: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 15.5px; line-height: 22px"><span aria-hidden="true" style="width: 9px; height: 9px; flex: none; border-radius: 999px; background: #D0392E"></span>Penicilina <span style="color: #4C5973">· medicamento</span></span>
+<button type="button" style="min-height: 44px; padding: 0 12px; border: 0; border-radius: 10px; background: transparent; color: #1F47B8; font: inherit; font-size: 14.5px; font-weight: 700; cursor: pointer">Cambiar</button>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 12px 0; border-top: 1px solid #E7ECF4">
+<span style="flex: 0 0 150px; font-size: 14.5px; line-height: 20px; font-weight: 700">Familiares</span>
+<span style="flex: 1 1 240px; min-width: 0; font-size: 15.5px; line-height: 22px">Madre: diabetes tipo 2.</span>
+<button type="button" style="min-height: 44px; padding: 0 12px; border: 0; border-radius: 10px; background: transparent; color: #1F47B8; font: inherit; font-size: 14.5px; font-weight: 700; cursor: pointer">Cambiar</button>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 12px 0 0; border-top: 1px solid #E7ECF4">
+<span style="flex: 0 0 150px; font-size: 14.5px; line-height: 20px; font-weight: 700">Factores de riesgo</span>
+<span style="flex: 1 1 240px; min-width: 0; font-size: 15.5px; line-height: 22px; color: #4C5973">No refiere</span>
+<button type="button" style="min-height: 44px; padding: 0 12px; border: 0; border-radius: 10px; background: transparent; color: #1F47B8; font: inherit; font-size: 14.5px; font-weight: 700; cursor: pointer">Cambiar</button>
+</div>
+</section>
+
+<section id="sec-sistemas" style="background: #FFFFFF; border: 1px solid #D5DCE8; border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.06), 0 8px 24px rgba(18, 28, 51, 0.08)">
+<h2 style="margin: 0; font-family: 'Zilla Slab', Rockwell, Georgia, serif; font-size: 20px; line-height: 24px; font-weight: 600">4 · Revisión por sistemas</h2>
+<label for="at-sin-hallazgos" style="display: flex; align-items: center; gap: 10px; min-height: 44px; font-size: 15.5px; line-height: 22px; cursor: pointer">
+<input id="at-sin-hallazgos" type="checkbox" checked style="width: 22px; height: 22px; flex: none; margin: 0; accent-color: #1F47B8">
+Sin hallazgos
+</label>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="at-sistemas" style="font-size: 14.5px; line-height: 20px; font-weight: 700">Hallazgos <span style="font-weight: 400; color: #4C5973">(si los hay)</span></label>
+<textarea id="at-sistemas" rows="2" style="box-sizing: border-box; padding: 10px 12px; border: 1.5px solid #7F8BA3; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 15.5px; line-height: 22px; color: #121C33; resize: vertical"></textarea>
+</div>
+</section>
+
+<section id="sec-examen" style="background: #FFFFFF; border: 1px solid #D5DCE8; border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.06), 0 8px 24px rgba(18, 28, 51, 0.08)">
+<h2 style="margin: 0; font-family: 'Zilla Slab', Rockwell, Georgia, serif; font-size: 20px; line-height: 24px; font-weight: 600">5 · Signos vitales y examen físico</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(130px, 100%), 1fr)); gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="sv-ta" style="font-size: 13.5px; line-height: 19px; font-weight: 700">Tensión arterial <span style="font-weight: 400; color: #4C5973">mmHg</span></label>
+<input id="sv-ta" type="text" inputmode="numeric" value="138/84" style="height: 48px; box-sizing: border-box; padding: 0 12px; border: 1.5px solid #7F8BA3; border-radius: 12px; background: #FFFFFF; font-family: 'Atkinson Hyperlegible Mono', ui-monospace, Consolas, monospace; font-size: 15.5px; color: #121C33">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="sv-fc" style="font-size: 13.5px; line-height: 19px; font-weight: 700">Frec. cardiaca <span style="font-weight: 400; color: #4C5973">lat/min</span></label>
+<input id="sv-fc" type="text" inputmode="numeric" value="76" style="height: 48px; box-sizing: border-box; padding: 0 12px; border: 1.5px solid #7F8BA3; border-radius: 12px; background: #FFFFFF; font-family: 'Atkinson Hyperlegible Mono', ui-monospace, Consolas, monospace; font-size: 15.5px; color: #121C33">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="sv-fr" style="font-size: 13.5px; line-height: 19px; font-weight: 700">Frec. respiratoria <span style="font-weight: 400; color: #4C5973">resp/min</span></label>
+<input id="sv-fr" type="text" inputmode="numeric" value="16" style="height: 48px; box-sizing: border-box; padding: 0 12px; border: 1.5px solid #7F8BA3; border-radius: 12px; background: #FFFFFF; font-family: 'Atkinson Hyperlegible Mono', ui-monospace, Consolas, monospace; font-size: 15.5px; color: #121C33">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="sv-temp" style="font-size: 13.5px; line-height: 19px; font-weight: 700">Temperatura <span style="font-weight: 400; color: #4C5973">°C</span></label>
+<input id="sv-temp" type="text" inputmode="decimal" value="36,5" style="height: 48px; box-sizing: border-box; padding: 0 12px; border: 1.5px solid #7F8BA3; border-radius: 12px; background: #FFFFFF; font-family: 'Atkinson Hyperlegible Mono', ui-monospace, Consolas, monospace; font-size: 15.5px; color: #121C33">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="sv-peso" style="font-size: 13.5px; line-height: 19px; font-weight: 700">Peso <span style="font-weight: 400; color: #4C5973">kg</span></label>
+<input id="sv-peso" type="text" inputmode="decimal" value="71" style="height: 48px; box-sizing: border-box; padding: 0 12px; border: 1.5px solid #7F8BA3; border-radius: 12px; background: #FFFFFF; font-family: 'Atkinson Hyperlegible Mono', ui-monospace, Consolas, monospace; font-size: 15.5px; color: #121C33">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="sv-talla" style="font-size: 13.5px; line-height: 19px; font-weight: 700">Talla <span style="font-weight: 400; color: #4C5973">cm</span></label>
+<input id="sv-talla" type="text" inputmode="numeric" value="158" style="height: 48px; box-sizing: border-box; padding: 0 12px; border: 1.5px solid #7F8BA3; border-radius: 12px; background: #FFFFFF; font-family: 'Atkinson Hyperlegible Mono', ui-monospace, Consolas, monospace; font-size: 15.5px; color: #121C33">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 13.5px; line-height: 19px; font-weight: 700">Índice de masa corporal</span>
+<span style="display: flex; align-items: center; height: 48px; box-sizing: border-box; padding: 0 12px; border-radius: 12px; background: #F1F4F9; font-family: 'Atkinson Hyperlegible Mono', ui-monospace, Consolas, monospace; font-size: 15.5px; color: #121C33">28,4 <span style="margin-left: 8px; font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', Verdana, sans-serif; font-size: 13px; color: #4C5973">calculado</span></span>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="at-examen" style="font-size: 14.5px; line-height: 20px; font-weight: 700">Examen físico</label>
+<textarea id="at-examen" rows="4" style="box-sizing: border-box; padding: 10px 12px; border: 1.5px solid #7F8BA3; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 15.5px; line-height: 22px; color: #121C33; resize: vertical">Buen estado general. Ruidos cardiacos rítmicos, sin soplos. Murmullo vesicular conservado. Abdomen blando, cicatrices de laparoscopia. Sin edemas en miembros inferiores.</textarea>
+</div>
+</section>
+
+<section id="sec-diagnostico" style="background: #FFFFFF; border: 1px solid #D5DCE8; border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.06), 0 8px 24px rgba(18, 28, 51, 0.08)">
+<h2 style="margin: 0; font-family: 'Zilla Slab', Rockwell, Georgia, serif; font-size: 20px; line-height: 24px; font-weight: 600">6 · Diagnóstico</h2>
+<div style="display: flex; align-items: center; gap: 10px; height: 48px; box-sizing: border-box; padding: 0 14px; border: 1.5px solid #7F8BA3; border-radius: 12px; background: #FFFFFF; color: #4C5973">
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+<label for="at-cie" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%)">Buscar un diagnóstico</label>
+<input id="at-cie" type="text" placeholder="Busque por nombre o por código CIE-10" style="flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: transparent; font: inherit; font-size: 15.5px; color: #121C33">
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 12px 14px; border-radius: 14px; background: #F1F4F9">
+<span style="flex: none; background: #162F7A; color: #FFFFFF; border-radius: 6px; padding: 2px 8px; font-family: 'Atkinson Hyperlegible Mono', ui-monospace, Consolas, monospace; font-size: 13px; line-height: 18px; font-weight: 600">I10X</span>
+<span style="flex: 1 1 220px; min-width: 0; font-size: 15.5px; line-height: 22px; font-weight: 700">Hipertensión esencial (primaria)</span>
+<span style="display: flex; align-items: center; gap: 8px; padding: 5px 12px 5px 10px; border-radius: 10px; background: #FFFFFF; border: 1px solid #D5DCE8; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.10), 0 2px 6px rgba(18, 28, 51, 0.06); font-size: 13.5px; line-height: 20px; font-weight: 700; color: #1F47B8; white-space: nowrap"><span aria-hidden="true" style="width: 9px; height: 9px; flex: none; border-radius: 999px; background: #1F47B8"></span>Principal</span>
+<label for="dx-tipo-1" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%)">Tipo de diagnóstico</label>
+<select id="dx-tipo-1" style="height: 44px; box-sizing: border-box; padding: 0 10px; border: 1.5px solid #7F8BA3; border-radius: 10px; background: #FFFFFF; font: inherit; font-size: 14.5px; color: #121C33"><option>Impresión diagnóstica</option><option>Confirmado nuevo</option><option selected>Confirmado repetido</option></select>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 12px 14px; border-radius: 14px; background: #F1F4F9">
+<span style="flex: none; background: #E7ECF4; color: #121C33; border-radius: 6px; padding: 2px 8px; font-family: 'Atkinson Hyperlegible Mono', ui-monospace, Consolas, monospace; font-size: 13px; line-height: 18px; font-weight: 600">E119</span>
+<span style="flex: 1 1 220px; min-width: 0; font-size: 15.5px; line-height: 22px; font-weight: 700">Diabetes mellitus no insulinodependiente, sin mención de complicación</span>
+<span style="display: flex; align-items: center; gap: 8px; padding: 5px 12px 5px 10px; border-radius: 10px; background: #FFFFFF; border: 1px solid #D5DCE8; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.10), 0 2px 6px rgba(18, 28, 51, 0.06); font-size: 13.5px; line-height: 20px; font-weight: 700; color: #121C33; white-space: nowrap"><span aria-hidden="true" style="width: 9px; height: 9px; flex: none; border-radius: 999px; background: #8A94A9"></span>Relacionado</span>
+<label for="dx-tipo-2" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%)">Tipo de diagnóstico</label>
+<select id="dx-tipo-2" style="height: 44px; box-sizing: border-box; padding: 0 10px; border: 1.5px solid #7F8BA3; border-radius: 10px; background: #FFFFFF; font: inherit; font-size: 14.5px; color: #121C33"><option>Impresión diagnóstica</option><option>Confirmado nuevo</option><option selected>Confirmado repetido</option></select>
+</div>
+</section>
+
+<section id="sec-plan" style="background: #FFFFFF; border: 1px solid #D5DCE8; border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.06), 0 8px 24px rgba(18, 28, 51, 0.08)">
+<h2 style="margin: 0; font-family: 'Zilla Slab', Rockwell, Georgia, serif; font-size: 20px; line-height: 24px; font-weight: 600">7 · Plan, fórmula, órdenes e incapacidad</h2>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="at-plan" style="font-size: 14.5px; line-height: 20px; font-weight: 700">Plan de manejo</label>
+<textarea id="at-plan" rows="3" style="box-sizing: border-box; padding: 10px 12px; border: 1.5px solid #7F8BA3; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 15.5px; line-height: 22px; color: #121C33; resize: vertical">Continuar el tratamiento. Dieta baja en sal y en azúcares. Caminar 30 minutos al día. Control en tres meses con laboratorios.</textarea>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<span style="font-size: 14.5px; line-height: 20px; font-weight: 700">Fórmula</span>
+<button type="button" style="display: flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 12px; border: 0; border-radius: 10px; background: transparent; color: #1F47B8; font: inherit; font-size: 14.5px; font-weight: 700; cursor: pointer">
+<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+Agregar medicamento
+</button>
+</div>
+<div style="display: flex; flex-direction: column; padding: 12px 14px; border-radius: 14px; background: #F1F4F9">
+<span style="font-size: 15.5px; line-height: 22px; font-weight: 700">Losartán 50 mg</span>
+<span style="font-size: 14px; line-height: 20px; color: #4C5973">1 tableta · vía oral · cada 12 horas · 90 días · después del desayuno y de la cena</span>
+</div>
+<div style="display: flex; flex-direction: column; padding: 12px 14px; border-radius: 14px; background: #F1F4F9">
+<span style="font-size: 15.5px; line-height: 22px; font-weight: 700">Metformina 850 mg</span>
+<span style="font-size: 14px; line-height: 20px; color: #4C5973">1 tableta · vía oral · una vez al día · 90 días · con el almuerzo</span>
+</div>
+<span style="font-size: 13.5px; line-height: 19px; color: #4C5973">Al cerrar, la fórmula queda como el tratamiento que la paciente ve en su cuenta.</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 14px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="at-ordenes" style="font-size: 14.5px; line-height: 20px; font-weight: 700">Órdenes de exámenes o procedimientos</label>
+<textarea id="at-ordenes" rows="2" style="box-sizing: border-box; padding: 10px 12px; border: 1.5px solid #7F8BA3; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 15.5px; line-height: 22px; color: #121C33; resize: vertical">Hemoglobina glicosilada, perfil lipídico y creatinina antes del control.</textarea>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="at-incapacidad" style="font-size: 14.5px; line-height: 20px; font-weight: 700">Incapacidad <span style="font-weight: 400; color: #4C5973">en días; 0 si no se da</span></label>
+<input id="at-incapacidad" type="text" inputmode="numeric" value="0" style="height: 48px; box-sizing: border-box; padding: 0 12px; border: 1.5px solid #7F8BA3; border-radius: 12px; background: #FFFFFF; font-family: 'Atkinson Hyperlegible Mono', ui-monospace, Consolas, monospace; font-size: 15.5px; color: #121C33">
+</div>
+</div>
+</section>
+
+<section id="sec-cierre" style="background: #FFFFFF; border: 1px solid #D5DCE8; border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.06), 0 8px 24px rgba(18, 28, 51, 0.08)">
+<h2 style="margin: 0; font-family: 'Zilla Slab', Rockwell, Georgia, serif; font-size: 20px; line-height: 24px; font-weight: 600">8 · Cómo termina la atención</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 14px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="at-destino" style="font-size: 14.5px; line-height: 20px; font-weight: 700">Destino</label>
+<select id="at-destino" style="height: 48px; box-sizing: border-box; padding: 0 12px; border: 1.5px solid #7F8BA3; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 15.5px; color: #121C33"><option selected>A casa</option><option>Remitida a otro prestador</option></select>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="at-remitido" style="font-size: 14.5px; line-height: 20px; font-weight: 700">Remitida a <span style="font-weight: 400; color: #4C5973">(solo si se remite)</span></label>
+<input id="at-remitido" type="text" style="height: 48px; box-sizing: border-box; padding: 0 12px; border: 1.5px solid #7F8BA3; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 15.5px; color: #121C33">
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; padding-top: 14px; border-top: 1px solid #E7ECF4">
+<p style="margin: 0; flex: 1 1 320px; min-width: 0; display: flex; gap: 10px; font-size: 14px; line-height: 20px; color: #4C5973">
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 1px"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+<span>Al cerrar, la atención queda con su nombre, su registro, la fecha y la hora, y ya no se puede cambiar. Si después hay que corregir algo, se agrega una nota aclaratoria.</span>
+</p>
+<button type="button" style="display: flex; align-items: center; gap: 8px; min-height: 52px; padding: 0 22px; border: 0; border-radius: 14px; background: #1F47B8; color: #FFFFFF; font: inherit; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 10px 24px rgba(31, 71, 184, 0.28)">
+<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+Cerrar y firmar
+</button>
+</div>
+</section>
+
+</form>
+
+<section aria-label="Asistente" style="flex: 1 1 360px; min-width: 0; background: #FFFFFF; border: 1px solid #D5DCE8; border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.06), 0 8px 24px rgba(18, 28, 51, 0.08)">
+
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 10px">
+<h2 style="margin: 0; display: flex; align-items: center; gap: 12px; font-family: 'Zilla Slab', Rockwell, Georgia, serif; font-size: 21px; line-height: 26px; font-weight: 600">
+<span style="width: 36px; height: 36px; flex: none; border-radius: 11px; background: #162F7A; color: #FFFFFF; display: flex; align-items: center; justify-content: center">
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4M19 17v4M3 5h4M17 19h4"/></svg>
+</span>
+Asistente
+</h2>
+<button type="button" aria-label="Plegar el asistente" style="width: 44px; height: 44px; flex: none; border: 0; border-radius: 10px; background: transparent; color: #4C5973; display: flex; align-items: center; justify-content: center; cursor: pointer">
+<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M15 3v18M10 9l-2 3 2 3"/></svg>
+</button>
+</div>
+
+<span style="font-size: 13.5px; line-height: 19px; color: #4C5973">Resumen de los documentos que subió la paciente. Generado hoy a las 9:05 a. m. con 3 documentos legibles.</span>
+
+<div style="display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; border-radius: 14px; background: #F1F4F9">
+<h3 style="margin: 0; font-size: 13px; line-height: 18px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #4C5973">Diagnósticos</h3>
+<p style="margin: 0; font-size: 15px; line-height: 21px">Hipertensión arterial y diabetes tipo 2 <button type="button" style="margin-left: 2px; min-height: 26px; padding: 0 8px; border: 1px solid #1F47B8; border-radius: 8px; background: #FFFFFF; color: #1F47B8; font-family: 'Atkinson Hyperlegible Mono', ui-monospace, Consolas, monospace; font-size: 12.5px; cursor: pointer; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.10)">D2 · pág. 1</button></p>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; border-radius: 14px; background: #F1F4F9">
+<h3 style="margin: 0; font-size: 13px; line-height: 18px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #4C5973">Medicamentos</h3>
+<p style="margin: 0; font-size: 15px; line-height: 21px">Losartán 50 mg cada 12 horas y metformina 850 mg con el almuerzo <button type="button" style="margin-left: 2px; min-height: 26px; padding: 0 8px; border: 1px solid #1F47B8; border-radius: 8px; background: #FFFFFF; color: #1F47B8; font-family: 'Atkinson Hyperlegible Mono', ui-monospace, Consolas, monospace; font-size: 12.5px; cursor: pointer; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.10)">D2 · pág. 1</button></p>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; border-radius: 14px; background: #F1F4F9">
+<h3 style="margin: 0; display: flex; align-items: center; gap: 8px; font-size: 13px; line-height: 18px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #121C33">
+<span aria-hidden="true" style="width: 9px; height: 9px; flex: none; border-radius: 999px; background: #D0392E"></span>
+Alergias
+</h3>
+<p style="margin: 0; font-size: 15px; line-height: 21px; color: #121C33">Penicilina, con reacción cutánea <button type="button" style="margin-left: 2px; min-height: 26px; padding: 0 8px; border: 1px solid #1F47B8; border-radius: 8px; background: #FFFFFF; color: #1F47B8; font-family: 'Atkinson Hyperlegible Mono', ui-monospace, Consolas, monospace; font-size: 12.5px; cursor: pointer; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.10)">D1 · pág. 1</button></p>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; border-radius: 14px; background: #F1F4F9">
+<h3 style="margin: 0; font-size: 13px; line-height: 18px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #4C5973">Estado más reciente</h3>
+<p style="margin: 0; font-size: 15px; line-height: 21px">20 ago 2026: glicemia 132 mg/dL, LDL 138 mg/dL y creatinina 0,9 mg/dL <button type="button" style="margin-left: 2px; min-height: 26px; padding: 0 8px; border: 1px solid #1F47B8; border-radius: 8px; background: #FFFFFF; color: #1F47B8; font-family: 'Atkinson Hyperlegible Mono', ui-monospace, Consolas, monospace; font-size: 12.5px; cursor: pointer; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.10)">D3 · pág. 1</button></p>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 12px; padding-top: 14px; border-top: 1px solid #E7ECF4">
+<h3 style="margin: 0; font-family: 'Zilla Slab', Rockwell, Georgia, serif; font-size: 18px; line-height: 23px; font-weight: 600">Preguntar sobre los documentos</h3>
+
+<p style="margin: 0; align-self: flex-end; max-width: 85%; padding: 10px 14px; border-radius: 16px 16px 4px 16px; background: #1F47B8; color: #FFFFFF; font-size: 15px; line-height: 21px">¿Cómo salió la creatinina?</p>
+
+<div style="align-self: flex-start; max-width: 95%; display: flex; flex-direction: column; gap: 6px; padding: 12px 14px; border-radius: 16px 16px 16px 4px; background: #F1F4F9; font-size: 15px; line-height: 21px">
+<p style="margin: 0">En los laboratorios del 20 de agosto de 2026 la creatinina fue de 0,9 mg/dL. <button type="button" style="margin-left: 2px; min-height: 26px; padding: 0 8px; border: 1px solid #1F47B8; border-radius: 8px; background: #FFFFFF; color: #1F47B8; font-family: 'Atkinson Hyperlegible Mono', ui-monospace, Consolas, monospace; font-size: 12.5px; cursor: pointer; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.10)">D3 · pág. 1</button></p>
+<p style="margin: 0; color: #4C5973">No aparece ningún otro valor de creatinina en los documentos.</p>
+</div>
+
+<div style="display: flex; align-items: center; gap: 8px; height: 52px; box-sizing: border-box; padding: 0 4px 0 16px; border: 1.5px solid #7F8BA3; border-radius: 14px; background: #FFFFFF">
+<label for="pregunta-atencion" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%)">Su pregunta</label>
+<input id="pregunta-atencion" type="text" placeholder="Escriba su pregunta" style="flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: transparent; font: inherit; font-size: 15.5px; color: #121C33">
+<button type="button" aria-label="Enviar la pregunta" style="width: 44px; height: 44px; flex: none; border: 0; border-radius: 11px; background: #1F47B8; color: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 6px 16px rgba(31, 71, 184, 0.30)">
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+</button>
+</div>
+
+<p style="margin: 0; display: flex; gap: 8px; font-size: 13.5px; line-height: 19px; color: #4C5973">
+<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 1px"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+<span>El asistente resume lo que está en los documentos y no escribe en la historia clínica: lo que queda registrado lo escribe usted.</span>
+</p>
+</div>
+
+</section>
+
+</div>
+</main>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2200}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

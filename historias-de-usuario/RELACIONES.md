@@ -9,12 +9,13 @@ Cada historia declara de cuáles **depende** (no puede construirse antes) y a cu
 | 1. Cimientos | Roles, permisos por fila, bitácora y almacenamiento privado | HU-006, HU-036, HU-037, HU-027 |
 | 2. Identidad | Cuenta del médico, registro del paciente, autorización, ingreso | HU-001, HU-002, HU-003, HU-004, HU-005, HU-007 |
 | 3. Calendario | Horario, tipos de cita, bloqueos y cálculo de espacios | HU-008, HU-010, HU-009, HU-011 |
-| 4. Citas y panel | Agenda, pacientes, citas de ambas partes | HU-012, HU-013, HU-020, HU-014, HU-015, HU-021, HU-023, HU-024, HU-016, HU-017, HU-022, HU-025, HU-018, HU-019, HU-026 |
+| 4. Citas y panel | Agenda, pacientes, citas de ambas partes y corrección de datos | HU-012, HU-013, HU-020, HU-014, HU-015, HU-021, HU-023, HU-024, HU-016, HU-017, HU-022, HU-025, HU-040, HU-018, HU-019, HU-026 |
 | 5. Documentos | Carga, visor y lectura | HU-028, HU-029, HU-030, HU-031 |
 | 6. Asistente | Autorización, aislamiento, preguntas y resumen | HU-032, HU-033, HU-034, HU-035 |
 | 7. Tratamientos | Registro por el médico y consulta del paciente | HU-038, HU-039 |
+| 8. Historia clínica | Identificación, pantalla de atención, consulta, cierre, historial y copia | HU-041, HU-042, HU-043, HU-044, HU-045, HU-046 |
 
-Las etapas 4 y 5 pueden avanzar en paralelo: los documentos solo necesitan el ingreso y el almacenamiento. La etapa 7 solo necesita la ficha del paciente, así que puede adelantarse a la 5 y la 6.
+Las etapas 4 y 5 pueden avanzar en paralelo: los documentos solo necesitan el ingreso y el almacenamiento. La etapa 7 solo necesita la ficha del paciente, así que puede adelantarse a la 5 y la 6. La etapa 8 necesita la ficha, la agenda del día y el tratamiento; la pantalla de atención funciona sin el asistente, así que tampoco tiene que esperar a la 5 y la 6.
 
 ## Las que más desbloquean
 
@@ -24,10 +25,10 @@ Las etapas 4 y 5 pueden avanzar en paralelo: los documentos solo necesitan el in
 | **HU-004** Ingreso con contraseña | 5 historias: HU-005, HU-007, HU-012, HU-021, HU-028 |
 | **HU-011** Cálculo de espacios libres sin choques | 4 historias: HU-012, HU-016, HU-017, HU-021 |
 | **HU-012** Agendar una cita como paciente | 4 historias: HU-013, HU-014, HU-015, HU-019 |
-| **HU-021** Panel de inicio con la agenda del día | 4 historias: HU-017, HU-018, HU-022, HU-026 |
+| **HU-021** Panel de inicio con la agenda del día | 5 historias: HU-017, HU-018, HU-022, HU-026, HU-042 |
 | **HU-001** Configuración inicial del consultorio | 3 historias: HU-004, HU-008, HU-010 |
 | **HU-023** Lista y búsqueda de pacientes | 3 historias: HU-016, HU-024, HU-025 |
-| **HU-025** Ficha del paciente | 3 historias: HU-030, HU-034, HU-038 |
+| **HU-025** Ficha del paciente | 6 historias: HU-030, HU-034, HU-038, HU-040, HU-041, HU-042 |
 | **HU-028** Subir mis historias clínicas | 3 historias: HU-029, HU-030, HU-031 |
 
 ## Cadena completa
@@ -54,11 +55,11 @@ Las etapas 4 y 5 pueden avanzar en paralelo: los documentos solo necesitan el in
 | **HU-018** Registrar asistencia o inasistencia | E3 | HU-021 | — |
 | **HU-019** Aviso por correo de cambios en la cita | E3 | HU-012 | — |
 | **HU-020** Inicio del paciente | E3 | HU-013 | — |
-| **HU-021** Panel de inicio con la agenda del día | E4 | HU-004, HU-011 | HU-017, HU-018, HU-022, HU-026 |
+| **HU-021** Panel de inicio con la agenda del día | E4 | HU-004, HU-011 | HU-017, HU-018, HU-022, HU-026, HU-042 |
 | **HU-022** Vista de calendario semanal y mensual | E4 | HU-009, HU-021 | — |
 | **HU-023** Lista y búsqueda de pacientes | E4 | HU-006 | HU-016, HU-024, HU-025 |
 | **HU-024** Registrar un paciente desde el panel | E4 | HU-003, HU-023 | — |
-| **HU-025** Ficha del paciente | E4 | HU-023 | HU-030, HU-034, HU-038 |
+| **HU-025** Ficha del paciente | E4 | HU-023 | HU-030, HU-034, HU-038, HU-040, HU-041, HU-042 |
 | **HU-026** Botón de cobro sin función | E4 | HU-021 | — |
 | **HU-027** Almacenamiento privado con enlace temporal | E5 | HU-006 | HU-028 |
 | **HU-028** Subir mis historias clínicas | E5 | HU-004, HU-027 | HU-029, HU-030, HU-031 |
@@ -71,8 +72,15 @@ Las etapas 4 y 5 pueden avanzar en paralelo: los documentos solo necesitan el in
 | **HU-035** Resumen del paciente con un clic | E6 | HU-034 | — |
 | **HU-036** Permisos por fila en la base de datos | E7 | HU-006 | — |
 | **HU-037** Bitácora de auditoría | E7 | HU-006 | — |
-| **HU-038** Registrar el tratamiento de un paciente | E8 | HU-025 | HU-039 |
+| **HU-038** Registrar el tratamiento de un paciente | E8 | HU-025 | HU-039, HU-043 |
 | **HU-039** Ver mis tratamientos | E8 | HU-038 | — |
+| **HU-040** Corregir los datos de un paciente | E1 | HU-025 | — |
+| **HU-041** Datos de identificación de la historia clínica | E9 | HU-025 | HU-044 |
+| **HU-042** Pantalla de atención con el asistente al lado | E9 | HU-021, HU-025 | HU-043 |
+| **HU-043** Registrar la consulta en la historia clínica | E9 | HU-038, HU-042 | HU-044 |
+| **HU-044** Cerrar y firmar la atención | E9 | HU-041, HU-043 | HU-045, HU-046 |
+| **HU-045** Consultar la historia clínica de un paciente | E9 | HU-044 | — |
+| **HU-046** Copia de la historia clínica para el paciente | E9 | HU-044 | — |
 
 ## Cadenas críticas
 
@@ -94,6 +102,13 @@ HU-004 ingreso → HU-021 agenda del día → HU-023 pacientes → HU-025 ficha
 ```
 HU-027 almacenamiento → HU-028 subir → HU-031 lectura
        → HU-032 autorización → HU-033 aislamiento → HU-034 preguntar → HU-035 resumen
+```
+
+**4. El médico deja la historia clínica de la atención**
+
+```
+HU-025 ficha → HU-042 pantalla de atención → HU-043 consulta
+       → HU-044 cierre con firma → HU-045 historial + HU-046 copia
 ```
 
 La tercera cadena es la más larga y la de mayor incertidumbre técnica: la calidad de la lectura (HU-031) condiciona todo lo que sigue. Conviene probarla temprano, con documentos inventados o anonimizados que se parezcan a los reales.

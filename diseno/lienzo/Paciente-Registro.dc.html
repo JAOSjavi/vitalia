@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Paciente: tratamiento de datos al registrarse</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;600&amp;family=Atkinson+Hyperlegible+Next:wght@400;600;700&amp;family=Zilla+Slab:wght@500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1F47B8}a:hover{color:#162F7A}
+</style>
+</helmet>
+<div style="position: relative; overflow: hidden; width: 390px; height: 844px; box-sizing: border-box; background: #F1F4F9; color: #121C33; font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', Verdana, sans-serif; font-size: 16px; line-height: 24px">
+
+<div style="display: flex; flex-direction: column; gap: 16px; padding: 20px">
+<div style="display: flex; align-items: center; gap: 8px">
+<span style="width: 44px; height: 44px; flex: none; display: flex; align-items: center; justify-content: center; color: #121C33">
+<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+</span>
+<h1 style="margin: 0; font-family: 'Zilla Slab', Rockwell, Georgia, serif; font-size: 22px; line-height: 26px; font-weight: 600">Crear mi cuenta</h1>
+</div>
+<div aria-hidden="true" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px">
+<span style="height: 4px; border-radius: 2px; background: #1F47B8"></span>
+<span style="height: 4px; border-radius: 2px; background: #1F47B8"></span>
+<span style="height: 4px; border-radius: 2px; background: #1F47B8"></span>
+</div>
+</div>
+
+<div aria-hidden="true" style="position: absolute; inset: 0; background: rgba(18, 28, 51, 0.58)"></div>
+
+<section role="dialog" aria-modal="true" aria-labelledby="datos-titulo" style="position: absolute; left: 0; right: 0; bottom: 0; background: #FFFFFF; border-radius: 26px 26px 0 0; padding: 12px 20px 24px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 -12px 40px rgba(18, 28, 51, 0.28)">
+
+<span aria-hidden="true" style="align-self: center; width: 44px; height: 4px; border-radius: 2px; background: #D5DCE8"></span>
+
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="width: 40px; height: 40px; flex: none; border-radius: 12px; background: #E3EAFB; color: #1F47B8; display: flex; align-items: center; justify-content: center">
+<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+</span>
+<h2 id="datos-titulo" style="margin: 0; font-family: 'Zilla Slab', Rockwell, Georgia, serif; font-size: 23px; line-height: 27px; font-weight: 600">Tratamiento de sus datos</h2>
+</div>
+
+<p style="margin: 0; font-size: 14.5px; line-height: 20px; color: #4C5973">Lo más importante de nuestra política, según la Ley 1581 de 2012 (Habeas Data).</p>
+
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px">
+<li style="display: flex; gap: 12px">
+<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F47B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 1px"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+<span style="font-size: 14.5px; line-height: 20px"><strong>Quién responde:</strong> Consultorio Dra. Camila Ríos.</span>
+</li>
+<li style="display: flex; gap: 12px">
+<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F47B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 1px"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+<span style="font-size: 14.5px; line-height: 20px"><strong>Para qué se usan:</strong> agendar sus citas, atenderlo y guardar los documentos que suba.</span>
+</li>
+<li style="display: flex; gap: 12px; margin: 0 -8px; padding: 12px; border-radius: 14px; background: #E3EAFB; border: 1.5px solid #1F47B8">
+<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F47B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 1px"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4M19 17v4M3 5h4M17 19h4"/></svg>
+<span style="font-size: 14.5px; line-height: 20px; color: #121C33"><strong>Inteligencia artificial:</strong> sus historias clínicas y exámenes podrán analizarse con un asistente que ayuda al médico a resumirlos. No lo diagnostica, y el texto se envía sin su nombre ni su documento.</span>
+</li>
+<li style="display: flex; gap: 12px">
+<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F47B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 1px"><path d="M20 6 9 17l-5-5"/></svg>
+<span style="font-size: 14.5px; line-height: 20px"><strong>Sus derechos:</strong> conocer, corregir y eliminar sus datos, y retirar esta autorización cuando quiera.</span>
+</li>
+</ul>
+
+<a href="#" style="align-self: flex-start; display: flex; align-items: center; gap: 6px; min-height: 44px; margin: -8px 0; color: #1F47B8; font-size: 15px; font-weight: 700; text-decoration: none">
+Leer la política completa
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+</a>
+
+<label for="acepto-datos" style="display: flex; align-items: flex-start; gap: 12px; font-size: 15px; line-height: 21px; cursor: pointer">
+<input id="acepto-datos" type="checkbox" checked style="width: 22px; height: 22px; flex: none; margin: 0; accent-color: #1F47B8">
+<span>Autorizo el tratamiento de mis datos personales y de salud.</span>
+</label>
+
+<label for="acepto-ia" style="display: flex; align-items: flex-start; gap: 12px; font-size: 15px; line-height: 21px; cursor: pointer">
+<input id="acepto-ia" type="checkbox" style="width: 22px; height: 22px; flex: none; margin: 0; accent-color: #1F47B8">
+<span>Autorizo que mis documentos se analicen con inteligencia artificial. <span style="color: #4C5973">Es opcional y puede cambiarlo después.</span></span>
+</label>
+
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.1fr); gap: 10px; padding-top: 2px">
+<a href="Paciente-Ingreso.dc.html" style="display: flex; align-items: center; justify-content: center; min-height: 52px; box-sizing: border-box; border-radius: 14px; background: #FFFFFF; border: 1.5px solid #D5DCE8; color: #121C33; font-size: 16px; font-weight: 700; text-decoration: none; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.10), 0 2px 6px rgba(18, 28, 51, 0.06)">Volver</a>
+<a href="Main.dc.html" style="display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 14px; background: #1F47B8; color: #FFFFFF; font-size: 16px; font-weight: 700; text-decoration: none; box-shadow: 0 6px 16px rgba(31, 71, 184, 0.30)">Aceptar y crear cuenta</a>
+</div>
+
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

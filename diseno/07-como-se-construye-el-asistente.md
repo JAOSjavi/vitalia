@@ -5,7 +5,7 @@
 
 Guía para entender y construir la parte de inteligencia artificial de Vitalia. Las decisiones ya tomadas están en [04-asistente-ia.md](04-asistente-ia.md); aquí se explica el porqué y el cómo, paso a paso.
 
-> Los fragmentos de código son **esquemas sin ejecutar**. Muestran la forma de cada pieza; se validan en la prueba de concepto de la sección 10.
+> Los fragmentos de código son **esquemas sin ejecutar**. Muestran la forma de cada pieza; se validan en la prueba de concepto de la sección 10. Los ejemplos usan PyMuPDF para leer PDF; al construir se usa `pypdfium2`, por la razón de licencia que explica [09-herramientas-y-entrega.md](09-herramientas-y-entrega.md).
 
 ---
 

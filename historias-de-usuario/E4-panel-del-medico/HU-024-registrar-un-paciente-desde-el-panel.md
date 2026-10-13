@@ -15,7 +15,7 @@
 
 ## Criterios de aceptación
 
-- **CA-1** · Dado que ingreso nombre, documento, fecha de nacimiento, celular y correo, cuando guardo, entonces el paciente queda creado y puedo agendarle una cita.
+- **CA-1** · Dado que ingreso nombres, apellidos, tipo y número de documento, fecha de nacimiento, teléfono y, si lo tiene, correo, cuando guardo, entonces el paciente queda creado y puedo agendarle una cita.
 - **CA-2** · Dado que el paciente tiene correo, cuando lo registro, entonces recibe un enlace para activar su cuenta y definir su contraseña.
 - **CA-3** · Dado que el paciente activa su cuenta, cuando ingresa por primera vez, entonces debe aceptar la autorización de tratamiento de datos antes de continuar.
 - **CA-4** · Dado que el documento ya existe, cuando intento registrarlo, entonces el sistema me muestra el paciente existente.

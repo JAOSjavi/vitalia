@@ -1,7 +1,7 @@
 # Diagramas de arquitectura
 
 **Fase del ciclo de vida:** Diseño
-**Versión:** 1.1 · 13 de octubre de 2026
+**Versión:** 1.2 · 13 de octubre de 2026
 
 Todos los diagramas están en código Mermaid: se ven dibujados en GitHub, en VS Code con la extensión de Mermaid o pegándolos en https://mermaid.live. Van de lo general a lo particular. La explicación de cada decisión está en [01-arquitectura.md](01-arquitectura.md).
 
@@ -13,13 +13,13 @@ Todos los diagramas están en código Mermaid: se ven dibujados en GitHub, en VS
 flowchart LR
     PAC(["Paciente"])
     MED(["Médico"])
-    V["Vitalia<br/>agenda, documentos,<br/>tratamientos y asistente"]
+    V["Vitalia<br/>agenda, documentos, historia clínica,<br/>tratamientos y asistente"]
     IA["Proveedor de IA<br/>Qwen"]
     COR["Servicio de correo"]
     ALM["Almacenamiento<br/>de archivos"]
 
     PAC -- "agenda, sube documentos,<br/>consulta su tratamiento" --> V
-    MED -- "atiende, pregunta<br/>al asistente" --> V
+    MED -- "atiende, escribe la historia clínica,<br/>pregunta al asistente" --> V
     V -- "texto de los documentos<br/>de un paciente" --> IA
     V -- "avisos y enlaces<br/>de un solo uso" --> COR
     V -- "archivos cifrados" --> ALM
@@ -65,17 +65,17 @@ La API se organiza con arquitectura limpia: las flechas continuas son dependenci
 ```mermaid
 flowchart TB
     subgraph entrada["Entrada: recibe la petición y la traduce"]
-        R["Rutas de FastAPI<br/>cuentas, calendario, citas, pacientes,<br/>documentos, asistente y bitácora"]
-        L["Lector de documentos<br/>en segundo plano"]
+        R["Rutas de FastAPI<br/>cuentas, calendario, citas, pacientes,<br/>documentos, asistente, atenciones y bitácora"]
+        L["Lector de documentos y envío de avisos<br/>en segundo plano"]
     end
 
     subgraph casos["Casos de uso: una operación cada uno"]
-        C["Agendar una cita, mover una cita,<br/>subir un documento, preguntar al asistente,<br/>registrar un tratamiento…"]
+        C["Agendar una cita, mover una cita,<br/>subir un documento, preguntar al asistente,<br/>cerrar una atención, registrar un tratamiento…"]
         P["Puertos<br/>unidad de trabajo, repositorios, bitácora,<br/>archivos, proveedor de IA, correo y reloj"]
     end
 
     subgraph dominio["Dominio: reglas puras, sin tecnología"]
-        D["Espacios libres, estados de la cita,<br/>anticipación, autorizaciones,<br/>vigencia del tratamiento, comprobación de orígenes"]
+        D["Espacios libres, estados de la cita,<br/>anticipación, autorizaciones, vigencia del tratamiento,<br/>comprobación de orígenes, atención completa"]
     end
 
     subgraph adaptadores["Adaptadores: lo único que conoce a un tercero"]
@@ -143,8 +143,10 @@ sequenceDiagram
     participant A as API
     participant B as Base de datos
 
-    N->>A: Ingresa con correo y contraseña
-    A->>B: Busca el usuario y compara el hash
+    N->>A: Ingresa con documento y contraseña
+    A->>B: Función de búsqueda por documento
+    B-->>A: Solo el hash, el rol y si está bloqueada
+    A->>A: Compara la contraseña con el hash
     A->>B: Guarda la sesión, solo su hash
     A-->>N: Cookie segura
 
@@ -251,6 +253,43 @@ sequenceDiagram
     A-->>P: Último tratamiento, con fecha de fin calculada
 ```
 
+### 5.6 Atención y cierre de la historia clínica
+
+```mermaid
+sequenceDiagram
+    participant M as Médico
+    participant A as API
+    participant B as Base de datos
+
+    M->>A: Atender, desde la cita o desde la ficha
+    A->>B: ¿Hay una atención abierta de este paciente?
+    alt Ya hay una
+        B-->>A: La atención abierta
+    else No hay
+        A->>B: Crea la atención con los antecedentes de la última cerrada
+    end
+    A-->>M: Formulario y, a un lado, el resumen del asistente
+
+    loop Mientras escribe
+        M->>A: Guarda la sección que cambió
+        A->>B: Actualiza el borrador
+    end
+
+    M->>A: Cerrar, con su contraseña
+    A->>B: Verifica la contraseña
+    A->>A: Revisa qué le falta a la atención
+    alt Falta algo
+        A-->>M: No se cierra, con la lista de lo que falta
+    else Está completa
+        A->>B: Cierra con nombre, registro, fecha y hora
+        A->>B: Marca la cita como atendida y guarda la fórmula como tratamiento
+        A->>B: Registra en la bitácora
+        A-->>M: Atención cerrada
+    end
+```
+
+Desde ese momento la base rechaza cualquier cambio. Una corrección es una nota aclaratoria que se suma.
+
 ## 6. Estados
 
 ### 6.1 Cita
@@ -304,6 +343,19 @@ stateDiagram-v2
 ```
 
 El asistente solo funciona en el estado **Aceptada**.
+
+### 6.4 Atención de la historia clínica
+
+```mermaid
+stateDiagram-v2
+    [*] --> Abierta: el médico elige atender
+    Abierta --> Abierta: guarda el borrador
+    Abierta --> Cerrada: cierra con su contraseña y todo completo
+    Cerrada --> Cerrada: nota aclaratoria
+    Cerrada --> [*]
+```
+
+Una atención cerrada no vuelve a abrirse ni se borra. Un paciente tiene como mucho una atención abierta.
 
 ## 7. Datos
 

@@ -47,6 +47,7 @@
 - [HU-018 Registrar asistencia o inasistencia](../E3-citas/HU-018-registrar-asistencia.md)
 - [HU-022 Vista de calendario semanal y mensual](HU-022-vista-de-calendario.md)
 - [HU-026 Botón de cobro sin función](HU-026-boton-de-cobro-sin-funcion.md)
+- [HU-042 Pantalla de atención con el asistente al lado](../E9-historia-clinica-del-consultorio/HU-042-pantalla-de-atencion-con-el-asistente-al-lado.md)
 
 ---
 

@@ -1,8 +1,8 @@
 # Vitalia Salud
 
-Sistema a la medida para **un consultorio médico general privado en Colombia**. El médico maneja su agenda y a sus pacientes, y cuenta con un asistente de inteligencia artificial que lee las historias clínicas que el paciente sube y responde preguntas sobre ellas.
+Sistema a la medida para **un consultorio médico general privado en Colombia**. El médico maneja su agenda y a sus pacientes, escribe la historia clínica de cada atención y cuenta con un asistente de inteligencia artificial que lee las historias clínicas que el paciente sube y responde preguntas sobre ellas.
 
-**Estado:** Planificación y Diseño hechos para el flujo principal. Sin desarrollo iniciado.
+**Estado:** Planificación y Diseño cerrados y consistentes entre sí, con la historia clínica del consultorio incluida. Sin desarrollo iniciado.
 **Última actualización:** 13 de octubre de 2026
 
 ---
@@ -24,6 +24,8 @@ Sistema a la medida para **un consultorio médico general privado en Colombia**.
 | Recorrer las pantallas | [diseno/05-pantallas.md](diseno/05-pantallas.md), el [prototipo navegable](https://claude.ai/artifact/4MN2vq99tcrQBzUWDJ4pEy) y el [lienzo de diseño](https://claude.ai/artifact/R6WLHr5eAt7FQztseugqQY) |
 | Ver los diagramas de arquitectura | [diseno/06-diagramas-de-arquitectura.md](diseno/06-diagramas-de-arquitectura.md) |
 | Aprender cómo se construye el asistente de IA | [diseno/07-como-se-construye-el-asistente.md](diseno/07-como-se-construye-el-asistente.md) |
+| Ver los colores, la letra y las piezas aprobados | [diseno/08-base-visual.md](diseno/08-base-visual.md) |
+| Saber con qué herramientas se construye y cómo se despliega | [diseno/09-herramientas-y-entrega.md](diseno/09-herramientas-y-entrega.md) |
 | Leer una historia de usuario | [historias-de-usuario/](historias-de-usuario/) |
 | Saber qué se construye antes que qué | [historias-de-usuario/RELACIONES.md](historias-de-usuario/RELACIONES.md) |
 
@@ -33,8 +35,8 @@ Sistema a la medida para **un consultorio médico general privado en Colombia**.
 
 | Fase | Estado | Qué hay |
 |---|---|---|
-| **1. Planificación** | Hecha para el flujo principal | Alcance, requisitos, marco normativo, historias y tareas |
-| **2. Diseño** | Hecha para el flujo principal | Arquitectura, modelo de datos, contrato de la API, diseño del asistente, pantallas y prototipo navegable |
+| **1. Planificación** | Hecha | Alcance, requisitos, marco normativo con el contenido mínimo de la historia clínica, historias y tareas |
+| **2. Diseño** | Cerrada en documentos el 13 de octubre | Arquitectura, modelo de datos, contrato de la API, diseño del asistente, pantallas y prototipo navegable |
 | **3. Desarrollo** | Siguiente | Empieza por las cuatro pruebas de concepto de la [arquitectura](diseno/01-arquitectura.md) |
 | **4. Pruebas** | Sin iniciar | — |
 | **5. Despliegue** | Sin iniciar | — |
@@ -47,18 +49,18 @@ El trabajo se lleva con **Kanban**: las historias avanzan por estas fases con un
 
 | Elemento | Cantidad |
 |---|---|
-| Épicas | 8 |
-| Requisitos funcionales | 39 |
-| Requisitos no funcionales | 14 |
-| Historias de usuario | 39 |
-| Criterios de aceptación | 166 (mínimo 3 por historia) |
-| Tareas | 89 |
-| Actividades | 263 |
-| Puntos de historia | 170 |
+| Épicas | 9 |
+| Requisitos funcionales | 46 |
+| Requisitos no funcionales | 15 |
+| Historias de usuario | 46 |
+| Criterios de aceptación | 205 (mínimo 3 por historia) |
+| Tareas | 109 |
+| Actividades | 321 |
+| Puntos de historia | 200 |
 
 | Épica | Historias | Puntos |
 |---|---|---|
-| [E1 Cuentas e ingreso](historias-de-usuario/E1-cuentas-e-ingreso/README.md) | 7 | 26 |
+| [E1 Cuentas e ingreso](historias-de-usuario/E1-cuentas-e-ingreso/README.md) | 8 | 29 |
 | [E2 Calendario de disponibilidad](historias-de-usuario/E2-calendario-de-disponibilidad/README.md) | 4 | 19 |
 | [E3 Citas](historias-de-usuario/E3-citas/README.md) | 9 | 32 |
 | [E4 Panel del médico](historias-de-usuario/E4-panel-del-medico/README.md) | 6 | 22 |
@@ -66,6 +68,7 @@ El trabajo se lleva con **Kanban**: las historias avanzan por estas fases con un
 | [E6 Asistente de IA](historias-de-usuario/E6-asistente-de-ia/README.md) | 4 | 24 |
 | [E7 Seguridad base](historias-de-usuario/E7-seguridad-base/README.md) | 2 | 13 |
 | [E8 Tratamientos](historias-de-usuario/E8-tratamientos/README.md) | 2 | 8 |
+| [E9 Historia clínica del consultorio](historias-de-usuario/E9-historia-clinica-del-consultorio/README.md) | 6 | 27 |
 
 ---
 
@@ -89,13 +92,16 @@ vitalia-proyecto/
 │   ├── 05-pantallas.md
 │   ├── 06-diagramas-de-arquitectura.md
 │   ├── 07-como-se-construye-el-asistente.md
+│   ├── 08-base-visual.md        colores, letra y piezas aprobados
+│   ├── 09-herramientas-y-entrega.md
+│   ├── lienzo/                  fuente de las once pantallas del lienzo
 │   └── prototipo/index.html     prototipo navegable
 ├── historias-de-usuario/
 │   ├── RELACIONES.md            qué historia depende de cuál
 │   ├── E1-cuentas-e-ingreso/
 │   │   ├── README.md            índice de la épica
 │   │   └── HU-001-….md          una historia por archivo
-│   └── … (8 épicas)
+│   └── … (9 épicas)
 └── archivo/
     └── v1/                      versión anterior del proyecto, solo de consulta
 ```
@@ -108,26 +114,27 @@ Cada historia trae: narrativa, criterios de aceptación en formato *dado / cuand
 
 | Rol | Qué puede hacer |
 |---|---|
-| **Médico** | Configura el consultorio y su horario, maneja las citas, registra pacientes, lee sus documentos, pregunta al asistente y registra tratamientos |
+| **Médico** | Configura el consultorio y su horario, maneja las citas, registra pacientes, lee sus documentos, pregunta al asistente, escribe la historia clínica y registra tratamientos |
 | **Paciente** | Se registra, maneja sus citas, sube sus historias clínicas, autoriza o no el uso de inteligencia artificial y consulta sus tratamientos |
 
 ---
 
 ## Lo innegociable
 
-1. **Nunca** el documento de identidad como clave de ingreso.
+1. **Nunca** el documento de identidad como contraseña. El documento identifica a la persona; la contraseña es propia.
 2. **Nunca** una tabla con datos de salud sin política de acceso en la base de datos.
 3. **Nunca** una clave de un proveedor externo dentro del navegador.
 4. **Nunca** documentos de un paciente enviados a la inteligencia artificial sin su autorización, ni mezclados con los de otro.
 5. **Nunca** un documento clínico en almacenamiento público.
+6. **Nunca** una atención cerrada de la historia clínica modificada o borrada.
 
 ---
 
 ## Lo que queda para después
 
-Nota clínica escrita por el médico, recordatorios de medicamento, factura electrónica con Factus, agente de voz para citas, y los reportes RDA y RIPS. El detalle y la razón están en [01-alcance-y-flujo.md](planificacion/01-alcance-y-flujo.md).
+Envío del Resumen Digital de Atención al Ministerio, cuentas para menores de edad, recordatorios de medicamento, factura electrónica con Factus, agente de voz para citas y el reporte RIPS. El detalle y la razón están en [01-alcance-y-flujo.md](planificacion/01-alcance-y-flujo.md).
 
-> Los documentos que sube el paciente no reemplazan la historia clínica que el consultorio debe llevar de sus propias atenciones. Esa parte es lo primero que conviene levantar después.
+> Los documentos que sube el paciente son antecedentes. La historia clínica de las atenciones del consultorio se lleva dentro del sistema (épica E9), con el contenido mínimo que exige la norma.
 
 ---
 

@@ -1,7 +1,7 @@
 # Decisiones y supuestos
 
 **Fase del ciclo de vida:** Planificación
-**Versión:** 2.1 · 13 de octubre de 2026
+**Versión:** 2.5 · 13 de octubre de 2026
 
 Una **decisión** la tomó el dueño del proyecto. Un **supuesto** lo puso quien levantó los requisitos para no frenar el trabajo, y se cambia en cuanto haya mejor información.
 
@@ -28,8 +28,15 @@ Una **decisión** la tomó el dueño del proyecto. Un **supuesto** lo puso quien
 | D-15 | 12 oct 2026 | Al agendar solo se muestran los días y las horas disponibles; lo ocupado no aparece | HU-012 ajustada |
 | D-16 | 12 oct 2026 | El calendario del médico permite ir al mes anterior y al siguiente, y al tocar un día abre sus citas | HU-022 ajustada |
 | D-17 | 12 oct 2026 | En el producto no hay botones para "ver como" otro rol: cada persona entra con su cuenta. Esos botones son solo del prototipo | Sin efecto en las historias |
-| D-18 | 13 oct 2026 | El diseño queda como está por ahora; no se sigue puliendo antes de desarrollar | La revisión de los diagramas, la aprobación del lienzo y las pantallas que le faltan quedan en pausa |
+| D-18 | 13 oct 2026 | Lo ya hecho en Diseño no se toca; se completa solo lo que falte para desarrollar. El lienzo de pantallas queda aprobado como base del aspecto: paleta de colores y diseño general | La base visual está en [08-base-visual.md](../diseno/08-base-visual.md). Lo que falta de Diseño está en la sección 4 de [ESTADO.md](../ESTADO.md). Las pantallas que no están en el lienzo no se dibujan antes: se arman con sus mismas piezas |
 | D-19 | 13 oct 2026 | El código sigue los principios de la arquitectura limpia y debe ser rápido | Capas y reglas de rendimiento en las secciones 7 y 8 de la [arquitectura](../diseno/01-arquitectura.md) |
+| D-20 | 13 oct 2026 | Se ingresa con el número de documento y la contraseña. El documento dice quién es la persona; la contraseña sigue siendo propia | RF-03, HU-004 y HU-005 ajustadas. El correo queda para los avisos y para recuperar la contraseña |
+| D-21 | 13 oct 2026 | En el registro se piden nombres, apellidos, fecha de nacimiento, correo, documento y teléfono | RF-01 y HU-002. La edad se calcula con la fecha de nacimiento |
+| D-22 | 13 oct 2026 | Las cuentas son para adultos. Documentos aceptados: cédula de ciudadanía, cédula de extranjería, pasaporte y permiso por protección temporal | HU-002 y HU-024. Sin menores de edad en la primera versión |
+| D-23 | 13 oct 2026 | El paciente puede corregir su teléfono y su correo; el médico puede corregir cualquier dato de un paciente | HU-040 nueva |
+| D-24 | 13 oct 2026 | La historia clínica del consultorio entra al alcance. Al atender, el médico ve a un lado el asistente con el resumen y en el centro el formulario de la historia clínica, con lo mínimo que exija la norma | Épica E9 nueva, con seis historias. El contenido está en la sección 4 del [marco normativo](03-marco-normativo.md). El total pasa a 46 historias en 9 épicas |
+| D-25 | 13 oct 2026 | El diseño no debe verse genérico: los estados van con un punto de color y su nombre, las notas dejan la caja de color, y los iconos salen de una biblioteca que se vea muy bien. El estado va en una caja de bordes redondeados con peso y sombra, y botones y tarjetas llevan la misma sombra | Corregido en el lienzo. Reglas en la sección 6 de la [base visual](../diseno/08-base-visual.md) |
+| D-26 | 13 oct 2026 | Los iconos de la aplicación salen de Phosphor Icons | Se aplica al construir las pantallas. Los iconos del lienzo son provisionales |
 
 ## 2. Supuestos
 
@@ -48,6 +55,16 @@ Una **decisión** la tomó el dueño del proyecto. Un **supuesto** lo puso quien
 | S-11 | Todavía no existe un consultorio real; las reglas se ajustan cuando aparezca | Todos los supuestos de operación | Dueño del proyecto |
 | S-12 | El tratamiento lo registra el médico desde la ficha del paciente, con los medicamentos en texto libre; no sale de los documentos que sube el paciente | HU-038, HU-039 | Dueño del proyecto |
 | S-13 | En la ventana del registro, el uso de inteligencia artificial tiene su propia casilla, opcional y sin marcar. La Ley 1581 pide que la autorización de datos sensibles sea específica y que no se condicione el servicio a darla | HU-003, HU-032 | Abogado |
+| S-14 | El médico también ingresa con su número de documento y su contraseña | HU-004 | Dueño del proyecto |
+| S-15 | El correo puede repetirse entre dos pacientes, por ejemplo un hijo que le ayuda a su madre. Lo que no se repite es el documento | HU-002, HU-005 | Dueño del proyecto |
+| S-16 | El contenido de la historia clínica sale de la Resolución 1995 de 1999 y de la 866 de 2021. Se revisa cuando se expida la norma que las reemplace | E9 | Abogado |
+| S-17 | El detalle clínico del formulario (antecedentes, revisión por sistemas, signos vitales, examen físico) sigue la práctica médica aceptada, porque la norma lo deja a ella | HU-043 | Primer médico real |
+| S-18 | Los diagnósticos se eligen de la lista CIE-10 cargada en el sistema. Los medicamentos y las órdenes siguen en texto libre | HU-043, HU-038 | Dueño del proyecto |
+| S-19 | La firma de cada atención es la sesión del médico más su nombre y su registro profesional, con fecha y hora | HU-044 | Abogado (pregunta 7) |
+| S-20 | El envío del Resumen Digital de Atención al Ministerio no está en este alcance. Los datos se guardan de forma que se pueda generar después | E9 | Abogado (pregunta 5) |
+| S-21 | Los datos de identificación que pide la historia clínica y no están en el registro los puede llenar el paciente desde su perfil o el médico desde la ficha | HU-041 | Dueño del proyecto |
+| S-22 | Cuando el médico registra a un paciente, el correo es opcional. Sin correo no hay cuenta activa hasta que el médico le agregue uno | HU-024, HU-040 | Dueño del proyecto |
+| S-23 | La primera versión sale solo con la apariencia clara, con los tamaños de letra del lienzo aprobado | Todas las pantallas | Dueño del proyecto |
 
 ## 3. Decisiones que se cerraron en la fase de Diseño
 
@@ -59,6 +76,14 @@ Una **decisión** la tomó el dueño del proyecto. Un **supuesto** lo puso quien
 | A-04 | Proveedor de inteligencia artificial | Qwen por la plataforma internacional de Alibaba Cloud | El dueño propuso DeepSeek o Qwen; se eligió Qwen por las razones de [04-asistente-ia.md](../diseno/04-asistente-ia.md) |
 | A-05 | Cómo se lee el texto de fotos y documentos escaneados | PDF con texto, dentro del servidor; fotos y escaneados, con el modelo de visión del mismo proveedor y solo con autorización del paciente | Propuesta de diseño |
 | A-06 | Proveedor de correo | Por API (propuesta: Resend) | Propuesta de diseño |
+| A-07 | Ingreso con un documento que es fácil de conocer | Tipo y número de documento más contraseña. El bloqueo por intentos fallidos es por cuenta y por equipo, para que un tercero no le bloquee la cuenta a su dueño | Propuesta de diseño, sobre D-20 |
+| A-08 | Permisos por fila cuando todavía no hay sesión, y en los procesos en segundo plano | Funciones de la base que hacen una sola cosa cada una, y una identidad `sistema` para el lector y el envío de avisos. Ver la sección 3 del [modelo de datos](../diseno/02-modelo-de-datos.md) | Propuesta de diseño |
+| A-09 | Historia clínica que no cambia | Un disparador en la base rechaza modificar o borrar una atención cerrada; se corrige con notas aclaratorias | Propuesta de diseño, sobre D-24 |
+| A-10 | Pantalla de atención | Formulario en el centro, en ocho secciones; asistente a la derecha, plegable; el asistente nunca escribe en la historia | Propuesta de diseño, sobre D-24 |
+| A-11 | Herramientas, entorno local y flujo de entrega | Ver [09-herramientas-y-entrega.md](../diseno/09-herramientas-y-entrega.md). Repositorio remoto privado y pruebas automáticas antes de cada despliegue | Propuesta de diseño |
+| A-12 | Biblioteca para leer PDF | `pypdfium2` en lugar de PyMuPDF, cuya licencia obligaría a publicar el código | Propuesta de diseño |
+| A-13 | Pantallas que no están en el lienzo | No se dibujan antes: se arman con las piezas de la [base visual](../diseno/08-base-visual.md), siguiendo el prototipo | Propuesta de diseño, sobre D-18 |
+| A-14 | Biblioteca de iconos | Phosphor Icons, en un solo grosor | Propuesta de diseño que el dueño del proyecto confirmó (D-26) |
 
 Las "propuestas de diseño" se pueden cambiar sin rehacer el resto: están aisladas detrás de una sola pieza cada una.
 

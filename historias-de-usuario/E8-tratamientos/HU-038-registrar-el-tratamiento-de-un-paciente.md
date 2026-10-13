@@ -54,6 +54,7 @@ Los medicamentos se escriben en texto libre. No hay catálogo, aviso de interacc
 **Habilita:**
 
 - [HU-039 Ver mis tratamientos](HU-039-ver-mis-tratamientos.md)
+- [HU-043 Registrar la consulta en la historia clínica](../E9-historia-clinica-del-consultorio/HU-043-registrar-la-consulta-en-la-historia-clinica.md)
 
 ---
 

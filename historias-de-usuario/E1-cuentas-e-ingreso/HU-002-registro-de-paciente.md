@@ -15,17 +15,19 @@
 
 ## Criterios de aceptación
 
-- **CA-1** · Dado que ingreso nombre, tipo y número de documento, fecha de nacimiento, celular, correo y una contraseña válida, cuando confirmo, entonces el sistema crea mi cuenta con rol paciente y me lleva al inicio.
+- **CA-1** · Dado que ingreso nombres, apellidos, tipo y número de documento, fecha de nacimiento, teléfono, correo y una contraseña válida, cuando confirmo, entonces el sistema crea mi cuenta con rol paciente y me lleva al inicio. *(Ajustado el 13 de octubre.)*
 - **CA-2** · Dado que la contraseña tiene menos de 8 caracteres o no incluye un número, cuando intento continuar, entonces el sistema no envía el formulario y explica qué le falta.
-- **CA-3** · Dado que el correo o el documento ya están registrados, cuando intento registrarme, entonces el sistema me avisa y me ofrece ingresar o recuperar la contraseña, sin mostrar datos de la otra cuenta.
+- **CA-3** · Dado que el documento ya está registrado, cuando intento registrarme, entonces el sistema me avisa y me ofrece ingresar o recuperar la contraseña, sin mostrar datos de la otra cuenta.
 - **CA-4** · Dado que el médico ya me había registrado, cuando abro el enlace de activación que recibí, entonces solo defino mi contraseña y mis datos ya aparecen cargados.
+- **CA-5** · Dado el campo de tipo de documento, cuando lo abro, entonces puedo elegir cédula de ciudadanía, cédula de extranjería, pasaporte o permiso por protección temporal. *(Agregado el 13 de octubre.)*
+- **CA-6** · Dado que mi fecha de nacimiento indica que tengo menos de 18 años, cuando intento registrarme, entonces el sistema no crea la cuenta y me pide comunicarme con el consultorio. *(Agregado el 13 de octubre.)*
 
 ## Tareas y actividades
 
 ### T-002.1 Modelo y servicio de registro
 
 - Tablas de pacientes y de cuentas
-- Validación de que el correo y el documento no se repitan
+- Validación de que el documento no se repita y de la mayoría de edad
 - Guardar la contraseña con hash y sal
 
 ### T-002.2 Pantalla de registro

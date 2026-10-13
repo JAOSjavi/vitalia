@@ -1,7 +1,7 @@
 # Asistente de IA
 
 **Fase del ciclo de vida:** Diseño
-**Versión:** 1.0 · 12 de octubre de 2026
+**Versión:** 1.1 · 13 de octubre de 2026
 
 Cómo el médico le pregunta al asistente sobre los documentos de un paciente (HU-031 a HU-035) y con qué proveedor.
 
@@ -115,6 +115,12 @@ Cada origen verificado es un enlace que abre el visor en esa página (HU-034, CA
 ### 4.4 Conversación
 
 Las preguntas siguientes de la misma sesión envían también los turnos anteriores, para que el asistente mantenga el hilo. La conversación no se guarda en la base de datos: se pierde al cerrar la ficha.
+
+### 4.5 Dentro de la pantalla de atención
+
+Cuando el médico atiende (HU-042), el asistente aparece a un lado del formulario de la historia clínica: muestra el resumen del paciente y admite preguntas, con las mismas operaciones y las mismas reglas de esta sección. **El asistente no escribe la historia clínica.** No existe ninguna operación que pase su texto al formulario; lo que queda registrado lo escribe el médico.
+
+El asistente lee solo los documentos que subió el paciente. No lee las atenciones del consultorio: esas las tiene el médico a la vista en la propia historia clínica.
 
 ## 5. Resumen del paciente (HU-035)
 

@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Paciente: mis tratamientos</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;600&amp;family=Atkinson+Hyperlegible+Next:wght@400;600;700&amp;family=Zilla+Slab:wght@500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1F47B8}a:hover{color:#162F7A}
+</style>
+</helmet>
+<div style="width: 390px; height: 1040px; box-sizing: border-box; display: flex; flex-direction: column; background: #F1F4F9; color: #121C33; font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', Verdana, sans-serif; font-size: 16px; line-height: 24px">
+
+<header style="padding: 20px 20px 12px">
+<h1 style="margin: 0; font-family: 'Zilla Slab', Rockwell, Georgia, serif; font-size: 28px; line-height: 32px; font-weight: 600">Mis tratamientos</h1>
+</header>
+
+<main style="flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 14px; padding: 4px 20px 16px">
+
+<article style="background: #FFFFFF; border: 1px solid #D5DCE8; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.06), 0 8px 24px rgba(18, 28, 51, 0.08)">
+
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<span style="font-size: 13px; line-height: 18px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #4C5973">Último tratamiento</span>
+<span style="display: flex; align-items: center; gap: 8px; padding: 5px 12px 5px 10px; border-radius: 10px; background: #FFFFFF; border: 1px solid #D5DCE8; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.10), 0 2px 6px rgba(18, 28, 51, 0.06); font-size: 13.5px; line-height: 20px; font-weight: 700; color: #121C33; white-space: nowrap"><span aria-hidden="true" style="width: 9px; height: 9px; flex: none; border-radius: 999px; background: #1F9D61"></span>Vigente</span>
+</div>
+
+<h2 style="margin: 0; font-family: 'Zilla Slab', Rockwell, Georgia, serif; font-size: 23px; line-height: 27px; font-weight: 600">Control de hipertensión y diabetes</h2>
+
+<span style="display: flex; align-items: center; gap: 8px; font-size: 14.5px; line-height: 20px; color: #4C5973">
+<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+Dra. Camila Ríos Pardo · 14 sep 2026
+</span>
+
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div role="img" aria-label="Día 29 de 90 del tratamiento" style="height: 8px; border-radius: 4px; background: #E7ECF4; overflow: hidden; display: flex">
+<span style="width: 32%; background: #1F47B8; border-radius: 4px"></span>
+</div>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 13.5px; line-height: 18px; color: #4C5973">
+<span>Día 29 de 90</span>
+<span>Hasta el 13 dic 2026</span>
+</div>
+</div>
+
+<section style="display: flex; flex-direction: column; gap: 10px; padding-top: 14px; border-top: 1px solid #E7ECF4">
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="width: 40px; height: 40px; flex: none; border-radius: 12px; background: #E3EAFB; color: #1F47B8; display: flex; align-items: center; justify-content: center">
+<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg>
+</span>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column">
+<span style="font-size: 17px; line-height: 22px; font-weight: 700">Losartán 50 mg</span>
+<span style="font-size: 14px; line-height: 20px; color: #4C5973">Tableta · 1 cada 12 horas · 90 días</span>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 12px; border-radius: 12px; background: #E3EAFB">
+<span style="font-size: 12.5px; line-height: 16px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #162F7A">Cómo tomarlo</span>
+<span style="font-size: 15.5px; line-height: 21px">Después del desayuno y después de la cena, con un vaso de agua.</span>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 10px; padding-top: 14px; border-top: 1px solid #E7ECF4">
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="width: 40px; height: 40px; flex: none; border-radius: 12px; background: #E3EAFB; color: #1F47B8; display: flex; align-items: center; justify-content: center">
+<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg>
+</span>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column">
+<span style="font-size: 17px; line-height: 22px; font-weight: 700">Metformina 850 mg</span>
+<span style="font-size: 14px; line-height: 20px; color: #4C5973">Tableta · 1 al día · 90 días</span>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 12px; border-radius: 12px; background: #E3EAFB">
+<span style="font-size: 12.5px; line-height: 16px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #162F7A">Cómo tomarlo</span>
+<span style="font-size: 15.5px; line-height: 21px">Con el almuerzo. No la tome en ayunas.</span>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 6px; padding-top: 14px; border-top: 1px solid #E7ECF4">
+<span style="display: flex; align-items: center; gap: 8px; font-size: 15.5px; line-height: 22px; font-weight: 700">
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1F47B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4M12 16h4M8 11h.01M8 16h.01"/></svg>
+Indicaciones
+</span>
+<p style="margin: 0; font-size: 15px; line-height: 21px">Reduzca la sal en las comidas y camine 30 minutos al día. Traiga los laboratorios al próximo control.</p>
+</section>
+
+</article>
+
+<h2 style="margin: 6px 0 0; font-size: 13px; line-height: 18px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #4C5973">Anteriores</h2>
+
+<a href="#" style="display: flex; align-items: center; gap: 12px; background: #FFFFFF; border: 1px solid #D5DCE8; border-radius: 16px; padding: 12px 16px; color: #121C33; text-decoration: none; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.06), 0 8px 24px rgba(18, 28, 51, 0.08)">
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column">
+<span style="font-size: 15.5px; line-height: 22px; font-weight: 700">Gripa</span>
+<span style="font-size: 14px; line-height: 20px; color: #4C5973">9 mar 2026 · Acetaminofén 500 mg</span>
+</span>
+<span style="display: flex; align-items: center; gap: 8px; padding: 5px 12px 5px 10px; border-radius: 10px; background: #FFFFFF; border: 1px solid #D5DCE8; box-shadow: 0 1px 2px rgba(18, 28, 51, 0.10), 0 2px 6px rgba(18, 28, 51, 0.06); font-size: 13.5px; line-height: 20px; font-weight: 700; color: #121C33; white-space: nowrap"><span aria-hidden="true" style="width: 9px; height: 9px; flex: none; border-radius: 999px; background: #8A94A9"></span>Terminado</span>
+<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4C5973" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><path d="m9 18 6-6-6-6"/></svg>
+</a>
+
+<p style="margin: 2px 0 0; display: flex; gap: 10px; font-size: 14px; line-height: 20px; color: #4C5973">
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 1px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+<span>¿Dudas? Llame al 601 555 0134. En una urgencia marque 123.</span>
+</p>
+
+</main>
+
+<nav aria-label="Secciones" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); background: #FFFFFF; border-top: 1px solid #D5DCE8; padding: 8px 8px 12px">
+<a href="Main.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 56px; color: #4C5973; text-decoration: none; font-size: 12.5px; line-height: 16px; font-weight: 600">
+<span style="display: flex; padding: 4px 16px; border-radius: 999px"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/></svg></span>
+Inicio
+</a>
+<a href="Paciente-Citas.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 56px; color: #4C5973; text-decoration: none; font-size: 12.5px; line-height: 16px; font-weight: 600">
+<span style="display: flex; padding: 4px 16px; border-radius: 999px"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>
+Citas
+</a>
+<a href="Paciente-Tratamientos.dc.html" aria-current="page" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 56px; color: #1F47B8; text-decoration: none; font-size: 12.5px; line-height: 16px; font-weight: 700">
+<span style="display: flex; padding: 4px 16px; border-radius: 999px; background: #E3EAFB"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg></span>
+Tratamientos
+</a>
+<a href="Paciente-Documentos.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 56px; color: #4C5973; text-decoration: none; font-size: 12.5px; line-height: 16px; font-weight: 600">
+<span style="display: flex; padding: 4px 16px; border-radius: 999px"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></span>
+Documentos
+</a>
+</nav>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1040}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 # Requisitos
 
 **Fase del ciclo de vida:** Planificación
-**Versión:** 2.0 · 12 de octubre de 2026
+**Versión:** 2.1 · 13 de octubre de 2026
 
 Cada requisito funcional (RF) indica la historia que lo desarrolla. Cada requisito no funcional (RNF) indica de qué norma o necesidad sale.
 
@@ -13,13 +13,14 @@ Cada requisito funcional (RF) indica la historia que lo desarrolla. Cada requisi
 
 | ID | El sistema debe… | Historia |
 |---|---|---|
-| RF-01 | Permitir que un paciente cree su cuenta con nombre, documento, fecha de nacimiento, celular, correo y una contraseña propia | HU-002 |
+| RF-01 | Permitir que un paciente adulto cree su cuenta con nombres, apellidos, tipo y número de documento, fecha de nacimiento, teléfono, correo y una contraseña propia | HU-002 |
 | RF-02 | Registrar la autorización de tratamiento de datos personales y de salud al crear la cuenta, con versión del texto, fecha y hora | HU-003 |
-| RF-03 | Autenticar con correo y contraseña. El documento de identidad nunca sirve como clave | HU-004 |
-| RF-04 | Permitir recuperar la contraseña con un enlace de un solo uso enviado al correo | HU-005 |
+| RF-03 | Autenticar con número de documento y contraseña. El documento identifica a la persona y nunca hace de contraseña | HU-004 |
+| RF-04 | Permitir recuperar la contraseña con un enlace de un solo uso enviado al correo registrado | HU-005 |
 | RF-05 | Permitir cerrar la sesión y cerrarla sola por inactividad | HU-007 |
 | RF-06 | Permitir que el médico cree su cuenta en la puesta en marcha y registre los datos del consultorio | HU-001 |
 | RF-07 | Guardar los roles de médico y paciente en la base de datos y resolver los permisos desde ahí | HU-006 |
+| RF-40 | Permitir que el paciente corrija su teléfono y su correo, y que el médico corrija cualquier dato de un paciente, dejando cada cambio en la bitácora | HU-040 |
 
 ### E2 — Calendario de disponibilidad
 
@@ -88,6 +89,17 @@ Cada requisito funcional (RF) indica la historia que lo desarrolla. Cada requisi
 | RF-38 | Permitir al médico registrar el tratamiento de un paciente: motivo, medicamentos con dosis, frecuencia, duración y forma de tomarlos, e indicaciones | HU-038 |
 | RF-39 | Mostrar al paciente su último tratamiento y los anteriores, con la forma de tomar cada medicamento | HU-039 |
 
+### E9 — Historia clínica del consultorio
+
+| ID | El sistema debe… | Historia |
+|---|---|---|
+| RF-41 | Guardar los datos de identificación que exige la historia clínica y que no se piden en el registro: sexo, estado civil, ocupación, dirección, municipio, aseguradora, tipo de vinculación y persona responsable | HU-041 |
+| RF-42 | Mostrar al médico, al atender, el asistente con el resumen a un lado y el formulario de la historia clínica en el centro | HU-042 |
+| RF-43 | Registrar en cada atención el contenido mínimo de la sección 4.2 del [marco normativo](03-marco-normativo.md), con el diagnóstico en CIE-10 | HU-043 |
+| RF-44 | Cerrar la atención con el nombre y el registro del médico, la fecha y la hora, e impedir que se modifique después. Las correcciones se suman como notas aclaratorias | HU-044 |
+| RF-45 | Mostrar al médico las atenciones de un paciente en orden cronológico | HU-045 |
+| RF-46 | Generar una copia de la historia clínica para entregarla al paciente | HU-046 |
+
 ---
 
 ## 2. Requisitos no funcionales
@@ -108,6 +120,7 @@ Cada requisito funcional (RF) indica la historia que lo desarrolla. Cada requisi
 | RNF-12 | Hay respaldo diario de la base de datos y de los documentos, con una restauración probada cada trimestre | ISO 27001 A.8.13 |
 | RNF-13 | La disponibilidad mensual es de 99,5 % en horario de atención | Operación del consultorio |
 | RNF-14 | La aplicación funciona en navegadores actuales y en celulares Android de gama baja | Población objetivo |
+| RNF-15 | Una atención cerrada de la historia clínica no se modifica ni se borra, queda con autor, fecha y hora, y se conserva al menos 15 años | Resolución 1995 de 1999, arts. 5 y 18; Resolución 839 de 2017 |
 
 ---
 
@@ -115,7 +128,7 @@ Cada requisito funcional (RF) indica la historia que lo desarrolla. Cada requisi
 
 | Épica | Requisitos funcionales | Historias |
 |---|---|---|
-| E1 | RF-01 a RF-07 | HU-001 a HU-007 |
+| E1 | RF-01 a RF-07 y RF-40 | HU-001 a HU-007 y HU-040 |
 | E2 | RF-08 a RF-11 | HU-008 a HU-011 |
 | E3 | RF-12 a RF-19 | HU-012 a HU-020 |
 | E4 | RF-20 a RF-25 | HU-021 a HU-026 |
@@ -123,8 +136,9 @@ Cada requisito funcional (RF) indica la historia que lo desarrolla. Cada requisi
 | E6 | RF-31 a RF-35 | HU-032 a HU-035 |
 | E7 | RF-36 y RF-37 | HU-036 y HU-037 |
 | E8 | RF-38 y RF-39 | HU-038 y HU-039 |
+| E9 | RF-41 a RF-46 | HU-041 a HU-046 |
 
-Los requisitos no funcionales aplican a todas las épicas. Los que tienen historia propia son RNF-01 (HU-036), RNF-03 (HU-027), RNF-06 (HU-037) y RNF-08 (HU-033).
+Los requisitos no funcionales aplican a todas las épicas. Los que tienen historia propia son RNF-01 (HU-036), RNF-03 (HU-027), RNF-06 (HU-037), RNF-08 (HU-033) y RNF-15 (HU-044).
 
 ## 4. Glosario
 
@@ -135,4 +149,7 @@ Los requisitos no funcionales aplican a todas las épicas. Los que tienen histor
 | Enlace firmado | Dirección temporal que da acceso a un archivo por unos minutos |
 | Documento legible | Documento del que el sistema pudo leer el texto |
 | Bitácora | Registro de quién hizo qué y cuándo; no se puede modificar |
+| Historia clínica | Registro obligatorio y reservado de las atenciones que el consultorio le presta a un paciente |
+| Atención | Una consulta registrada en la historia clínica. Mientras está abierta se puede editar; cerrada, ya no |
+| CIE-10 | Lista internacional de códigos de diagnóstico que usa Colombia |
 | MoSCoW | Escala de prioridad: Must (obligatorio), Should (debería), Could (podría) |

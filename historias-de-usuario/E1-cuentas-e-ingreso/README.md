@@ -4,9 +4,9 @@
 
 | Dato | Valor |
 |---|---|
-| Historias | 7 |
-| Puntos | 26 |
-| Requisitos | RF-01 a RF-07 |
+| Historias | 8 |
+| Puntos | 29 |
+| Requisitos | RF-01 a RF-07 y RF-40 |
 
 ## Historias de esta épica
 
@@ -19,6 +19,7 @@
 | HU-005 | [Recuperación de contraseña](HU-005-recuperacion-de-contrasena.md) | Paciente, Médico | Must | 3 |
 | HU-006 | [Roles y permisos de médico y paciente](HU-006-roles-y-permisos.md) | Sistema | Must | 5 |
 | HU-007 | [Cierre de sesión y expiración](HU-007-cierre-de-sesion-y-expiracion.md) | Paciente, Médico | Should | 2 |
+| HU-040 | [Corregir los datos de un paciente](HU-040-corregir-los-datos-de-un-paciente.md) | Paciente, Médico | Must | 3 |
 
 ---
 

@@ -1,7 +1,7 @@
 # Arquitectura
 
 **Fase del ciclo de vida:** Diseño
-**Versión:** 1.1 · 13 de octubre de 2026
+**Versión:** 1.2 · 13 de octubre de 2026
 
 Cómo se construye Vitalia y por qué así. Cada decisión responde a un requisito de [planificacion/02-requisitos.md](../planificacion/02-requisitos.md).
 
@@ -83,6 +83,8 @@ El contrato está en [03-api.md](03-api.md). Cómo se reparten estos pasos entre
 - La API se conecta con un usuario de base de datos **sin privilegios de dueño**. Las tablas con datos de salud tienen permisos por fila forzados, de modo que ni un error de programación devuelve filas ajenas.
 - La bitácora solo admite inserciones: el usuario de la API no tiene permiso de modificar ni borrar, y un disparador lo impide aunque alguien lo intente.
 - Dos citas no pueden ocupar el mismo tiempo: lo garantiza una restricción de la propia base, no solo el código (HU-011).
+- Una atención cerrada de la historia clínica no se puede modificar ni borrar: lo impide un disparador de la base (HU-044).
+- Lo que ocurre sin sesión (ingreso, registro, recuperación) pasa por funciones de la base que hacen una sola cosa cada una. Sin sesión la API no puede leer ninguna tabla.
 
 El detalle está en [02-modelo-de-datos.md](02-modelo-de-datos.md).
 
@@ -105,6 +107,8 @@ Como la lectura de fotos y escaneados envía el contenido al proveedor de IA, **
 
 En la primera versión el lector corre dentro del mismo servicio de la API y toma los trabajos de una cola guardada en la base. Si el volumen crece, se pasa a un servicio aparte sin cambiar el código.
 
+El envío de los avisos de cita funciona igual: cada aviso se guarda ya redactado en una cola y un proceso en segundo plano lo envía y reintenta. Los dos procesos trabajan ante la base con la identidad `sistema`, que solo ve esas colas y lo mínimo para hacer su tarea.
+
 ### 3.6 Asistente de IA
 
 Ver [04-asistente-ia.md](04-asistente-ia.md).
@@ -113,10 +117,12 @@ Ver [04-asistente-ia.md](04-asistente-ia.md).
 
 | Tema | Diseño |
 |---|---|
+| Ingreso | Tipo y número de documento más contraseña (D-20). El documento identifica; la contraseña es propia. El médico entra igual |
 | Contraseñas | Hash con argon2id y sal única (RNF-04) |
 | Sesión | Identificador aleatorio guardado en una cookie segura que la página no puede leer; en la base se guarda solo su hash. Se puede anular desde el servidor (HU-007) |
 | Inactividad | La sesión vence a los 30 minutos sin uso |
-| Intentos fallidos | Cinco seguidos bloquean el ingreso 15 minutos |
+| Intentos fallidos | Cinco seguidos desde un mismo equipo bloquean el ingreso a esa cuenta desde ese equipo por 15 minutos. Como el documento es fácil de conocer, el bloqueo no es de toda la cuenta: así nadie puede dejar por fuera al dueño. Además hay un tope de intentos por equipo, sea cual sea la cuenta |
+| Firma de la historia clínica | Para cerrar una atención el médico confirma con su contraseña. Queda su nombre, su registro, su documento, la fecha y la hora (S-19) |
 | Enlaces de un solo uso | Recuperación (30 minutos), activación de cuenta y puesta en marcha. Se guarda el hash, nunca el enlace |
 
 ## 4. Dónde se cumple cada requisito no funcional
@@ -137,6 +143,7 @@ Ver [04-asistente-ia.md](04-asistente-ia.md).
 | RNF-12 Respaldo | Copias continuas de la base de datos del plan pago, con restauración a cualquier momento de los últimos 3 días (7 en el plan Pro), y versiones en el espacio de archivos. Conservar copias por más tiempo exige una exportación periódica al espacio de archivos; está por decidir |
 | RNF-13 Disponibilidad | Servicio web en plan pago (el gratuito se duerme tras 15 minutos sin uso) |
 | RNF-14 Equipos modestos | Pantallas livianas y pensadas primero para celular |
+| RNF-15 Historia clínica que no cambia | Disparador en la base contra modificar o borrar una atención cerrada; notas aclaratorias de solo inserción; sin operación de borrado |
 
 ## 5. Ambientes y costo
 
@@ -195,7 +202,7 @@ flowchart TB
 
 | Capa | Qué contiene | De qué puede depender |
 |---|---|---|
-| **Dominio** | Las reglas que existirían aunque no hubiera programa: cálculo de espacios libres, estados de una cita, anticipación de 24 horas, vigencia de un tratamiento, cuándo vale una autorización, comprobación de un origen citado | De nada. Python puro |
+| **Dominio** | Las reglas que existirían aunque no hubiera programa: cálculo de espacios libres, estados de una cita, anticipación de 24 horas, vigencia de un tratamiento, cuándo vale una autorización, comprobación de un origen citado, qué le falta a una atención para poder cerrarse | De nada. Python puro |
 | **Casos de uso** | Una operación del sistema por archivo: agendar una cita, mover una cita, subir un documento, preguntar al asistente, registrar un tratamiento. Coordinan: piden datos, aplican las reglas del dominio y mandan guardar. Aquí se definen los **puertos**: lo que un caso de uso necesita de afuera, descrito sin decir quién lo hace | Solo del dominio |
 | **Adaptadores** | Las piezas que cumplen los puertos: repositorios de PostgreSQL, almacenamiento de archivos, proveedor de IA y correo | De los casos de uso y del dominio |
 | **Entrada** | Lo que recibe una petición y la traduce: rutas de FastAPI, validación del formato, cookie de sesión y el lector en segundo plano | De los casos de uso |
@@ -205,7 +212,7 @@ flowchart TB
 | Puerto | Para qué | Quién lo cumple hoy |
 |---|---|---|
 | Unidad de trabajo | Abrir la transacción, decirle a la base quién es el usuario y confirmar o deshacer | PostgreSQL |
-| Repositorios: cuentas, calendario, citas, pacientes, documentos y tratamientos | Leer y guardar | PostgreSQL |
+| Repositorios: cuentas, calendario, citas, pacientes, documentos, tratamientos y atenciones | Leer y guardar | PostgreSQL |
 | Bitácora | Registrar quién hizo qué | PostgreSQL, en la misma transacción |
 | Archivos | Guardar, borrar y firmar enlaces temporales | Almacenamiento compatible con S3 |
 | Proveedor de IA | Leer una página y responder | Qwen |
@@ -251,7 +258,7 @@ vitalia-proyecto/
         └── comunes/          piezas y funciones compartidas
 ```
 
-Las carpetas `servidor/` y `pantallas/` se crean al empezar la fase de Desarrollo.
+Las carpetas `servidor/` y `pantallas/` se crean al empezar la fase de Desarrollo. Las herramientas concretas, el entorno local y el flujo de entrega están en [09-herramientas-y-entrega.md](09-herramientas-y-entrega.md).
 
 En las pantallas la misma idea se aplica en pequeño: ningún componente llama a la API por su cuenta, todos pasan por `api/`. El navegador puede validar para avisar pronto, por ejemplo las reglas de la contraseña, pero quien decide es el servidor.
 
