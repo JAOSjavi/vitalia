@@ -1,0 +1,68 @@
+# Pruebas automáticas en cada cambio. Orden de diseno/09-herramientas-y-entrega.md, sección 5.
+name: Pruebas
+
+on: push
+
+jobs:
+  servidor:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: servidor
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          # Base desechable que vive solo durante las pruebas: sin contraseñas.
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      BD_URL: postgresql+asyncpg://vitalia_api@localhost:5432/vitalia_dev
+      BD_URL_MIGRACIONES: postgresql+asyncpg://vitalia_migraciones@localhost:5432/vitalia_dev
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --locked
+      - name: Usuarios y base de datos
+        run: |
+          psql -h localhost -U postgres -v ON_ERROR_STOP=1 <<'SQL'
+          CREATE ROLE vitalia_migraciones LOGIN CREATEDB;
+          CREATE ROLE vitalia_api LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOBYPASSRLS;
+          CREATE DATABASE vitalia_dev OWNER vitalia_migraciones;
+          SQL
+      - name: Estilo
+        run: |
+          uv run ruff check .
+          uv run ruff format --check .
+      - name: Tipos
+        run: uv run mypy
+      - name: Regla de dependencia entre capas
+        run: uv run lint-imports
+      - name: Migraciones
+        run: uv run alembic upgrade head
+      - name: Pruebas del servidor
+        run: uv run pytest
+
+  pantallas:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pantallas
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: pantallas/package-lock.json
+      - run: npm ci
+      - name: Pruebas de las pantallas
+        run: npm run test
+      - name: Construcción del sitio
+        run: npm run build

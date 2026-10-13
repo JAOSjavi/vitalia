@@ -1,0 +1,38 @@
+.estado {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px 5px 10px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-estado);
+  background: var(--superficie);
+  box-shadow: var(--sombra-1);
+  color: var(--tinta);
+  font-size: var(--tamano-etiqueta);
+  line-height: 20px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.estado__punto {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: var(--radio-completo);
+}
+
+.estado__punto--verde {
+  background: var(--punto-verde);
+}
+
+.estado__punto--rojo {
+  background: var(--punto-rojo);
+}
+
+.estado__punto--ambar {
+  background: var(--punto-ambar);
+}
+
+.estado__punto--gris {
+  background: var(--punto-gris);
+}

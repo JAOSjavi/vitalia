@@ -1,0 +1,39 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--tinta);
+  font-family: var(--letra-texto);
+  font-size: var(--tamano-texto);
+  line-height: 24px;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: var(--letra-titulo);
+  font-weight: 600;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--acento);
+}
+
+a:hover {
+  color: var(--acento-oscuro);
+}
+
+:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 2px;
+}

@@ -1,0 +1,44 @@
+/* Base visual aprobada: diseno/08-base-visual.md. Ningún componente escribe un color a mano. */
+:root {
+  /* Colores */
+  --fondo: #f1f4f9;
+  --superficie: #ffffff;
+  --tinta: #121c33;
+  --tinta-suave: #4c5973;
+  --linea: #d5dce8;
+  --linea-suave: #e7ecf4;
+  --linea-campo: #7f8ba3;
+  --acento: #1f47b8;
+  --acento-oscuro: #162f7a;
+  --acento-suave: #e3eafb;
+  --punto-verde: #1f9d61;
+  --punto-rojo: #d0392e;
+  --punto-ambar: #d99a00;
+  --punto-gris: #8a94a9;
+  --alerta: #a8211a;
+
+  /* Letras */
+  --letra-titulo: "Zilla Slab", Rockwell, Georgia, serif;
+  --letra-texto: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", Verdana, sans-serif;
+  --letra-dato: "Atkinson Hyperlegible Mono", ui-monospace, Consolas, monospace;
+
+  /* Tamaños de letra */
+  --tamano-etiqueta: 13px;
+  --tamano-secundario: 14.5px;
+  --tamano-texto: 16px;
+  --tamano-texto-medico: 15.5px;
+  --tamano-titulo-tarjeta: 20px;
+  --tamano-titulo-pantalla: 28px;
+
+  /* Formas */
+  --radio-estado: 10px;
+  --radio-campo: 12px;
+  --radio-boton: 14px;
+  --radio-tarjeta: 18px;
+  --radio-completo: 999px;
+
+  /* Sombras */
+  --sombra-1: 0 1px 2px rgba(18, 28, 51, 0.1), 0 2px 6px rgba(18, 28, 51, 0.06);
+  --sombra-2: 0 1px 2px rgba(18, 28, 51, 0.06), 0 8px 24px rgba(18, 28, 51, 0.08);
+  --sombra-acento: 0 6px 16px rgba(31, 71, 184, 0.3);
+}
