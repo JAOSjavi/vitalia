@@ -12,8 +12,9 @@ Cada historia declara de cuáles **depende** (no puede construirse antes) y a cu
 | 4. Citas y panel | Agenda, pacientes, citas de ambas partes | HU-012, HU-013, HU-020, HU-014, HU-015, HU-021, HU-023, HU-024, HU-016, HU-017, HU-022, HU-025, HU-018, HU-019, HU-026 |
 | 5. Documentos | Carga, visor y lectura | HU-028, HU-029, HU-030, HU-031 |
 | 6. Asistente | Autorización, aislamiento, preguntas y resumen | HU-032, HU-033, HU-034, HU-035 |
+| 7. Tratamientos | Registro por el médico y consulta del paciente | HU-038, HU-039 |
 
-Las etapas 4 y 5 pueden avanzar en paralelo: los documentos solo necesitan el ingreso y el almacenamiento.
+Las etapas 4 y 5 pueden avanzar en paralelo: los documentos solo necesitan el ingreso y el almacenamiento. La etapa 7 solo necesita la ficha del paciente, así que puede adelantarse a la 5 y la 6.
 
 ## Las que más desbloquean
 
@@ -26,6 +27,7 @@ Las etapas 4 y 5 pueden avanzar en paralelo: los documentos solo necesitan el in
 | **HU-021** Panel de inicio con la agenda del día | 4 historias: HU-017, HU-018, HU-022, HU-026 |
 | **HU-001** Configuración inicial del consultorio | 3 historias: HU-004, HU-008, HU-010 |
 | **HU-023** Lista y búsqueda de pacientes | 3 historias: HU-016, HU-024, HU-025 |
+| **HU-025** Ficha del paciente | 3 historias: HU-030, HU-034, HU-038 |
 | **HU-028** Subir mis historias clínicas | 3 historias: HU-029, HU-030, HU-031 |
 
 ## Cadena completa
@@ -56,7 +58,7 @@ Las etapas 4 y 5 pueden avanzar en paralelo: los documentos solo necesitan el in
 | **HU-022** Vista de calendario semanal y mensual | E4 | HU-009, HU-021 | — |
 | **HU-023** Lista y búsqueda de pacientes | E4 | HU-006 | HU-016, HU-024, HU-025 |
 | **HU-024** Registrar un paciente desde el panel | E4 | HU-003, HU-023 | — |
-| **HU-025** Ficha del paciente | E4 | HU-023 | HU-030, HU-034 |
+| **HU-025** Ficha del paciente | E4 | HU-023 | HU-030, HU-034, HU-038 |
 | **HU-026** Botón de cobro sin función | E4 | HU-021 | — |
 | **HU-027** Almacenamiento privado con enlace temporal | E5 | HU-006 | HU-028 |
 | **HU-028** Subir mis historias clínicas | E5 | HU-004, HU-027 | HU-029, HU-030, HU-031 |
@@ -69,6 +71,8 @@ Las etapas 4 y 5 pueden avanzar en paralelo: los documentos solo necesitan el in
 | **HU-035** Resumen del paciente con un clic | E6 | HU-034 | — |
 | **HU-036** Permisos por fila en la base de datos | E7 | HU-006 | — |
 | **HU-037** Bitácora de auditoría | E7 | HU-006 | — |
+| **HU-038** Registrar el tratamiento de un paciente | E8 | HU-025 | HU-039 |
+| **HU-039** Ver mis tratamientos | E8 | HU-038 | — |
 
 ## Cadenas críticas
 
@@ -92,7 +96,7 @@ HU-027 almacenamiento → HU-028 subir → HU-031 lectura
        → HU-032 autorización → HU-033 aislamiento → HU-034 preguntar → HU-035 resumen
 ```
 
-La tercera cadena es la más larga y la de mayor incertidumbre técnica: la calidad de la lectura (HU-031) condiciona todo lo que sigue. Conviene probarla temprano con documentos reales.
+La tercera cadena es la más larga y la de mayor incertidumbre técnica: la calidad de la lectura (HU-031) condiciona todo lo que sigue. Conviene probarla temprano, con documentos inventados o anonimizados que se parezcan a los reales.
 
 ---
 

@@ -1,0 +1,22 @@
+# Claves y configuración local: nunca al repositorio
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Node
+node_modules/
+dist/
+
+# Sistema y editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

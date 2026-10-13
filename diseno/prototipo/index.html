@@ -1,0 +1,941 @@
+<title>Prototipo Vitalia</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;600&family=Atkinson+Hyperlegible+Next:wght@400;600;700&family=Zilla+Slab:wght@500;600;700&display=swap">
+<style>
+/* Disposición: barra con cambio de rol; el paciente vive en una columna de celular y el médico en un panel con menú lateral. */
+:root{
+  --papel:#f2f5fa; --superficie:#ffffff; --hundido:#e6ecf5; --tinta:#14213a; --tinta-suave:#4a5872; --linea:#ccd6e5;
+  --acento:#1f47b8; --acento-suave:#e1e9fc; --sobre-acento:#ffffff;
+  --ok:#136c45; --ok-suave:#d8f1e4; --aviso:#7a5000; --aviso-suave:#fbecc6; --alerta:#a8211a; --alerta-suave:#fbdfdc;
+  --hoja-doc:#ffffff; --tinta-doc:#1c2333; --resalte:#ffe27a; --velo:rgba(20,33,58,.55);
+  --f-titulo:"Zilla Slab",Rockwell,Georgia,serif;
+  --f-texto:"Atkinson Hyperlegible Next","Atkinson Hyperlegible",Verdana,system-ui,sans-serif;
+  --f-dato:"Atkinson Hyperlegible Mono",ui-monospace,Consolas,monospace;
+  --radio:6px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --papel:#0e1420; --superficie:#161e2e; --hundido:#1f293c; --tinta:#e7ecf6; --tinta-suave:#a2afc6; --linea:#2d394f;
+  --acento:#93b2ff; --acento-suave:#1c2a4a; --sobre-acento:#0e1420;
+  --ok:#74d6a7; --ok-suave:#133125; --aviso:#f1c466; --aviso-suave:#392d10; --alerta:#ff9f96; --alerta-suave:#3c1a17; --velo:rgba(0,0,0,.62);
+  color-scheme:dark } }
+:root[data-theme="dark"]{
+  --papel:#0e1420; --superficie:#161e2e; --hundido:#1f293c; --tinta:#e7ecf6; --tinta-suave:#a2afc6; --linea:#2d394f;
+  --acento:#93b2ff; --acento-suave:#1c2a4a; --sobre-acento:#0e1420;
+  --ok:#74d6a7; --ok-suave:#133125; --aviso:#f1c466; --aviso-suave:#392d10; --alerta:#ff9f96; --alerta-suave:#3c1a17; --velo:rgba(0,0,0,.62);
+  color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--papel);color:var(--tinta);font-family:var(--f-texto);font-size:16px;line-height:1.5}
+h1,h2,h3{font-family:var(--f-titulo);font-weight:600;line-height:1.2;margin:0;text-wrap:balance}
+h1{font-size:1.6rem} h2{font-size:1.2rem} h3{font-size:1.02rem}
+p{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--acento);outline-offset:2px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+.app{max-width:1160px;margin-inline:auto;padding-inline:16px;padding-block:16px 40px;display:flex;flex-direction:column;gap:16px}
+.barra{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-bottom:12px;border-bottom:2px solid var(--tinta)}
+.marca{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;font-family:var(--f-titulo);font-size:1.5rem;font-weight:700}
+.marca small{font-family:var(--f-texto);font-size:.82rem;font-weight:400;color:var(--tinta-suave)}
+.ver-como{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--tinta-suave)}
+.segmento{display:inline-flex;border:1px solid var(--tinta);border-radius:var(--radio);overflow:hidden}
+.segmento button{border:0;background:transparent;padding:8px 16px;cursor:pointer;min-height:44px;font-weight:600;color:var(--tinta)}
+.segmento button[aria-pressed="true"]{background:var(--tinta);color:var(--papel)}
+
+.pila{display:flex;flex-direction:column;gap:14px}
+.suave{color:var(--tinta-suave)} .chica{font-size:.88rem}
+.dato{font-family:var(--f-dato);font-variant-numeric:tabular-nums}
+.hoja{background:var(--superficie);border:1px solid var(--linea);border-radius:var(--radio);padding:16px;min-width:0}
+.encabezado{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 12px}
+.botones{display:flex;flex-wrap:wrap;gap:8px}
+.boton{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:8px 16px;border-radius:var(--radio);border:1px solid var(--linea);background:var(--superficie);cursor:pointer;font-weight:600;text-align:center}
+.boton.primario{background:var(--acento);border-color:var(--acento);color:var(--sobre-acento)}
+.boton.peligro{color:var(--alerta);border-color:var(--alerta)}
+.boton.chico{min-height:36px;padding:4px 12px;font-size:.9rem}
+.boton:disabled{opacity:.5;cursor:not-allowed}
+.enlace{background:none;border:0;padding:0;color:var(--acento);text-decoration:underline;cursor:pointer;font-weight:600;text-align:left}
+.fila-enlaces{display:flex;flex-wrap:wrap;gap:8px 20px}
+.pildora{display:inline-block;padding:2px 10px;border-radius:999px;font-size:.8rem;font-weight:600;white-space:nowrap;background:var(--hundido);color:var(--tinta-suave)}
+.pildora.p-ok{background:var(--ok-suave);color:var(--ok)}
+.pildora.p-aviso{background:var(--aviso-suave);color:var(--aviso)}
+.pildora.p-alerta{background:var(--alerta-suave);color:var(--alerta)}
+.pildora.p-acento{background:var(--acento-suave);color:var(--acento)}
+.nota{padding:12px 14px;border-radius:var(--radio);background:var(--hundido);font-size:.95rem}
+.nota.n-ok{background:var(--ok-suave);color:var(--ok)}
+.nota.n-aviso{background:var(--aviso-suave);color:var(--aviso)}
+.nota.n-alerta{background:var(--alerta-suave);color:var(--alerta)}
+.campo{display:flex;flex-direction:column;gap:4px;min-width:0}
+.campo label{font-weight:600;font-size:.9rem}
+input,select,textarea{min-height:44px;padding:8px 10px;border:1px solid var(--linea);border-radius:var(--radio);background:var(--superficie);max-width:100%}
+input[type="checkbox"]{min-height:0;width:22px;height:22px;flex:none}
+.marcar{display:flex;gap:10px;align-items:flex-start}
+.rejilla2{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.lista-def{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 16px;margin:0}
+.lista-def dt{color:var(--tinta-suave);font-size:.9rem} .lista-def dd{margin:0}
+
+/* Paciente */
+.movil{max-width:440px;width:100%;margin-inline:auto;display:flex;flex-direction:column;gap:16px}
+.pestanas{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--linea);border-radius:var(--radio);overflow:hidden;background:var(--superficie)}
+.pestanas button{border:0;background:transparent;padding:10px 2px;min-height:48px;cursor:pointer;font-weight:600;font-size:.82rem;color:var(--tinta-suave);min-width:0;overflow-wrap:anywhere}
+.pestanas button[aria-current="true"]{background:var(--acento-suave);color:var(--acento)}
+.boleta{background:var(--acento);color:var(--sobre-acento);border-radius:var(--radio);padding:16px;display:flex;flex-direction:column;gap:8px}
+.boleta .rotulo{font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;opacity:.85}
+.boleta .cuando{font-family:var(--f-titulo);font-size:1.35rem;font-weight:600;line-height:1.2}
+.boleta .boton{background:transparent;color:inherit;border-color:currentColor}
+.accesos{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.opcion{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;min-height:52px;padding:10px 14px;border:1px solid var(--linea);border-radius:var(--radio);background:var(--superficie);cursor:pointer;text-align:left;font-weight:600}
+.opcion span{font-weight:400;color:var(--tinta-suave);font-size:.9rem;white-space:nowrap}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:40px;padding:6px 12px;border:1px solid var(--linea);border-radius:999px;background:var(--superficie);cursor:pointer;font-size:.92rem}
+.chip[aria-pressed="true"]{background:var(--tinta);color:var(--papel);border-color:var(--tinta)}
+.espacios{display:grid;grid-template-columns:repeat(auto-fill,minmax(98px,1fr));gap:8px}
+.espacio{min-height:44px;border:1px solid var(--linea);border-radius:var(--radio);background:var(--superficie);cursor:pointer;font-family:var(--f-dato);font-size:.88rem}
+.espacio:disabled{text-decoration:line-through;opacity:.45;cursor:not-allowed}
+.espacio[aria-pressed="true"]{background:var(--acento);border-color:var(--acento);color:var(--sobre-acento)}
+.pasos{display:flex;gap:6px}
+.pasos i{flex:1;height:4px;border-radius:2px;background:var(--linea)}
+.pasos i.hecho{background:var(--acento)}
+.elemento{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 10px;align-items:center;padding:12px 0;border-top:1px solid var(--linea)}
+.elemento:first-child{border-top:0;padding-top:0}
+.elemento b{display:block}
+.elemento .abajo{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px}
+
+/* Médico */
+.panel{display:grid;grid-template-columns:196px minmax(0,1fr);gap:24px;align-items:start}
+.menu{display:flex;flex-direction:column;gap:4px}
+.menu button{text-align:left;border:0;background:transparent;padding:10px 12px;border-radius:var(--radio);cursor:pointer;min-height:44px;color:var(--tinta-suave);font-weight:600}
+.menu button[aria-current="true"]{background:var(--acento-suave);color:var(--acento)}
+.menu .quien{margin-top:12px;padding:12px;border-top:1px solid var(--linea);font-size:.88rem;color:var(--tinta-suave)}
+.contenido{display:flex;flex-direction:column;gap:16px;min-width:0}
+.fila{display:grid;grid-template-columns:118px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--linea)}
+.fila:first-child{border-top:0}
+.fila .h{font-family:var(--f-dato);font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.fila .quien{min-width:0}
+.fila .quien span{display:block;color:var(--tinta-suave);font-size:.9rem}
+.fila .acc{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;align-items:center}
+.fila .ancho{grid-column:1/-1}
+.dos{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:16px;align-items:start}
+.desliza{overflow-x:auto}
+.semana{display:grid;grid-template-columns:94px repeat(5,minmax(128px,1fr));min-width:734px;border:1px solid var(--linea);border-radius:var(--radio);background:var(--superficie)}
+.semana .cab{padding:8px;font-weight:700;border-bottom:1px solid var(--linea);text-align:center;font-size:.92rem}
+.semana .cab.hoy{color:var(--acento)}
+.semana .hh{padding:8px 6px;font-family:var(--f-dato);font-size:.74rem;color:var(--tinta-suave);border-top:1px solid var(--linea);white-space:nowrap}
+.celda{border-top:1px solid var(--linea);border-left:1px solid var(--linea);min-height:44px;padding:3px;display:flex;flex-direction:column;gap:3px;font-size:.8rem}
+.celda.fuera{background:var(--hundido)}
+.celda.bloq{background:repeating-linear-gradient(135deg,var(--hundido) 0 6px,transparent 6px 12px);color:var(--tinta-suave);justify-content:center;text-align:center}
+.celda .libre{flex:1;border:0;background:transparent;cursor:pointer;color:var(--tinta-suave);min-height:36px;border-radius:4px}
+.celda .libre:hover{background:var(--acento-suave);color:var(--acento)}
+.celda .libre[aria-pressed="true"]{background:var(--acento);color:var(--sobre-acento)}
+.ficha-c{border:0;background:var(--acento-suave);color:var(--tinta);padding:3px 6px;border-radius:4px;text-align:left;cursor:pointer;font-size:.8rem;line-height:1.3}
+.ficha-c.hecha{background:var(--ok-suave)}
+.mes{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border:1px solid var(--linea);border-radius:var(--radio);overflow:hidden;background:var(--superficie)}
+.mes > *{min-height:66px;padding:6px;border:0;border-top:1px solid var(--linea);border-left:1px solid var(--linea);border-radius:0;font-size:.8rem;min-width:0;overflow-wrap:anywhere;text-align:left;background:transparent;color:inherit}
+.mes .cab{min-height:0;font-weight:700;text-align:center;border-top:0}
+.mes .n{font-family:var(--f-dato);font-weight:600;display:block}
+.mes .es-hoy .n{color:var(--acento)}
+.mes .vacio{background:var(--hundido)}
+.mes button.dia{cursor:pointer;display:block;width:100%}
+.mes button.dia:hover{background:var(--acento-suave)}
+.med{padding:12px 0 0;border-top:1px solid var(--linea);display:flex;flex-direction:column;gap:4px}
+.como{background:var(--acento-suave);padding:8px 10px;border-radius:var(--radio)}
+.como b,.elemento .como b{display:inline}
+.elemento .detalle{flex-direction:column;flex-wrap:nowrap;gap:12px}
+.lista-simple{margin:0;padding-left:18px}
+.grupo{border:1px solid var(--linea);border-radius:var(--radio);padding:12px;margin:0;min-width:0;display:flex;flex-direction:column;gap:12px}
+.velo{position:fixed;inset:0;z-index:10;background:var(--velo);display:flex;align-items:center;justify-content:center;padding:calc(16px + env(safe-area-inset-top,0px)) 16px calc(16px + env(safe-area-inset-bottom,0px))}
+.modal{background:var(--superficie);color:var(--tinta);border:1px solid var(--linea);border-radius:var(--radio);max-width:540px;width:100%;max-height:100%;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px}
+.puntos{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:10px}
+.puntos .clave{border:2px solid var(--acento);background:var(--acento-suave);border-radius:var(--radio);padding:10px 12px}
+.chat{display:flex;flex-direction:column;gap:10px}
+.burbuja{padding:10px 12px;border-radius:var(--radio);overflow-wrap:anywhere}
+.burbuja.pregunta{align-self:flex-end;background:var(--acento-suave);max-width:90%}
+.burbuja.respuesta{background:var(--hundido)}
+.origen{display:inline-block;font-family:var(--f-dato);font-size:.76rem;padding:1px 6px;border:1px solid var(--acento);color:var(--acento);border-radius:4px;background:transparent;cursor:pointer;margin-left:4px}
+.pregunta-linea{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+.resumen h3{margin-top:10px}
+.resumen ul{margin:4px 0 0;padding-left:18px}
+.visor-barra{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.pagina{background:var(--hoja-doc);color:var(--tinta-doc);border:1px solid var(--linea);padding:28px 24px;border-radius:2px;max-width:640px;width:100%;margin-inline:auto;min-height:380px;display:flex;flex-direction:column;gap:12px;font-size:calc(.95rem * var(--zoom,1));overflow-wrap:anywhere}
+.pagina mark{background:var(--resalte);color:inherit;padding:0 2px}
+.pagina .membrete{font-family:var(--f-titulo);font-weight:700;border-bottom:1px solid var(--tinta-doc);padding-bottom:8px}
+.tabla{width:100%;border-collapse:collapse;min-width:580px;font-size:.92rem}
+.tabla th,.tabla td{text-align:left;padding:8px 10px;border-top:1px solid var(--linea);vertical-align:top}
+.tabla th{border-top:0;color:var(--tinta-suave);font-size:.82rem;letter-spacing:.04em;text-transform:uppercase}
+.pie{font-size:.85rem;color:var(--tinta-suave);border-top:1px solid var(--linea);padding-top:12px;display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center}
+.hu{font-family:var(--f-dato);font-size:.76rem;padding:1px 6px;border:1px solid var(--linea);border-radius:4px}
+
+@media (max-width:900px){.dos{grid-template-columns:1fr}}
+@media (max-width:820px){
+  .panel{grid-template-columns:1fr;gap:12px}
+  .menu{flex-direction:row;overflow-x:auto;padding-bottom:4px}
+  .menu button{white-space:nowrap}
+  .menu .quien{display:none}
+}
+@media (max-width:560px){
+  .fila{grid-template-columns:102px minmax(0,1fr)}
+  .fila .h{font-size:.88rem}
+  .fila .acc{grid-column:1/-1;justify-content:flex-start}
+  .accesos{grid-template-columns:1fr}
+}
+</style>
+
+<div class="app">
+  <header class="barra">
+    <div class="marca">Vitalia <small>Prototipo navegable · datos de ejemplo</small></div>
+    <div class="ver-como">
+      <span id="rotulo-rol">Solo en el prototipo: ver como</span>
+      <div class="segmento" role="group" aria-labelledby="rotulo-rol">
+        <button id="rol-paciente" data-a="rol" data-r="paciente" aria-pressed="false">Paciente</button>
+        <button id="rol-medico" data-a="rol" data-r="medico" aria-pressed="true">Médico</button>
+      </div>
+    </div>
+  </header>
+  <main id="lienzo"></main>
+  <footer class="pie" id="pie"></footer>
+</div>
+
+<script>
+(function () {
+'use strict';
+
+/* ---------- Fechas ---------- */
+var DIAS = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+var DIAS_C = ['dom','lun','mar','mié','jue','vie','sáb'];
+var MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+var MESES_C = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+function f(y, m, d, h, mi) { return new Date(y, m - 1, d, h || 0, mi || 0); }
+var AHORA = f(2026, 10, 13, 7, 40);
+var HOY = f(2026, 10, 13);
+function p2(n) { return String(n).padStart(2, '0'); }
+function hora(d) { var h = d.getHours(), s = h < 12 ? 'a. m.' : 'p. m.'; h = h % 12 || 12; return h + ':' + p2(d.getMinutes()) + ' ' + s; }
+function fechaL(d) { return DIAS[d.getDay()] + ' ' + d.getDate() + ' de ' + MESES[d.getMonth()]; }
+function fechaC(d) { return DIAS_C[d.getDay()] + ' ' + d.getDate() + ' ' + MESES_C[d.getMonth()]; }
+function fechaN(d) { return d.getDate() + ' ' + MESES_C[d.getMonth()] + ' ' + d.getFullYear(); }
+function soloDia(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+function mas(d, n) { return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n); }
+function mismoDia(a, b) { return soloDia(a).getTime() === soloDia(b).getTime(); }
+function aHora(dia, hm) { var p = hm.split(':'); return new Date(dia.getFullYear(), dia.getMonth(), dia.getDate(), +p[0], +p[1]); }
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+function mayus(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+/* ---------- Datos de ejemplo ---------- */
+var S = {
+  consultorio: { nombre: 'Consultorio Dra. Camila Ríos', direccion: 'Cra. 15 # 93-47, consultorio 304, Bogotá', telefono: '601 555 0134', medico: 'Camila Ríos Pardo', registro: 'RM 79-4521', anticipacion: 24, margen: 60 },
+  horario: { 0: [], 1: [['08:00','12:00'],['14:00','17:00']], 2: [['08:00','12:00'],['14:00','17:00']], 3: [['08:00','12:00'],['14:00','17:00']], 4: [['08:00','12:00'],['14:00','17:00']], 5: [['08:00','12:00'],['14:00','17:00']], 6: [] },
+  bloqueos: [
+    { id: 'b1', inicio: f(2026,10,12,0,0), fin: f(2026,10,12,23,59), motivo: 'Festivo' },
+    { id: 'b2', inicio: f(2026,10,16,14,0), fin: f(2026,10,16,17,0), motivo: 'Congreso médico' }
+  ],
+  tipos: [
+    { id: 't1', nombre: 'Consulta general', min: 30, activo: true },
+    { id: 't2', nombre: 'Control', min: 20, activo: true },
+    { id: 't3', nombre: 'Lectura de exámenes', min: 15, activo: false }
+  ],
+  pacientes: [
+    { id: 'p1', nombres: 'Rosa Elena', apellidos: 'Duarte Gómez', doc: 'CC 41 652 318', nace: f(1958,4,22), cel: '300 555 0142', correo: 'rosa.duarte@ejemplo.co', ia: 'aceptada', cuenta: 'Activa' },
+    { id: 'p2', nombres: 'Carlos', apellidos: 'Muñoz Arias', doc: 'CC 79 301 554', nace: f(1965,9,3), cel: '310 555 0177', correo: 'carlos.munoz@ejemplo.co', ia: 'pendiente', cuenta: 'Activa' },
+    { id: 'p3', nombres: 'Luz Marina', apellidos: 'Rojas Pinzón', doc: 'CC 52 118 907', nace: f(1979,1,17), cel: '311 555 0109', correo: 'luz.rojas@ejemplo.co', ia: 'pendiente', cuenta: 'Activa' },
+    { id: 'p4', nombres: 'Jorge', apellidos: 'Salazar Peña', doc: 'CC 80 044 213', nace: f(1971,11,30), cel: '315 555 0161', correo: 'jorge.salazar@ejemplo.co', ia: 'rechazada', cuenta: 'Activa' },
+    { id: 'p5', nombres: 'Ana', apellidos: 'Villamil Torres', doc: 'CC 1 020 733 418', nace: f(1994,6,8), cel: '320 555 0125', correo: 'ana.villamil@ejemplo.co', ia: 'pendiente', cuenta: 'Activa' },
+    { id: 'p6', nombres: 'Pedro', apellidos: 'Lozano Ruiz', doc: 'CC 19 455 620', nace: f(1952,2,14), cel: '301 555 0188', correo: 'pedro.lozano@ejemplo.co', ia: 'pendiente', cuenta: 'Sin activar' }
+  ],
+  citas: [
+    { id: 'c1', pac: 'p2', tipo: 't2', inicio: f(2026,10,13,8,0), min: 20, estado: 'confirmada', cambios: [] },
+    { id: 'c2', pac: 'p3', tipo: 't1', inicio: f(2026,10,13,8,30), min: 30, estado: 'confirmada', cambios: [] },
+    { id: 'c3', pac: 'p1', tipo: 't1', inicio: f(2026,10,13,9,30), min: 30, estado: 'confirmada', cambios: [] },
+    { id: 'c4', pac: 'p4', tipo: 't2', inicio: f(2026,10,13,10,30), min: 20, estado: 'confirmada', cambios: [] },
+    { id: 'c5', pac: 'p5', tipo: 't1', inicio: f(2026,10,13,14,0), min: 30, estado: 'confirmada', cambios: [] },
+    { id: 'c6', pac: 'p6', tipo: 't2', inicio: f(2026,10,13,15,0), min: 20, estado: 'confirmada', cambios: [] },
+    { id: 'c7', pac: 'p3', tipo: 't2', inicio: f(2026,10,14,9,0), min: 20, estado: 'confirmada', cambios: [] },
+    { id: 'c8', pac: 'p6', tipo: 't1', inicio: f(2026,10,14,11,0), min: 30, estado: 'confirmada', cambios: [] },
+    { id: 'c9', pac: 'p2', tipo: 't1', inicio: f(2026,10,15,8,30), min: 30, estado: 'confirmada', cambios: [] },
+    { id: 'c10', pac: 'p5', tipo: 't2', inicio: f(2026,10,15,15,20), min: 20, estado: 'confirmada', cambios: [] },
+    { id: 'c11', pac: 'p1', tipo: 't2', inicio: f(2026,10,19,10,0), min: 20, estado: 'confirmada', cambios: [] },
+    { id: 'c12', pac: 'p1', tipo: 't1', inicio: f(2026,9,14,9,0), min: 30, estado: 'atendida', cambios: [] },
+    { id: 'c13', pac: 'p1', tipo: 't2', inicio: f(2026,8,3,15,0), min: 20, estado: 'cancelada', motivo: 'La doctora estuvo en una urgencia', cambios: [] },
+    { id: 'c14', pac: 'p4', tipo: 't1', inicio: f(2026,10,6,9,0), min: 30, estado: 'no_asistio', cambios: [] }
+  ],
+  docs: [
+    { id: 'd1', pac: 'p1', nombre: 'Epicrisis — Clínica del Norte', fecha: f(2025,3,14), tipo: 'Historia clínica', formato: 'PDF', lectura: 'legible', subido: f(2026,9,2), paginas: [
+      ['Clínica del Norte · Epicrisis', 'Paciente de 66 años que ingresa por dolor en hipocondrio derecho de tres días de evolución.', 'Antecedentes: hipertensión arterial. Alergias: penicilina (reacción cutánea).', 'Diagnóstico de ingreso: colelitiasis sintomática (K80.2).'],
+      ['Clínica del Norte · Epicrisis', 'Procedimiento: colecistectomía por laparoscopia realizada el 12 de marzo de 2025, sin complicaciones.', 'Hallazgos: vesícula con múltiples cálculos, sin signos de perforación.'],
+      ['Clínica del Norte · Epicrisis', 'Egreso el 14 de marzo de 2025 en buen estado general.', 'Indicaciones: dieta baja en grasa por cuatro semanas y control por cirugía general en diez días.']
+    ] },
+    { id: 'd2', pac: 'p1', nombre: 'Control de medicina interna', fecha: f(2026,6,2), tipo: 'Historia clínica', formato: 'PDF', lectura: 'legible', subido: f(2026,9,2), paginas: [
+      ['Centro Médico La Sabana · Medicina interna', 'Control de medicina interna del 2 de junio de 2026.', 'Diagnósticos: hipertensión arterial (I10) y diabetes mellitus tipo 2 (E11.9).', 'Presión arterial: 146/88 mmHg. Peso: 71 kg.', 'Tratamiento actual: losartán 50 mg cada 12 horas y metformina 850 mg con el almuerzo.'],
+      ['Centro Médico La Sabana · Medicina interna', 'Hemoglobina glicosilada del 20 de mayo de 2026: 7,4 %.', 'Plan: continuar manejo, solicitar perfil lipídico y creatinina, control en tres meses.']
+    ] },
+    { id: 'd3', pac: 'p1', nombre: 'Laboratorios — perfil lipídico y glicemia', fecha: f(2026,8,20), tipo: 'Examen', formato: 'Foto', lectura: 'legible', subido: f(2026,9,28), paginas: [
+      ['Laboratorio Clínico Central · 20 de agosto de 2026', 'Colesterol total: 212 mg/dL. LDL: 138 mg/dL. HDL: 44 mg/dL. Triglicéridos: 180 mg/dL.', 'Glicemia en ayunas: 132 mg/dL. Creatinina: 0,9 mg/dL.']
+    ] },
+    { id: 'd4', pac: 'p1', nombre: 'Fórmula médica (foto)', fecha: f(2026,6,2), tipo: 'Fórmula', formato: 'Foto', lectura: 'no_legible', subido: f(2026,9,28), paginas: [] }
+  ],
+  bitacora: [
+    { fecha: f(2026,10,13,7,32), quien: 'Dra. Camila Ríos', rol: 'Médico', pac: null, accion: 'Ingresó al sistema' },
+    { fecha: f(2026,10,12,18,5), quien: 'Rosa Elena Duarte', rol: 'Paciente', pac: 'p1', accion: 'Abrió un documento: Laboratorios — perfil lipídico y glicemia' },
+    { fecha: f(2026,10,9,16,41), quien: 'Dra. Camila Ríos', rol: 'Médico', pac: 'p1', accion: 'Hizo una consulta al asistente' },
+    { fecha: f(2026,10,9,16,38), quien: 'Dra. Camila Ríos', rol: 'Médico', pac: 'p1', accion: 'Abrió la ficha del paciente' },
+    { fecha: f(2026,10,6,9,20), quien: 'Dra. Camila Ríos', rol: 'Médico', pac: 'p4', accion: 'Marcó la cita como "no asistió"' },
+    { fecha: f(2026,9,28,20,12), quien: 'Rosa Elena Duarte', rol: 'Paciente', pac: 'p1', accion: 'Subió un documento: Fórmula médica (foto)' }
+  ],
+  tratamientos: [
+    { id: 'r1', pac: 'p1', fecha: f(2026,9,14), motivo: 'Control de hipertensión y diabetes', meds: [
+      { nombre: 'Losartán 50 mg, tableta', dosis: '1 tableta', frecuencia: 'Cada 12 horas', dias: 90, modo: 'Después del desayuno y después de la cena, con un vaso de agua.' },
+      { nombre: 'Metformina 850 mg, tableta', dosis: '1 tableta', frecuencia: 'Una vez al día', dias: 90, modo: 'Con el almuerzo. No la tome en ayunas.' }
+    ], indicaciones: 'Reduzca la sal en las comidas y camine 30 minutos al día. Traiga los laboratorios al próximo control.' },
+    { id: 'r0', pac: 'p1', fecha: f(2026,3,9), motivo: 'Gripa', meds: [
+      { nombre: 'Acetaminofén 500 mg, tableta', dosis: '1 tableta', frecuencia: 'Cada 8 horas', dias: 5, modo: 'Solo si tiene fiebre o dolor. No pase de 3 tabletas al día.' }
+    ], indicaciones: 'Tome bastante líquido y descanse. Consulte si la fiebre dura más de tres días.' }
+  ]
+};
+var sec = 100, reloj = 0;
+
+/* ---------- Estado de la pantalla ---------- */
+var E = {
+  rol: 'medico', sesionP: true, vp: 'inicio', vm: 'hoy',
+  aviso: null, confirmar: null,
+  ag: { modo: 'nueva', paso: 1, tipo: null, dia: null, slot: null, cita: null, pac: 'p1' },
+  reg: { paso: 1, error: null }, recuperado: false, tratAbierto: null,
+  pacSel: 'p1', docSel: null, pagSel: 1, resaltar: null, zoom: 1,
+  chat: {}, resumen: {}, pensando: false,
+  cal: { modo: 'semana', lunes: f(2026,10,12), dia: HOY, mes: f(2026,10,1), nueva: null },
+  cfg: 'horario', cfgError: null, busca: '', bitPac: ''
+};
+
+/* ---------- Utilidades de datos ---------- */
+function pac(id) { return S.pacientes.filter(function (x) { return x.id === id; })[0]; }
+function nomPac(id) { var p = pac(id); return p ? p.nombres + ' ' + p.apellidos : ''; }
+function tipo(id) { return S.tipos.filter(function (x) { return x.id === id; })[0]; }
+function cita(id) { return S.citas.filter(function (x) { return x.id === id; })[0]; }
+function docu(id) { return S.docs.filter(function (x) { return x.id === id; })[0]; }
+function finC(c) { return new Date(c.inicio.getTime() + c.min * 60000); }
+function edad(p) { var a = AHORA.getFullYear() - p.nace.getFullYear(); if (AHORA < new Date(AHORA.getFullYear(), p.nace.getMonth(), p.nace.getDate())) a--; return a; }
+var EST = { confirmada: ['Confirmada','p-acento'], cancelada: ['Cancelada','p-alerta'], atendida: ['Atendida','p-ok'], no_asistio: ['No asistió','p-aviso'] };
+var LEC = { legible: ['Legible','p-ok'], no_legible: ['No legible','p-alerta'], en_proceso: ['En proceso','p-aviso'], sin_leer: ['Sin leer',''] };
+var IA = { aceptada: ['Autorizada','p-ok'], rechazada: ['No autorizada','p-alerta'], retirada: ['Retirada','p-alerta'], pendiente: ['Sin responder','p-aviso'] };
+function pildora(par) { return '<span class="pildora ' + par[1] + '">' + par[0] + '</span>'; }
+function anotar(accion, pacId) {
+  reloj++;
+  S.bitacora.unshift({ fecha: new Date(AHORA.getTime() + reloj * 60000), quien: E.rol === 'medico' ? 'Dra. Camila Ríos' : 'Rosa Elena Duarte', rol: E.rol === 'medico' ? 'Médico' : 'Paciente', pac: pacId || null, accion: accion });
+}
+function choca(ini, min, ignorar) {
+  var fin = new Date(ini.getTime() + min * 60000);
+  return S.citas.some(function (c) { return c.id !== ignorar && c.estado !== 'cancelada' && c.inicio < fin && finC(c) > ini; });
+}
+function bloqueado(ini, min) {
+  var fin = new Date(ini.getTime() + min * 60000);
+  return S.bloqueos.filter(function (b) { return b.inicio < fin && b.fin > ini; })[0] || null;
+}
+function enHorario(ini, min) {
+  var fin = new Date(ini.getTime() + min * 60000);
+  return (S.horario[ini.getDay()] || []).some(function (fr) { return aHora(ini, fr[0]) <= ini && aHora(ini, fr[1]) >= fin; });
+}
+/* Espacios de un día para un tipo de cita. Al paciente no se le ofrece lo que empieza en menos de una hora. */
+function espacios(dia, min, paraPaciente, ignorar) {
+  var res = [];
+  (S.horario[dia.getDay()] || []).forEach(function (fr) {
+    var t = aHora(dia, fr[0]), fin = aHora(dia, fr[1]);
+    while (t.getTime() + min * 60000 <= fin.getTime()) {
+      var pronto = paraPaciente ? t.getTime() < AHORA.getTime() + S.consultorio.margen * 60000 : t.getTime() < AHORA.getTime();
+      res.push({ t: new Date(t), libre: !choca(t, min, ignorar) && !bloqueado(t, min) && !pronto });
+      t = new Date(t.getTime() + min * 60000);
+    }
+  });
+  return res;
+}
+/* Próximos días que tienen al menos un espacio libre para ese tipo de cita. */
+function diasConEspacio(min, paraPaciente, ignorar) {
+  var r = [], d = new Date(HOY), n = 0;
+  while (r.length < 6 && n < 45) { if (espacios(d, min, paraPaciente, ignorar).some(function (e) { return e.libre; })) r.push(new Date(d)); d = mas(d, 1); n++; }
+  return r;
+}
+function tratDe(pacId) { return S.tratamientos.filter(function (t) { return t.pac === pacId; }).sort(function (a, b) { return b.fecha - a.fecha; }); }
+function hastaT(t) { return mas(t.fecha, Math.max.apply(null, t.meds.map(function (m) { return m.dias; }))); }
+function estadoT(t) { return hastaT(t) >= HOY ? ['Vigente', 'p-ok'] : ['Terminado', '']; }
+function irDia(d) { E.cal.dia = soloDia(d); E.cal.lunes = mas(E.cal.dia, -((E.cal.dia.getDay() + 6) % 7)); E.cal.mes = new Date(d.getFullYear(), d.getMonth(), 1); }
+function puedeCambiar(c) { return c.inicio.getTime() - AHORA.getTime() > S.consultorio.anticipacion * 3600000; }
+function citasDe(pacId) { return S.citas.filter(function (c) { return c.pac === pacId; }); }
+function proximas(lista) { return lista.filter(function (c) { return c.estado === 'confirmada' && finC(c) >= AHORA; }).sort(function (a, b) { return a.inicio - b.inicio; }); }
+function pasadas(lista) { return lista.filter(function (c) { return !(c.estado === 'confirmada' && finC(c) >= AHORA); }).sort(function (a, b) { return b.inicio - a.inicio; }); }
+function docsDe(pacId) { return S.docs.filter(function (d) { return d.pac === pacId; }); }
+function avisoHtml() { return E.aviso ? '<p class="nota ' + E.aviso.c + '" role="status">' + E.aviso.t + '</p>' : ''; }
+
+/* ---------- Asistente (respuestas de ejemplo) ---------- */
+function sinTildes(s) { return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+function responder(pacId, pregunta) {
+  var q = sinTildes(pregunta);
+  if (pacId !== 'p1') return [{ t: 'No aparece en los documentos.' }];
+  if (/recomiend|deberia|que (tratamiento|medicamento) (le )?(doy|pongo|inicio|formulo)|que diagnostico (le )?(pongo|das|dar)/.test(q))
+    return [{ t: 'Solo puedo resumir lo que está escrito en los documentos. No doy diagnósticos ni recomiendo tratamientos; esa decisión es suya.' }];
+  if (/procedim|cirug|opera/.test(q))
+    return [{ t: 'El único procedimiento registrado es una colecistectomía por laparoscopia, realizada el 12 de marzo de 2025, sin complicaciones.', o: [['d1', 2, 'colecistectomía por laparoscopia realizada el 12 de marzo de 2025']] }, { t: 'No aparece ningún otro procedimiento en los documentos.' }];
+  if (/medicament|toma|formul|tratamiento|farmac/.test(q))
+    return [{ t: 'Toma losartán 50 mg cada 12 horas y metformina 850 mg con el almuerzo, según el control del 2 de junio de 2026.', o: [['d2', 1, 'losartán 50 mg cada 12 horas y metformina 850 mg con el almuerzo']] }, { t: 'El documento "Fórmula médica (foto)" no se pudo leer y no se tuvo en cuenta.' }];
+  if (/alerg/.test(q))
+    return [{ t: 'Registra alergia a la penicilina, con reacción cutánea.', o: [['d1', 1, 'Alergias: penicilina (reacción cutánea)']] }];
+  if (/presion|tension|hipertens/.test(q))
+    return [{ t: 'La única cifra registrada es 146/88 mmHg, del 2 de junio de 2026. Tiene diagnóstico de hipertensión arterial.', o: [['d2', 1, 'Presión arterial: 146/88 mmHg']] }, { t: 'No aparecen otras tomas de presión en los documentos.' }];
+  if (/laborator|examen|colesterol|glicemia|azucar|lipid|creatinin|hemoglobina/.test(q))
+    return [{ t: 'Del 20 de agosto de 2026: colesterol total 212 mg/dL, LDL 138, HDL 44 y triglicéridos 180; glicemia en ayunas 132 mg/dL y creatinina 0,9 mg/dL.', o: [['d3', 1, 'Colesterol total: 212 mg/dL']] }, { t: 'Hemoglobina glicosilada de 7,4 % el 20 de mayo de 2026.', o: [['d2', 2, 'Hemoglobina glicosilada del 20 de mayo de 2026: 7,4 %']] }];
+  if (/diagnost|enfermedad|antecedent/.test(q))
+    return [{ t: 'Diagnósticos registrados: hipertensión arterial y diabetes mellitus tipo 2.', o: [['d2', 1, 'hipertensión arterial (I10) y diabetes mellitus tipo 2 (E11.9)']] }, { t: 'En 2025 tuvo colelitiasis sintomática, tratada con cirugía.', o: [['d1', 1, 'colelitiasis sintomática (K80.2)']] }];
+  return [{ t: 'No aparece en los documentos.' }];
+}
+function resumenDe(pacId) {
+  if (pacId !== 'p1') return null;
+  return { fecha: new Date(AHORA.getTime() + reloj * 60000), viejo: false, secciones: [
+    ['Diagnósticos', [['Hipertensión arterial y diabetes mellitus tipo 2 (jun 2026)', 'd2', 1, 'hipertensión arterial (I10) y diabetes mellitus tipo 2 (E11.9)'], ['Colelitiasis sintomática, resuelta con cirugía (mar 2025)', 'd1', 1, 'colelitiasis sintomática (K80.2)']]],
+    ['Procedimientos', [['Colecistectomía por laparoscopia, 12 mar 2025, sin complicaciones', 'd1', 2, 'colecistectomía por laparoscopia realizada el 12 de marzo de 2025']]],
+    ['Tratamientos y medicamentos', [['Losartán 50 mg cada 12 horas', 'd2', 1, 'losartán 50 mg cada 12 horas'], ['Metformina 850 mg con el almuerzo', 'd2', 1, 'metformina 850 mg con el almuerzo']]],
+    ['Alergias', [['Penicilina, con reacción cutánea', 'd1', 1, 'Alergias: penicilina (reacción cutánea)']]],
+    ['Estado más reciente', [['20 ago 2026: glicemia 132 mg/dL, LDL 138 mg/dL, creatinina 0,9 mg/dL', 'd3', 1, 'Glicemia en ayunas: 132 mg/dL'], ['2 jun 2026: presión arterial 146/88 mmHg, peso 71 kg', 'd2', 1, 'Presión arterial: 146/88 mmHg']]]
+  ], nota: 'El documento "Fórmula médica (foto)" no se pudo leer y quedó por fuera.' };
+}
+function origenHtml(o) {
+  var n = S.docs.filter(function (d) { return d.pac === docu(o[0]).pac; }).indexOf(docu(o[0])) + 1;
+  return '<button class="origen" data-a="doc-abrir" data-id="' + o[0] + '" data-pag="' + o[1] + '" data-frag="' + esc(o[2]) + '" title="' + esc(docu(o[0]).nombre) + '">D' + n + ', pág. ' + o[1] + '</button>';
+}
+
+/* ---------- Elegir día y espacio (lo usan paciente y médico) ---------- */
+function elegirEspacio() {
+  var A = E.ag, med = E.rol === 'medico', t = tipo(A.tipo), dias = diasConEspacio(t.min, !med, A.cita);
+  if (!dias.length) return '<p class="nota n-aviso">No hay horas disponibles en las próximas semanas. Llame al consultorio: <b class="dato">' + S.consultorio.telefono + '</b>.</p>';
+  var dia = A.dia ? new Date(A.dia) : null;
+  if (dia && !dias.some(function (d) { return mismoDia(d, dia); })) dia = null;
+  var h = '<div class="chips" role="group" aria-label="Día">' + dias.map(function (d) {
+    return '<button class="chip" data-a="ag-dia" data-ts="' + d.getTime() + '" aria-pressed="' + (!!dia && mismoDia(d, dia)) + '">' + fechaC(d) + '</button>';
+  }).join('') + '</div>';
+  if (!dia) return h + '<p class="suave">Elija un día para ver las horas disponibles.</p>';
+  return h + '<div class="espacios">' + espacios(dia, t.min, !med, A.cita).filter(function (e) { return e.libre; }).map(function (e) {
+    return '<button class="espacio" data-a="ag-slot" data-ts="' + e.t.getTime() + '" aria-pressed="' + (A.slot === e.t.getTime()) + '">' + hora(e.t) + '</button>';
+  }).join('') + '</div><p class="suave chica">Solo aparecen los días y las horas que están disponibles.</p>';
+}
+function flujoCita(titulo) {
+  var A = E.ag, mov = A.modo === 'mover', t = A.tipo ? tipo(A.tipo) : null, cuerpo = '';
+  var barra = '<div class="pasos" aria-hidden="true">' + [1, 2, 3].map(function (n) { return '<i class="' + (A.paso >= n ? 'hecho' : '') + '"></i>'; }).join('') + '</div>';
+  if (A.paso === 1) {
+    var act = S.tipos.filter(function (x) { return x.activo; });
+    cuerpo = act.length ? '<p>¿Qué tipo de cita necesita?</p>' + act.map(function (x) {
+      return '<button class="opcion" data-a="ag-tipo" data-id="' + x.id + '">' + esc(x.nombre) + '<span>' + x.min + ' min</span></button>';
+    }).join('') : '<p class="nota n-aviso">La agenda no está disponible en este momento. Llame al ' + S.consultorio.telefono + '.</p>';
+  } else if (A.paso === 2) {
+    cuerpo = '<p><b>' + esc(t.nombre) + '</b> · ' + t.min + ' minutos</p>' + elegirEspacio() +
+      '<div class="botones"><button class="boton" data-a="' + (mov ? 'ag-salir' : 'ag-paso') + '" data-p="1">Atrás</button>' +
+      '<button class="boton primario" data-a="ag-paso" data-p="3"' + (A.slot ? '' : ' disabled') + '>Continuar</button></div>';
+  } else if (A.paso === 3) {
+    var ini = new Date(A.slot);
+    cuerpo = '<dl class="lista-def"><dt>Paciente</dt><dd>' + esc(nomPac(A.pac)) + '</dd><dt>Tipo</dt><dd>' + esc(t.nombre) + ' (' + t.min + ' min)</dd><dt>Día</dt><dd>' + mayus(fechaL(ini)) + '</dd><dt>Hora</dt><dd class="dato">' + hora(ini) + '</dd><dt>Lugar</dt><dd>' + esc(S.consultorio.direccion) + '</dd></dl>' +
+      (E.rol === 'medico' && !enHorario(ini, t.min) ? '<p class="nota n-aviso">Este espacio está por fuera de su horario habitual.</p>' : '') +
+      '<div class="botones"><button class="boton" data-a="ag-paso" data-p="2">Atrás</button><button class="boton primario" data-a="ag-confirmar">' + (mov ? 'Confirmar el cambio' : 'Confirmar la cita') + '</button></div>';
+  } else {
+    var c = cita(A.cita);
+    cuerpo = '<p class="nota n-ok">' + (mov ? 'La cita quedó movida.' : 'La cita quedó confirmada.') + ' El paciente recibe un correo con los datos.</p>' +
+      '<dl class="lista-def"><dt>Cuándo</dt><dd>' + mayus(fechaL(c.inicio)) + ', <span class="dato">' + hora(c.inicio) + '</span></dd><dt>Tipo</dt><dd>' + esc(tipo(c.tipo).nombre) + '</dd></dl>' +
+      '<div class="botones"><button class="boton primario" data-a="ag-salir">Volver</button></div>';
+  }
+  return '<section class="hoja pila"><h1>' + titulo + '</h1>' + (A.paso < 4 ? barra : '') + cuerpo + '</section>';
+}
+
+/* ---------- Pantallas del paciente ---------- */
+function pIngreso() {
+  return { hu: ['HU-004'], html: '<section class="hoja pila"><h1>Ingresar</h1><p class="suave">' + esc(S.consultorio.nombre) + ' · Medicina general</p>' +
+    '<div class="campo"><label for="in-correo">Correo</label><input id="in-correo" type="email" value="rosa.duarte@ejemplo.co" autocomplete="username"></div>' +
+    '<div class="campo"><label for="in-clave">Contraseña</label><input id="in-clave" type="password" value="ejemplo-2026" autocomplete="current-password"></div>' +
+    '<button class="boton primario" data-a="p-ingresar">Ingresar</button>' +
+    '<div class="fila-enlaces"><button class="enlace" data-a="ir" data-v="registro">Crear mi cuenta</button><button class="enlace" data-a="ir" data-v="recuperar">Olvidé mi contraseña</button></div>' +
+    '<p class="nota chica">El número de documento nunca sirve como clave. Después de cinco intentos fallidos el ingreso se bloquea 15 minutos.</p></section>' };
+}
+function pRegistro() {
+  var R = E.reg, cuerpo = '', barra = '<div class="pasos" aria-hidden="true">' + [1, 2, 3].map(function (n) { return '<i class="' + (R.paso >= n ? 'hecho' : '') + '"></i>'; }).join('') + '</div>';
+  if (R.paso === 1) {
+    cuerpo = '<div class="rejilla2"><div class="campo"><label for="rg-nombres">Nombres</label><input id="rg-nombres" value="María Fernanda"></div><div class="campo"><label for="rg-apellidos">Apellidos</label><input id="rg-apellidos" value="Castro León"></div>' +
+      '<div class="campo"><label for="rg-tdoc">Tipo de documento</label><select id="rg-tdoc"><option>Cédula de ciudadanía</option><option>Cédula de extranjería</option><option>Pasaporte</option></select></div><div class="campo"><label for="rg-doc">Número</label><input id="rg-doc" inputmode="numeric" value="1 032 455 870"></div>' +
+      '<div class="campo"><label for="rg-nace">Fecha de nacimiento</label><input id="rg-nace" type="date" value="1990-05-11"></div><div class="campo"><label for="rg-cel">Celular</label><input id="rg-cel" inputmode="tel" value="318 555 0116"></div></div>' +
+      '<div class="campo"><label for="rg-correo">Correo</label><input id="rg-correo" type="email" value="maria.castro@ejemplo.co"></div>' +
+      '<div class="botones"><button class="boton" data-a="ir" data-v="ingreso">Ya tengo cuenta</button><button class="boton primario" data-a="rg-paso" data-p="2">Continuar</button></div>';
+  } else if (R.paso === 2) {
+    cuerpo = '<div class="campo"><label for="rg-clave">Cree su contraseña</label><input id="rg-clave" type="password" autocomplete="new-password" aria-describedby="rg-regla"></div>' +
+      '<p class="suave chica" id="rg-regla">Mínimo 8 caracteres y al menos un número. No use su número de documento.</p>' +
+      (R.error ? '<p class="nota n-alerta" role="alert">' + R.error + '</p>' : '') +
+      '<div class="botones"><button class="boton" data-a="rg-paso" data-p="1">Atrás</button><button class="boton primario" data-a="rg-clave">Continuar</button></div>';
+  } else {
+    cuerpo = '<p class="suave">Para terminar, revise y acepte la autorización de tratamiento de datos.</p>' +
+      '<div class="velo"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="mod-titulo" tabindex="-1"><h2 id="mod-titulo">Tratamiento de sus datos personales</h2>' +
+      '<p class="chica">Estos son los puntos más importantes de nuestra política de tratamiento de datos (Ley 1581 de 2012, Habeas Data).</p>' +
+      '<ol class="puntos"><li><b>Quién responde por sus datos:</b> ' + esc(S.consultorio.nombre) + '.</li><li><b>Para qué se usan:</b> agendar sus citas, atenderlo y guardar los documentos que usted suba.</li>' +
+      '<li class="clave"><b>Inteligencia artificial:</b> las historias clínicas y los exámenes que usted suba podrán ser analizados con un asistente de inteligencia artificial que le ayuda al médico a resumirlos. El texto se envía a un proveedor externo sin su nombre ni su documento. El asistente no lo diagnostica.</li>' +
+      '<li><b>Sus derechos:</b> conocer, corregir y pedir que se eliminen sus datos, y retirar esta autorización cuando quiera.</li></ol>' +
+      (R.completa ? '<div class="nota chica pila"><p>Sus datos de salud son datos sensibles. Usted no está obligado a autorizar su tratamiento, pero sin esa autorización no es posible crear la cuenta ni atenderlo por este medio.</p><p>Los datos se conservan mientras usted sea paciente del consultorio y por el tiempo que exija la ley. Las consultas y los reclamos se dirigen al consultorio y se responden en los plazos de la Ley 1581.</p><p class="suave">Versión 1 · vigente desde el 1 de septiembre de 2026</p></div>' : '') +
+      '<button class="enlace chica" data-a="rg-completa">' + (R.completa ? 'Ocultar la política completa' : 'Leer la política completa') + '</button>' +
+      '<label class="marcar" for="rg-acepto"><input type="checkbox" id="rg-acepto"' + (R.acepto ? ' checked' : '') + '><span>Autorizo el tratamiento de mis datos personales y de salud.</span></label>' +
+      '<label class="marcar" for="rg-acepto-ia"><input type="checkbox" id="rg-acepto-ia"' + (R.ia ? ' checked' : '') + '><span>Autorizo que mis documentos se analicen con inteligencia artificial. <span class="suave">Es opcional y puede cambiarlo después en su perfil.</span></span></label>' +
+      (R.error ? '<p class="nota n-alerta" role="alert">' + R.error + '</p>' : '') +
+      '<div class="botones"><button class="boton" data-a="rg-paso" data-p="2">Volver</button><button class="boton primario" data-a="rg-fin">Aceptar y crear mi cuenta</button></div></div></div>';
+  }
+  return { hu: ['HU-002', 'HU-003', 'HU-032'], html: '<section class="hoja pila"><h1>Crear mi cuenta</h1>' + barra + cuerpo + '</section>' };
+}
+function pRecuperar() {
+  return { hu: ['HU-005'], html: '<section class="hoja pila"><h1>Recuperar la contraseña</h1>' +
+    '<div class="campo"><label for="rc-correo">Correo con el que se registró</label><input id="rc-correo" type="email" value="rosa.duarte@ejemplo.co"></div>' +
+    (E.recuperado ? '<p class="nota n-ok" role="status">Si ese correo está registrado, le llegará un enlace que sirve una sola vez y vence en 30 minutos.</p>' : '') +
+    '<div class="botones"><button class="boton" data-a="ir" data-v="ingreso">Volver</button><button class="boton primario" data-a="rc-enviar">Enviar enlace</button></div></section>' };
+}
+function pInicio() {
+  var prox = proximas(citasDe('p1'))[0], docs = docsDe('p1'), h = '<div><p class="suave">Buenos días,</p><h1>Rosa Elena</h1></div>';
+  if (prox) {
+    h += '<section class="boleta"><span class="rotulo">Su próxima cita</span><span class="cuando">' + mayus(fechaL(prox.inicio)) + ' · ' + hora(prox.inicio) + '</span><span>' + esc(tipo(prox.tipo).nombre) + ' · Dra. ' + esc(S.consultorio.medico) + '</span><span class="chica">' + esc(S.consultorio.direccion) + '</span>' +
+      '<div class="botones"><button class="boton chico" data-a="cita-mover" data-id="' + prox.id + '">Mover</button><button class="boton chico" data-a="cita-cancelar" data-id="' + prox.id + '">Cancelar</button></div></section>';
+    if (E.confirmar && E.confirmar.id === prox.id) h += cajaCita(prox);
+  } else h += '<p class="nota">No tiene citas próximas.</p>';
+  h += '<div class="accesos"><button class="boton" data-a="ag-nueva">Agendar cita</button><button class="boton" data-a="ir" data-v="citas">Mis citas</button><button class="boton" data-a="ir" data-v="documentos">Mis documentos</button></div>';
+  var tv = tratDe('p1').filter(function (t) { return hastaT(t) >= HOY; })[0];
+  if (tv) h += '<section class="hoja pila"><div class="encabezado"><h2>Mi tratamiento</h2>' + pildora(['Vigente', 'p-ok']) + '</div><ul class="lista-simple">' + tv.meds.map(function (m) { return '<li><b>' + esc(m.nombre) + '</b> · ' + esc(m.frecuencia.toLowerCase()) + '</li>'; }).join('') + '</ul><button class="enlace" data-a="ir" data-v="tratamientos">Ver cómo tomarlos</button></section>';
+  h += docs.length ? '<section class="hoja pila"><h2>Mis documentos</h2><p>Ha subido ' + docs.length + ' documentos. La doctora puede consultarlos antes de atenderla.</p><button class="enlace" data-a="ir" data-v="documentos">Ver mis documentos</button></section>'
+    : '<section class="hoja pila"><h2>Suba sus historias clínicas</h2><p>Si tiene historias, exámenes o fórmulas de otras atenciones, súbalos para que la doctora conozca sus antecedentes.</p><button class="boton primario" data-a="ir" data-v="subir">Subir un documento</button></section>';
+  return { hu: ['HU-020'], html: h };
+}
+function cajaCita(c) {
+  var K = E.confirmar;
+  if (K.t === 'tarde') return '<p class="nota n-aviso" role="alert">Faltan menos de ' + S.consultorio.anticipacion + ' horas para esta cita, así que ya no se puede mover ni cancelar desde aquí. Llame al consultorio: <b class="dato">' + S.consultorio.telefono + '</b>.</p>';
+  return '<div class="nota n-alerta pila" role="alert"><p>¿Cancelar la cita del ' + fechaL(c.inicio) + ' a las ' + hora(c.inicio) + '? El espacio quedará libre para otra persona.</p><div class="botones"><button class="boton chico peligro" data-a="cita-cancelar-ok" data-id="' + c.id + '">Sí, cancelar</button><button class="boton chico" data-a="descartar">No</button></div></div>';
+}
+function pCitas() {
+  var todas = citasDe('p1'), pr = proximas(todas), pa = pasadas(todas);
+  function item(c, acciones) {
+    var h = '<div class="elemento"><div><b>' + mayus(fechaL(c.inicio)) + ' ' + c.inicio.getFullYear() + '</b><span class="suave"><span class="dato">' + hora(c.inicio) + '</span> · ' + esc(tipo(c.tipo).nombre) + '</span></div>' + pildora(EST[c.estado]);
+    if (c.motivo) h += '<p class="abajo suave chica">Motivo: ' + esc(c.motivo) + '</p>';
+    if (acciones) h += '<div class="abajo"><button class="boton chico" data-a="cita-mover" data-id="' + c.id + '">Mover</button><button class="boton chico" data-a="cita-cancelar" data-id="' + c.id + '">Cancelar</button></div>';
+    if (E.confirmar && E.confirmar.id === c.id) h += '<div class="abajo">' + cajaCita(c) + '</div>';
+    return h + '</div>';
+  }
+  return { hu: ['HU-013', 'HU-014', 'HU-015'], html: '<div class="encabezado"><h1>Mis citas</h1><button class="boton primario" data-a="ag-nueva">Agendar</button></div>' +
+    '<section class="hoja"><h2>Próximas</h2>' + (pr.length ? pr.map(function (c) { return item(c, true); }).join('') : '<p class="suave">No tiene citas próximas.</p>') + '</section>' +
+    '<section class="hoja"><h2>Anteriores</h2>' + (pa.length ? pa.map(function (c) { return item(c, false); }).join('') : '<p class="suave">Aún no hay citas anteriores.</p>') + '</section>' };
+}
+function pAgendar() { return { hu: E.ag.modo === 'mover' ? ['HU-014', 'HU-011'] : ['HU-012', 'HU-011'], html: flujoCita(E.ag.modo === 'mover' ? 'Mover mi cita' : 'Agendar una cita') }; }
+function pDocs() {
+  var docs = docsDe('p1'), ia = pac('p1').ia;
+  var h = '<div class="encabezado"><h1>Mis documentos</h1><button class="boton primario" data-a="ir" data-v="subir">Subir</button></div>';
+  h += '<section class="hoja">' + (docs.length ? docs.map(function (d) {
+    var x = '<div class="elemento"><div><b>' + esc(d.nombre) + '</b><span class="suave chica">' + esc(d.tipo) + ' · del ' + fechaN(d.fecha) + ' · subido el ' + fechaN(d.subido) + '</span></div>' + pildora(LEC[d.lectura]);
+    if (d.lectura === 'no_legible') x += '<p class="abajo suave chica">No se pudo leer el texto. La doctora puede verlo, pero el asistente no lo usa. Pruebe con una foto más nítida.</p>';
+    if (d.lectura === 'sin_leer') x += '<p class="abajo suave chica">Es una foto y solo se lee si usted autoriza el uso de inteligencia artificial.</p>';
+    x += '<div class="abajo"><button class="boton chico" data-a="doc-abrir" data-id="' + d.id + '">Ver</button><button class="boton chico peligro" data-a="doc-eliminar" data-id="' + d.id + '">Eliminar</button></div>';
+    if (E.confirmar && E.confirmar.id === d.id) x += '<div class="abajo nota n-alerta pila" role="alert"><p>¿Eliminar "' + esc(d.nombre) + '"? Dejará de estar disponible para la doctora y para el asistente.</p><div class="botones"><button class="boton chico peligro" data-a="doc-eliminar-ok" data-id="' + d.id + '">Sí, eliminar</button><button class="boton chico" data-a="descartar">No</button></div></div>';
+    return x + '</div>';
+  }).join('') : '<p class="suave">Todavía no ha subido documentos.</p>') + '</section>';
+  h += '<section class="hoja pila"><div class="encabezado"><h2>Uso de inteligencia artificial</h2>' + pildora(IA[ia]) + '</div><p class="chica">' + (ia === 'aceptada' ? 'La doctora puede usar un asistente que resume estos documentos.' : 'El asistente está deshabilitado para sus documentos. La doctora igual puede leerlos.') + '</p><button class="enlace" data-a="ir" data-v="autoriza-ia">' + (ia === 'aceptada' ? 'Ver o retirar la autorización' : 'Ver la autorización') + '</button></section>';
+  return { hu: ['HU-029', 'HU-031'], html: h };
+}
+function pSubir() {
+  return { hu: ['HU-028'], html: '<section class="hoja pila"><h1>Subir un documento</h1>' +
+    '<div class="campo"><label for="sb-archivo">Archivo (PDF, JPG o PNG, hasta 20 MB)</label><input id="sb-archivo" type="file" accept=".pdf,.jpg,.jpeg,.png"></div>' +
+    '<div class="campo"><label for="sb-nombre">Nombre del documento</label><input id="sb-nombre" value="Ecografía abdominal"></div>' +
+    '<div class="rejilla2"><div class="campo"><label for="sb-fecha">Fecha del documento</label><input id="sb-fecha" type="date" value="2026-09-30"></div>' +
+    '<div class="campo"><label for="sb-tipo">Tipo</label><select id="sb-tipo"><option>Examen</option><option>Historia clínica</option><option>Fórmula</option><option>Imagen diagnóstica</option><option>Otro</option></select></div>' +
+    '<div class="campo"><label for="sb-formato">Formato</label><select id="sb-formato"><option value="PDF">PDF</option><option value="Foto">Foto</option></select></div></div>' +
+    '<p class="suave chica">En el celular también podrá tomar la foto con la cámara. En este prototipo no se sube ningún archivo.</p>' +
+    '<div class="botones"><button class="boton" data-a="ir" data-v="documentos">Cancelar</button><button class="boton primario" data-a="doc-subir">Subir</button></div></section>' };
+}
+function pAutorizaIA() {
+  var ia = pac('p1').ia;
+  return { hu: ['HU-032'], html: '<section class="hoja pila"><div class="encabezado"><h1>Asistente de inteligencia artificial</h1>' + pildora(IA[ia]) + '</div>' +
+    '<p>La doctora puede usar un asistente que lee los documentos que usted subió y le responde preguntas sobre ellos, por ejemplo qué cirugías le han hecho o qué medicamentos toma.</p>' +
+    '<div class="nota chica pila"><p><b>Qué hace:</b> resume lo que está escrito en sus documentos e indica de qué página salió cada dato.</p><p><b>Qué no hace:</b> no la diagnostica ni decide su tratamiento. Eso lo hace la doctora.</p><p><b>A dónde van sus datos:</b> el texto de sus documentos se envía a un proveedor externo de inteligencia artificial, sin su nombre, documento, celular ni correo.</p><p><b>Usted decide:</b> si no autoriza, la doctora igual puede leer sus documentos. Puede retirar la autorización cuando quiera.</p><p class="suave">Versión 1 · vigente desde el 1 de septiembre de 2026</p></div>' +
+    '<div class="botones">' + (ia === 'aceptada' ? '<button class="boton peligro" data-a="ia-decidir" data-d="retirada">Retirar la autorización</button>' : '<button class="boton primario" data-a="ia-decidir" data-d="aceptada">Autorizo</button><button class="boton" data-a="ia-decidir" data-d="rechazada">No autorizo</button>') +
+    '<button class="boton" data-a="ir" data-v="documentos">Volver</button></div></section>' };
+}
+function pPerfil() {
+  var p = pac('p1');
+  return { hu: ['HU-003', 'HU-032', 'HU-007'], html: '<h1>Mi perfil</h1><section class="hoja pila"><h2>Mis datos</h2><dl class="lista-def"><dt>Nombre</dt><dd>' + esc(nomPac('p1')) + '</dd><dt>Documento</dt><dd class="dato">' + p.doc + '</dd><dt>Nacimiento</dt><dd>' + fechaN(p.nace) + '</dd><dt>Celular</dt><dd class="dato">' + p.cel + '</dd><dt>Correo</dt><dd>' + esc(p.correo) + '</dd></dl></section>' +
+    '<section class="hoja pila"><h2>Mis autorizaciones</h2><div class="elemento"><div><b>Tratamiento de datos</b><span class="suave chica">Versión 1 · aceptada el 2 sep 2026</span></div>' + pildora(['Aceptada', 'p-ok']) + '</div>' +
+    '<div class="elemento"><div><b>Uso de inteligencia artificial</b><span class="suave chica">Versión 1</span></div>' + pildora(IA[p.ia]) + '<div class="abajo"><button class="boton chico" data-a="ir" data-v="autoriza-ia">Revisar</button></div></div></section>' +
+    '<button class="boton" data-a="p-salir">Cerrar sesión</button><p class="suave chica">La sesión también se cierra sola después de 30 minutos sin uso.</p>' };
+}
+
+function tratHtml(t) {
+  return '<p class="suave chica">Indicado por Dra. ' + esc(S.consultorio.medico) + ' el ' + fechaN(t.fecha) + ' · va hasta el ' + fechaN(hastaT(t)) + '</p>' +
+    t.meds.map(function (m) { return '<div class="med"><b>' + esc(m.nombre) + '</b><span class="dato chica">' + esc(m.dosis) + ' · ' + esc(m.frecuencia.toLowerCase()) + ' · ' + m.dias + ' días</span><p class="como"><b>Cómo tomarlo:</b> ' + esc(m.modo) + '</p></div>'; }).join('') +
+    (t.indicaciones ? '<div class="med"><b>Indicaciones</b><p>' + esc(t.indicaciones) + '</p></div>' : '');
+}
+function pTratamientos() {
+  var ts = tratDe('p1'), h = '<h1>Mis tratamientos</h1>';
+  if (!ts.length) return { hu: ['HU-039'], html: h + '<p class="nota">La doctora todavía no le ha registrado ningún tratamiento.</p>' };
+  var u = ts[0];
+  h += '<section class="hoja pila"><div class="encabezado"><h2>Último tratamiento</h2>' + pildora(estadoT(u)) + '</div><p><b>' + esc(u.motivo) + '</b></p>' + tratHtml(u) + '</section>';
+  if (ts.length > 1) h += '<section class="hoja"><h2>Anteriores</h2>' + ts.slice(1).map(function (t) {
+    var abierto = E.tratAbierto === t.id;
+    return '<div class="elemento"><div><b>' + esc(t.motivo) + '</b><span class="suave chica">' + fechaN(t.fecha) + ' · ' + t.meds.map(function (m) { return esc(m.nombre); }).join(', ') + '</span></div>' + pildora(estadoT(t)) + '<div class="abajo"><button class="boton chico" data-a="trat-ver" data-id="' + t.id + '">' + (abierto ? 'Ocultar' : 'Ver detalle') + '</button></div>' + (abierto ? '<div class="abajo detalle">' + tratHtml(t) + '</div>' : '') + '</div>';
+  }).join('') + '</section>';
+  h += '<p class="suave chica">Si tiene dudas sobre su tratamiento, llame al consultorio: <span class="dato">' + S.consultorio.telefono + '</span>. En una urgencia marque 123.</p>';
+  return { hu: ['HU-039'], html: h };
+}
+
+/* ---------- Visor (paciente y médico) ---------- */
+function visor() {
+  var d = docu(E.docSel);
+  if (!d) return { hu: ['HU-030'], html: '<p class="nota">El documento ya no existe.</p>' };
+  var n = d.paginas.length, pg = d.paginas[E.pagSel - 1], cuerpo;
+  if (!n) cuerpo = '<div class="pagina"><p class="membrete">' + esc(d.nombre) + '</p><p><i>Aquí se muestra la foto original, escrita a mano.</i></p><p>El sistema no pudo reconocer el texto de esta imagen, por eso aparece como "no legible" y el asistente no la usa.</p></div>';
+  else cuerpo = '<div class="pagina" style="--zoom:' + E.zoom + '"><p class="membrete">' + esc(pg[0]) + '</p>' + pg.slice(1).map(function (t) {
+    var s = esc(t);
+    if (E.resaltar) { var fr = esc(E.resaltar); if (s.indexOf(fr) >= 0) s = s.replace(fr, '<mark>' + fr + '</mark>'); }
+    return '<p>' + s + '</p>';
+  }).join('') + '</div>';
+  var volver = E.rol === 'medico' ? 'ficha' : 'documentos';
+  return { hu: E.rol === 'medico' ? ['HU-030', 'HU-027'] : ['HU-029', 'HU-027'], html: '<section class="hoja pila"><div class="visor-barra"><div><h1>' + esc(d.nombre) + '</h1><p class="suave chica">' + esc(d.tipo) + ' · ' + fechaN(d.fecha) + ' · ' + pildora(LEC[d.lectura]) + '</p></div><button class="boton" data-a="ir" data-v="' + volver + '">Cerrar</button></div>' +
+    (n ? '<div class="visor-barra"><div class="botones"><button class="boton chico" data-a="visor-pag" data-n="-1"' + (E.pagSel <= 1 ? ' disabled' : '') + '>Anterior</button><span class="dato" style="align-self:center">Página ' + E.pagSel + ' de ' + n + '</span><button class="boton chico" data-a="visor-pag" data-n="1"' + (E.pagSel >= n ? ' disabled' : '') + '>Siguiente</button></div><div class="botones"><button class="boton chico" data-a="visor-zoom" data-n="-1" aria-label="Reducir texto">A−</button><button class="boton chico" data-a="visor-zoom" data-n="1" aria-label="Ampliar texto">A+</button></div></div>' : '') +
+    cuerpo + '<p class="suave chica">Se abre con un enlace temporal de 15 minutos y sin opción de descarga. Cada apertura queda en la bitácora.</p></section>' };
+}
+
+/* ---------- Pantallas del médico ---------- */
+function filaCita(c) {
+  var p = pac(c.pac), acc = '', extra = '';
+  if (c.estado === 'confirmada') acc = '<button class="boton chico" data-a="m-asistencia" data-id="' + c.id + '" data-e="atendida">Atendida</button><button class="boton chico" data-a="m-asistencia" data-id="' + c.id + '" data-e="no_asistio">No asistió</button><button class="boton chico" data-a="cita-mover" data-id="' + c.id + '">Mover</button><button class="boton chico peligro" data-a="cita-cancelar" data-id="' + c.id + '">Cancelar</button>';
+  else if (c.estado !== 'cancelada' && mismoDia(c.inicio, HOY)) acc = '<button class="boton chico" data-a="m-asistencia" data-id="' + c.id + '" data-e="confirmada">Corregir</button>';
+  if (E.confirmar && E.confirmar.id === c.id) extra = '<div class="ancho nota n-alerta pila" role="alert"><div class="campo"><label for="motivo-cancel">Motivo de la cancelación (el paciente lo verá)</label><input id="motivo-cancel" value=""></div>' + (E.confirmar.error ? '<p>Escriba el motivo para cancelar.</p>' : '') + '<div class="botones"><button class="boton chico peligro" data-a="cita-cancelar-ok" data-id="' + c.id + '">Cancelar la cita</button><button class="boton chico" data-a="descartar">No</button></div></div>';
+  return '<div class="fila"><span class="h">' + hora(c.inicio) + '</span><div class="quien"><button class="enlace" data-a="m-ficha" data-id="' + p.id + '">' + esc(nomPac(p.id)) + '</button><span>' + esc(tipo(c.tipo).nombre) + ' · ' + c.min + ' min</span></div><div class="acc">' + pildora(EST[c.estado]) + acc + '</div>' + extra + '</div>';
+}
+function mHoy() {
+  var lista = S.citas.filter(function (c) { return mismoDia(c.inicio, HOY) && c.estado !== 'cancelada'; }).sort(function (a, b) { return a.inicio - b.inicio; });
+  var faltan = [];
+  if (!S.tipos.some(function (t) { return t.activo; })) faltan.push('tipos de cita');
+  if (![1, 2, 3, 4, 5, 6, 0].some(function (d) { return S.horario[d].length; })) faltan.push('horario de atención');
+  return { hu: ['HU-021', 'HU-018', 'HU-017'], html: '<div class="encabezado"><div><p class="suave">' + mayus(fechaL(HOY)) + ' de 2026</p><h1>Agenda de hoy</h1></div><span class="pildora p-acento">' + lista.length + ' citas</span></div>' +
+    (faltan.length ? '<p class="nota n-aviso">Falta configurar: ' + faltan.join(' y ') + '. Mientras tanto los pacientes no pueden agendar. <button class="enlace" data-a="ir" data-v="config">Ir a configuración</button></p>' : '') +
+    '<section class="hoja">' + (lista.length ? lista.map(filaCita).join('') : '<p class="suave">No hay citas para hoy.</p>') + '</section>' };
+}
+function mMover() { return { hu: ['HU-017', 'HU-011'], html: flujoCita('Mover la cita de ' + esc(nomPac(E.ag.pac))) }; }
+function mCalendario() {
+  var C = E.cal, h = '<div class="encabezado"><h1>Calendario</h1><div class="segmento" role="group" aria-label="Vista">' + [['dia', 'Día'], ['semana', 'Semana'], ['mes', 'Mes']].map(function (m) { return '<button data-a="cal-modo" data-m="' + m[0] + '" aria-pressed="' + (C.modo === m[0]) + '">' + m[1] + '</button>'; }).join('') + '</div></div>';
+  if (C.modo === 'semana') {
+    var dias = [0, 1, 2, 3, 4].map(function (i) { return mas(C.lunes, i); });
+    h += '<div class="encabezado"><p><b>Semana del ' + dias[0].getDate() + ' al ' + dias[4].getDate() + ' de ' + MESES[dias[4].getMonth()] + '</b></p><div class="botones"><button class="boton chico" data-a="cal-semana" data-n="-1">Anterior</button><button class="boton chico" data-a="cal-semana" data-n="1">Siguiente</button></div></div>';
+    var g = '<div class="cab"></div>' + dias.map(function (d) { return '<div class="cab' + (mismoDia(d, HOY) ? ' hoy' : '') + '">' + fechaC(d) + '</div>'; }).join('');
+    for (var m = 8 * 60; m < 17 * 60; m += 30) {
+      g += '<div class="hh">' + hora(new Date(2026, 0, 1, Math.floor(m / 60), m % 60)) + '</div>';
+      dias.forEach(function (d) {
+        var t = new Date(d.getFullYear(), d.getMonth(), d.getDate(), Math.floor(m / 60), m % 60), t2 = new Date(t.getTime() + 30 * 60000);
+        var cs = S.citas.filter(function (c) { return c.estado !== 'cancelada' && c.inicio >= t && c.inicio < t2; });
+        var b = bloqueado(t, 30);
+        if (b) g += '<div class="celda bloq">' + esc(b.motivo) + '</div>';
+        else if (cs.length) g += '<div class="celda">' + cs.map(function (c) { return '<button class="ficha-c' + (c.estado === 'atendida' ? ' hecha' : '') + '" data-a="m-ficha" data-id="' + c.pac + '"><span class="dato">' + hora(c.inicio).replace(' a. m.', '').replace(' p. m.', '') + '</span> ' + esc(pac(c.pac).nombres) + '</button>'; }).join('') + '</div>';
+        else if (enHorario(t, 30)) g += '<div class="celda"><button class="libre" data-a="cal-nueva" data-ts="' + t.getTime() + '" aria-pressed="' + (C.nueva === t.getTime()) + '" aria-label="Espacio libre, ' + fechaC(d) + ' ' + hora(t) + '">+</button></div>';
+        else g += '<div class="celda fuera"></div>';
+      });
+    }
+    h += '<div class="desliza"><div class="semana">' + g + '</div></div><p class="suave chica">Toque un espacio libre para crear una cita o bloquearlo. Las franjas rayadas están bloqueadas y las grises quedan por fuera del horario.</p>';
+  } else if (C.modo === 'mes') {
+    var y = C.mes.getFullYear(), mo = C.mes.getMonth(), nd = new Date(y, mo + 1, 0).getDate(), blancos = (C.mes.getDay() + 6) % 7, celdas = '';
+    ['lun', 'mar', 'mié', 'jue', 'vie', 'sáb', 'dom'].forEach(function (x) { celdas += '<div class="cab">' + x + '</div>'; });
+    for (var i = 0; i < blancos; i++) celdas += '<div class="vacio"></div>';
+    for (var dd = 1; dd <= nd; dd++) {
+      var dia = new Date(y, mo, dd), n = S.citas.filter(function (c) { return c.estado !== 'cancelada' && mismoDia(c.inicio, dia); }).length, bl = S.bloqueos.filter(function (b) { return soloDia(b.inicio) <= dia && b.fin >= dia; })[0];
+      celdas += '<button class="dia' + (mismoDia(dia, HOY) ? ' es-hoy' : '') + (S.horario[dia.getDay()].length ? '' : ' vacio') + '" data-a="cal-ir-dia" data-ts="' + dia.getTime() + '" aria-label="' + fechaL(dia) + (n ? ', ' + n + (n === 1 ? ' cita' : ' citas') : ', sin citas') + '"><span class="n">' + dd + '</span>' + (n ? n + (n === 1 ? ' cita' : ' citas') : '') + (bl ? '<br>' + esc(bl.motivo) : '') + '</button>';
+    }
+    h += '<div class="encabezado"><p><b>' + mayus(MESES[mo]) + ' de ' + y + '</b></p><div class="botones"><button class="boton chico" data-a="cal-mes" data-n="-1">Mes anterior</button><button class="boton chico" data-a="cal-mes" data-n="1">Mes siguiente</button></div></div><div class="mes">' + celdas + '</div><p class="suave chica">Toque un día para ver sus citas.</p>';
+  } else {
+    var lista = S.citas.filter(function (c) { return mismoDia(c.inicio, C.dia) && c.estado !== 'cancelada'; }).sort(function (a, b) { return a.inicio - b.inicio; });
+    h += '<div class="encabezado"><p><b>' + mayus(fechaL(C.dia)) + ' de ' + C.dia.getFullYear() + '</b></p><div class="botones"><button class="boton chico" data-a="cal-dia-mov" data-n="-1">Día anterior</button><button class="boton chico" data-a="cal-dia-mov" data-n="1">Día siguiente</button></div></div>';
+    h += '<div class="chips">' + [0, 1, 2, 3, 4, 5, 6].map(function (i) { return mas(C.lunes, i); }).filter(function (d, i) { return i < 5 || mismoDia(d, C.dia); }).map(function (d) { return '<button class="chip" data-a="cal-dia" data-ts="' + d.getTime() + '" aria-pressed="' + mismoDia(d, C.dia) + '">' + fechaC(d) + '</button>'; }).join('') + '</div>';
+    var bd = S.bloqueos.filter(function (b) { return soloDia(b.inicio) <= C.dia && b.fin >= C.dia; });
+    h += bd.map(function (b) { return '<p class="nota">Bloqueo: ' + esc(b.motivo) + ' (' + hora(b.inicio) + ' a ' + hora(b.fin) + ')</p>'; }).join('');
+    h += '<section class="hoja">' + (lista.length ? lista.map(filaCita).join('') : '<p class="suave">No hay citas ese día.</p>') + '</section>';
+  }
+  if (C.nueva && C.modo === 'semana') {
+    var t0 = new Date(C.nueva);
+    h += '<section class="hoja pila" id="cal-form"><h2>' + mayus(fechaL(t0)) + ', ' + hora(t0) + '</h2><div class="rejilla2"><div class="campo"><label for="cal-pac">Paciente</label><select id="cal-pac">' + S.pacientes.map(function (p) { return '<option value="' + p.id + '">' + esc(nomPac(p.id)) + '</option>'; }).join('') + '</select></div>' +
+      '<div class="campo"><label for="cal-tipo">Tipo de cita</label><select id="cal-tipo">' + S.tipos.filter(function (x) { return x.activo; }).map(function (x) { return '<option value="' + x.id + '">' + esc(x.nombre) + ' (' + x.min + ' min)</option>'; }).join('') + '</select></div></div>' +
+      (C.error ? '<p class="nota n-alerta" role="alert">' + C.error + '</p>' : '') +
+      '<div class="botones"><button class="boton primario" data-a="cal-crear">Crear la cita</button><button class="boton" data-a="cal-bloquear">Bloquear media hora</button><button class="boton" data-a="cal-nueva" data-ts="0">Cerrar</button></div></section>';
+  }
+  return { hu: ['HU-022', 'HU-016', 'HU-009'], html: h };
+}
+function listaPacientes() {
+  var q = sinTildes(E.busca.trim());
+  var lista = S.pacientes.filter(function (p) { return !q || sinTildes(nomPac(p.id)).indexOf(q) >= 0 || p.doc.replace(/\s/g, '').toLowerCase().indexOf(q.replace(/\s/g, '')) >= 0; }).sort(function (a, b) { return nomPac(a.id).localeCompare(nomPac(b.id), 'es'); });
+  if (!lista.length) return '<p class="suave">Ningún paciente coincide con la búsqueda.</p>';
+  return lista.map(function (p) {
+    var prox = proximas(citasDe(p.id))[0];
+    return '<div class="fila"><span class="h">' + edad(p) + ' años</span><div class="quien"><button class="enlace" data-a="m-ficha" data-id="' + p.id + '">' + esc(nomPac(p.id)) + '</button><span class="dato">' + p.doc + '</span></div><div class="acc"><span class="suave chica">' + (prox ? 'Próxima cita: ' + fechaC(prox.inicio) : 'Sin cita próxima') + '</span></div></div>';
+  }).join('');
+}
+function mPacientes() {
+  return { hu: ['HU-023'], html: '<div class="encabezado"><h1>Pacientes</h1><button class="boton primario" data-a="ir" data-v="registrar">Registrar paciente</button></div>' +
+    '<div class="campo"><label for="buscar-pac">Buscar por nombre o documento</label><input id="buscar-pac" type="search" value="' + esc(E.busca) + '" placeholder="Ejemplo: Rosa o 41652318"></div>' +
+    '<section class="hoja" id="res-pac">' + listaPacientes() + '</section>' };
+}
+function mRegistrar() {
+  return { hu: ['HU-024'], html: '<section class="hoja pila"><h1>Registrar un paciente</h1><div class="rejilla2"><div class="campo"><label for="np-nombres">Nombres</label><input id="np-nombres" value="Gloria Inés"></div><div class="campo"><label for="np-apellidos">Apellidos</label><input id="np-apellidos" value="Pardo Mejía"></div>' +
+    '<div class="campo"><label for="np-doc">Documento</label><input id="np-doc" value="CC 39 781 204"></div><div class="campo"><label for="np-nace">Fecha de nacimiento</label><input id="np-nace" type="date" value="1961-07-19"></div>' +
+    '<div class="campo"><label for="np-cel">Celular</label><input id="np-cel" value="312 555 0153"></div><div class="campo"><label for="np-correo">Correo</label><input id="np-correo" type="email" value="gloria.pardo@ejemplo.co"></div></div>' +
+    (E.cfgError ? '<p class="nota n-alerta" role="alert">' + E.cfgError + '</p>' : '') +
+    '<p class="suave chica">El paciente recibe un enlace para activar su cuenta. Al entrar por primera vez debe aceptar la autorización de tratamiento de datos.</p>' +
+    '<div class="botones"><button class="boton" data-a="ir" data-v="pacientes">Cancelar</button><button class="boton primario" data-a="pac-registrar">Registrar</button></div></section>' };
+}
+function mFicha() {
+  var p = pac(E.pacSel), cs = citasDe(p.id), pr = proximas(cs), pa = pasadas(cs).slice(0, 3), docs = docsDe(p.id), legibles = docs.filter(function (d) { return d.lectura === 'legible'; });
+  var izq = '<section class="hoja pila"><div class="encabezado"><h2>Datos</h2><span class="pildora">' + p.cuenta + '</span></div><dl class="lista-def"><dt>Documento</dt><dd class="dato">' + p.doc + '</dd><dt>Edad</dt><dd>' + edad(p) + ' años (' + fechaN(p.nace) + ')</dd><dt>Celular</dt><dd class="dato">' + p.cel + '</dd><dt>Correo</dt><dd>' + esc(p.correo) + '</dd></dl><div class="botones"><button class="boton chico primario" data-a="m-agendar" data-id="' + p.id + '">Agendarle una cita</button></div></section>';
+  izq += '<section class="hoja"><h2>Citas</h2>' + (pr.concat(pa).length ? pr.concat(pa).map(function (c) { return '<div class="elemento"><div><b>' + mayus(fechaC(c.inicio)) + ' ' + c.inicio.getFullYear() + ' · <span class="dato">' + hora(c.inicio) + '</span></b><span class="suave chica">' + esc(tipo(c.tipo).nombre) + '</span></div>' + pildora(EST[c.estado]) + '</div>'; }).join('') : '<p class="suave">Sin citas registradas.</p>') + '</section>';
+  izq += '<section class="hoja"><h2>Documentos que subió</h2>' + (docs.length ? docs.map(function (d, i) { return '<div class="elemento"><div><b><span class="dato">D' + (i + 1) + '</span> ' + esc(d.nombre) + '</b><span class="suave chica">' + esc(d.tipo) + ' · ' + fechaN(d.fecha) + (d.paginas.length ? ' · ' + d.paginas.length + ' pág.' : '') + '</span></div><div class="botones">' + pildora(LEC[d.lectura]) + '<button class="boton chico" data-a="doc-abrir" data-id="' + d.id + '">Ver</button></div></div>'; }).join('') : '<p class="suave">Este paciente no ha subido documentos.</p>') + '</section>';
+  var trs = tratDe(p.id);
+  izq += '<section class="hoja"><div class="encabezado"><h2>Tratamientos</h2><button class="boton chico" data-a="trat-nuevo">Registrar tratamiento</button></div>' + (trs.length ? trs.map(function (t) { return '<div class="elemento"><div><b>' + fechaN(t.fecha) + ' · ' + esc(t.motivo) + '</b><span class="suave chica">' + t.meds.map(function (m) { return esc(m.nombre); }).join('; ') + '</span></div>' + pildora(estadoT(t)) + '</div>'; }).join('') : '<p class="suave">Sin tratamientos registrados.</p>') + '</section>';
+  var der = '<section class="hoja pila"><div class="encabezado"><h2>Asistente</h2>' + pildora(IA[p.ia]) + '</div>';
+  if (p.ia !== 'aceptada') der += '<p class="nota n-aviso">El asistente está deshabilitado: ' + (p.ia === 'pendiente' ? 'el paciente no ha respondido la autorización de uso de inteligencia artificial.' : 'el paciente no autorizó el uso de inteligencia artificial.') + ' Puede leer los documentos en el visor.</p>';
+  else if (!legibles.length) der += '<p class="nota">No hay documentos legibles para consultar.</p>';
+  else {
+    var R = E.resumen[p.id], chat = E.chat[p.id] || [];
+    der += '<div class="resumen pila">' + (R ? '<div class="encabezado"><p class="suave chica">Resumen generado el ' + fechaN(R.fecha) + ' a las ' + hora(R.fecha) + '</p>' + (R.viejo ? '<span class="pildora p-aviso">Desactualizado</span>' : '') + '</div>' + R.secciones.map(function (s) { return '<div><h3>' + s[0] + '</h3><ul>' + s[1].map(function (it) { return '<li>' + esc(it[0]) + origenHtml([it[1], it[2], it[3]]) + '</li>'; }).join('') + '</ul></div>'; }).join('') + '<p class="suave chica">' + esc(R.nota) + '</p><div class="botones"><button class="boton chico" data-a="resumen">Generar de nuevo</button></div>' : '<p>Resumen de diagnósticos, procedimientos, tratamientos, alergias y estado más reciente, con el origen de cada dato.</p><div class="botones"><button class="boton primario" data-a="resumen">Generar resumen</button></div>') + '</div>';
+    der += '<h3>Preguntar sobre los documentos</h3><div class="chat" aria-live="polite">' + chat.map(function (m) {
+      if (m.q) return '<div class="burbuja pregunta">' + esc(m.q) + '</div>';
+      return '<div class="burbuja respuesta">' + m.r.map(function (x) { return '<p>' + esc(x.t) + (x.o ? x.o.map(origenHtml).join('') : '') + '</p>'; }).join('') + '</div>';
+    }).join('') + (E.pensando ? '<div class="burbuja respuesta suave">Consultando los documentos…</div>' : '') + '</div>';
+    der += '<div class="chips">' + ['¿Qué procedimientos le han hecho?', '¿Qué medicamentos toma?', '¿Tiene alergias?', '¿Qué tratamiento le recomiendas?'].map(function (q) { return '<button class="chip" data-a="preguntar" data-q="' + esc(q) + '">' + q + '</button>'; }).join('') + '</div>';
+    der += '<div class="pregunta-linea"><div class="campo"><label for="pregunta" class="chica">Su pregunta</label><input id="pregunta" placeholder="Ejemplo: ¿cómo salieron los laboratorios?"></div><button class="boton primario" data-a="preguntar-libre" style="align-self:end">Preguntar</button></div>';
+    der += '<p class="suave chica">El asistente es un apoyo: resume lo escrito en ' + legibles.length + ' documentos legibles y no reemplaza su lectura. Cada consulta queda en la bitácora.</p>';
+  }
+  der += '</section>';
+  return { hu: ['HU-025', 'HU-034', 'HU-035', 'HU-033'], html: '<div class="encabezado"><div><button class="enlace chica" data-a="ir" data-v="pacientes">← Pacientes</button><h1>' + esc(nomPac(p.id)) + '</h1></div></div><div class="dos"><div class="pila">' + izq + '</div><div class="pila">' + der + '</div></div>' };
+}
+function mConfig() {
+  var tab = E.cfg, h = '<h1>Configuración</h1><div class="segmento" role="group" aria-label="Sección">' + [['horario', 'Horario'], ['bloqueos', 'Bloqueos'], ['tipos', 'Tipos de cita'], ['consultorio', 'Consultorio']].map(function (t) { return '<button data-a="cfg" data-t="' + t[0] + '" aria-pressed="' + (tab === t[0]) + '">' + t[1] + '</button>'; }).join('') + '</div>';
+  var err = E.cfgError ? '<p class="nota n-alerta" role="alert">' + E.cfgError + '</p>' : '', hu;
+  if (tab === 'horario') {
+    hu = ['HU-008'];
+    h += '<section class="hoja pila"><h2>Horario semanal de atención</h2>' + [1, 2, 3, 4, 5, 6].map(function (d) {
+      var fr = S.horario[d];
+      return '<div class="elemento"><b>' + mayus(DIAS[d]) + '</b><span></span><div class="abajo">' + [0, 1].map(function (i) {
+        var a = fr[i] ? fr[i][0] : '', b = fr[i] ? fr[i][1] : '';
+        return '<div class="campo"><label for="h-' + d + '-' + i + '-a" class="chica">' + (i ? 'Tarde' : 'Mañana') + ', desde</label><input type="time" id="h-' + d + '-' + i + '-a" value="' + a + '"></div><div class="campo"><label for="h-' + d + '-' + i + '-b" class="chica">hasta</label><input type="time" id="h-' + d + '-' + i + '-b" value="' + b + '"></div>';
+      }).join('') + '</div></div>';
+    }).join('') + err + '<div class="botones"><button class="boton primario" data-a="horario-guardar">Guardar horario</button></div><p class="suave chica">Deje una franja vacía si no atiende en ese momento. Los domingos no hay atención.</p></section>';
+  } else if (tab === 'bloqueos') {
+    hu = ['HU-009'];
+    h += '<section class="hoja"><h2>Bloqueos vigentes</h2>' + (S.bloqueos.length ? S.bloqueos.map(function (b) { return '<div class="elemento"><div><b>' + esc(b.motivo) + '</b><span class="suave chica">' + mayus(fechaL(b.inicio)) + ', ' + hora(b.inicio) + ' a ' + hora(b.fin) + '</span></div><button class="boton chico" data-a="bloqueo-quitar" data-id="' + b.id + '">Quitar</button></div>'; }).join('') : '<p class="suave">No hay bloqueos.</p>') + '</section>' +
+      '<section class="hoja pila"><h2>Nuevo bloqueo</h2><div class="rejilla2"><div class="campo"><label for="bl-fecha">Día</label><input type="date" id="bl-fecha" value="2026-10-15"></div><div class="campo"><label for="bl-a">Desde</label><input type="time" id="bl-a" value="08:00"></div><div class="campo"><label for="bl-b">Hasta</label><input type="time" id="bl-b" value="10:00"></div><div class="campo"><label for="bl-motivo">Motivo</label><input id="bl-motivo" value="Diligencia personal"></div></div>' + err + '<div class="botones"><button class="boton primario" data-a="bloqueo-crear">Bloquear</button></div></section>';
+  } else if (tab === 'tipos') {
+    hu = ['HU-010'];
+    h += '<section class="hoja"><h2>Tipos de cita</h2>' + S.tipos.map(function (t) { return '<div class="elemento"><div><b>' + esc(t.nombre) + '</b><span class="suave chica dato">' + t.min + ' minutos</span></div><div class="botones">' + pildora(t.activo ? ['Activo', 'p-ok'] : ['Inactivo', '']) + '<button class="boton chico" data-a="tipo-alternar" data-id="' + t.id + '">' + (t.activo ? 'Desactivar' : 'Activar') + '</button></div></div>'; }).join('') + '</section>' +
+      '<section class="hoja pila"><h2>Nuevo tipo</h2><div class="rejilla2"><div class="campo"><label for="tp-nombre">Nombre</label><input id="tp-nombre" value="Certificado médico"></div><div class="campo"><label for="tp-min">Duración en minutos</label><input id="tp-min" type="number" min="5" step="5" value="15"></div></div>' + err + '<div class="botones"><button class="boton primario" data-a="tipo-crear">Agregar</button></div><p class="suave chica">Cambiar un tipo no altera las citas que ya están agendadas.</p></section>';
+  } else {
+    hu = ['HU-001'];
+    var c = S.consultorio;
+    h += '<section class="hoja pila"><h2>Datos del consultorio</h2><div class="rejilla2"><div class="campo"><label for="co-nombre">Nombre</label><input id="co-nombre" value="' + esc(c.nombre) + '"></div><div class="campo"><label for="co-tel">Teléfono</label><input id="co-tel" value="' + esc(c.telefono) + '"></div><div class="campo"><label for="co-medico">Médico</label><input id="co-medico" value="' + esc(c.medico) + '"></div><div class="campo"><label for="co-reg">Registro profesional</label><input id="co-reg" value="' + esc(c.registro) + '"></div></div><div class="campo"><label for="co-dir">Dirección</label><input id="co-dir" value="' + esc(c.direccion) + '"></div>' +
+      '<div class="rejilla2"><div class="campo"><label for="co-ant">Horas mínimas para que el paciente mueva o cancele</label><input id="co-ant" type="number" min="0" value="' + c.anticipacion + '"></div></div><div class="botones"><button class="boton primario" data-a="consultorio-guardar">Guardar</button></div></section>';
+  }
+  return { hu: hu, html: h };
+}
+function mTratamiento() {
+  var p = pac(E.pacSel);
+  function med(i, v) {
+    return '<fieldset class="grupo"><legend class="chica"><b>Medicamento ' + (i + 1) + (i ? ' (opcional)' : '') + '</b></legend><div class="rejilla2">' +
+      '<div class="campo"><label for="tr-n' + i + '">Nombre y presentación</label><input id="tr-n' + i + '" value="' + v[0] + '"></div>' +
+      '<div class="campo"><label for="tr-d' + i + '">Dosis</label><input id="tr-d' + i + '" value="' + v[1] + '"></div>' +
+      '<div class="campo"><label for="tr-f' + i + '">Frecuencia</label><input id="tr-f' + i + '" value="' + v[2] + '"></div>' +
+      '<div class="campo"><label for="tr-t' + i + '">Duración en días</label><input id="tr-t' + i + '" type="number" min="1" value="' + v[3] + '"></div></div>' +
+      '<div class="campo"><label for="tr-m' + i + '">Cómo tomarlo</label><input id="tr-m' + i + '" value="' + v[4] + '"></div></fieldset>';
+  }
+  return { hu: ['HU-038'], html: '<section class="hoja pila"><h1>Registrar tratamiento</h1><p class="suave">Paciente: ' + esc(nomPac(p.id)) + ' · ' + mayus(fechaL(HOY)) + '</p>' +
+    '<div class="campo"><label for="tr-motivo">Motivo</label><input id="tr-motivo" value="Control de presión arterial"></div>' +
+    med(0, ['Losartán 50 mg, tableta', '1 tableta', 'Cada 12 horas', '30', 'Después del desayuno y después de la cena.']) + med(1, ['', '', '', '', '']) +
+    '<div class="campo"><label for="tr-ind">Indicaciones generales</label><textarea id="tr-ind" rows="3">Controle la presión dos veces por semana y anote los valores.</textarea></div>' +
+    (E.cfgError ? '<p class="nota n-alerta" role="alert">' + E.cfgError + '</p>' : '') +
+    '<p class="suave chica">El paciente lo verá en "Mis tratamientos". Una vez guardado no se puede modificar; si algo cambia, registre un tratamiento nuevo.</p>' +
+    '<div class="botones"><button class="boton" data-a="ir" data-v="ficha">Cancelar</button><button class="boton primario" data-a="trat-guardar">Guardar y enviar al paciente</button></div></section>' };
+}
+function mCobro() {
+  return { hu: ['HU-026'], html: '<h1>Cobro</h1><section class="hoja pila"><p class="nota">Esta función todavía no está disponible.</p><p>Aquí quedará el cobro de la consulta y la factura electrónica. Por ahora no se guarda ni se envía nada.</p></section>' };
+}
+function mBitacora() {
+  var lista = S.bitacora.filter(function (b) { return !E.bitPac || b.pac === E.bitPac; });
+  return { hu: ['HU-037'], html: '<h1>Bitácora</h1><div class="campo" style="max-width:320px"><label for="bit-pac">Paciente</label><select id="bit-pac"><option value="">Todos</option>' + S.pacientes.map(function (p) { return '<option value="' + p.id + '"' + (E.bitPac === p.id ? ' selected' : '') + '>' + esc(nomPac(p.id)) + '</option>'; }).join('') + '</select></div>' +
+    '<section class="hoja desliza"><table class="tabla"><thead><tr><th>Fecha</th><th>Quién</th><th>Paciente</th><th>Acción</th></tr></thead><tbody>' + (lista.length ? lista.map(function (b) { return '<tr><td class="dato">' + fechaN(b.fecha) + ' ' + hora(b.fecha) + '</td><td>' + esc(b.quien) + '<br><span class="suave chica">' + b.rol + '</span></td><td>' + (b.pac ? esc(nomPac(b.pac)) : '—') + '</td><td>' + esc(b.accion) + '</td></tr>'; }).join('') : '<tr><td colspan="4" class="suave">Sin registros.</td></tr>') + '</tbody></table></section><p class="suave chica">La bitácora solo admite registros nuevos: nadie puede modificarla ni borrarla. No guarda contenido clínico.</p>' };
+}
+
+/* ---------- Armado de la pantalla ---------- */
+var P_PUB = { ingreso: pIngreso, registro: pRegistro, recuperar: pRecuperar };
+var P_PRI = { inicio: pInicio, agendar: pAgendar, citas: pCitas, tratamientos: pTratamientos, documentos: pDocs, subir: pSubir, 'autoriza-ia': pAutorizaIA, perfil: pPerfil, visor: visor };
+var M_V = { hoy: mHoy, mover: mMover, calendario: mCalendario, pacientes: mPacientes, registrar: mRegistrar, ficha: mFicha, tratamiento: mTratamiento, visor: visor, config: mConfig, cobro: mCobro, bitacora: mBitacora };
+var TAB_P = { inicio: 'inicio', agendar: 'citas', citas: 'citas', tratamientos: 'tratamientos', documentos: 'documentos', subir: 'documentos', 'autoriza-ia': 'documentos', visor: 'documentos', perfil: 'perfil' };
+var TAB_M = { hoy: 'hoy', mover: 'calendario', calendario: 'calendario', pacientes: 'pacientes', registrar: 'pacientes', ficha: 'pacientes', tratamiento: 'pacientes', visor: 'pacientes', config: 'config', cobro: 'cobro', bitacora: 'bitacora' };
+function vistaPaciente() {
+  var fn = E.sesionP ? (P_PRI[E.vp] || pInicio) : (P_PUB[E.vp] || pIngreso), r = fn();
+  var tabs = E.sesionP ? '<div class="encabezado"><span class="suave chica">Rosa Elena Duarte</span><button class="enlace chica" data-a="ir" data-v="perfil">Mi perfil</button></div><nav class="pestanas" aria-label="Secciones">' + [['inicio', 'Inicio'], ['citas', 'Citas'], ['tratamientos', 'Tratamientos'], ['documentos', 'Documentos']].map(function (t) { return '<button data-a="ir" data-v="' + t[0] + '" aria-current="' + (TAB_P[E.vp] === t[0]) + '">' + t[1] + '</button>'; }).join('') + '</nav>' : '';
+  return { hu: r.hu, html: '<div class="movil">' + tabs + avisoHtml() + r.html + '</div>' };
+}
+function vistaMedico() {
+  var r = (M_V[E.vm] || mHoy)();
+  var menu = '<nav class="menu" aria-label="Panel del médico">' + [['hoy', 'Hoy'], ['calendario', 'Calendario'], ['pacientes', 'Pacientes'], ['config', 'Configuración'], ['bitacora', 'Bitácora'], ['cobro', 'Cobro']].map(function (t) { return '<button data-a="ir" data-v="' + t[0] + '" aria-current="' + (TAB_M[E.vm] === t[0]) + '">' + t[1] + '</button>'; }).join('') + '<div class="quien"><b>Dra. ' + esc(S.consultorio.medico) + '</b><br>' + esc(S.consultorio.registro) + '</div></nav>';
+  return { hu: r.hu, html: '<div class="panel">' + menu + '<div class="contenido">' + avisoHtml() + r.html + '</div></div>' };
+}
+function pintar() {
+  var v = E.rol === 'paciente' ? vistaPaciente() : vistaMedico();
+  document.getElementById('lienzo').innerHTML = v.html;
+  document.getElementById('pie').innerHTML = '<span>Esta pantalla cubre</span>' + v.hu.map(function (h) { return '<span class="hu">' + h + '</span>'; }).join('') + '<span>· Prototipo sin conexión: nada se guarda ni se envía.</span>';
+  document.getElementById('rol-paciente').setAttribute('aria-pressed', String(E.rol === 'paciente'));
+  document.getElementById('rol-medico').setAttribute('aria-pressed', String(E.rol === 'medico'));
+  var modal = document.querySelector ? document.querySelector('.modal') : null;
+  if (modal && !modal.contains(document.activeElement)) modal.focus();
+  E.aviso = null;
+}
+function val(id) { var el = document.getElementById(id); return el ? String(el.value || '').trim() : ''; }
+function vista(v) { if (E.rol === 'paciente') E.vp = v; else E.vm = v; }
+function avisar(c, t) { E.aviso = { c: c, t: t }; }
+function viejo(pacId) { if (E.resumen[pacId]) E.resumen[pacId].viejo = true; }
+
+/* ---------- Acciones ---------- */
+var A = {
+  rol: function (d) { E.rol = d.r; E.confirmar = null; },
+  ir: function (d) { vista(d.v); E.confirmar = null; E.cfgError = null; E.reg = { paso: 1, error: null }; E.recuperado = false; E.cal.nueva = null; },
+  descartar: function () { E.confirmar = null; },
+  'p-ingresar': function () { E.sesionP = true; E.vp = 'inicio'; anotar('Ingresó al sistema', 'p1'); },
+  'p-salir': function () { E.sesionP = false; E.vp = 'ingreso'; avisar('n-ok', 'Sesión cerrada.'); },
+  'rg-paso': function (d) { E.reg.paso = +d.p; E.reg.error = null; },
+  'rg-clave': function () { var c = val('rg-clave'); if (c.length < 8 || !/\d/.test(c)) E.reg.error = 'A la contraseña le falta: ' + (c.length < 8 ? 'tener al menos 8 caracteres' : 'incluir al menos un número') + '.'; else { E.reg.paso = 3; E.reg.error = null; } },
+  'rg-fin': function () {
+    var el = document.getElementById('rg-acepto'), ia = document.getElementById('rg-acepto-ia');
+    if (!el || !el.checked) { E.reg.error = 'Para crear la cuenta debe autorizar el tratamiento de sus datos.'; return; }
+    var conIA = !!(ia && ia.checked);
+    E.sesionP = true; E.vp = 'inicio'; E.reg = { paso: 1, error: null };
+    avisar('n-ok', 'Cuenta creada ' + (conIA ? 'con' : 'sin') + ' autorización de inteligencia artificial. Para seguir el recorrido, el prototipo continúa con la paciente de ejemplo.');
+  },
+  'rg-completa': function () { E.reg.completa = !E.reg.completa; },
+  'trat-ver': function (d) { E.tratAbierto = E.tratAbierto === d.id ? null : d.id; },
+  'trat-nuevo': function () { E.vm = 'tratamiento'; E.cfgError = null; },
+  'trat-guardar': function () {
+    var meds = [];
+    [0, 1].forEach(function (i) { var n = val('tr-n' + i); if (n) meds.push({ nombre: n, dosis: val('tr-d' + i), frecuencia: val('tr-f' + i), dias: +val('tr-t' + i), modo: val('tr-m' + i) }); });
+    if (!val('tr-motivo') || !meds.length || meds.some(function (m) { return !m.dosis || !m.frecuencia || !(m.dias >= 1) || !m.modo; })) { E.cfgError = 'Escriba el motivo y, por cada medicamento, la dosis, la frecuencia, la duración y cómo tomarlo.'; return; }
+    S.tratamientos.push({ id: 'r' + (++sec), pac: E.pacSel, fecha: HOY, motivo: val('tr-motivo'), meds: meds, indicaciones: val('tr-ind') });
+    E.cfgError = null; E.vm = 'ficha'; anotar('Registró un tratamiento', E.pacSel);
+    avisar('n-ok', 'Tratamiento guardado. El paciente ya lo ve en "Mis tratamientos".');
+  },
+  'cal-mes': function (d) { E.cal.mes = new Date(E.cal.mes.getFullYear(), E.cal.mes.getMonth() + +d.n, 1); },
+  'cal-ir-dia': function (d) { irDia(new Date(+d.ts)); E.cal.modo = 'dia'; },
+  'cal-dia-mov': function (d) { irDia(mas(E.cal.dia, +d.n)); },
+  'rc-enviar': function () { E.recuperado = true; },
+  'ag-nueva': function () { E.ag = { modo: 'nueva', paso: 1, tipo: null, dia: null, slot: null, cita: null, pac: 'p1' }; E.vp = 'agendar'; E.confirmar = null; },
+  'm-agendar': function (d) { E.ag = { modo: 'nueva', paso: 1, tipo: null, dia: null, slot: null, cita: null, pac: d.id }; E.vm = 'mover'; },
+  'ag-tipo': function (d) { E.ag.tipo = d.id; E.ag.paso = 2; },
+  'ag-dia': function (d) { E.ag.dia = +d.ts; E.ag.slot = null; },
+  'ag-slot': function (d) { E.ag.slot = +d.ts; },
+  'ag-paso': function (d) { E.ag.paso = +d.p; },
+  'ag-salir': function () { if (E.rol === 'paciente') E.vp = 'citas'; else E.vm = 'hoy'; },
+  'ag-confirmar': function () {
+    var G = E.ag, t = tipo(G.tipo), ini = new Date(G.slot);
+    if (choca(ini, t.min, G.cita) || bloqueado(ini, t.min)) { avisar('n-alerta', 'Ese espacio acaba de ocuparse. Elija otro.'); G.slot = null; G.paso = 2; return; }
+    if (G.modo === 'mover') { var c = cita(G.cita); c.cambios.push({ de: c.inicio, a: ini }); c.inicio = ini; anotar('Movió una cita al ' + fechaC(ini) + ' ' + hora(ini), c.pac); }
+    else { var n = { id: 'c' + (++sec), pac: G.pac, tipo: t.id, inicio: ini, min: t.min, estado: 'confirmada', cambios: [] }; S.citas.push(n); G.cita = n.id; anotar('Creó una cita para el ' + fechaC(ini) + ' ' + hora(ini), G.pac); }
+    G.paso = 4;
+  },
+  'cita-mover': function (d) {
+    var c = cita(d.id);
+    if (E.rol === 'paciente' && !puedeCambiar(c)) { E.confirmar = { t: 'tarde', id: c.id }; return; }
+    E.ag = { modo: 'mover', paso: 2, tipo: c.tipo, dia: null, slot: null, cita: c.id, pac: c.pac }; E.confirmar = null;
+    if (E.rol === 'paciente') E.vp = 'agendar'; else E.vm = 'mover';
+  },
+  'cita-cancelar': function (d) { var c = cita(d.id); E.confirmar = (E.rol === 'paciente' && !puedeCambiar(c)) ? { t: 'tarde', id: c.id } : { t: 'cancelar', id: c.id }; },
+  'cita-cancelar-ok': function (d) {
+    var c = cita(d.id);
+    if (E.rol === 'medico') { var m = val('motivo-cancel'); if (!m) { E.confirmar.error = true; return; } c.motivo = m; }
+    c.estado = 'cancelada'; E.confirmar = null; anotar('Canceló la cita del ' + fechaC(c.inicio) + ' ' + hora(c.inicio), c.pac);
+    avisar('n-ok', 'Cita cancelada. El espacio quedó libre' + (E.rol === 'medico' ? ' y el paciente recibe un correo con el motivo.' : '.'));
+  },
+  'm-asistencia': function (d) { var c = cita(d.id); c.estado = d.e; anotar(d.e === 'confirmada' ? 'Corrigió la asistencia de una cita' : 'Marcó la cita como "' + EST[d.e][0].toLowerCase() + '"', c.pac); },
+  'm-ficha': function (d) { E.pacSel = d.id; E.vm = 'ficha'; E.confirmar = null; anotar('Abrió la ficha del paciente', d.id); },
+  'doc-abrir': function (d) { var x = docu(d.id); E.docSel = d.id; E.pagSel = +(d.pag || 1); E.resaltar = d.frag || null; E.zoom = 1; vista('visor'); anotar('Abrió un documento: ' + x.nombre, x.pac); },
+  'visor-pag': function (d) { E.pagSel += +d.n; E.resaltar = null; },
+  'visor-zoom': function (d) { E.zoom = Math.max(0.8, Math.min(1.6, +(E.zoom + 0.2 * +d.n).toFixed(1))); },
+  'doc-eliminar': function (d) { E.confirmar = { t: 'doc', id: d.id }; },
+  'doc-eliminar-ok': function (d) { var x = docu(d.id); S.docs = S.docs.filter(function (y) { return y.id !== d.id; }); E.confirmar = null; viejo(x.pac); anotar('Eliminó un documento: ' + x.nombre, x.pac); avisar('n-ok', 'Documento eliminado junto con su texto.'); },
+  'doc-subir': function () {
+    var nombre = val('sb-nombre') || 'Documento sin nombre', formato = val('sb-formato') || 'PDF', fd = val('sb-fecha').split('-'), ia = pac('p1').ia;
+    var n = { id: 'd' + (++sec), pac: 'p1', nombre: nombre, fecha: fd.length === 3 ? f(+fd[0], +fd[1], +fd[2]) : HOY, tipo: val('sb-tipo') || 'Otro', formato: formato, lectura: (formato === 'Foto' && ia !== 'aceptada') ? 'sin_leer' : 'en_proceso', subido: HOY, paginas: [[nombre, 'Texto de ejemplo del documento que se acaba de subir.']] };
+    S.docs.push(n); viejo('p1'); anotar('Subió un documento: ' + nombre, 'p1'); E.vp = 'documentos';
+    avisar('n-ok', 'Documento guardado. ' + (n.lectura === 'en_proceso' ? 'Se está leyendo; en unos segundos verá si quedó legible.' : 'Es una foto: solo se leerá si autoriza el uso de inteligencia artificial.'));
+    if (n.lectura === 'en_proceso') setTimeout(function () { n.lectura = 'legible'; if (E.rol === 'paciente' && E.vp === 'documentos') pintar(); }, 2200);
+  },
+  'ia-decidir': function (d) {
+    var p = pac('p1'); p.ia = d.d; anotar('Cambió la autorización de inteligencia artificial: ' + IA[d.d][0].toLowerCase(), 'p1');
+    if (d.d === 'aceptada') S.docs.forEach(function (x) { if (x.pac === 'p1' && x.lectura === 'sin_leer') x.lectura = 'legible'; });
+    avisar(d.d === 'aceptada' ? 'n-ok' : 'n-aviso', d.d === 'aceptada' ? 'Autorización guardada. La doctora ya puede usar el asistente con sus documentos.' : 'Listo. El asistente quedó deshabilitado para sus documentos desde este momento.');
+  },
+  preguntar: function (d) { preguntar(d.q); },
+  'preguntar-libre': function () { var q = val('pregunta'); if (q) preguntar(q); },
+  resumen: function () { var id = E.pacSel; E.resumen[id] = resumenDe(id); anotar('Generó el resumen del paciente', id); },
+  'cal-modo': function (d) { E.cal.modo = d.m; E.cal.nueva = null; },
+  'cal-semana': function (d) { E.cal.lunes = mas(E.cal.lunes, 7 * +d.n); E.cal.dia = E.cal.lunes; E.cal.nueva = null; },
+  'cal-dia': function (d) { E.cal.dia = new Date(+d.ts); },
+  'cal-nueva': function (d) { E.cal.nueva = +d.ts || null; E.cal.error = null; },
+  'cal-crear': function () {
+    var t = tipo(val('cal-tipo')), ini = new Date(E.cal.nueva), p = val('cal-pac');
+    if (!t) { E.cal.error = 'No hay tipos de cita activos.'; return; }
+    if (choca(ini, t.min)) { E.cal.error = 'Ese tiempo se cruza con otra cita.'; return; }
+    S.citas.push({ id: 'c' + (++sec), pac: p, tipo: t.id, inicio: ini, min: t.min, estado: 'confirmada', cambios: [] });
+    anotar('Creó una cita para el ' + fechaC(ini) + ' ' + hora(ini), p); E.cal.nueva = null;
+    avisar('n-ok', 'Cita creada para ' + esc(nomPac(p)) + '. El paciente la ve en "Mis citas" y recibe un correo.');
+  },
+  'cal-bloquear': function () { var ini = new Date(E.cal.nueva); S.bloqueos.push({ id: 'b' + (++sec), inicio: ini, fin: new Date(ini.getTime() + 30 * 60000), motivo: 'Bloqueado' }); E.cal.nueva = null; avisar('n-ok', 'Espacio bloqueado.'); },
+  'pac-registrar': function () {
+    var doc = val('np-doc'), nd = val('np-nace').split('-');
+    if (!val('np-nombres') || !val('np-apellidos') || !doc) { E.cfgError = 'Nombres, apellidos y documento son obligatorios.'; return; }
+    var ya = S.pacientes.filter(function (p) { return p.doc.replace(/\s/g, '') === doc.replace(/\s/g, ''); })[0];
+    if (ya) { E.cfgError = 'Ya existe un paciente con ese documento: ' + esc(nomPac(ya.id)) + '.'; return; }
+    var n = { id: 'p' + (++sec), nombres: val('np-nombres'), apellidos: val('np-apellidos'), doc: doc, nace: nd.length === 3 ? f(+nd[0], +nd[1], +nd[2]) : f(1980, 1, 1), cel: val('np-cel'), correo: val('np-correo'), ia: 'pendiente', cuenta: 'Sin activar' };
+    S.pacientes.push(n); E.cfgError = null; E.pacSel = n.id; E.vm = 'ficha'; anotar('Registró un paciente', n.id);
+    avisar('n-ok', 'Paciente registrado. Se le envió el enlace para activar su cuenta.');
+  },
+  cfg: function (d) { E.cfg = d.t; E.cfgError = null; },
+  'horario-guardar': function () {
+    var nuevo = { 0: [] }, mal = null;
+    [1, 2, 3, 4, 5, 6].forEach(function (d) {
+      nuevo[d] = [];
+      [0, 1].forEach(function (i) { var a = val('h-' + d + '-' + i + '-a'), b = val('h-' + d + '-' + i + '-b'); if (!a && !b) return; if (!a || !b || a >= b) mal = DIAS[d]; else nuevo[d].push([a, b]); });
+      if (nuevo[d].length === 2 && nuevo[d][0][1] > nuevo[d][1][0]) mal = DIAS[d];
+    });
+    if (mal) { E.cfgError = 'Revise el ' + mal + ': una franja termina antes de empezar o se cruza con la otra.'; return; }
+    S.horario = nuevo; E.cfgError = null; avisar('n-ok', 'Horario guardado. Los espacios libres ya usan el horario nuevo.');
+  },
+  'bloqueo-crear': function () {
+    var fd = val('bl-fecha').split('-'), a = val('bl-a'), b = val('bl-b'), mot = val('bl-motivo');
+    if (fd.length !== 3 || !a || !b || a >= b || !mot) { E.cfgError = 'Complete el día, un rango de horas válido y el motivo.'; return; }
+    var dia = f(+fd[0], +fd[1], +fd[2]), ini = aHora(dia, a), fin = aHora(dia, b);
+    var afectadas = S.citas.filter(function (c) { return c.estado === 'confirmada' && c.inicio < fin && finC(c) > ini; });
+    if (afectadas.length) { E.cfgError = 'El bloqueo se cruza con ' + afectadas.length + (afectadas.length === 1 ? ' cita' : ' citas') + ' (' + afectadas.map(function (c) { return esc(pac(c.pac).nombres) + ' ' + hora(c.inicio); }).join(', ') + '). Muévalas o cancélelas antes de bloquear.'; return; }
+    S.bloqueos.push({ id: 'b' + (++sec), inicio: ini, fin: fin, motivo: mot }); E.cfgError = null; avisar('n-ok', 'Bloqueo creado. Ese tiempo ya no se ofrece.');
+  },
+  'bloqueo-quitar': function (d) { S.bloqueos = S.bloqueos.filter(function (b) { return b.id !== d.id; }); avisar('n-ok', 'Bloqueo quitado. Ese tiempo vuelve a ofrecerse.'); },
+  'tipo-alternar': function (d) { var t = tipo(d.id); t.activo = !t.activo; },
+  'tipo-crear': function () { var n = val('tp-nombre'), m = +val('tp-min'); if (!n || !(m >= 5)) { E.cfgError = 'Escriba el nombre y una duración de al menos 5 minutos.'; return; } S.tipos.push({ id: 't' + (++sec), nombre: n, min: m, activo: true }); E.cfgError = null; avisar('n-ok', 'Tipo de cita agregado. Los pacientes ya lo ven al agendar.'); },
+  'consultorio-guardar': function () { var c = S.consultorio; c.nombre = val('co-nombre') || c.nombre; c.telefono = val('co-tel') || c.telefono; c.medico = val('co-medico') || c.medico; c.registro = val('co-reg') || c.registro; c.direccion = val('co-dir') || c.direccion; var a = +val('co-ant'); if (a >= 0) c.anticipacion = a; avisar('n-ok', 'Datos guardados.'); }
+};
+function preguntar(q) {
+  var id = E.pacSel; E.chat[id] = E.chat[id] || []; E.chat[id].push({ q: q }); E.pensando = true; anotar('Hizo una consulta al asistente', id);
+  setTimeout(function () { E.chat[id].push({ r: responder(id, q) }); E.pensando = false; if (E.rol === 'medico' && E.vm === 'ficha' && E.pacSel === id) pintar(); }, 700);
+}
+
+/* ---------- Eventos ---------- */
+document.addEventListener('click', function (ev) {
+  var b = ev.target.closest ? ev.target.closest('[data-a]') : null;
+  if (!b || b.disabled) return;
+  var fn = A[b.dataset.a];
+  if (!fn) return;
+  fn(b.dataset);
+  pintar();
+});
+document.addEventListener('input', function (ev) {
+  if (ev.target.id === 'buscar-pac') { E.busca = ev.target.value; var r = document.getElementById('res-pac'); if (r) r.innerHTML = listaPacientes(); }
+});
+document.addEventListener('change', function (ev) {
+  if (ev.target.id === 'bit-pac') { E.bitPac = ev.target.value; pintar(); }
+  if (ev.target.id === 'rg-acepto') E.reg.acepto = ev.target.checked;
+  if (ev.target.id === 'rg-acepto-ia') E.reg.ia = ev.target.checked;
+});
+document.addEventListener('keydown', function (ev) {
+  if (ev.key === 'Escape' && E.rol === 'paciente' && !E.sesionP && E.vp === 'registro' && E.reg.paso === 3) { E.reg.paso = 2; E.reg.error = null; pintar(); }
+  if (ev.key === 'Enter' && ev.target.id === 'pregunta') { var q = ev.target.value.trim(); if (q) { preguntar(q); pintar(); } }
+});
+
+window.__vitalia = { S: S, E: E, A: A, P_PUB: P_PUB, P_PRI: P_PRI, M_V: M_V, pintar: pintar, espacios: espacios, responder: responder };
+pintar();
+})();
+</script>

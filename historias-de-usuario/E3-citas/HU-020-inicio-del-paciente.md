@@ -17,8 +17,9 @@
 
 - **CA-1** · Dado que tengo una cita futura, cuando entro, entonces veo la más próxima con fecha, hora y tipo, y los botones para moverla o cancelarla.
 - **CA-2** · Dado que no tengo citas futuras, cuando entro, entonces veo el acceso para agendar.
-- **CA-3** · Dada la pantalla de inicio, cuando la veo, entonces tengo accesos a agendar, mis citas, mis documentos y mi perfil.
+- **CA-3** · Dada la pantalla de inicio, cuando la veo, entonces tengo accesos a agendar, mis citas, mis tratamientos, mis documentos y mi perfil.
 - **CA-4** · Dado que no he subido documentos, cuando entro, entonces veo una invitación a subir mis historias clínicas.
+- **CA-5** · Dado que tengo un tratamiento vigente, cuando entro, entonces veo sus medicamentos y el acceso a "Mis tratamientos". *(Agregado en Diseño.)*
 
 ## Tareas y actividades
 

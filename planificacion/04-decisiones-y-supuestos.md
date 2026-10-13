@@ -16,10 +16,18 @@ Una **decisión** la tomó el dueño del proyecto. Un **supuesto** lo puso quien
 | D-03 | 12 oct 2026 | El médico hace todo lo del consultorio. No hay personal de recepción | Dos roles: médico y paciente |
 | D-04 | 12 oct 2026 | El cobro queda como un botón en el panel, sin función | Una sola historia mínima (HU-026) |
 | D-05 | 12 oct 2026 | La inteligencia artificial se adelanta: el paciente sube sus historias clínicas y el médico pregunta sobre ellas | Épicas E5 y E6 entran en este alcance |
-| D-06 | 12 oct 2026 | El levantamiento de ahora cubre el flujo principal: registro de pacientes, panel del médico, citas de ambas partes y calendario de disponibilidad | 37 historias en 7 épicas |
+| D-06 | 12 oct 2026 | El levantamiento de ahora cubre el flujo principal: registro de pacientes, panel del médico, citas de ambas partes y calendario de disponibilidad | 37 historias en 7 épicas al momento de decidirlo; 39 en 8 después de D-13 |
 | D-07 | 12 oct 2026 | Se trabaja con Kanban sobre las cinco fases del ciclo de vida | Ver [05-kanban.md](05-kanban.md) |
 | D-08 | 12 oct 2026 | Las historias se escriben directamente como archivos. No se usa el generador de la versión anterior | La carpeta `historias-de-usuario/` se edita a mano |
 | D-09 | 12 oct 2026 | La facturación electrónica, cuando se retome, se hará con Factus | Queda para después |
+| D-10 | 12 oct 2026 | El servidor se construye en Python con FastAPI y la base de datos es PostgreSQL en Render | Ver [arquitectura](../diseno/01-arquitectura.md) |
+| D-11 | 12 oct 2026 | La primera versión usa un modelo de IA chino y económico; más adelante se evalúa una API empresarial | Se diseñó un adaptador que permite cambiar de proveedor por configuración |
+| D-12 | 12 oct 2026 | Las pantallas se diseñan con un prototipo navegable | Ver [pantallas](../diseno/05-pantallas.md) |
+| D-13 | 12 oct 2026 | El paciente tiene una sección "Mis tratamientos" donde ve el último tratamiento | Épica E8 nueva: el total pasa a 39 historias en 8 épicas |
+| D-14 | 12 oct 2026 | Al registrarse, la política de tratamiento de datos sale en una ventana que resalta los puntos más importantes, entre ellos el uso de inteligencia artificial sobre las historias clínicas. El texto se afina después | HU-003 y HU-032 ajustadas |
+| D-15 | 12 oct 2026 | Al agendar solo se muestran los días y las horas disponibles; lo ocupado no aparece | HU-012 ajustada |
+| D-16 | 12 oct 2026 | El calendario del médico permite ir al mes anterior y al siguiente, y al tocar un día abre sus citas | HU-022 ajustada |
+| D-17 | 12 oct 2026 | En el producto no hay botones para "ver como" otro rol: cada persona entra con su cuenta. Esos botones son solo del prototipo | Sin efecto en las historias |
 
 ## 2. Supuestos
 
@@ -36,17 +44,23 @@ Una **decisión** la tomó el dueño del proyecto. Un **supuesto** lo puso quien
 | S-09 | El asistente solo resume lo registrado; no diagnostica ni sugiere tratamiento | HU-034, HU-035 | Dueño del proyecto |
 | S-10 | La aplicación es web y se adapta al celular | Todas las pantallas | Diseño |
 | S-11 | Todavía no existe un consultorio real; las reglas se ajustan cuando aparezca | Todos los supuestos de operación | Dueño del proyecto |
+| S-12 | El tratamiento lo registra el médico desde la ficha del paciente, con los medicamentos en texto libre; no sale de los documentos que sube el paciente | HU-038, HU-039 | Dueño del proyecto |
+| S-13 | En la ventana del registro, el uso de inteligencia artificial tiene su propia casilla, opcional y sin marcar. La Ley 1581 pide que la autorización de datos sensibles sea específica y que no se condicione el servicio a darla | HU-003, HU-032 | Abogado |
 
-## 3. Decisiones abiertas para la fase de Diseño
+## 3. Decisiones que se cerraron en la fase de Diseño
 
-| # | Decisión | Qué hay que considerar |
-|---|---|---|
-| A-01 | Tecnología de la aplicación y del servidor | Pesa más quién la va a mantener que el lenguaje |
-| A-02 | Base de datos | Debe permitir permisos por fila de forma nativa (HU-036) |
-| A-03 | Dónde se aloja el sistema y los documentos | Cifrado, respaldos y ubicación de los datos (pregunta 2 del [marco normativo](03-marco-normativo.md)) |
-| A-04 | Proveedor de inteligencia artificial | Que lea PDF e imágenes, cite la página de origen y firme un acuerdo de tratamiento de datos |
-| A-05 | Cómo se lee el texto de fotos y documentos escaneados | Calidad con letra manuscrita y costo por página (HU-031) |
-| A-06 | Proveedor de correo | Entrega confiable de la recuperación de contraseña y de los avisos |
+| # | Decisión | Cómo quedó | Quién decidió |
+|---|---|---|---|
+| A-01 | Tecnología de la aplicación y del servidor | FastAPI en el servidor; React con Vite y TypeScript en las pantallas | El servidor, el dueño del proyecto. React frente a Astro, propuesta de diseño |
+| A-02 | Base de datos | PostgreSQL en Render, con permisos por fila | Dueño del proyecto |
+| A-03 | Dónde se aloja el sistema y los documentos | Render para la aplicación; archivos en almacenamiento compatible con S3 (propuesta: Cloudflare R2) | Render, el dueño del proyecto. El almacenamiento, propuesta de diseño |
+| A-04 | Proveedor de inteligencia artificial | Qwen por la plataforma internacional de Alibaba Cloud | El dueño propuso DeepSeek o Qwen; se eligió Qwen por las razones de [04-asistente-ia.md](../diseno/04-asistente-ia.md) |
+| A-05 | Cómo se lee el texto de fotos y documentos escaneados | PDF con texto, dentro del servidor; fotos y escaneados, con el modelo de visión del mismo proveedor y solo con autorización del paciente | Propuesta de diseño |
+| A-06 | Proveedor de correo | Por API (propuesta: Resend) | Propuesta de diseño |
+
+Las "propuestas de diseño" se pueden cambiar sin rehacer el resto: están aisladas detrás de una sola pieza cada una.
+
+**Condición para usar datos reales.** La primera versión se prueba solo con documentos inventados o anonimizados. Antes de cargar historias de pacientes reales hacen falta la respuesta del abogado a la pregunta 2 del [marco normativo](03-marco-normativo.md) y un contrato de tratamiento de datos con el proveedor de IA y con el de alojamiento.
 
 ## 4. Investigación ya hecha que servirá después
 

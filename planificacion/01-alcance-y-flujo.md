@@ -15,8 +15,8 @@ No es un producto para vender a otros consultorios. Se construye para uno.
 
 | Usuario | Qué hace |
 |---|---|
-| **Médico** | Configura el consultorio, define su horario, agenda y mueve citas, registra pacientes, consulta sus documentos y le pregunta al asistente. Es el único usuario del consultorio: no hay personal de recepción |
-| **Paciente** | Se registra, agenda y gestiona sus citas, sube sus historias clínicas y decide si autoriza el uso de inteligencia artificial sobre ellas |
+| **Médico** | Configura el consultorio, define su horario, agenda y mueve citas, registra pacientes, consulta sus documentos, le pregunta al asistente y registra el tratamiento. Es el único usuario del consultorio: no hay personal de recepción |
+| **Paciente** | Se registra, agenda y gestiona sus citas, sube sus historias clínicas, decide si autoriza el uso de inteligencia artificial sobre ellas y consulta sus tratamientos |
 | **Sistema** | Calcula los espacios libres, lee los documentos, envía avisos por correo y lleva la bitácora |
 
 ## 3. Dentro del alcance
@@ -30,14 +30,15 @@ No es un producto para vender a otros consultorios. Se construye para uno.
 | [E5 Historias clínicas del paciente](../historias-de-usuario/E5-historias-clinicas-del-paciente/README.md) | Carga de documentos por el paciente, visor del médico, almacenamiento privado, lectura para la IA | 5 | 26 |
 | [E6 Asistente de IA](../historias-de-usuario/E6-asistente-de-ia/README.md) | Autorización del paciente, preguntas del médico, resumen del paciente, aislamiento por paciente | 4 | 24 |
 | [E7 Seguridad base](../historias-de-usuario/E7-seguridad-base/README.md) | Permisos por fila y bitácora de auditoría | 2 | 13 |
-| **Total** | | **37** | **162** |
+| [E8 Tratamientos](../historias-de-usuario/E8-tratamientos/README.md) | El médico registra el tratamiento y el paciente lo consulta en "Mis tratamientos" | 2 | 8 |
+| **Total** | | **39** | **170** |
 
 ## 4. Fuera del alcance
 
 **Queda para después.** No se levanta ahora; las historias de la versión anterior están en `archivo/v1/` para retomarlas.
 
 - Nota clínica escrita por el médico.
-- Plan de tratamiento y recordatorios de medicamento.
+- Catálogo de medicamentos, aviso de interacciones y recordatorios de cada toma.
 - Recordatorios por WhatsApp y medición de adherencia.
 - Factura electrónica de la consulta con Factus. Por ahora solo existe un botón de cobro sin función.
 - Agente de voz para manejar citas.
@@ -51,7 +52,7 @@ No es un producto para vender a otros consultorios. Se construye para uno.
 - Odontología, otras especialidades y atención de animales.
 - Cobro a EPS, telemedicina y atención de urgencias.
 
-> **Advertencia.** Los documentos que sube el paciente son antecedentes de otras atenciones. No reemplazan la historia clínica que el consultorio debe llevar de sus propias consultas (Resolución 1995 de 1999). Mientras no exista la nota clínica dentro del sistema, el médico la sigue llevando como lo hace hoy. Es lo primero que conviene levantar después de este alcance.
+> **Advertencia.** Los documentos que sube el paciente son antecedentes de otras atenciones. No reemplazan la historia clínica que el consultorio debe llevar de sus propias consultas (Resolución 1995 de 1999). El sistema ya guarda el tratamiento que indica el médico, pero no la nota de la consulta. Mientras esa nota no exista dentro del sistema, el médico la sigue llevando como lo hace hoy. Es lo primero que conviene levantar después de este alcance.
 
 ## 5. Flujo principal
 
@@ -66,6 +67,7 @@ No es un producto para vender a otros consultorios. Se construye para uno.
 | 7 | El médico abre su panel: ve la agenda del día, el calendario y entra a la ficha del paciente | HU-021, HU-022, HU-023, HU-025, HU-026 |
 | 8 | El médico revisa los documentos y le pregunta al asistente; recibe el resumen con el documento y la página de origen | HU-030, HU-033, HU-034, HU-035 |
 | 9 | El médico atiende y marca la asistencia | HU-018 |
+| 10 | El médico registra el tratamiento y el paciente lo consulta en "Mis tratamientos" | HU-038, HU-039 |
 | Transversal | Cada quien ve solo lo suyo y todo acceso queda registrado | HU-006, HU-036, HU-037 |
 
 ```mermaid
@@ -80,13 +82,15 @@ flowchart LR
     E --> I[Médico pregunta<br/>al asistente]
     H --> I
     I --> J[Médico atiende y<br/>marca asistencia]
+    J --> K[Médico registra<br/>el tratamiento]
+    K --> L[Paciente lo ve en<br/>Mis tratamientos]
 ```
 
 ## 6. Cómo funciona el asistente con varios pacientes
 
 El modelo de inteligencia artificial no guarda memoria entre consultas. Cada vez que el médico pregunta, el servidor arma la petición únicamente con los documentos del paciente que tiene abierto. Por eso cada paciente queda aislado y varias consultas pueden ocurrir al tiempo sin mezclarse.
 
-- **Volumen.** Una sola petición admite hasta unas 600 páginas de PDF o 32 MB. Diez historias clínicas normales caben completas. Si un paciente sube mucho más, se usan resúmenes por documento.
+- **Volumen.** El servidor lee el texto de cada documento y al modelo le envía solo texto. Los documentos de un paciente, diez o veinte, caben completos en una consulta; el máximo es un tope configurable. Si un paciente sube mucho más, se envían resúmenes por documento más las páginas relacionadas con la pregunta, y el médico ve que la consulta fue parcial.
 - **Calidad.** El asistente indica el documento y la página de cada dato, y dice "no aparece en los documentos" cuando no lo encuentra. Las fotos borrosas y las notas a mano bajan la calidad.
 - **Límite.** Solo resume lo que está escrito. No diagnostica ni recomienda tratamiento.
 - **Permiso.** Sin la autorización del paciente, el asistente no se puede usar sobre sus documentos.

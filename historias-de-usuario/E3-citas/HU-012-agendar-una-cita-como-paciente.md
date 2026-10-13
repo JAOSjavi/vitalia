@@ -19,6 +19,7 @@
 - **CA-2** · Dado que el espacio fue tomado mientras yo elegía, cuando confirmo, entonces el sistema me avisa y me muestra los espacios libres más cercanos.
 - **CA-3** · Dado que ya tengo una cita futura del mismo tipo, cuando intento agendar otra, entonces el sistema me lo advierte y me pide confirmar.
 - **CA-4** · Dado que no he aceptado la autorización de tratamiento de datos, cuando intento agendar, entonces el sistema me lleva primero a aceptarla.
+- **CA-5** · Dado un día sin horas libres o una hora ya ocupada, cuando elijo día y hora, entonces no aparecen: solo se listan los días y las horas disponibles. *(Agregado en Diseño.)*
 
 ## Tareas y actividades
 

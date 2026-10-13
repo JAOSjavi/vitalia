@@ -44,7 +44,7 @@
 
 ## Nota de diseño
 
-Como referencia de la investigación: una petición a un modelo actual admite hasta unas 600 páginas de PDF o 32 MB. El proveedor es una decisión abierta (A-04 en [decisiones y supuestos](../../planificacion/04-decisiones-y-supuestos.md)).
+El proveedor de la primera versión es Qwen, detrás de un adaptador que permite cambiarlo por configuración. Al modelo se le envía el texto ya leído de los documentos, no los archivos. El detalle está en [diseño del asistente](../../diseno/04-asistente-ia.md).
 
 ## Relación con otras historias
 

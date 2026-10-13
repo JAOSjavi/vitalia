@@ -15,8 +15,8 @@
 
 ## Criterios de aceptación
 
-- **CA-1** · Dado que abro la ficha, cuando carga, entonces veo los datos de identificación y contacto, las citas pasadas y futuras, y la lista de documentos que el paciente subió.
-- **CA-2** · Dada la ficha, cuando la veo, entonces tengo los accesos para agendarle una cita, abrir un documento y preguntar al asistente.
+- **CA-1** · Dado que abro la ficha, cuando carga, entonces veo los datos de identificación y contacto, las citas pasadas y futuras, la lista de documentos que el paciente subió y los tratamientos registrados.
+- **CA-2** · Dada la ficha, cuando la veo, entonces tengo los accesos para agendarle una cita, abrir un documento, registrar un tratamiento y preguntar al asistente.
 - **CA-3** · Dado que el paciente no ha autorizado el uso de IA, cuando veo la ficha, entonces el acceso al asistente aparece deshabilitado con la explicación.
 - **CA-4** · Dado que abro la ficha, cuando se carga, entonces el acceso queda en la bitácora.
 
@@ -44,6 +44,7 @@
 
 - [HU-030 Consultar los documentos del paciente en un visor](../E5-historias-clinicas-del-paciente/HU-030-visor-de-documentos-del-paciente.md)
 - [HU-034 Preguntar al asistente sobre los documentos de un paciente](../E6-asistente-de-ia/HU-034-preguntar-al-asistente.md)
+- [HU-038 Registrar el tratamiento de un paciente](../E8-tratamientos/HU-038-registrar-el-tratamiento-de-un-paciente.md)
 
 ---
 

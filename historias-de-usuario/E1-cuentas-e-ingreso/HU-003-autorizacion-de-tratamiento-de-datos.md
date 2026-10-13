@@ -15,7 +15,7 @@
 
 ## Criterios de aceptación
 
-- **CA-1** · Dado que estoy en el registro, cuando llego al paso final, entonces veo el texto de la autorización con la finalidad, quién es el responsable y cómo ejercer mis derechos, y no puedo continuar sin aceptarla.
+- **CA-1** · Dado que estoy en el registro, cuando llego al paso final, entonces se abre una ventana con los puntos más importantes de la política de tratamiento de datos (quién es el responsable, para qué se usan, el uso de inteligencia artificial sobre mis documentos y mis derechos), con acceso al texto completo, y no puedo crear la cuenta sin aceptarla. *(Ajustado en Diseño.)*
 - **CA-2** · Dado que acepto, cuando se crea mi cuenta, entonces el sistema guarda la versión del texto, la fecha y la hora de mi aceptación.
 - **CA-3** · Dado que el texto de la autorización cambia, cuando ingreso de nuevo, entonces el sistema me pide aceptar la nueva versión antes de seguir.
 - **CA-4** · Dado que quiero revisar lo que acepté, cuando entro a mi perfil, entonces puedo leer la versión vigente y la fecha en que la acepté.
@@ -30,7 +30,7 @@
 
 ### T-003.2 Paso de aceptación
 
-- Pantalla con el texto y la casilla de aceptación
+- Ventana con los puntos clave, el texto completo y la casilla de aceptación
 - Bloqueo del registro sin aceptación
 - Solicitud de nueva aceptación cuando cambia la versión
 

@@ -49,5 +49,5 @@ Los topes son la propuesta inicial para una persona o un equipo muy pequeño. Se
 ## 5. Estado del tablero
 
 - **Pendiente:** crear el proyecto de tipo Kanban en Jira. El proyecto anterior es de tipo Scrum y contiene 96 tarjetas del backlog viejo; se archiva.
-- **Carga inicial:** las 7 épicas y las 37 historias entran a "Por hacer" en el orden de construcción de [RELACIONES.md](../historias-de-usuario/RELACIONES.md).
+- **Carga inicial:** las 8 épicas y las 39 historias entran a "Por hacer" en el orden de construcción de [RELACIONES.md](../historias-de-usuario/RELACIONES.md).
 - **Primeras en jalar:** HU-006, HU-036, HU-037 y HU-027, porque de ellas depende casi todo lo demás.

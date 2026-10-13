@@ -81,6 +81,13 @@ Cada requisito funcional (RF) indica la historia que lo desarrolla. Cada requisi
 | RF-36 | Limitar en la base de datos lo que cada usuario puede leer y escribir | HU-036 |
 | RF-37 | Registrar en una bitácora los accesos a fichas y documentos, las consultas a la IA y los cambios de citas | HU-037 |
 
+### E8 — Tratamientos
+
+| ID | El sistema debe… | Historia |
+|---|---|---|
+| RF-38 | Permitir al médico registrar el tratamiento de un paciente: motivo, medicamentos con dosis, frecuencia, duración y forma de tomarlos, e indicaciones | HU-038 |
+| RF-39 | Mostrar al paciente su último tratamiento y los anteriores, con la forma de tomar cada medicamento | HU-039 |
+
 ---
 
 ## 2. Requisitos no funcionales
@@ -115,6 +122,7 @@ Cada requisito funcional (RF) indica la historia que lo desarrolla. Cada requisi
 | E5 | RF-26 a RF-30 | HU-027 a HU-031 |
 | E6 | RF-31 a RF-35 | HU-032 a HU-035 |
 | E7 | RF-36 y RF-37 | HU-036 y HU-037 |
+| E8 | RF-38 y RF-39 | HU-038 y HU-039 |
 
 Los requisitos no funcionales aplican a todas las épicas. Los que tienen historia propia son RNF-01 (HU-036), RNF-03 (HU-027), RNF-06 (HU-037) y RNF-08 (HU-033).
 

@@ -23,7 +23,7 @@ Los datos de salud son **datos sensibles**. Solo se pueden tratar con autorizaci
 | | Medidas de seguridad para impedir acceso no autorizado | HU-027, HU-036, RNF-01 a RNF-05 |
 | | Reglas para enviar datos a otro país (art. 26) | HU-033 y RNF-08: mínimo de datos y proveedor con acuerdo de tratamiento. Ver pregunta 2 |
 | **Ley 23 de 1981** — ética médica | La historia clínica es reservada; un tercero solo la conoce con autorización del paciente o por mandato legal | HU-006, HU-036: solo el médico y el propio paciente acceden |
-| **Resolución 1995 de 1999** y **Resolución 839 de 2017** — manejo y conservación de la historia clínica | Integralidad, secuencialidad, disponibilidad y custodia de la historia que lleva el prestador; conservación mínima de 15 años | Aplica a la nota clínica del médico, que queda para después. Los documentos que sube el paciente son antecedentes, no la historia del consultorio |
+| **Resolución 1995 de 1999** y **Resolución 839 de 2017** — manejo y conservación de la historia clínica | Integralidad, secuencialidad, disponibilidad y custodia de la historia que lleva el prestador; conservación mínima de 15 años | Los tratamientos que registra el médico (HU-038) son registros clínicos del consultorio: no se modifican ni se borran. La nota de la consulta queda para después. Los documentos que sube el paciente son antecedentes, no la historia del consultorio |
 | **Ley 2015 de 2020** — historia clínica electrónica interoperable | El titular es dueño de su historia; el prestador conserva la custodia en sus propios sistemas; el acceso de terceros requiere consentimiento | HU-037: trazabilidad de accesos. HU-032: consentimiento |
 | **Resolución 866 de 2021** — datos clínicos relevantes | Define cuatro grupos de datos: identificación del usuario, contacto con el servicio, tecnologías en salud (procedimientos, medicamentos) y resultados (diagnósticos, incapacidades) | HU-035: el resumen del asistente se organiza con esos grupos como guía |
 
@@ -50,7 +50,7 @@ Los controles de personas y de instalaciones físicas del Anexo A son responsabi
 | # | Pregunta | Por qué importa |
 |---|---|---|
 | 1 | ¿Qué texto exacto debe tener la autorización de tratamiento de datos y la autorización para usar IA? | HU-003 y HU-032 necesitan el texto definitivo |
-| 2 | Si el proveedor de IA procesa los datos fuera de Colombia, ¿basta la autorización del paciente y un contrato, o hace falta algo más? | Define qué proveedor se puede usar (HU-033) |
+| 2 | El alojamiento (Render, en Estados Unidos) y el proveedor de IA (Qwen, en Singapur o Estados Unidos) procesan los datos fuera de Colombia. ¿Basta la autorización del paciente y un contrato con cada uno, o hace falta algo más? | Condiciona el uso de datos reales (HU-027, HU-033) |
 | 3 | ¿El consultorio debe inscribir sus bases de datos en el Registro Nacional de Bases de Datos? | Trámite previo a operar |
 | 4 | ¿Por cuánto tiempo deben conservarse la bitácora y los documentos que sube el paciente? | RNF-06 y la regla de eliminación de HU-029 |
 | 5 | ¿La Resolución 1888 de 2025 obliga a un consultorio privado a reportar el Resumen Digital de Atención (RDA)? | Si aplica, entra al alcance junto con la nota clínica |

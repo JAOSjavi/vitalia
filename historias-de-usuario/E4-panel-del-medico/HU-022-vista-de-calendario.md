@@ -19,6 +19,7 @@
 - **CA-2** · Dado un espacio libre, cuando lo selecciono, entonces se abre el formulario para crear una cita o un bloqueo en ese horario.
 - **CA-3** · Dada una cita en el calendario, cuando la selecciono, entonces veo su detalle y las acciones de mover, cancelar y abrir la ficha del paciente.
 - **CA-4** · Dado que uso un celular, cuando abro el calendario, entonces la vista se adapta a un día o a una lista sin perder información.
+- **CA-5** · Dado que estoy en la vista de mes, cuando paso al mes anterior o al siguiente, entonces veo ese mes; y cuando toco un día, entonces se abre ese día con sus citas. *(Agregado en Diseño.)*
 
 ## Tareas y actividades
 

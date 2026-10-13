@@ -20,6 +20,7 @@
 - **CA-3** · Dado un documento que no se pudo leer, cuando termina el proceso, entonces queda marcado como "no legible" y tanto el paciente como el médico lo ven así.
 - **CA-4** · Dado que la lectura tarda, cuando el paciente sube el archivo, entonces la carga no se queda esperando y el documento aparece como "en proceso".
 - **CA-5** · Dado que el paciente elimina el documento, cuando se elimina, entonces también se elimina su texto.
+- **CA-6** · Dado un PDF escaneado o una foto de un paciente que no ha autorizado el uso de IA, cuando se sube, entonces no se envía a ningún proveedor externo y queda como "sin leer" hasta que el paciente autorice. *(Agregado en Diseño.)*
 
 ## Tareas y actividades
 
@@ -32,7 +33,7 @@
 ### T-031.2 Proceso en segundo plano
 
 - Cola de documentos por leer
-- Estados: en proceso, legible y no legible
+- Estados: sin leer, en proceso, legible y no legible
 - Reintento cuando falla
 
 ### T-031.3 Pruebas
@@ -43,7 +44,7 @@
 
 ## Nota de diseño
 
-Cómo se reconoce el texto de fotos y escaneados es una decisión abierta (A-05 en [decisiones y supuestos](../../planificacion/04-decisiones-y-supuestos.md)). La letra manuscrita es el caso más difícil.
+Los PDF con texto se leen dentro del servidor. Las fotos y los escaneados los lee un modelo de visión del proveedor de IA, por eso dependen de la autorización del paciente. El detalle está en [diseño del asistente](../../diseno/04-asistente-ia.md). La letra manuscrita es el caso más difícil.
 
 ## Relación con otras historias
 
