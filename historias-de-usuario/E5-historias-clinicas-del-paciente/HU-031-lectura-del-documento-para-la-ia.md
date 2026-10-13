@@ -1,0 +1,60 @@
+# HU-031 — Lectura del documento para la IA
+
+| Dato | Valor |
+|---|---|
+| Épica | E5 Historias clínicas del paciente |
+| Rol | Sistema |
+| Prioridad | Must (MoSCoW) |
+| Estimación | 8 puntos |
+| Requisitos | RF-30 |
+| Origen | Nueva |
+
+## Historia
+
+> Como sistema, quiero leer el contenido de cada documento al subirlo, para que el asistente pueda responder sobre él y el médico sepa si quedó legible.
+
+## Criterios de aceptación
+
+- **CA-1** · Dado un PDF que trae texto, cuando se sube, entonces el sistema guarda su texto página por página.
+- **CA-2** · Dado un PDF escaneado o una foto, cuando se sube, entonces el sistema reconoce el texto y lo guarda página por página.
+- **CA-3** · Dado un documento que no se pudo leer, cuando termina el proceso, entonces queda marcado como "no legible" y tanto el paciente como el médico lo ven así.
+- **CA-4** · Dado que la lectura tarda, cuando el paciente sube el archivo, entonces la carga no se queda esperando y el documento aparece como "en proceso".
+- **CA-5** · Dado que el paciente elimina el documento, cuando se elimina, entonces también se elimina su texto.
+
+## Tareas y actividades
+
+### T-031.1 Extracción de texto
+
+- Texto de los PDF, por página
+- Reconocimiento de texto en escaneados y fotos
+- Medida de qué tan legible quedó
+
+### T-031.2 Proceso en segundo plano
+
+- Cola de documentos por leer
+- Estados: en proceso, legible y no legible
+- Reintento cuando falla
+
+### T-031.3 Pruebas
+
+- PDF con texto
+- Foto de buena calidad y foto de mala calidad
+- Documento escrito a mano
+
+## Nota de diseño
+
+Cómo se reconoce el texto de fotos y escaneados es una decisión abierta (A-05 en [decisiones y supuestos](../../planificacion/04-decisiones-y-supuestos.md)). La letra manuscrita es el caso más difícil.
+
+## Relación con otras historias
+
+**Depende de:**
+
+- [HU-028 Subir mis historias clínicas](HU-028-subir-mis-historias-clinicas.md)
+
+**Habilita:**
+
+- [HU-033 IA solo desde el servidor y aislada por paciente](../E6-asistente-de-ia/HU-033-ia-desde-el-servidor-y-aislada-por-paciente.md)
+
+---
+
+[← Volver a E5](README.md) · [Mapa de relaciones](../RELACIONES.md)

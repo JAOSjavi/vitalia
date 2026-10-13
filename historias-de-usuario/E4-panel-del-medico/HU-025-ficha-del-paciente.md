@@ -1,0 +1,50 @@
+# HU-025 — Ficha del paciente
+
+| Dato | Valor |
+|---|---|
+| Épica | E4 Panel del médico |
+| Rol | Médico |
+| Prioridad | Must (MoSCoW) |
+| Estimación | 5 puntos |
+| Requisitos | RF-24 |
+| Origen | HU-017 de la versión anterior, ajustada |
+
+## Historia
+
+> Como médico, quiero ver en una sola pantalla los datos, las citas y los documentos de un paciente, para prepararme antes de atenderlo.
+
+## Criterios de aceptación
+
+- **CA-1** · Dado que abro la ficha, cuando carga, entonces veo los datos de identificación y contacto, las citas pasadas y futuras, y la lista de documentos que el paciente subió.
+- **CA-2** · Dada la ficha, cuando la veo, entonces tengo los accesos para agendarle una cita, abrir un documento y preguntar al asistente.
+- **CA-3** · Dado que el paciente no ha autorizado el uso de IA, cuando veo la ficha, entonces el acceso al asistente aparece deshabilitado con la explicación.
+- **CA-4** · Dado que abro la ficha, cuando se carga, entonces el acceso queda en la bitácora.
+
+## Tareas y actividades
+
+### T-025.1 Servicio de ficha
+
+- Reunir datos, citas y documentos del paciente
+- Estado de la autorización de IA
+- Registro del acceso en la bitácora
+
+### T-025.2 Pantalla de ficha
+
+- Secciones de datos, citas y documentos
+- Accesos a las acciones
+- Mensaje cuando el paciente no ha subido documentos
+
+## Relación con otras historias
+
+**Depende de:**
+
+- [HU-023 Lista y búsqueda de pacientes](HU-023-lista-y-busqueda-de-pacientes.md)
+
+**Habilita:**
+
+- [HU-030 Consultar los documentos del paciente en un visor](../E5-historias-clinicas-del-paciente/HU-030-visor-de-documentos-del-paciente.md)
+- [HU-034 Preguntar al asistente sobre los documentos de un paciente](../E6-asistente-de-ia/HU-034-preguntar-al-asistente.md)
+
+---
+
+[← Volver a E4](README.md) · [Mapa de relaciones](../RELACIONES.md)

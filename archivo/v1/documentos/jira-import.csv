@@ -1,0 +1,1727 @@
+﻿"Issue Id","Issue Type","Summary","Description","Parent Id","Epic Name","Epic Link","Priority","Story Points","Labels","Labels","Component"
+"1001","Epic","E1 Autenticación, cuentas y roles","Objetivo: Que cada quien entre con identidad propia y vea únicamente lo que le corresponde.
+
+Fase: 1","","E1 Autenticación, cuentas y roles","","High","","vitalia","fase-1","Autenticación, cuentas y roles"
+"1002","Epic","E2 Gestión de citas","Objetivo: Eliminar choques de horario y dar autonomía al paciente para agendar, mover y cancelar.
+
+Fase: 1","","E2 Gestión de citas","","High","","vitalia","fase-1","Gestión de citas"
+"1003","Epic","E3 Agendamiento y atención por WhatsApp","Objetivo: Que el paciente resuelva su cita sin descargar la app ni recordar contraseñas.
+
+Fase: 2","","E3 Agendamiento y atención por WhatsApp","","High","","vitalia","fase-2","Agendamiento y atención por WhatsApp"
+"1004","Epic","E4 Historia clínica y documentos","Objetivo: Historia clínica exclusivamente digital, trazable y con documentos protegidos.
+
+Fase: 1","","E4 Historia clínica y documentos","","High","","vitalia","fase-1","Historia clínica y documentos"
+"1005","Epic","E5 Plan de tratamiento post-consulta","Objetivo: Que el paciente entienda qué debe hacer, cuándo y hasta cuándo. **Núcleo diferencial.**
+
+Fase: 1","","E5 Plan de tratamiento post-consulta","","High","","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1006","Epic","E6 Recordatorios multicanal y adherencia","Objetivo: Convertir el plan en acciones recordadas, confirmadas y medidas. **Núcleo diferencial.**
+
+Fase: 1-2","","E6 Recordatorios multicanal y adherencia","","High","","vitalia","fase-1-2","Recordatorios multicanal y adherencia"
+"1007","Epic","E7 Comunicación paciente–médico entre consultas","Objetivo: Resolver dudas de seguimiento sin saturar la agenda ni simular urgencias.
+
+Fase: 2","","E7 Comunicación paciente–médico entre consultas","","High","","vitalia","fase-2","Comunicación paciente–médico entre consultas"
+"1008","Epic","E8 Asistente de IA y contenido educativo","Objetivo: Ahorrar tiempo de lectura al médico y educar al paciente, sin exponer datos sensibles.
+
+Fase: 3","","E8 Asistente de IA y contenido educativo","","High","","vitalia","fase-3","Asistente de IA y contenido educativo"
+"1009","Epic","E9 Panel administrativo y multi-clínica","Objetivo: Operar varias sedes y medir el desempeño del consultorio.
+
+Fase: 3","","E9 Panel administrativo y multi-clínica","","High","","vitalia","fase-3","Panel administrativo y multi-clínica"
+"1010","Epic","E10 Accesibilidad y experiencia","Objetivo: Que un adulto mayor pueda usar el producto sin ayuda.
+
+Fase: 3","","E10 Accesibilidad y experiencia","","High","","vitalia","fase-3","Accesibilidad y experiencia"
+"1011","Epic","E11 Seguridad, privacidad y cumplimiento","Objetivo: Tratar la historia clínica como el dato sensible que es, según la ley colombiana. **Transversal.**
+
+Fase: 1-4","","E11 Seguridad, privacidad y cumplimiento","","High","","vitalia","fase-1-4","Seguridad, privacidad y cumplimiento"
+"1012","Epic","E12 Interoperabilidad (RDA)","Objetivo: Habilitar el producto para IPS formales.
+
+Fase: 4","","E12 Interoperabilidad (RDA)","","High","","vitalia","fase-4","Interoperabilidad (RDA)"
+"1013","Story","HU-001 Registro de paciente","Como paciente nuevo, quiero crear mi cuenta con mi celular y una contraseña propia para acceder a la aplicación sin depender de la recepción de la clínica.
+
+Criterios de aceptación:
+* CA-1: Dado que ingreso nombre, documento, celular, correo y una contraseña válida, cuando confirmo el registro, entonces el sistema crea mi cuenta con rol paciente y me lleva a la pantalla de inicio autenticado.
+* CA-2: Dado que escribo una contraseña de menos de 8 caracteres o sin al menos un número, cuando intento continuar, entonces el sistema bloquea el envío y explica en texto claro qué le falta a la contraseña.
+* CA-3: Dado que el celular o el documento ya están registrados, cuando envío el formulario, entonces el sistema informa que la cuenta ya existe y ofrece ir a recuperar contraseña, sin revelar datos del titular.
+* CA-4: Dado que no he marcado la aceptación de la política de tratamiento de datos, cuando intento registrarme, entonces el sistema impide continuar; al aceptarla, registra fecha, hora y versión del documento aceptado.
+
+Requisitos: RF-01, RF-58
+Rol: Paciente","","","E1 Autenticación, cuentas y roles","High","5","vitalia","fase-1","Autenticación, cuentas y roles"
+"1014","Sub-task","T-001.1 Modelar la entidad usuario y paciente","Actividades:
+* Definir tablas, llaves y restricciones de unicidad (documento, celular)
+* Crear la migración inicial
+* Sembrar catálogo de tipos de documento
+
+Historia: HU-001 Registro de paciente","1013","","","High","","vitalia","fase-1","Autenticación, cuentas y roles"
+"1015","Sub-task","T-001.2 Construir el endpoint POST /auth/registro","Actividades:
+* Validar el esquema de entrada en el servidor
+* Hashear la contraseña con argon2
+* Devolver token de sesión y perfil
+
+Historia: HU-001 Registro de paciente","1013","","","High","","vitalia","fase-1","Autenticación, cuentas y roles"
+"1016","Sub-task","T-001.3 Construir la pantalla de registro","Actividades:
+* Maquetar el formulario con validación en línea
+* Mostrar mensajes de error específicos por campo
+* Enlazar la política de datos y su casilla de aceptación
+
+Historia: HU-001 Registro de paciente","1013","","","High","","vitalia","fase-1","Autenticación, cuentas y roles"
+"1017","Sub-task","T-001.4 Registrar el consentimiento de datos","Actividades:
+* Versionar el texto de la política
+* Guardar aceptación con fecha, hora y versión
+* Exponer la constancia en el perfil del paciente
+
+Historia: HU-001 Registro de paciente","1013","","","High","","vitalia","fase-1","Autenticación, cuentas y roles"
+"1018","Sub-task","T-001.5 Pruebas","Actividades:
+* Pruebas unitarias de validación de contraseña
+* Prueba de integración de duplicados
+* Prueba de extremo a extremo del registro exitoso
+
+Historia: HU-001 Registro de paciente","1013","","","High","","vitalia","fase-1","Autenticación, cuentas y roles"
+"1019","Story","HU-002 Ingreso con contraseña","Como usuario registrado, quiero ingresar con mi celular y contraseña para entrar a mi cuenta de forma segura.
+
+Criterios de aceptación:
+* CA-1: Dado que ingreso credenciales correctas, cuando pulso «Ingresar», entonces el sistema me autentica, emite un token con expiración y me lleva a la pantalla de inicio de mi rol.
+* CA-2: Dado que ingreso credenciales incorrectas, cuando pulso «Ingresar», entonces el sistema muestra un mensaje genérico («usuario o contraseña incorrectos») que no revela cuál de los dos falló.
+* CA-3: Dado que fallo 5 intentos seguidos, cuando intento de nuevo, entonces el sistema bloquea temporalmente el acceso por 15 minutos e informa el tiempo restante.
+* CA-4: Dado que el sistema autentica correctamente, cuando se emite el token, entonces no se almacena ningún dato personal en texto plano en el dispositivo.
+
+Requisitos: RF-02, RF-05
+Rol: Paciente, Médico, Administrador","","","E1 Autenticación, cuentas y roles","High","3","vitalia","fase-1","Autenticación, cuentas y roles"
+"1020","Sub-task","T-002.1 Endpoint POST /auth/login","Actividades:
+* Verificar hash de contraseña
+* Emitir JWT de acceso y token de renovación
+* Registrar el intento en la bitácora
+
+Historia: HU-002 Ingreso con contraseña","1019","","","High","","vitalia","fase-1","Autenticación, cuentas y roles"
+"1021","Sub-task","T-002.2 Control de intentos fallidos","Actividades:
+* Contar intentos por celular e IP
+* Aplicar bloqueo temporal progresivo
+* Limpiar el contador tras un ingreso exitoso
+
+Historia: HU-002 Ingreso con contraseña","1019","","","High","","vitalia","fase-1","Autenticación, cuentas y roles"
+"1022","Sub-task","T-002.3 Pantalla de ingreso","Actividades:
+* Maquetar formulario y estado de carga
+* Mostrar mensajes de error y de bloqueo
+* Guardar el token en almacenamiento seguro del dispositivo
+
+Historia: HU-002 Ingreso con contraseña","1019","","","High","","vitalia","fase-1","Autenticación, cuentas y roles"
+"1023","Sub-task","T-002.4 Pruebas","Actividades:
+* Prueba de credenciales válidas e inválidas
+* Prueba del bloqueo por intentos
+* Revisión de que el token no contenga datos sensibles
+
+Historia: HU-002 Ingreso con contraseña","1019","","","High","","vitalia","fase-1","Autenticación, cuentas y roles"
+"1024","Story","HU-003 Ingreso con código por SMS (OTP)","Como paciente que olvida contraseñas, quiero entrar con un código que me llega al celular para no quedarme por fuera de la aplicación.
+
+Criterios de aceptación:
+* CA-1: Dado que elijo «Ingresar con código», cuando escribo mi celular registrado, entonces el sistema envía un código de 6 dígitos y muestra la pantalla para digitarlo.
+* CA-2: Dado que recibí el código, cuando lo ingreso dentro de los 5 minutos de vigencia, entonces el sistema me autentica e invalida el código usado.
+* CA-3: Dado que el código expiró o es incorrecto, cuando lo envío, entonces el sistema lo rechaza y permite solicitar uno nuevo después de 60 segundos.
+* CA-4: Dado que el celular no está registrado, cuando solicito el código, entonces el sistema muestra el mismo mensaje de «código enviado» sin confirmar si el número existe.
+
+Requisitos: RF-02
+Rol: Paciente","","","E1 Autenticación, cuentas y roles","High","5","vitalia","fase-1","Autenticación, cuentas y roles"
+"1025","Sub-task","T-003.1 Servicio de generación y validación de OTP","Actividades:
+* Generar código aleatorio y guardarlo hasheado con vigencia
+* Validar, marcar como usado e invalidar los anteriores
+* Limitar solicitudes por número y por hora
+
+Historia: HU-003 Ingreso con código por SMS (OTP)","1024","","","High","","vitalia","fase-1","Autenticación, cuentas y roles"
+"1026","Sub-task","T-003.2 Integrar el proveedor de SMS","Actividades:
+* Configurar credenciales en el backend
+* Implementar el envío con reintento
+* Registrar el resultado del envío
+
+Historia: HU-003 Ingreso con código por SMS (OTP)","1024","","","High","","vitalia","fase-1","Autenticación, cuentas y roles"
+"1027","Sub-task","T-003.3 Pantallas de solicitud y digitación","Actividades:
+* Campo de celular con formato colombiano
+* Casillas de 6 dígitos con avance automático
+* Contador regresivo para reenviar
+
+Historia: HU-003 Ingreso con código por SMS (OTP)","1024","","","High","","vitalia","fase-1","Autenticación, cuentas y roles"
+"1028","Sub-task","T-003.4 Pruebas","Actividades:
+* Prueba de vigencia y un solo uso
+* Prueba de límite de solicitudes
+* Prueba con número no registrado
+
+Historia: HU-003 Ingreso con código por SMS (OTP)","1024","","","High","","vitalia","fase-1","Autenticación, cuentas y roles"
+"1029","Story","HU-004 Recuperación de contraseña","Como usuario que olvidó su contraseña, quiero restablecerla por un canal verificado para recuperar el acceso sin llamar a la clínica.
+
+Criterios de aceptación:
+* CA-1: Dado que solicito recuperación con mi celular registrado, cuando confirmo, entonces el sistema envía un enlace o código de un solo uso con vigencia de 15 minutos.
+* CA-2: Dado que abro el enlace vigente, cuando defino una contraseña que cumple la política, entonces el sistema la actualiza, invalida el enlace y cierra todas las sesiones abiertas.
+* CA-3: Dado que el enlace ya fue usado o expiró, cuando intento abrirlo, entonces el sistema lo rechaza y ofrece solicitar uno nuevo.
+* CA-4: Dado que se cambió la contraseña, cuando se completa la operación, entonces el sistema notifica el cambio al canal verificado del usuario.
+
+Requisitos: RF-03
+Rol: Paciente, Médico, Administrador","","","E1 Autenticación, cuentas y roles","High","3","vitalia","fase-1","Autenticación, cuentas y roles"
+"1030","Sub-task","T-004.1 Flujo de restablecimiento en backend","Actividades:
+* Endpoint de solicitud con token de un solo uso
+* Endpoint de confirmación con validación de política
+* Invalidar sesiones activas al cambiar
+
+Historia: HU-004 Recuperación de contraseña","1029","","","High","","vitalia","fase-1","Autenticación, cuentas y roles"
+"1031","Sub-task","T-004.2 Pantallas de recuperación","Actividades:
+* Formulario de solicitud
+* Formulario de nueva contraseña con indicador de fortaleza
+* Pantalla de confirmación
+
+Historia: HU-004 Recuperación de contraseña","1029","","","High","","vitalia","fase-1","Autenticación, cuentas y roles"
+"1032","Sub-task","T-004.3 Notificación del cambio","Actividades:
+* Plantilla de aviso por SMS o WhatsApp
+* Enviar tras el cambio exitoso
+* Registrar el evento en auditoría
+
+Historia: HU-004 Recuperación de contraseña","1029","","","High","","vitalia","fase-1","Autenticación, cuentas y roles"
+"1033","Story","HU-005 Roles y permisos resueltos en base de datos","Como responsable del sistema, quiero que los roles y permisos vivan en la base de datos, para que ningún usuario privilegiado quede escrito en el código.
+
+Criterios de aceptación:
+* CA-1: Dado el modelo de datos, cuando se revisa el código fuente, entonces no existe ningún identificador de «superusuario» ni credencial fija escrita en él.
+* CA-2: Dado un usuario con rol paciente, cuando invoca un endpoint reservado a médico o administrador, entonces el sistema responde 403 y registra el intento.
+* CA-3: Dado que un administrador cambia el rol de un usuario, cuando se guarda el cambio, entonces aplica en la siguiente petición y queda registrado en auditoría con autor y fecha.
+* CA-4: Dado un usuario sin rol asignado, cuando intenta cualquier operación, entonces el sistema le niega el acceso por defecto (denegación implícita).
+
+Requisitos: RF-04
+Rol: Sistema","","","E1 Autenticación, cuentas y roles","High","5","vitalia","fase-1","Autenticación, cuentas y roles"
+"1034","Sub-task","T-005.1 Modelo de roles y permisos","Actividades:
+* Tablas rol, permiso, rol_permiso, usuario_rol
+* Sembrar los cuatro roles del producto
+* Definir la matriz de permisos por endpoint
+
+Historia: HU-005 Roles y permisos resueltos en base de datos","1033","","","High","","vitalia","fase-1","Autenticación, cuentas y roles"
+"1035","Sub-task","T-005.2 Middleware de autorización","Actividades:
+* Resolver roles desde el token y la base
+* Validar permiso por operación
+* Responder 403 y registrar el intento
+
+Historia: HU-005 Roles y permisos resueltos en base de datos","1033","","","High","","vitalia","fase-1","Autenticación, cuentas y roles"
+"1036","Sub-task","T-005.3 Pruebas de control de acceso","Actividades:
+* Matriz de pruebas rol × endpoint
+* Prueba de escalamiento de privilegios
+* Prueba de denegación por defecto
+
+Historia: HU-005 Roles y permisos resueltos en base de datos","1033","","","High","","vitalia","fase-1","Autenticación, cuentas y roles"
+"1037","Story","HU-006 Cierre de sesión y expiración del token","Como usuario, quiero cerrar mi sesión y que expire sola, para que nadie use mi cuenta si dejo el teléfono desatendido.
+
+Criterios de aceptación:
+* CA-1: Dado que pulso «Cerrar sesión», cuando se confirma, entonces el sistema invalida el token en el servidor y borra las credenciales locales.
+* CA-2: Dado que mi token de acceso expiró, cuando la app hace una petición, entonces la renueva con el token de refresco sin pedirme credenciales de nuevo.
+* CA-3: Dado que el token de refresco también expiró, cuando abro la aplicación, entonces el sistema me lleva a la pantalla de ingreso sin mostrar datos previos en pantalla.
+
+Requisitos: RF-05, RF-06
+Rol: Paciente, Médico, Administrador","","","E1 Autenticación, cuentas y roles","Medium","2","vitalia","fase-1","Autenticación, cuentas y roles"
+"1038","Sub-task","T-006.1 Invalidación de tokens","Actividades:
+* Lista de tokens revocados con vigencia
+* Endpoint POST /auth/logout
+* Limpieza programada de registros vencidos
+
+Historia: HU-006 Cierre de sesión y expiración del token","1037","","","Medium","","vitalia","fase-1","Autenticación, cuentas y roles"
+"1039","Sub-task","T-006.2 Renovación transparente","Actividades:
+* Interceptor de peticiones en el cliente
+* Reintento tras renovar
+* Redirección a ingreso si falla
+
+Historia: HU-006 Cierre de sesión y expiración del token","1037","","","Medium","","vitalia","fase-1","Autenticación, cuentas y roles"
+"1040","Story","HU-007 Agendar una cita desde la aplicación","Como paciente, quiero agendar mi cita eligiendo tipo, profesional y horario, para no tener que llamar al consultorio.
+
+Criterios de aceptación:
+* CA-1: Dado que selecciono tipo de cita, profesional, sede y un horario disponible, cuando confirmo, entonces el sistema crea la cita en estado confirmada y muestra el resumen con fecha, hora, profesional y sede.
+* CA-2: Dado que el sistema creó la cita, cuando termina el proceso, entonces programa los recordatorios de 24 horas y 1 hora antes.
+* CA-3: Dado que no completo un paso obligatorio, cuando intento avanzar, entonces el sistema impide continuar e indica qué falta.
+* CA-4: Dado que la cita quedó creada, cuando consulto «Mis citas», entonces aparece en la lista de próximas citas con su estado.
+
+Requisitos: RF-07
+Rol: Paciente","","","E2 Gestión de citas","High","8","vitalia","fase-1","Gestión de citas"
+"1041","Sub-task","T-007.1 Modelo de cita y tipos de cita","Actividades:
+* Tablas cita, tipo_cita con duración asociada
+* Estados: solicitada, confirmada, atendida, cancelada, no asistió
+* Migración y datos de referencia
+
+Historia: HU-007 Agendar una cita desde la aplicación","1040","","","High","","vitalia","fase-1","Gestión de citas"
+"1042","Sub-task","T-007.2 Endpoints de agendamiento","Actividades:
+* GET /disponibilidad por profesional y fecha
+* POST /citas con validación transaccional
+* Respuesta con el detalle de la cita creada
+
+Historia: HU-007 Agendar una cita desde la aplicación","1040","","","High","","vitalia","fase-1","Gestión de citas"
+"1043","Sub-task","T-007.3 Asistente de agendamiento en la app","Actividades:
+* Paso 1: tipo de cita
+* Paso 2: profesional, fecha y horario
+* Paso 3: confirmación y resumen
+
+Historia: HU-007 Agendar una cita desde la aplicación","1040","","","High","","vitalia","fase-1","Gestión de citas"
+"1044","Sub-task","T-007.4 Encadenar la programación de recordatorios","Actividades:
+* Publicar el evento cita_creada
+* Programar los avisos de 24 h y 1 h
+* Registrar la programación
+
+Historia: HU-007 Agendar una cita desde la aplicación","1040","","","High","","vitalia","fase-1","Gestión de citas"
+"1045","Sub-task","T-007.5 Pruebas","Actividades:
+* Prueba del flujo completo
+* Prueba de campos obligatorios
+* Prueba de que se programan los recordatorios
+
+Historia: HU-007 Agendar una cita desde la aplicación","1040","","","High","","vitalia","fase-1","Gestión de citas"
+"1046","Story","HU-008 Verificación de disponibilidad en tiempo real","Como sistema, quiero validar la disponibilidad en el momento de confirmar, para que dos pacientes nunca queden en el mismo horario.
+
+Criterios de aceptación:
+* CA-1: Dado un horario ya ocupado, cuando se consulta la disponibilidad, entonces el sistema no lo ofrece como seleccionable.
+* CA-2: Dado que dos pacientes confirman el mismo horario simultáneamente, cuando se procesan las solicitudes, entonces solo una cita se crea y la otra recibe un aviso de horario ya tomado con opciones alternativas.
+* CA-3: Dado el horario de atención y los bloqueos del profesional (vacaciones, bloqueos manuales), cuando se calcula la disponibilidad, entonces esos espacios no aparecen como libres.
+* CA-4: Dado el tipo de cita seleccionado, cuando se calculan los espacios, entonces la duración del espacio corresponde a la duración configurada para ese tipo.
+
+Requisitos: RF-08
+Rol: Sistema","","","E2 Gestión de citas","High","8","vitalia","fase-1","Gestión de citas"
+"1047","Sub-task","T-008.1 Motor de cálculo de disponibilidad","Actividades:
+* Generar espacios desde el horario del profesional
+* Restar citas existentes y bloqueos
+* Ajustar la duración por tipo de cita
+
+Historia: HU-008 Verificación de disponibilidad en tiempo real","1046","","","High","","vitalia","fase-1","Gestión de citas"
+"1048","Sub-task","T-008.2 Control de concurrencia","Actividades:
+* Restricción de unicidad por profesional y franja
+* Transacción con bloqueo al confirmar
+* Manejo del conflicto con alternativas sugeridas
+
+Historia: HU-008 Verificación de disponibilidad en tiempo real","1046","","","High","","vitalia","fase-1","Gestión de citas"
+"1049","Sub-task","T-008.3 Gestión de horarios y bloqueos","Actividades:
+* Modelo de horario semanal por profesional y sede
+* Registro de bloqueos y ausencias
+* Pantalla básica de administración
+
+Historia: HU-008 Verificación de disponibilidad en tiempo real","1046","","","High","","vitalia","fase-1","Gestión de citas"
+"1050","Sub-task","T-008.4 Pruebas de concurrencia","Actividades:
+* Prueba de dos confirmaciones simultáneas
+* Prueba de bloqueos y ausencias
+* Prueba de duraciones distintas
+
+Historia: HU-008 Verificación de disponibilidad en tiempo real","1046","","","High","","vitalia","fase-1","Gestión de citas"
+"1051","Story","HU-009 Reagendar una cita","Como paciente, quiero mover mi cita a otro horario, para ajustarla cuando me cambian los planes.
+
+Criterios de aceptación:
+* CA-1: Dado que mi cita está dentro del plazo permitido para cambios, cuando elijo un nuevo horario disponible y confirmo, entonces el sistema libera el horario anterior y reserva el nuevo.
+* CA-2: Dado que reagendé, cuando se confirma el cambio, entonces el sistema cancela los recordatorios anteriores, programa los nuevos y me envía la confirmación.
+* CA-3: Dado que faltan menos horas que el mínimo configurado por la clínica, cuando intento reagendar, entonces el sistema lo impide y me indica comunicarme con el consultorio.
+* CA-4: Dado que reagendé, cuando consulto el historial de la cita, entonces queda registro del horario anterior, el nuevo y quién hizo el cambio.
+
+Requisitos: RF-09
+Rol: Paciente","","","E2 Gestión de citas","High","5","vitalia","fase-1","Gestión de citas"
+"1052","Sub-task","T-009.1 Endpoint de reagendamiento","Actividades:
+* Validar la regla de anticipación
+* Liberar y reservar en una sola transacción
+* Registrar la trazabilidad del cambio
+
+Historia: HU-009 Reagendar una cita","1051","","","High","","vitalia","fase-1","Gestión de citas"
+"1053","Sub-task","T-009.2 Reprogramar recordatorios","Actividades:
+* Cancelar los avisos pendientes
+* Programar los nuevos
+* Enviar la confirmación al canal preferido
+
+Historia: HU-009 Reagendar una cita","1051","","","High","","vitalia","fase-1","Gestión de citas"
+"1054","Sub-task","T-009.3 Interfaz de reagendamiento","Actividades:
+* Acceso desde el detalle de la cita
+* Selector de nuevo horario
+* Aviso claro cuando la regla lo impide
+
+Historia: HU-009 Reagendar una cita","1051","","","High","","vitalia","fase-1","Gestión de citas"
+"1055","Story","HU-010 Cancelar una cita","Como paciente, quiero cancelar una cita a la que no podré asistir, para liberar el espacio y no quedar como inasistente.
+
+Criterios de aceptación:
+* CA-1: Dado que confirmo la cancelación dentro del plazo permitido, cuando se procesa, entonces la cita pasa a estado cancelada y su horario vuelve a estar disponible.
+* CA-2: Dado que la cita fue cancelada, cuando se completa la operación, entonces el sistema cancela todos sus recordatorios pendientes.
+* CA-3: Dado que intento cancelar, cuando se muestra la confirmación, entonces el sistema pide ratificar la acción e indica la política de cancelación de la clínica.
+* CA-4: Dado que la cita quedó cancelada, cuando el profesional consulta su agenda, entonces el espacio aparece libre y marcado como liberado por cancelación.
+
+Requisitos: RF-09
+Rol: Paciente","","","E2 Gestión de citas","High","3","vitalia","fase-1","Gestión de citas"
+"1056","Sub-task","T-010.1 Endpoint de cancelación","Actividades:
+* Validar estado y plazo
+* Cambiar estado y liberar el espacio
+* Registrar motivo y autor
+
+Historia: HU-010 Cancelar una cita","1055","","","High","","vitalia","fase-1","Gestión de citas"
+"1057","Sub-task","T-010.2 Limpieza de recordatorios","Actividades:
+* Cancelar los avisos programados
+* Confirmar la cancelación al paciente
+
+Historia: HU-010 Cancelar una cita","1055","","","High","","vitalia","fase-1","Gestión de citas"
+"1058","Sub-task","T-010.3 Interfaz de cancelación","Actividades:
+* Diálogo de confirmación con la política
+* Selección opcional de motivo
+* Estado visible en el historial
+
+Historia: HU-010 Cancelar una cita","1055","","","High","","vitalia","fase-1","Gestión de citas"
+"1059","Story","HU-011 Consultar mis citas pasadas y futuras","Como paciente, quiero ver mis citas anteriores y las próximas, para saber cuándo me atendieron y qué tengo pendiente.
+
+Criterios de aceptación:
+* CA-1: Dado que abro «Mis citas», cuando carga la pantalla, entonces veo dos grupos: próximas (ascendente) y anteriores (descendente), cada una con fecha, hora, profesional, sede y estado.
+* CA-2: Dado que toco una cita anterior atendida, cuando se abre el detalle, entonces accedo al plan de tratamiento y a los documentos generados en esa consulta.
+* CA-3: Dado que no tengo citas registradas, cuando abro la pantalla, entonces veo un mensaje explicativo y un acceso directo a agendar.
+* CA-4: Dado que otro paciente intenta consultar mis citas por el identificador, cuando hace la petición, entonces el sistema responde 403 sin exponer información.
+
+Requisitos: RF-10
+Rol: Paciente","","","E2 Gestión de citas","High","3","vitalia","fase-1","Gestión de citas"
+"1060","Sub-task","T-011.1 Endpoint de listado de citas","Actividades:
+* Filtrar por identidad autenticada
+* Ordenar y paginar por grupo
+* Incluir datos del profesional y la sede
+
+Historia: HU-011 Consultar mis citas pasadas y futuras","1059","","","High","","vitalia","fase-1","Gestión de citas"
+"1061","Sub-task","T-011.2 Pantalla de historial","Actividades:
+* Listas separadas de próximas y anteriores
+* Estado visual por tipo de estado
+* Estado vacío con acceso a agendar
+
+Historia: HU-011 Consultar mis citas pasadas y futuras","1059","","","High","","vitalia","fase-1","Gestión de citas"
+"1062","Sub-task","T-011.3 Detalle de cita","Actividades:
+* Vincular plan de tratamiento y documentos
+* Acciones disponibles según el estado
+
+Historia: HU-011 Consultar mis citas pasadas y futuras","1059","","","High","","vitalia","fase-1","Gestión de citas"
+"1063","Story","HU-012 Adjuntar un documento al agendar","Como paciente, quiero adjuntar mi orden médica o un examen al agendar, para que el profesional la tenga antes de la consulta.
+
+Criterios de aceptación:
+* CA-1: Dado que selecciono un archivo PDF o imagen de hasta 10 MB, cuando confirmo, entonces el sistema lo carga, lo clasifica por tipo y lo vincula a la cita.
+* CA-2: Dado que el archivo excede el tamaño o tiene una extensión no permitida, cuando intento cargarlo, entonces el sistema lo rechaza e indica los formatos y el tamaño admitidos.
+* CA-3: Dado que el documento quedó cargado, cuando el profesional abre la cita, entonces puede visualizarlo mediante una URL firmada de vigencia limitada.
+* CA-4: Dado que el documento está almacenado, cuando se intenta acceder a su ruta sin firma válida, entonces el almacenamiento niega el acceso.
+
+Requisitos: RF-11
+Rol: Paciente","","","E2 Gestión de citas","Medium","5","vitalia","fase-1","Gestión de citas"
+"1064","Sub-task","T-012.1 Servicio de carga de archivos","Actividades:
+* Validar tipo y tamaño en el servidor
+* Guardar en almacenamiento privado cifrado
+* Registrar metadatos y vínculo con la cita
+
+Historia: HU-012 Adjuntar un documento al agendar","1063","","","Medium","","vitalia","fase-1","Gestión de citas"
+"1065","Sub-task","T-012.2 Generación de URLs firmadas","Actividades:
+* Emitir enlaces con vigencia corta
+* Registrar cada emisión en auditoría
+* Rechazar accesos sin firma
+
+Historia: HU-012 Adjuntar un documento al agendar","1063","","","Medium","","vitalia","fase-1","Gestión de citas"
+"1066","Sub-task","T-012.3 Interfaz de carga","Actividades:
+* Selector de archivo con vista previa
+* Barra de progreso y manejo de errores
+* Listado de adjuntos de la cita
+
+Historia: HU-012 Adjuntar un documento al agendar","1063","","","Medium","","vitalia","fase-1","Gestión de citas"
+"1067","Story","HU-013 Registrar asistencia o inasistencia","Como profesional o administrador, quiero marcar si el paciente asistió, para medir la inasistencia y depurar la agenda.
+
+Criterios de aceptación:
+* CA-1: Dado que la hora de la cita ya pasó, cuando abro la agenda, entonces puedo marcarla como atendida o no asistió.
+* CA-2: Dado que marco una cita como atendida, cuando se guarda, entonces el sistema habilita el registro de la nota clínica y del plan de tratamiento.
+* CA-3: Dado que marco no asistió, cuando se guarda, entonces el sistema lo contabiliza en el indicador de inasistencia de la sede.
+* CA-4: Dado que una cita ya fue marcada, cuando se intenta cambiar el estado, entonces queda registro del cambio con autor y fecha.
+
+Requisitos: RF-12
+Rol: Médico, Administrador","","","E2 Gestión de citas","Medium","2","vitalia","fase-1","Gestión de citas"
+"1068","Sub-task","T-013.1 Endpoint de cambio de estado","Actividades:
+* Validar transiciones permitidas
+* Registrar autor y fecha
+* Emitir evento para indicadores
+
+Historia: HU-013 Registrar asistencia o inasistencia","1067","","","Medium","","vitalia","fase-1","Gestión de citas"
+"1069","Sub-task","T-013.2 Controles en la agenda","Actividades:
+* Acciones rápidas por cita
+* Confirmación visual del estado
+* Acceso directo a registrar la consulta
+
+Historia: HU-013 Registrar asistencia o inasistencia","1067","","","Medium","","vitalia","fase-1","Gestión de citas"
+"1070","Story","HU-014 Agenda del día del profesional","Como médico, quiero ver mi agenda del día ordenada, para saber a quién atiendo, a qué hora y por qué motivo.
+
+Criterios de aceptación:
+* CA-1: Dado que ingreso al panel, cuando carga la agenda, entonces veo las citas del día en orden cronológico con hora, paciente, tipo de cita y estado.
+* CA-2: Dado que atiendo en varias sedes, cuando selecciono una sede, entonces la agenda muestra únicamente las citas de esa sede.
+* CA-3: Dado que toco una cita, cuando se abre, entonces accedo al resumen de historia clínica del paciente y a las acciones de la consulta.
+* CA-4: Dado que un paciente tiene adherencia por debajo del umbral, cuando veo la agenda, entonces su cita aparece marcada con un distintivo de alerta.
+
+Requisitos: RF-07, RF-12
+Rol: Médico","","","E2 Gestión de citas","High","5","vitalia","fase-1","Gestión de citas"
+"1071","Sub-task","T-014.1 Endpoint de agenda diaria","Actividades:
+* Filtrar por profesional, fecha y sede
+* Incluir indicadores del paciente
+* Restringir por identidad autenticada
+
+Historia: HU-014 Agenda del día del profesional","1070","","","High","","vitalia","fase-1","Gestión de citas"
+"1072","Sub-task","T-014.2 Vista de agenda en el panel","Actividades:
+* Lista cronológica con estados
+* Selector de sede y de fecha
+* Distintivos de alerta
+
+Historia: HU-014 Agenda del día del profesional","1070","","","High","","vitalia","fase-1","Gestión de citas"
+"1073","Sub-task","T-014.3 Pruebas","Actividades:
+* Prueba de aislamiento entre profesionales
+* Prueba de filtro por sede
+* Prueba de orden y estados
+
+Historia: HU-014 Agenda del día del profesional","1070","","","High","","vitalia","fase-1","Gestión de citas"
+"1074","Story","HU-015 Registrar la nota clínica de la consulta","Como médico, quiero registrar motivo, hallazgos y diagnóstico durante la consulta, para dejar la historia clínica completa y válida en digital.
+
+Criterios de aceptación:
+* CA-1: Dado que atiendo una cita, cuando registro motivo, hallazgos y al menos un diagnóstico con código CIE-10 y guardo, entonces el sistema crea el documento de historia clínica vinculado a esa cita.
+* CA-2: Dado que la nota fue guardada, cuando intento modificarla después del cierre, entonces el sistema conserva la versión original y registra la corrección como una adenda con autor y fecha.
+* CA-3: Dado que busco un diagnóstico, cuando escribo parte del nombre, entonces el sistema sugiere códigos CIE-10 coincidentes y guarda el código junto con la descripción.
+* CA-4: Dado que dejo campos obligatorios vacíos, cuando intento cerrar la consulta, entonces el sistema lo impide e indica qué falta.
+
+Requisitos: RF-23
+Rol: Médico","","","E4 Historia clínica y documentos","High","8","vitalia","fase-1","Historia clínica y documentos"
+"1075","Sub-task","T-015.1 Modelo de nota clínica","Actividades:
+* Tablas nota_clinica, diagnostico, adenda
+* Vínculo con cita, paciente y profesional
+* Política de inmutabilidad tras el cierre
+
+Historia: HU-015 Registrar la nota clínica de la consulta","1074","","","High","","vitalia","fase-1","Historia clínica y documentos"
+"1076","Sub-task","T-015.2 Catálogo CIE-10","Actividades:
+* Cargar el catálogo de códigos
+* Búsqueda por texto y por código
+* Almacenar código y descripción en la nota
+
+Historia: HU-015 Registrar la nota clínica de la consulta","1074","","","High","","vitalia","fase-1","Historia clínica y documentos"
+"1077","Sub-task","T-015.3 Formulario de consulta","Actividades:
+* Campos de motivo, hallazgos y diagnóstico
+* Buscador de diagnósticos con sugerencias
+* Guardado parcial y cierre de consulta
+
+Historia: HU-015 Registrar la nota clínica de la consulta","1074","","","High","","vitalia","fase-1","Historia clínica y documentos"
+"1078","Sub-task","T-015.4 Adendas","Actividades:
+* Flujo de corrección posterior
+* Visualización de versión original y adendas
+* Registro en auditoría
+
+Historia: HU-015 Registrar la nota clínica de la consulta","1074","","","High","","vitalia","fase-1","Historia clínica y documentos"
+"1079","Sub-task","T-015.5 Pruebas","Actividades:
+* Prueba de creación y vínculo con la cita
+* Prueba de inmutabilidad
+* Prueba de validación de obligatorios
+
+Historia: HU-015 Registrar la nota clínica de la consulta","1074","","","High","","vitalia","fase-1","Historia clínica y documentos"
+"1080","Story","HU-016 Cargar documentos clínicos del paciente","Como profesional, quiero cargar exámenes, recetas e imágenes al expediente, para tener todo el historial del paciente en un solo lugar.
+
+Criterios de aceptación:
+* CA-1: Dado que cargo un archivo, cuando selecciono su tipo (historia clínica, examen, receta, imagen diagnóstica) y confirmo, entonces queda asociado al paciente con fecha, tipo y autor.
+* CA-2: Dado que el documento corresponde a una consulta, cuando lo cargo desde esa cita, entonces queda vinculado también a la cita.
+* CA-3: Dado que consulto el expediente, cuando filtro por tipo de documento, entonces la lista muestra solo los documentos de ese tipo, ordenados del más reciente al más antiguo.
+* CA-4: Dado que el archivo se almacena, cuando se guarda, entonces queda cifrado y sin ruta pública accesible.
+
+Requisitos: RF-19
+Rol: Médico, Administrador","","","E4 Historia clínica y documentos","High","5","vitalia","fase-1","Historia clínica y documentos"
+"1081","Sub-task","T-016.1 Modelo de documentos","Actividades:
+* Tabla documento con tipo, paciente, cita y autor
+* Restricciones por tipo permitido
+* Índices para consulta por paciente y tipo
+
+Historia: HU-016 Cargar documentos clínicos del paciente","1080","","","High","","vitalia","fase-1","Historia clínica y documentos"
+"1082","Sub-task","T-016.2 Carga desde el panel","Actividades:
+* Selector con tipo obligatorio
+* Validación de formato y tamaño
+* Confirmación y listado actualizado
+
+Historia: HU-016 Cargar documentos clínicos del paciente","1080","","","High","","vitalia","fase-1","Historia clínica y documentos"
+"1083","Sub-task","T-016.3 Listado y filtros","Actividades:
+* Filtro por tipo y por rango de fechas
+* Orden cronológico inverso
+* Paginación
+
+Historia: HU-016 Cargar documentos clínicos del paciente","1080","","","High","","vitalia","fase-1","Historia clínica y documentos"
+"1084","Story","HU-017 Consultar la historia clínica del paciente","Como médico, quiero consultar la historia del paciente antes y durante la consulta, para decidir con la información completa.
+
+Criterios de aceptación:
+* CA-1: Dado que abro el expediente de un paciente que atiendo, cuando carga, entonces veo el resumen con diagnósticos activos, alergias, antecedentes y la fecha de la última consulta.
+* CA-2: Dado que consulto el expediente, cuando se muestra, entonces aparece la línea de tiempo de consultas con su nota clínica y sus documentos.
+* CA-3: Dado que el paciente no está bajo mi atención en ninguna sede, cuando intento abrir su expediente, entonces el sistema niega el acceso y registra el intento.
+* CA-4: Dado que abro cualquier historia clínica, cuando se despliega la información, entonces el sistema registra en auditoría mi identidad, el paciente consultado y la fecha y hora.
+
+Requisitos: RF-19, RF-20
+Rol: Médico","","","E4 Historia clínica y documentos","High","5","vitalia","fase-1","Historia clínica y documentos"
+"1085","Sub-task","T-017.1 Endpoint de expediente","Actividades:
+* Componer resumen clínico del paciente
+* Aplicar la regla de relación médico-paciente
+* Registrar el acceso en auditoría
+
+Historia: HU-017 Consultar la historia clínica del paciente","1084","","","High","","vitalia","fase-1","Historia clínica y documentos"
+"1086","Sub-task","T-017.2 Vista de expediente","Actividades:
+* Tarjeta de resumen clínico
+* Línea de tiempo de consultas
+* Acceso a documentos por consulta
+
+Historia: HU-017 Consultar la historia clínica del paciente","1084","","","High","","vitalia","fase-1","Historia clínica y documentos"
+"1087","Sub-task","T-017.3 Pruebas de acceso","Actividades:
+* Prueba de acceso permitido y denegado
+* Verificación del registro de auditoría
+
+Historia: HU-017 Consultar la historia clínica del paciente","1084","","","High","","vitalia","fase-1","Historia clínica y documentos"
+"1088","Story","HU-018 Visor de PDF integrado","Como médico, quiero abrir los documentos dentro del sistema, para revisarlos sin descargar archivos clínicos al computador.
+
+Criterios de aceptación:
+* CA-1: Dado que selecciono un documento PDF, cuando se abre, entonces se muestra en el visor integrado con navegación de páginas y acercamiento.
+* CA-2: Dado que abro el visor, cuando se carga el archivo, entonces se usa una URL firmada con vigencia máxima de 15 minutos.
+* CA-3: Dado que expiró el enlace, cuando intento seguir navegando el documento, entonces el sistema solicita recargarlo y emite una nueva firma.
+* CA-4: Dado que el documento es una imagen, cuando lo abro, entonces se muestra en el mismo visor con acercamiento.
+
+Requisitos: RF-22
+Rol: Médico","","","E4 Historia clínica y documentos","Medium","5","vitalia","fase-1","Historia clínica y documentos"
+"1089","Sub-task","T-018.1 Componente visor","Actividades:
+* Integrar biblioteca de render de PDF
+* Controles de página y acercamiento
+* Soporte de imágenes
+
+Historia: HU-018 Visor de PDF integrado","1088","","","Medium","","vitalia","fase-1","Historia clínica y documentos"
+"1090","Sub-task","T-018.2 Manejo de URLs firmadas","Actividades:
+* Solicitar firma al abrir
+* Renovar al expirar
+* Evitar almacenamiento en caché local del archivo
+
+Historia: HU-018 Visor de PDF integrado","1088","","","Medium","","vitalia","fase-1","Historia clínica y documentos"
+"1091","Story","HU-019 Ver mis documentos como paciente","Como paciente, quiero ver mis exámenes y fórmulas en la aplicación, para tenerlos a la mano cuando los necesite.
+
+Criterios de aceptación:
+* CA-1: Dado que abro «Mi historia», cuando carga, entonces veo mis documentos con tipo, fecha y origen, del más reciente al más antiguo.
+* CA-2: Dado que abro un documento, cuando se despliega, entonces se carga mediante URL firmada temporal y se registra el acceso.
+* CA-3: Dado que otro usuario intenta acceder a un documento mío, cuando hace la petición, entonces el sistema responde 403 y registra el intento.
+* CA-4: Dado que la pantalla se muestra, cuando la leo, entonces incluye una nota explicando que los enlaces son temporales y privados.
+
+Requisitos: RF-19, RF-21
+Rol: Paciente","","","E4 Historia clínica y documentos","Medium","3","vitalia","fase-1","Historia clínica y documentos"
+"1092","Sub-task","T-019.1 Endpoint de documentos del paciente","Actividades:
+* Filtrar por identidad autenticada
+* Ordenar por fecha
+* Emitir firma al solicitar apertura
+
+Historia: HU-019 Ver mis documentos como paciente","1091","","","Medium","","vitalia","fase-1","Historia clínica y documentos"
+"1093","Sub-task","T-019.2 Pantalla «Mi historia»","Actividades:
+* Lista con tipo, fecha y origen
+* Apertura en visor
+* Nota de privacidad
+
+Historia: HU-019 Ver mis documentos como paciente","1091","","","Medium","","vitalia","fase-1","Historia clínica y documentos"
+"1094","Story","HU-020 Bitácora de auditoría de accesos","Como responsable de cumplimiento, quiero que quede registro de cada acceso a una historia clínica, para responder ante una auditoría o un reclamo.
+
+Criterios de aceptación:
+* CA-1: Dado que alguien consulta, crea o modifica información clínica, cuando ocurre la operación, entonces el sistema registra actor, rol, paciente afectado, acción, fecha y hora, y origen de la petición.
+* CA-2: Dado un registro de auditoría creado, cuando se intenta modificar o eliminar por cualquier vía de la aplicación, entonces la operación es rechazada (bitácora de solo anexado).
+* CA-3: Dado que se consulta la bitácora, cuando se filtra por paciente o por rango de fechas, entonces devuelve los eventos correspondientes ordenados cronológicamente.
+* CA-4: Dado que falla el registro en la bitácora, cuando se procesa una operación clínica, entonces la operación no se da por exitosa y se reporta el error.
+
+Requisitos: RF-56
+Rol: Sistema","","","E11 Seguridad, privacidad y cumplimiento","High","5","vitalia","fase-1","Seguridad, privacidad y cumplimiento"
+"1095","Sub-task","T-020.1 Modelo de bitácora","Actividades:
+* Tabla auditoria de solo anexado
+* Revocar permisos de actualización y borrado
+* Índices por paciente y por fecha
+
+Historia: HU-020 Bitácora de auditoría de accesos","1094","","","High","","vitalia","fase-1","Seguridad, privacidad y cumplimiento"
+"1096","Sub-task","T-020.2 Instrumentación de operaciones clínicas","Actividades:
+* Interceptor en endpoints clínicos
+* Registro dentro de la transacción
+* Manejo de fallo del registro
+
+Historia: HU-020 Bitácora de auditoría de accesos","1094","","","High","","vitalia","fase-1","Seguridad, privacidad y cumplimiento"
+"1097","Sub-task","T-020.3 Consulta de la bitácora","Actividades:
+* Endpoint con filtros
+* Vista para el administrador
+* Exportación para auditoría
+
+Historia: HU-020 Bitácora de auditoría de accesos","1094","","","High","","vitalia","fase-1","Seguridad, privacidad y cumplimiento"
+"1098","Story","HU-021 Registrar medicamentos del plan","Como médico, quiero registrar los medicamentos con dosis, frecuencia y duración al cerrar la consulta, para que el paciente reciba recordatorios exactos.
+
+Criterios de aceptación:
+* CA-1: Dado que selecciono un medicamento del catálogo e indico dosis, frecuencia y duración, cuando guardo, entonces queda incorporado al plan vigente del paciente.
+* CA-2: Dado que registré la frecuencia, cuando se guarda el medicamento, entonces el sistema calcula los horarios de toma y los deja listos para programar recordatorios.
+* CA-3: Dado que intento guardar sin dosis, sin frecuencia o sin duración, cuando envío el formulario, entonces el sistema lo impide e indica el campo faltante.
+* CA-4: Dado que agrego varios medicamentos, cuando cierro la consulta, entonces todos quedan en el mismo plan asociado a esa cita.
+
+Requisitos: RF-24
+Rol: Médico","","","E5 Plan de tratamiento post-consulta","High","8","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1099","Sub-task","T-021.1 Modelo de plan y medicamentos","Actividades:
+* Tablas plan_tratamiento, plan_medicamento
+* Vínculo con cita, paciente y profesional
+* Estados del plan: activo, finalizado, suspendido
+
+Historia: HU-021 Registrar medicamentos del plan","1098","","","High","","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1100","Sub-task","T-021.2 Cálculo de horarios de toma","Actividades:
+* Traducir frecuencia a horarios concretos
+* Permitir ajuste manual del horario inicial
+* Generar la serie hasta la fecha de fin
+
+Historia: HU-021 Registrar medicamentos del plan","1098","","","High","","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1101","Sub-task","T-021.3 Formulario de prescripción","Actividades:
+* Buscador de medicamento
+* Campos de dosis, frecuencia y duración
+* Lista editable de medicamentos del plan
+
+Historia: HU-021 Registrar medicamentos del plan","1098","","","High","","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1102","Sub-task","T-021.4 Pruebas","Actividades:
+* Prueba de cálculo de horarios por frecuencia
+* Prueba de validaciones
+* Prueba de plan con varios medicamentos
+
+Historia: HU-021 Registrar medicamentos del plan","1098","","","High","","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1103","Story","HU-022 Catálogo de medicamentos","Como médico, quiero elegir el medicamento de un catálogo y no escribirlo a mano, para evitar errores de nombre y habilitar la revisión de interacciones.
+
+Criterios de aceptación:
+* CA-1: Dado que escribo al menos tres letras, cuando busco, entonces el sistema sugiere medicamentos por nombre genérico y presentación.
+* CA-2: Dado que selecciono un medicamento, cuando se agrega al plan, entonces se guarda su identificador del catálogo, no solo el texto.
+* CA-3: Dado que el medicamento no está en el catálogo, cuando lo requiero, entonces el sistema permite registrarlo como excepción marcada para revisión, sin bloquear la consulta.
+* CA-4: Dado que el catálogo se actualiza, cuando se carga una nueva versión, entonces los planes existentes conservan la referencia con la que fueron creados.
+
+Requisitos: RF-25
+Rol: Médico","","","E5 Plan de tratamiento post-consulta","High","5","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1104","Sub-task","T-022.1 Carga del catálogo","Actividades:
+* Definir la fuente de referencia y su formato
+* Proceso de importación y actualización
+* Versionado del catálogo
+
+Historia: HU-022 Catálogo de medicamentos","1103","","","High","","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1105","Sub-task","T-022.2 Servicio de búsqueda","Actividades:
+* Búsqueda por nombre genérico y comercial
+* Orden por relevancia
+* Límite de resultados
+
+Historia: HU-022 Catálogo de medicamentos","1103","","","High","","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1106","Sub-task","T-022.3 Excepciones controladas","Actividades:
+* Registro de medicamento fuera de catálogo
+* Marca para revisión posterior
+* Reporte de excepciones
+
+Historia: HU-022 Catálogo de medicamentos","1103","","","High","","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1107","Story","HU-023 Aviso de interacciones básicas","Como médico, quiero que el sistema me avise si el nuevo medicamento choca con uno activo, para revisar antes de confirmar la prescripción.
+
+Criterios de aceptación:
+* CA-1: Dado que el paciente tiene un medicamento activo, cuando agrego otro con interacción conocida, entonces el sistema muestra una advertencia con el par de medicamentos y el nivel de severidad.
+* CA-2: Dado que aparece la advertencia, cuando decido continuar, entonces el sistema me permite confirmar de forma explícita y registra esa decisión en la historia.
+* CA-3: Dado que no existe interacción registrada entre los medicamentos, cuando guardo, entonces el sistema indica que no se detectaron conflictos con los medicamentos activos.
+* CA-4: Dado que la advertencia se muestra, cuando la leo, entonces el texto aclara que es una verificación de apoyo y no sustituye el criterio clínico.
+
+Requisitos: RF-26
+Rol: Médico","","","E5 Plan de tratamiento post-consulta","Medium","8","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1108","Sub-task","T-023.1 Base de interacciones","Actividades:
+* Definir fuente y modelo de pares de interacción
+* Cargar severidades
+* Procedimiento de actualización
+
+Historia: HU-023 Aviso de interacciones básicas","1107","","","Medium","","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1109","Sub-task","T-023.2 Servicio de verificación","Actividades:
+* Consultar medicamentos activos del paciente
+* Evaluar pares e informar severidad
+* Responder en línea al agregar
+
+Historia: HU-023 Aviso de interacciones básicas","1107","","","Medium","","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1110","Sub-task","T-023.3 Interfaz de advertencia","Actividades:
+* Componente de alerta con severidad
+* Confirmación explícita para continuar
+* Registro de la decisión
+
+Historia: HU-023 Aviso de interacciones básicas","1107","","","Medium","","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1111","Story","HU-024 Registrar cuidados e instrucciones","Como médico, quiero registrar los cuidados con su horario y material de apoyo, para que el paciente sepa exactamente qué hacer en casa.
+
+Criterios de aceptación:
+* CA-1: Dado que escribo una instrucción de cuidado con su frecuencia o fecha específica, cuando guardo, entonces queda en el plan y genera sus recordatorios correspondientes.
+* CA-2: Dado que adjunto una imagen o un video corto de apoyo, cuando guardo, entonces el paciente puede verlo desde su plan.
+* CA-3: Dado que el cuidado tiene fecha de finalización, cuando esa fecha pasa, entonces el sistema deja de enviar sus recordatorios.
+* CA-4: Dado que redacto la instrucción, cuando la guardo, entonces el sistema la muestra al paciente en lenguaje simple, sin abreviaturas clínicas obligatorias.
+
+Requisitos: RF-27
+Rol: Médico","","","E5 Plan de tratamiento post-consulta","High","5","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1112","Sub-task","T-024.1 Modelo de cuidados","Actividades:
+* Tabla plan_cuidado con frecuencia y vigencia
+* Vínculo con material de apoyo
+* Estados de vigencia
+
+Historia: HU-024 Registrar cuidados e instrucciones","1111","","","High","","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1113","Sub-task","T-024.2 Material de apoyo","Actividades:
+* Carga de imagen o video corto
+* Límite de tamaño y duración
+* Servido con URL firmada
+
+Historia: HU-024 Registrar cuidados e instrucciones","1111","","","High","","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1114","Sub-task","T-024.3 Formulario de cuidados","Actividades:
+* Campos de instrucción, frecuencia y vigencia
+* Adjuntar material
+* Vista previa de cómo lo verá el paciente
+
+Historia: HU-024 Registrar cuidados e instrucciones","1111","","","High","","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1115","Story","HU-025 Registrar próximos pasos","Como médico, quiero dejar registrados los próximos pasos del paciente, para que no se pierda el control ni el examen pendiente.
+
+Criterios de aceptación:
+* CA-1: Dado que registro un próximo paso (control, examen, remisión) con su fecha objetivo, cuando guardo, entonces aparece en el plan del paciente.
+* CA-2: Dado que el próximo paso es un control, cuando se guarda, entonces el sistema ofrece al paciente agendarlo directamente desde su plan.
+* CA-3: Dado que se acerca la fecha objetivo, cuando falta el plazo configurado, entonces el sistema envía un recordatorio del paso pendiente.
+* CA-4: Dado que el paso se cumple, cuando se registra la cita o el documento correspondiente, entonces el paso se marca como cumplido.
+
+Requisitos: RF-28
+Rol: Médico","","","E5 Plan de tratamiento post-consulta","Medium","3","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1116","Sub-task","T-025.1 Modelo de próximos pasos","Actividades:
+* Tabla plan_proximo_paso con tipo y fecha objetivo
+* Estados: pendiente, cumplido, vencido
+* Vínculo con cita o documento que lo cumple
+
+Historia: HU-025 Registrar próximos pasos","1115","","","Medium","","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1117","Sub-task","T-025.2 Acción de agendar desde el plan","Actividades:
+* Botón de agendar control
+* Prefijar tipo de cita y profesional
+* Marcar el paso al confirmar
+
+Historia: HU-025 Registrar próximos pasos","1115","","","Medium","","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1118","Story","HU-026 Fecha de fin automática del tratamiento","Como sistema, quiero calcular cuándo termina cada tratamiento, para dejar de enviar recordatorios cuando ya no corresponden.
+
+Criterios de aceptación:
+* CA-1: Dado un medicamento con duración de N días, cuando se guarda, entonces el sistema calcula la fecha de fin como fecha de inicio más N días y la muestra en el plan.
+* CA-2: Dado que llega la fecha de fin, cuando el proceso se ejecuta, entonces el sistema deja de programar recordatorios de ese ítem y lo marca como finalizado.
+* CA-3: Dado que todos los ítems del plan finalizaron, cuando se evalúa el plan, entonces pasa a estado finalizado y el paciente ve el aviso de tratamiento terminado.
+* CA-4: Dado que el médico extiende la duración, cuando guarda el cambio, entonces el sistema recalcula la fecha de fin y reactiva los recordatorios.
+
+Requisitos: RF-29
+Rol: Sistema","","","E5 Plan de tratamiento post-consulta","High","3","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1119","Sub-task","T-026.1 Cálculo de vigencia","Actividades:
+* Calcular fecha de fin por ítem
+* Recalcular ante cambios
+* Exponer la vigencia en el plan
+
+Historia: HU-026 Fecha de fin automática del tratamiento","1118","","","High","","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1120","Sub-task","T-026.2 Proceso de cierre","Actividades:
+* Tarea programada diaria
+* Marcar ítems y planes finalizados
+* Cancelar recordatorios pendientes
+
+Historia: HU-026 Fecha de fin automática del tratamiento","1118","","","High","","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1121","Story","HU-027 Ver «Mi plan de tratamiento»","Como paciente, quiero ver mi tratamiento en una pantalla clara, para entender qué debo tomar y qué cuidados seguir sin descifrar un PDF.
+
+Criterios de aceptación:
+* CA-1: Dado que tengo un plan activo, cuando abro «Mi plan», entonces veo tres secciones: medicamentos, cuidados y próximos pasos, con la fecha hasta la que está vigente.
+* CA-2: Dado que veo un medicamento, cuando leo su tarjeta, entonces muestra nombre, presentación, dosis, frecuencia y los horarios concretos de toma.
+* CA-3: Dado que no tengo un plan activo, cuando abro la pantalla, entonces veo un mensaje explicativo y el acceso a mis planes anteriores.
+* CA-4: Dado que la información se muestra, cuando la leo, entonces está redactada en lenguaje claro y con tamaño de texto legible según el modo accesible.
+
+Requisitos: RF-30
+Rol: Paciente","","","E5 Plan de tratamiento post-consulta","High","5","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1122","Sub-task","T-027.1 Endpoint del plan vigente","Actividades:
+* Componer medicamentos, cuidados y pasos
+* Filtrar por identidad autenticada
+* Incluir vigencia y estado
+
+Historia: HU-027 Ver «Mi plan de tratamiento»","1121","","","High","","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1123","Sub-task","T-027.2 Pantalla «Mi plan»","Actividades:
+* Secciones con jerarquía visual clara
+* Tarjetas de medicamento con horarios
+* Estado vacío con acceso al historial
+
+Historia: HU-027 Ver «Mi plan de tratamiento»","1121","","","High","","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1124","Sub-task","T-027.3 Pruebas de comprensión","Actividades:
+* Revisión de lenguaje con usuario final
+* Verificación de legibilidad y contraste
+
+Historia: HU-027 Ver «Mi plan de tratamiento»","1121","","","High","","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1125","Story","HU-028 Historial de planes anteriores","Como paciente o médico, quiero consultar los planes de consultas anteriores, para comparar el tratamiento actual con los previos.
+
+Criterios de aceptación:
+* CA-1: Dado que abro el historial, cuando carga, entonces veo los planes anteriores con fecha, profesional y estado, del más reciente al más antiguo.
+* CA-2: Dado que abro un plan anterior, cuando se despliega, entonces muestra su contenido tal como estuvo vigente, sin mezclarse con el plan actual.
+* CA-3: Dado que soy médico, cuando consulto el historial de planes de un paciente que atiendo, entonces el acceso queda registrado en la bitácora de auditoría.
+
+Requisitos: RF-31
+Rol: Paciente, Médico","","","E5 Plan de tratamiento post-consulta","Medium","3","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1126","Sub-task","T-028.1 Endpoint de historial de planes","Actividades:
+* Listar planes finalizados por paciente
+* Preservar el contenido histórico
+* Registrar el acceso cuando es profesional
+
+Historia: HU-028 Historial de planes anteriores","1125","","","Medium","","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1127","Sub-task","T-028.2 Vista de historial","Actividades:
+* Lista cronológica inversa
+* Detalle de solo lectura
+* Distintivo de plan vigente
+
+Historia: HU-028 Historial de planes anteriores","1125","","","Medium","","vitalia","fase-1","Plan de tratamiento post-consulta"
+"1128","Story","HU-029 Programación automática de recordatorios de medicamento","Como sistema, quiero programar los recordatorios de cada toma a partir del plan, para que el paciente reciba el aviso a la hora correcta sin que nadie lo configure.
+
+Criterios de aceptación:
+* CA-1: Dado que se guarda un medicamento con frecuencia y duración, cuando se confirma el plan, entonces el sistema genera la serie completa de recordatorios hasta la fecha de fin.
+* CA-2: Dado que llega la hora programada, cuando el proceso se ejecuta, entonces el recordatorio se envía dentro de una ventana de ±5 minutos.
+* CA-3: Dado que el médico modifica o suspende el medicamento, cuando guarda el cambio, entonces el sistema cancela los recordatorios pendientes y regenera los que correspondan.
+* CA-4: Dado que el tratamiento llegó a su fecha de fin, cuando se evalúa, entonces no se envía ningún recordatorio adicional de ese ítem.
+
+Requisitos: RF-32
+Rol: Sistema","","","E6 Recordatorios multicanal y adherencia","High","8","vitalia","fase-1","Recordatorios multicanal y adherencia"
+"1129","Sub-task","T-029.1 Modelo de recordatorios","Actividades:
+* Tabla recordatorio con tipo, destino, hora y estado
+* Índices por fecha de ejecución
+* Estados: programado, enviado, fallido, cancelado
+
+Historia: HU-029 Programación automática de recordatorios de medicamento","1128","","","High","","vitalia","fase-1","Recordatorios multicanal y adherencia"
+"1130","Sub-task","T-029.2 Generador de series","Actividades:
+* Expandir frecuencia en ocurrencias
+* Respetar zona horaria del paciente
+* Regenerar ante cambios del plan
+
+Historia: HU-029 Programación automática de recordatorios de medicamento","1128","","","High","","vitalia","fase-1","Recordatorios multicanal y adherencia"
+"1131","Sub-task","T-029.3 Ejecutor programado","Actividades:
+* Tarea que consulta pendientes por minuto
+* Despachar al canal correspondiente
+* Reintento y marcado de estado
+
+Historia: HU-029 Programación automática de recordatorios de medicamento","1128","","","High","","vitalia","fase-1","Recordatorios multicanal y adherencia"
+"1132","Sub-task","T-029.4 Pruebas","Actividades:
+* Prueba de generación por frecuencia
+* Prueba de cancelación por cambio de plan
+* Prueba de ventana de entrega
+
+Historia: HU-029 Programación automática de recordatorios de medicamento","1128","","","High","","vitalia","fase-1","Recordatorios multicanal y adherencia"
+"1133","Story","HU-030 Recordatorio de cita 24 horas y 1 hora antes","Como paciente, quiero que me recuerden mi cita el día anterior y una hora antes, para no olvidarla ni perder el cupo.
+
+Criterios de aceptación:
+* CA-1: Dado que tengo una cita confirmada, cuando faltan 24 horas, entonces recibo un recordatorio por mi canal preferido con fecha, hora, profesional y sede.
+* CA-2: Dado que tengo una cita confirmada, cuando falta 1 hora, entonces recibo el segundo recordatorio.
+* CA-3: Dado que la cita se cancela o se reagenda, cuando se procesa el cambio, entonces los recordatorios pendientes se cancelan o se reprograman según corresponda.
+* CA-4: Dado que la cita se agenda con menos de 24 horas de anticipación, cuando se crea, entonces solo se programa el recordatorio de 1 hora antes.
+
+Requisitos: RF-33
+Rol: Paciente","","","E6 Recordatorios multicanal y adherencia","High","5","vitalia","fase-1","Recordatorios multicanal y adherencia"
+"1134","Sub-task","T-030.1 Reglas de programación por cita","Actividades:
+* Programar avisos al crear la cita
+* Manejar el caso de cita con poca anticipación
+* Cancelar o reprogramar ante cambios
+
+Historia: HU-030 Recordatorio de cita 24 horas y 1 hora antes","1133","","","High","","vitalia","fase-1","Recordatorios multicanal y adherencia"
+"1135","Sub-task","T-030.2 Contenido del mensaje","Actividades:
+* Plantilla con fecha, hora, profesional y sede
+* Variantes por canal
+* Revisión de longitud para SMS
+
+Historia: HU-030 Recordatorio de cita 24 horas y 1 hora antes","1133","","","High","","vitalia","fase-1","Recordatorios multicanal y adherencia"
+"1136","Story","HU-031 Recordatorio de cuidados en fecha específica","Como paciente en recuperación, quiero que me recuerden los cuidados puntuales, para cumplir con la curación o el control indicado el día exacto.
+
+Criterios de aceptación:
+* CA-1: Dado un cuidado con fecha y hora definidas, cuando llega el momento, entonces recibo el recordatorio con la instrucción completa.
+* CA-2: Dado un cuidado con frecuencia diaria, cuando se guarda, entonces se generan los recordatorios de todos los días de vigencia.
+* CA-3: Dado que el cuidado tiene material de apoyo, cuando recibo el recordatorio en la app, entonces incluye el acceso a la imagen o video.
+
+Requisitos: RF-34
+Rol: Paciente","","","E6 Recordatorios multicanal y adherencia","Medium","3","vitalia","fase-1","Recordatorios multicanal y adherencia"
+"1137","Sub-task","T-031.1 Recordatorios de cuidado","Actividades:
+* Generar ocurrencias por fecha o frecuencia
+* Incluir instrucción en el contenido
+* Vincular material de apoyo
+
+Historia: HU-031 Recordatorio de cuidados en fecha específica","1136","","","Medium","","vitalia","fase-1","Recordatorios multicanal y adherencia"
+"1138","Sub-task","T-031.2 Pruebas","Actividades:
+* Prueba de cuidado puntual y recurrente
+* Prueba de fin de vigencia
+
+Historia: HU-031 Recordatorio de cuidados en fecha específica","1136","","","Medium","","vitalia","fase-1","Recordatorios multicanal y adherencia"
+"1139","Story","HU-032 Configurar canal preferido de aviso","Como paciente, quiero elegir por dónde me avisan, para recibir los recordatorios donde realmente los veo.
+
+Criterios de aceptación:
+* CA-1: Dado que abro la configuración de avisos, cuando selecciono WhatsApp, SMS, notificación o una combinación, entonces el sistema guarda la preferencia y la aplica a los siguientes envíos.
+* CA-2: Dado que no configuro nada, cuando se envía un recordatorio, entonces el sistema usa WhatsApp como canal por defecto.
+* CA-3: Dado que desactivo todos los canales, cuando intento guardar, entonces el sistema advierte que dejará de recibir recordatorios y exige confirmación explícita.
+* CA-4: Dado que cambio mi preferencia, cuando se guarda, entonces los recordatorios ya programados adoptan el nuevo canal.
+
+Requisitos: RF-35
+Rol: Paciente","","","E6 Recordatorios multicanal y adherencia","High","3","vitalia","fase-1","Recordatorios multicanal y adherencia"
+"1140","Sub-task","T-032.1 Modelo de preferencias","Actividades:
+* Tabla preferencia_notificacion por paciente
+* Valor por defecto al crear la cuenta
+* Aplicación a recordatorios pendientes
+
+Historia: HU-032 Configurar canal preferido de aviso","1139","","","High","","vitalia","fase-1","Recordatorios multicanal y adherencia"
+"1141","Sub-task","T-032.2 Pantalla de preferencias","Actividades:
+* Selección múltiple de canales
+* Advertencia al desactivar todo
+* Confirmación del cambio
+
+Historia: HU-032 Configurar canal preferido de aviso","1139","","","High","","vitalia","fase-1","Recordatorios multicanal y adherencia"
+"1142","Story","HU-033 Envío por WhatsApp con plantillas aprobadas","Como sistema, quiero enviar los recordatorios por la API oficial de WhatsApp, para llegar al canal que el paciente sí revisa, cumpliendo las reglas de Meta.
+
+Criterios de aceptación:
+* CA-1: Dado un recordatorio con canal WhatsApp, cuando se despacha, entonces se envía mediante la API oficial de WhatsApp Business Cloud usando una plantilla previamente aprobada por Meta.
+* CA-2: Dado que se envía el mensaje, cuando la API responde, entonces el sistema registra el identificador del mensaje y su estado (enviado, entregado, leído, fallido).
+* CA-3: Dado que el envío falla, cuando se agotan los reintentos configurados, entonces el recordatorio se marca como fallido y queda habilitado el respaldo por otro canal.
+* CA-4: Dado el código del cliente, cuando se revisa, entonces ninguna credencial de WhatsApp está presente en él: todo envío sale del backend.
+
+Requisitos: RF-18, RF-32
+Rol: Sistema","","","E6 Recordatorios multicanal y adherencia","High","13","vitalia","fase-1","Recordatorios multicanal y adherencia"
+"1143","Sub-task","T-033.1 Cuenta y plantillas de WhatsApp","Actividades:
+* Configurar la cuenta de WhatsApp Business
+* Redactar y someter plantillas a aprobación
+* Versionar plantillas por tipo de mensaje
+
+Historia: HU-033 Envío por WhatsApp con plantillas aprobadas","1142","","","High","","vitalia","fase-1","Recordatorios multicanal y adherencia"
+"1144","Sub-task","T-033.2 Servicio de envío en backend","Actividades:
+* Cliente de la API oficial con credenciales del servidor
+* Cola de envío con reintentos
+* Registro de identificadores de mensaje
+
+Historia: HU-033 Envío por WhatsApp con plantillas aprobadas","1142","","","High","","vitalia","fase-1","Recordatorios multicanal y adherencia"
+"1145","Sub-task","T-033.3 Webhook de estados","Actividades:
+* Endpoint de recepción de estados
+* Validación de firma del webhook
+* Actualización del estado del recordatorio
+
+Historia: HU-033 Envío por WhatsApp con plantillas aprobadas","1142","","","High","","vitalia","fase-1","Recordatorios multicanal y adherencia"
+"1146","Sub-task","T-033.4 Pruebas","Actividades:
+* Prueba con número de pruebas de Meta
+* Prueba de fallo y reintento
+* Revisión de que no haya credenciales en el cliente
+
+Historia: HU-033 Envío por WhatsApp con plantillas aprobadas","1142","","","High","","vitalia","fase-1","Recordatorios multicanal y adherencia"
+"1147","Story","HU-034 Envío por SMS","Como sistema, quiero poder enviar por SMS, para llegar a pacientes sin WhatsApp o cuando ese canal falla.
+
+Criterios de aceptación:
+* CA-1: Dado un recordatorio con canal SMS, cuando se despacha, entonces se envía por el proveedor configurado y se registra su estado.
+* CA-2: Dado el límite de caracteres del SMS, cuando se compone el mensaje, entonces el contenido se ajusta sin perder la información esencial (qué, cuándo y dónde).
+* CA-3: Dado que el envío falla, cuando se agotan los reintentos, entonces queda registrado como fallido con el motivo devuelto por el proveedor.
+
+Requisitos: RF-35
+Rol: Sistema","","","E6 Recordatorios multicanal y adherencia","Medium","5","vitalia","fase-1","Recordatorios multicanal y adherencia"
+"1148","Sub-task","T-034.1 Integración del proveedor de SMS","Actividades:
+* Configurar credenciales en el backend
+* Implementar envío y consulta de estado
+* Manejar reintentos
+
+Historia: HU-034 Envío por SMS","1147","","","Medium","","vitalia","fase-1","Recordatorios multicanal y adherencia"
+"1149","Sub-task","T-034.2 Composición de mensajes cortos","Actividades:
+* Plantillas ajustadas a 160 caracteres
+* Pruebas de truncamiento
+* Verificación de caracteres especiales
+
+Historia: HU-034 Envío por SMS","1147","","","Medium","","vitalia","fase-1","Recordatorios multicanal y adherencia"
+"1150","Story","HU-035 Seguridad a nivel de fila en datos de salud","Como responsable del sistema, quiero que la base de datos filtre por identidad autenticada, para que un usuario no pueda leer datos de otro ni aunque la aplicación tenga un error.
+
+Criterios de aceptación:
+* CA-1: Dado el conjunto de tablas con datos de salud, cuando se revisa su configuración, entonces todas tienen seguridad a nivel de fila habilitada y ninguna política usa una condición abierta (USING true).
+* CA-2: Dado un usuario autenticado como paciente, cuando consulta directamente una tabla clínica, entonces solo obtiene las filas cuyo paciente corresponde a su identidad.
+* CA-3: Dado un usuario autenticado como médico, cuando consulta datos clínicos, entonces solo obtiene los de pacientes con los que tiene relación de atención vigente.
+* CA-4: Dado el conjunto de pruebas automatizadas, cuando se ejecuta la suite de seguridad, entonces incluye pruebas negativas que fallan si alguna política queda abierta.
+
+Requisitos: RF-04
+Rol: Sistema","","","E11 Seguridad, privacidad y cumplimiento","High","13","vitalia","fase-1","Seguridad, privacidad y cumplimiento"
+"1151","Sub-task","T-035.1 Inventario y clasificación de tablas","Actividades:
+* Identificar tablas con datos de salud
+* Clasificar por sensibilidad
+* Definir la regla de acceso de cada una
+
+Historia: HU-035 Seguridad a nivel de fila en datos de salud","1150","","","High","","vitalia","fase-1","Seguridad, privacidad y cumplimiento"
+"1152","Sub-task","T-035.2 Implementación de políticas","Actividades:
+* Habilitar seguridad a nivel de fila
+* Escribir políticas por rol y operación
+* Resolver la identidad desde el token
+
+Historia: HU-035 Seguridad a nivel de fila en datos de salud","1150","","","High","","vitalia","fase-1","Seguridad, privacidad y cumplimiento"
+"1153","Sub-task","T-035.3 Relación médico–paciente","Actividades:
+* Modelar la relación de atención vigente
+* Usarla en las políticas del rol médico
+* Definir su caducidad
+
+Historia: HU-035 Seguridad a nivel de fila en datos de salud","1150","","","High","","vitalia","fase-1","Seguridad, privacidad y cumplimiento"
+"1154","Sub-task","T-035.4 Suite de pruebas de seguridad","Actividades:
+* Pruebas negativas por rol y tabla
+* Verificación automática de ausencia de USING true
+* Integración en el flujo de despliegue
+
+Historia: HU-035 Seguridad a nivel de fila en datos de salud","1150","","","High","","vitalia","fase-1","Seguridad, privacidad y cumplimiento"
+"1155","Story","HU-036 Documentos servidos con URL firmada","Como responsable de cumplimiento, quiero que ningún documento clínico sea accesible por una URL pública, para evitar la exposición de información sensible.
+
+Criterios de aceptación:
+* CA-1: Dado un documento almacenado, cuando se intenta acceder a su ruta sin firma válida, entonces el almacenamiento responde con acceso denegado.
+* CA-2: Dado que un usuario autorizado solicita abrir un documento, cuando el backend valida sus permisos, entonces emite una URL firmada con vigencia máxima de 15 minutos.
+* CA-3: Dado que una URL firmada expiró, cuando se usa nuevamente, entonces el acceso es rechazado.
+* CA-4: Dado que se emite una URL firmada, cuando ocurre la emisión, entonces queda registrada en la bitácora de auditoría con el solicitante y el documento.
+
+Requisitos: RF-21
+Rol: Sistema","","","E11 Seguridad, privacidad y cumplimiento","High","5","vitalia","fase-1","Seguridad, privacidad y cumplimiento"
+"1156","Sub-task","T-036.1 Configuración del almacenamiento privado","Actividades:
+* Deshabilitar el acceso público del bucket
+* Habilitar cifrado en reposo
+* Definir políticas de acceso del servicio
+
+Historia: HU-036 Documentos servidos con URL firmada","1155","","","High","","vitalia","fase-1","Seguridad, privacidad y cumplimiento"
+"1157","Sub-task","T-036.2 Servicio de firma","Actividades:
+* Endpoint que valida permisos y firma
+* Vigencia corta configurable
+* Registro en auditoría
+
+Historia: HU-036 Documentos servidos con URL firmada","1155","","","High","","vitalia","fase-1","Seguridad, privacidad y cumplimiento"
+"1158","Sub-task","T-036.3 Pruebas de exposición","Actividades:
+* Intento de acceso directo sin firma
+* Prueba de expiración
+* Revisión de configuración del bucket
+
+Historia: HU-036 Documentos servidos con URL firmada","1155","","","High","","vitalia","fase-1","Seguridad, privacidad y cumplimiento"
+"1159","Story","HU-037 Aceptación de la política de tratamiento de datos","Como paciente, quiero saber qué hacen con mis datos y dejar constancia de mi autorización, para estar informado y ejercer mis derechos.
+
+Criterios de aceptación:
+* CA-1: Dado que me registro, cuando acepto la política, entonces el sistema guarda la aceptación con fecha, hora y versión del documento.
+* CA-2: Dado que la política cambia de versión, cuando ingreso después del cambio, entonces el sistema me solicita aceptarla nuevamente antes de continuar.
+* CA-3: Dado que consulto mi perfil, cuando abro la sección de privacidad, entonces veo la versión aceptada, su fecha y el canal para ejercer mis derechos de habeas data.
+* CA-4: Dado que no acepto la política, cuando intento usar la aplicación, entonces no puedo completar el registro.
+
+Requisitos: RF-58
+Rol: Paciente","","","E11 Seguridad, privacidad y cumplimiento","High","3","vitalia","fase-1","Seguridad, privacidad y cumplimiento"
+"1160","Sub-task","T-037.1 Versionado de la política","Actividades:
+* Repositorio de versiones del documento
+* Marca de versión vigente
+* Detección de versión pendiente por usuario
+
+Historia: HU-037 Aceptación de la política de tratamiento de datos","1159","","","High","","vitalia","fase-1","Seguridad, privacidad y cumplimiento"
+"1161","Sub-task","T-037.2 Registro de consentimiento","Actividades:
+* Tabla consentimiento con tipo y versión
+* Endpoint de registro
+* Consulta desde el perfil
+
+Historia: HU-037 Aceptación de la política de tratamiento de datos","1159","","","High","","vitalia","fase-1","Seguridad, privacidad y cumplimiento"
+"1162","Sub-task","T-037.3 Pantalla de privacidad del perfil","Actividades:
+* Mostrar versión y fecha aceptadas
+* Enlace al texto completo
+* Canal de contacto para derechos
+
+Historia: HU-037 Aceptación de la política de tratamiento de datos","1159","","","High","","vitalia","fase-1","Seguridad, privacidad y cumplimiento"
+"1163","Story","HU-038 Agendar una cita por WhatsApp","Como paciente que no usa aplicaciones, quiero agendar mi cita conversando por WhatsApp, para no tener que descargar nada ni recordar una contraseña.
+
+Criterios de aceptación:
+* CA-1: Dado que escribo al número de la clínica pidiendo una cita, cuando el asistente responde, entonces me guía en el orden: tipo de cita → profesional → horario disponible → confirmación.
+* CA-2: Dado que llego al paso de horarios, cuando el asistente me los ofrece, entonces solo aparecen espacios realmente disponibles, validados contra la agenda en ese momento.
+* CA-3: Dado que confirmo un horario, cuando el sistema lo procesa, entonces crea la cita, me envía el resumen con fecha, hora, profesional y sede, y programa los recordatorios.
+* CA-4: Dado que escribo algo que el asistente no entiende, cuando ocurre dos veces seguidas, entonces ofrece el contacto humano de la clínica sin dejar la conversación sin salida.
+* CA-5: Dado que abandono la conversación a mitad del flujo, cuando vuelvo a escribir dentro de las 24 horas, entonces el asistente retoma desde el punto donde quedé.
+
+Requisitos: RF-13
+Rol: Paciente","","","E3 Agendamiento y atención por WhatsApp","High","13","vitalia","fase-2","Agendamiento y atención por WhatsApp"
+"1164","Sub-task","T-038.1 Máquina de estados de la conversación","Actividades:
+* Definir estados y transiciones del flujo
+* Persistir el estado por número de teléfono
+* Caducar conversaciones inactivas
+
+Historia: HU-038 Agendar una cita por WhatsApp","1163","","","High","","vitalia","fase-2","Agendamiento y atención por WhatsApp"
+"1165","Sub-task","T-038.2 Webhook de mensajes entrantes","Actividades:
+* Endpoint receptor con validación de firma
+* Enrutar el mensaje al estado correspondiente
+* Responder dentro del tiempo exigido por Meta
+
+Historia: HU-038 Agendar una cita por WhatsApp","1163","","","High","","vitalia","fase-2","Agendamiento y atención por WhatsApp"
+"1166","Sub-task","T-038.3 Interpretación de respuestas","Actividades:
+* Reconocer selección por número y por texto
+* Normalizar variantes comunes
+* Manejar respuestas no reconocidas
+
+Historia: HU-038 Agendar una cita por WhatsApp","1163","","","High","","vitalia","fase-2","Agendamiento y atención por WhatsApp"
+"1167","Sub-task","T-038.4 Reutilizar el motor de disponibilidad","Actividades:
+* Consumir el servicio de disponibilidad de HU-008
+* Presentar como lista de botones o numerada
+* Confirmar de forma transaccional
+
+Historia: HU-038 Agendar una cita por WhatsApp","1163","","","High","","vitalia","fase-2","Agendamiento y atención por WhatsApp"
+"1168","Sub-task","T-038.5 Pruebas","Actividades:
+* Guion de conversación completo
+* Prueba de horario tomado durante la conversación
+* Prueba de reanudación y de abandono
+
+Historia: HU-038 Agendar una cita por WhatsApp","1163","","","High","","vitalia","fase-2","Agendamiento y atención por WhatsApp"
+"1169","Story","HU-039 Registrar paciente nuevo desde WhatsApp","Como paciente que nunca ha ido a la clínica, quiero quedar registrado durante la misma conversación, para agendar sin un trámite previo.
+
+Criterios de aceptación:
+* CA-1: Dado que escribo desde un número no registrado, cuando pido una cita, entonces el asistente solicita los datos mínimos: nombre completo, tipo y número de documento, y fecha de nacimiento.
+* CA-2: Dado que entrego los datos, cuando se validan, entonces el sistema crea el paciente asociado a ese número y continúa con el agendamiento.
+* CA-3: Dado que el documento ya existe con otro número de celular, cuando se detecta, entonces el asistente no revela datos del titular y deriva el caso a la clínica para verificación.
+* CA-4: Dado que se crea el registro, cuando se completa, entonces el asistente informa el tratamiento de datos y registra la autorización obtenida por este canal.
+
+Requisitos: RF-14
+Rol: Paciente","","","E3 Agendamiento y atención por WhatsApp","High","8","vitalia","fase-2","Agendamiento y atención por WhatsApp"
+"1170","Sub-task","T-039.1 Flujo de captura de datos","Actividades:
+* Solicitar y validar campo por campo
+* Reintentar ante formato inválido
+* Confirmar los datos antes de crear
+
+Historia: HU-039 Registrar paciente nuevo desde WhatsApp","1169","","","High","","vitalia","fase-2","Agendamiento y atención por WhatsApp"
+"1171","Sub-task","T-039.2 Creación de paciente desde el canal","Actividades:
+* Crear el registro con origen «WhatsApp»
+* Vincular el número verificado
+* Marcar la cuenta como sin contraseña definida
+
+Historia: HU-039 Registrar paciente nuevo desde WhatsApp","1169","","","High","","vitalia","fase-2","Agendamiento y atención por WhatsApp"
+"1172","Sub-task","T-039.3 Consentimiento por el canal","Actividades:
+* Texto resumido y enlace a la política
+* Registrar aceptación con fecha y canal
+* Rechazar el registro si no acepta
+
+Historia: HU-039 Registrar paciente nuevo desde WhatsApp","1169","","","High","","vitalia","fase-2","Agendamiento y atención por WhatsApp"
+"1173","Sub-task","T-039.4 Manejo de duplicados","Actividades:
+* Detectar documento existente
+* Respuesta que no revela información
+* Notificación a la clínica para verificación
+
+Historia: HU-039 Registrar paciente nuevo desde WhatsApp","1169","","","High","","vitalia","fase-2","Agendamiento y atención por WhatsApp"
+"1174","Story","HU-040 Cancelar o reagendar respondiendo el mensaje","Como paciente, quiero cancelar o mover mi cita respondiendo el mismo mensaje de confirmación, para resolverlo en dos toques.
+
+Criterios de aceptación:
+* CA-1: Dado que recibo el mensaje de confirmación con botones, cuando pulso «Reagendar», entonces el asistente me ofrece los horarios disponibles del mismo profesional.
+* CA-2: Dado que pulso «Cancelar», cuando confirmo la acción, entonces la cita queda cancelada, el espacio se libera y los recordatorios pendientes se anulan.
+* CA-3: Dado que la regla de anticipación de la clínica no permite el cambio, cuando lo intento, entonces el asistente lo explica e indica cómo comunicarse con el consultorio.
+* CA-4: Dado que completo la acción, cuando termina, entonces recibo la confirmación escrita del nuevo estado de la cita.
+
+Requisitos: RF-15
+Rol: Paciente","","","E3 Agendamiento y atención por WhatsApp","High","8","vitalia","fase-2","Agendamiento y atención por WhatsApp"
+"1175","Sub-task","T-040.1 Plantillas con botones de acción","Actividades:
+* Diseñar plantilla de confirmación con respuestas rápidas
+* Someter a aprobación de Meta
+* Vincular cada botón con su acción
+
+Historia: HU-040 Cancelar o reagendar respondiendo el mensaje","1174","","","High","","vitalia","fase-2","Agendamiento y atención por WhatsApp"
+"1176","Sub-task","T-040.2 Procesamiento de la respuesta","Actividades:
+* Identificar la cita del contexto
+* Invocar los servicios de cancelar y reagendar
+* Validar la regla de anticipación
+
+Historia: HU-040 Cancelar o reagendar respondiendo el mensaje","1174","","","High","","vitalia","fase-2","Agendamiento y atención por WhatsApp"
+"1177","Sub-task","T-040.3 Pruebas","Actividades:
+* Prueba de reagendar desde el botón
+* Prueba de cancelar y liberar espacio
+* Prueba de bloqueo por anticipación
+
+Historia: HU-040 Cancelar o reagendar respondiendo el mensaje","1174","","","High","","vitalia","fase-2","Agendamiento y atención por WhatsApp"
+"1178","Story","HU-041 Confirmar asistencia el día anterior","Como clínica, quiero que el paciente confirme su asistencia el día anterior, para liberar a tiempo los cupos que no se van a usar.
+
+Criterios de aceptación:
+* CA-1: Dado que falta un día para la cita, cuando se envía el recordatorio, entonces incluye las opciones «Confirmo» y «No podré asistir».
+* CA-2: Dado que el paciente confirma, cuando se procesa la respuesta, entonces la cita queda marcada como confirmada y visible así en la agenda del profesional.
+* CA-3: Dado que responde que no podrá asistir, cuando se procesa, entonces la cita se cancela, el espacio se libera y se le ofrece reagendar.
+* CA-4: Dado que no responde, cuando llega la hora de la cita, entonces permanece como «sin confirmar» y así aparece en la agenda.
+
+Requisitos: RF-16
+Rol: Paciente","","","E3 Agendamiento y atención por WhatsApp","High","5","vitalia","fase-2","Agendamiento y atención por WhatsApp"
+"1179","Sub-task","T-041.1 Plantilla de confirmación de asistencia","Actividades:
+* Redactar y aprobar la plantilla
+* Programar el envío a 24 horas
+* Vincular respuestas con la cita
+
+Historia: HU-041 Confirmar asistencia el día anterior","1178","","","High","","vitalia","fase-2","Agendamiento y atención por WhatsApp"
+"1180","Sub-task","T-041.2 Estados de confirmación","Actividades:
+* Agregar estado confirmada_por_paciente
+* Reflejarlo en la agenda del profesional
+* Contabilizar la tasa de confirmación
+
+Historia: HU-041 Confirmar asistencia el día anterior","1178","","","High","","vitalia","fase-2","Agendamiento y atención por WhatsApp"
+"1181","Story","HU-042 Consultar «mi próxima cita» por WhatsApp","Como paciente, quiero preguntar por mi próxima cita por WhatsApp, para confirmar la fecha sin entrar a la aplicación.
+
+Criterios de aceptación:
+* CA-1: Dado que escribo una consulta sobre mi próxima cita, cuando el asistente la reconoce, entonces responde con fecha, hora, profesional, sede y consultorio.
+* CA-2: Dado que no tengo citas próximas, cuando consulto, entonces el asistente lo informa y me ofrece agendar una.
+* CA-3: Dado que tengo varias citas próximas, cuando consulto, entonces responde con la más cercana e indica cuántas otras tengo programadas.
+* CA-4: Dado que el número no corresponde a un paciente registrado, cuando consulta, entonces el asistente no entrega información y ofrece el registro.
+
+Requisitos: RF-17
+Rol: Paciente","","","E3 Agendamiento y atención por WhatsApp","Medium","5","vitalia","fase-2","Agendamiento y atención por WhatsApp"
+"1182","Sub-task","T-042.1 Reconocimiento de la intención","Actividades:
+* Lista de frases y variantes frecuentes
+* Asociar la intención a la consulta
+* Respuesta de respaldo ante duda
+
+Historia: HU-042 Consultar «mi próxima cita» por WhatsApp","1181","","","Medium","","vitalia","fase-2","Agendamiento y atención por WhatsApp"
+"1183","Sub-task","T-042.2 Consulta y respuesta","Actividades:
+* Buscar la próxima cita del paciente
+* Componer la respuesta con los datos completos
+* Manejar los casos sin citas y múltiples citas
+
+Historia: HU-042 Consultar «mi próxima cita» por WhatsApp","1181","","","Medium","","vitalia","fase-2","Agendamiento y atención por WhatsApp"
+"1184","Story","HU-043 Cumplimiento de plantillas y ventana de 24 horas","Como responsable del producto, quiero respetar las reglas de Meta en todo mensaje saliente, para no arriesgar el bloqueo de la línea de la clínica.
+
+Criterios de aceptación:
+* CA-1: Dado un mensaje proactivo (fuera de la ventana de 24 horas), cuando se envía, entonces usa obligatoriamente una plantilla aprobada.
+* CA-2: Dado que el paciente escribió hace menos de 24 horas, cuando respondemos, entonces el sistema permite mensaje libre y lo registra como respuesta dentro de la ventana.
+* CA-3: Dado que se intenta enviar texto libre fuera de la ventana, cuando se procesa, entonces el sistema lo bloquea antes de llamar a la API y registra el intento.
+* CA-4: Dado que Meta rechaza o suspende una plantilla, cuando ocurre, entonces el sistema marca esa plantilla como inutilizable y alerta al administrador.
+
+Requisitos: RF-18
+Rol: Sistema","","","E3 Agendamiento y atención por WhatsApp","High","8","vitalia","fase-2","Agendamiento y atención por WhatsApp"
+"1185","Sub-task","T-043.1 Control de la ventana de conversación","Actividades:
+* Registrar el último mensaje entrante por número
+* Calcular la vigencia de la ventana
+* Seleccionar plantilla o texto libre según corresponda
+
+Historia: HU-043 Cumplimiento de plantillas y ventana de 24 horas","1184","","","High","","vitalia","fase-2","Agendamiento y atención por WhatsApp"
+"1186","Sub-task","T-043.2 Gestión del catálogo de plantillas","Actividades:
+* Registro local de plantillas y su estado
+* Sincronizar el estado con Meta
+* Alertar al administrador ante rechazos
+
+Historia: HU-043 Cumplimiento de plantillas y ventana de 24 horas","1184","","","High","","vitalia","fase-2","Agendamiento y atención por WhatsApp"
+"1187","Sub-task","T-043.3 Pruebas de cumplimiento","Actividades:
+* Prueba de bloqueo fuera de la ventana
+* Prueba de uso correcto de plantillas
+* Prueba de plantilla inhabilitada
+
+Historia: HU-043 Cumplimiento de plantillas y ventana de 24 horas","1184","","","High","","vitalia","fase-2","Agendamiento y atención por WhatsApp"
+"1188","Story","HU-044 Marcar un recordatorio como cumplido en la app","Como paciente, quiero marcar que ya tomé el medicamento, para llevar el control y que mi médico sepa cómo voy.
+
+Criterios de aceptación:
+* CA-1: Dado que veo un recordatorio pendiente del día, cuando pulso «Marcar», entonces queda como cumplido con la hora real de la confirmación.
+* CA-2: Dado que marqué un recordatorio, cuando se registra, entonces el indicador de adherencia se actualiza inmediatamente en pantalla.
+* CA-3: Dado que un recordatorio ya fue marcado, cuando intento marcarlo de nuevo, entonces el sistema no duplica el registro.
+* CA-4: Dado que marco una toma después de su hora programada, cuando se registra, entonces se guarda como cumplida con retraso y se distingue de las cumplidas a tiempo.
+
+Requisitos: RF-37
+Rol: Paciente","","","E6 Recordatorios multicanal y adherencia","High","5","vitalia","fase-2","Recordatorios multicanal y adherencia"
+"1189","Sub-task","T-044.1 Modelo de confirmaciones","Actividades:
+* Tabla confirmacion_adherencia
+* Restricción de unicidad por recordatorio
+* Registro de hora programada y hora real
+
+Historia: HU-044 Marcar un recordatorio como cumplido en la app","1188","","","High","","vitalia","fase-2","Recordatorios multicanal y adherencia"
+"1190","Sub-task","T-044.2 Endpoint de confirmación","Actividades:
+* Validar propiedad del recordatorio
+* Registrar confirmación idempotente
+* Recalcular el indicador
+
+Historia: HU-044 Marcar un recordatorio como cumplido en la app","1188","","","High","","vitalia","fase-2","Recordatorios multicanal y adherencia"
+"1191","Sub-task","T-044.3 Pantalla de recordatorios","Actividades:
+* Lista del día con estado
+* Acción de marcar con respuesta inmediata
+* Indicador de adherencia visible
+
+Historia: HU-044 Marcar un recordatorio como cumplido en la app","1188","","","High","","vitalia","fase-2","Recordatorios multicanal y adherencia"
+"1192","Story","HU-045 Confirmar la toma desde WhatsApp","Como paciente, quiero confirmar la toma respondiendo el mensaje, para no tener que abrir la aplicación.
+
+Criterios de aceptación:
+* CA-1: Dado que recibo el recordatorio de medicamento, cuando llega, entonces incluye las opciones «Ya la tomé» y «Posponer 15 minutos».
+* CA-2: Dado que respondo «Ya la tomé», cuando se procesa, entonces la confirmación queda registrada igual que si la hubiera marcado en la app.
+* CA-3: Dado que respondo «Posponer», cuando se procesa, entonces el sistema reenvía el recordatorio 15 minutos después, máximo dos veces.
+* CA-4: Dado que respondo mucho después de la hora, cuando se registra, entonces queda como cumplida con retraso, con la hora real de la respuesta.
+
+Requisitos: RF-37
+Rol: Paciente","","","E6 Recordatorios multicanal y adherencia","High","5","vitalia","fase-2","Recordatorios multicanal y adherencia"
+"1193","Sub-task","T-045.1 Plantilla de recordatorio con acciones","Actividades:
+* Redactar y aprobar la plantilla con botones
+* Incluir nombre del medicamento y hora
+* Vincular la respuesta con el recordatorio
+
+Historia: HU-045 Confirmar la toma desde WhatsApp","1192","","","High","","vitalia","fase-2","Recordatorios multicanal y adherencia"
+"1194","Sub-task","T-045.2 Procesamiento de la confirmación","Actividades:
+* Asociar la respuesta al recordatorio correcto
+* Registrar confirmación idempotente
+* Implementar el aplazamiento con límite
+
+Historia: HU-045 Confirmar la toma desde WhatsApp","1192","","","High","","vitalia","fase-2","Recordatorios multicanal y adherencia"
+"1195","Story","HU-046 Reintento por canal alterno","Como sistema, quiero intentar por otro canal cuando el primero falla, para que el recordatorio llegue de todas formas.
+
+Criterios de aceptación:
+* CA-1: Dado que el envío por WhatsApp falla o no se entrega en el plazo definido, cuando se evalúa, entonces el sistema reintenta por SMS.
+* CA-2: Dado que el reintento también falla, cuando se agotan los canales configurados, entonces el recordatorio se marca como no entregado y queda visible en el panel del profesional.
+* CA-3: Dado que el mensaje sí se entregó por el canal principal, cuando se evalúa, entonces no se envía por ningún canal adicional (sin mensajes duplicados).
+* CA-4: Dado que ocurre un reintento, cuando se ejecuta, entonces queda registrado el canal usado, el motivo del fallo anterior y el resultado.
+
+Requisitos: RF-36
+Rol: Sistema","","","E6 Recordatorios multicanal y adherencia","Medium","5","vitalia","fase-2","Recordatorios multicanal y adherencia"
+"1196","Sub-task","T-046.1 Política de escalamiento de canales","Actividades:
+* Definir el orden y los plazos de espera
+* Configurar por tipo de recordatorio
+* Evitar duplicados por confirmación de entrega
+
+Historia: HU-046 Reintento por canal alterno","1195","","","Medium","","vitalia","fase-2","Recordatorios multicanal y adherencia"
+"1197","Sub-task","T-046.2 Proceso de reintento","Actividades:
+* Evaluar estados de entrega pendientes
+* Despachar por el canal siguiente
+* Registrar la trazabilidad del intento
+
+Historia: HU-046 Reintento por canal alterno","1195","","","Medium","","vitalia","fase-2","Recordatorios multicanal y adherencia"
+"1198","Story","HU-047 Cálculo del indicador de adherencia","Como sistema, quiero calcular qué tanto cumple cada paciente su tratamiento, para que el médico y el paciente vean un dato objetivo.
+
+Criterios de aceptación:
+* CA-1: Dado un tratamiento activo, cuando se calcula el indicador, entonces corresponde a confirmaciones cumplidas sobre recordatorios cuya hora ya pasó, expresado en porcentaje.
+* CA-2: Dado que hay recordatorios cuya hora aún no llega, cuando se calcula, entonces no se cuentan como incumplidos.
+* CA-3: Dado que el paciente confirma una toma, cuando se registra, entonces el indicador se recalcula y queda disponible para el panel del profesional.
+* CA-4: Dado que se consulta el indicador, cuando se muestra, entonces puede verse por tratamiento, por periodo (7, 30 días) y de forma global del paciente.
+
+Requisitos: RF-38
+Rol: Sistema","","","E6 Recordatorios multicanal y adherencia","High","8","vitalia","fase-2","Recordatorios multicanal y adherencia"
+"1199","Sub-task","T-047.1 Definición del indicador","Actividades:
+* Documentar la fórmula y los casos borde
+* Definir ventanas de cálculo
+* Acordar el umbral de riesgo con el equipo clínico
+
+Historia: HU-047 Cálculo del indicador de adherencia","1198","","","High","","vitalia","fase-2","Recordatorios multicanal y adherencia"
+"1200","Sub-task","T-047.2 Servicio de cálculo","Actividades:
+* Cálculo por tratamiento y periodo
+* Recalcular al confirmar o al vencer un recordatorio
+* Almacenar resultados para consulta rápida
+
+Historia: HU-047 Cálculo del indicador de adherencia","1198","","","High","","vitalia","fase-2","Recordatorios multicanal y adherencia"
+"1201","Sub-task","T-047.3 Pruebas","Actividades:
+* Prueba de cálculo con y sin pendientes
+* Prueba de recálculo por confirmación
+* Prueba de periodos
+
+Historia: HU-047 Cálculo del indicador de adherencia","1198","","","High","","vitalia","fase-2","Recordatorios multicanal y adherencia"
+"1202","Story","HU-048 Panel de adherencia del médico","Como médico, quiero ver de un vistazo qué pacientes están cumpliendo su tratamiento, para intervenir a tiempo con los que no.
+
+Criterios de aceptación:
+* CA-1: Dado que abro el panel, cuando carga, entonces veo mis pacientes con tratamiento activo, su indicador de adherencia y su estado (en rango o en riesgo).
+* CA-2: Dado que la lista se muestra, cuando se ordena por defecto, entonces aparecen primero los pacientes con menor adherencia.
+* CA-3: Dado que un paciente está por debajo del umbral, cuando se muestra, entonces aparece distinguido visualmente y con la acción de contactarlo.
+* CA-4: Dado que abro un paciente desde el panel, cuando se despliega, entonces veo el detalle de tomas cumplidas e incumplidas de su tratamiento.
+* CA-5: Dado que consulto el panel, cuando se carga, entonces solo aparecen pacientes con los que tengo relación de atención vigente.
+
+Requisitos: RF-39
+Rol: Médico","","","E6 Recordatorios multicanal y adherencia","High","8","vitalia","fase-2","Recordatorios multicanal y adherencia"
+"1203","Sub-task","T-048.1 Endpoint del panel","Actividades:
+* Consultar pacientes activos del profesional
+* Incluir indicador y umbral
+* Ordenar y paginar
+
+Historia: HU-048 Panel de adherencia del médico","1202","","","High","","vitalia","fase-2","Recordatorios multicanal y adherencia"
+"1204","Sub-task","T-048.2 Vista de panel","Actividades:
+* Tabla con indicador visual de cumplimiento
+* Distintivo de riesgo y acción de contacto
+* Detalle por paciente
+
+Historia: HU-048 Panel de adherencia del médico","1202","","","High","","vitalia","fase-2","Recordatorios multicanal y adherencia"
+"1205","Sub-task","T-048.3 Detalle de adherencia por paciente","Actividades:
+* Serie de tomas cumplidas e incumplidas
+* Filtro por periodo
+* Acceso al plan vigente
+
+Historia: HU-048 Panel de adherencia del médico","1202","","","High","","vitalia","fase-2","Recordatorios multicanal y adherencia"
+"1206","Story","HU-049 Alerta automática por incumplimiento","Como médico, quiero que el sistema me avise cuando un paciente deja de confirmar, para actuar antes de que el tratamiento fracase.
+
+Criterios de aceptación:
+* CA-1: Dado un paciente que no confirma durante los días configurados, cuando se evalúa el incumplimiento, entonces el sistema genera una alerta dirigida a su médico tratante.
+* CA-2: Dado que el tratamiento está marcado como crítico o post-operatorio, cuando se evalúa, entonces el umbral de días es menor y la alerta se marca con prioridad alta.
+* CA-3: Dado que el paciente tiene un cuidador autorizado, cuando se genera la alerta, entonces también se le notifica, sin incluir información clínica más allá del plan de cuidado.
+* CA-4: Dado que el paciente retoma las confirmaciones, cuando se evalúa nuevamente, entonces la alerta se cierra automáticamente y queda registrada en el historial.
+* CA-5: Dado que se genera una alerta, cuando el médico la revisa, entonces puede marcarla como gestionada dejando una nota.
+
+Requisitos: RF-40
+Rol: Sistema","","","E6 Recordatorios multicanal y adherencia","High","8","vitalia","fase-2","Recordatorios multicanal y adherencia"
+"1207","Sub-task","T-049.1 Reglas de incumplimiento","Actividades:
+* Parametrizar umbrales por tipo de tratamiento
+* Definir prioridad y criterios de cierre
+* Documentar el criterio clínico aplicado
+
+Historia: HU-049 Alerta automática por incumplimiento","1206","","","High","","vitalia","fase-2","Recordatorios multicanal y adherencia"
+"1208","Sub-task","T-049.2 Proceso de evaluación","Actividades:
+* Tarea programada diaria
+* Generar, actualizar y cerrar alertas
+* Evitar alertas duplicadas
+
+Historia: HU-049 Alerta automática por incumplimiento","1206","","","High","","vitalia","fase-2","Recordatorios multicanal y adherencia"
+"1209","Sub-task","T-049.3 Notificación a médico y cuidador","Actividades:
+* Notificación en el panel y por canal preferido
+* Contenido limitado para el cuidador
+* Registro del envío
+
+Historia: HU-049 Alerta automática por incumplimiento","1206","","","High","","vitalia","fase-2","Recordatorios multicanal y adherencia"
+"1210","Sub-task","T-049.4 Gestión de la alerta","Actividades:
+* Vista de alertas activas
+* Acción de marcar como gestionada con nota
+* Historial de alertas por paciente
+
+Historia: HU-049 Alerta automática por incumplimiento","1206","","","High","","vitalia","fase-2","Recordatorios multicanal y adherencia"
+"1211","Story","HU-050 Ver mi propia adherencia","Como paciente, quiero ver cómo voy cumpliendo mi tratamiento, para saber si lo estoy haciendo bien.
+
+Criterios de aceptación:
+* CA-1: Dado que abro mis recordatorios, cuando carga la pantalla, entonces veo mi porcentaje de adherencia del mes con una barra de progreso.
+* CA-2: Dado que veo el indicador, cuando lo leo, entonces el texto aclara que mi médico también lo ve.
+* CA-3: Dado que mi adherencia baja del umbral, cuando se muestra, entonces aparece un mensaje de apoyo, sin lenguaje culpabilizador.
+
+Requisitos: RF-38
+Rol: Paciente","","","E6 Recordatorios multicanal y adherencia","Medium","3","vitalia","fase-2","Recordatorios multicanal y adherencia"
+"1212","Sub-task","T-050.1 Endpoint del indicador del paciente","Actividades:
+* Devolver adherencia del periodo
+* Filtrar por identidad autenticada
+
+Historia: HU-050 Ver mi propia adherencia","1211","","","Medium","","vitalia","fase-2","Recordatorios multicanal y adherencia"
+"1213","Sub-task","T-050.2 Componente visual","Actividades:
+* Barra de progreso y porcentaje
+* Mensajes por rango de cumplimiento
+* Revisión del tono de los textos
+
+Historia: HU-050 Ver mi propia adherencia","1211","","","Medium","","vitalia","fase-2","Recordatorios multicanal y adherencia"
+"1214","Story","HU-051 Reportar un síntoma o una duda","Como paciente en tratamiento, quiero contarle a mi médico algo que me pasó, para saber si debo preocuparme o esperar al control.
+
+Criterios de aceptación:
+* CA-1: Dado que abro «Mensajes», cuando escribo y envío un reporte, entonces queda asociado a mi médico tratante y a mi tratamiento vigente.
+* CA-2: Dado que envío el reporte, cuando se registra, entonces veo el tiempo de respuesta esperado que la clínica configuró.
+* CA-3: Dado que escribo el mensaje, cuando está en pantalla, entonces el aviso de que el canal no atiende urgencias permanece visible todo el tiempo.
+* CA-4: Dado que ya tengo un reporte abierto sin responder, cuando envío otro, entonces el sistema lo agrupa en la misma conversación.
+
+Requisitos: RF-41
+Rol: Paciente","","","E7 Comunicación paciente–médico entre consultas","High","5","vitalia","fase-2","Comunicación paciente–médico entre consultas"
+"1215","Sub-task","T-051.1 Modelo de conversación clínica","Actividades:
+* Tablas conversacion y mensaje
+* Vínculo con paciente, profesional y tratamiento
+* Estados: abierta, respondida, cerrada
+
+Historia: HU-051 Reportar un síntoma o una duda","1214","","","High","","vitalia","fase-2","Comunicación paciente–médico entre consultas"
+"1216","Sub-task","T-051.2 Pantalla de mensajes del paciente","Actividades:
+* Hilo de conversación
+* Composición y envío
+* Aviso permanente de no urgencias
+
+Historia: HU-051 Reportar un síntoma o una duda","1214","","","High","","vitalia","fase-2","Comunicación paciente–médico entre consultas"
+"1217","Sub-task","T-051.3 Reglas de enrutamiento","Actividades:
+* Determinar el médico tratante
+* Agrupar reportes abiertos
+* Configurar el tiempo de respuesta por clínica
+
+Historia: HU-051 Reportar un síntoma o una duda","1214","","","High","","vitalia","fase-2","Comunicación paciente–médico entre consultas"
+"1218","Story","HU-052 Responder o derivar a una cita de control","Como médico, quiero responder el reporte o convertirlo en un control, para resolverlo sin abrir un canal de atención permanente.
+
+Criterios de aceptación:
+* CA-1: Dado que tengo reportes pendientes, cuando abro la bandeja, entonces los veo ordenados por antigüedad con el nombre del paciente y un extracto.
+* CA-2: Dado que respondo un reporte, cuando envío la respuesta, entonces el paciente la recibe en la app y por su canal preferido.
+* CA-3: Dado que considero necesario verlo, cuando elijo «Derivar a control», entonces el sistema agenda o propone una cita y lo informa en la conversación.
+* CA-4: Dado que respondí, cuando se cierra la atención, entonces la conversación queda marcada como respondida y registrada en la historia del paciente.
+
+Requisitos: RF-42
+Rol: Médico","","","E7 Comunicación paciente–médico entre consultas","High","5","vitalia","fase-2","Comunicación paciente–médico entre consultas"
+"1219","Sub-task","T-052.1 Bandeja de reportes","Actividades:
+* Listado con filtros por estado
+* Orden por antigüedad
+* Contador de pendientes
+
+Historia: HU-052 Responder o derivar a una cita de control","1218","","","High","","vitalia","fase-2","Comunicación paciente–médico entre consultas"
+"1220","Sub-task","T-052.2 Respuesta y notificación","Actividades:
+* Envío de la respuesta
+* Notificación por canal preferido
+* Cambio de estado de la conversación
+
+Historia: HU-052 Responder o derivar a una cita de control","1218","","","High","","vitalia","fase-2","Comunicación paciente–médico entre consultas"
+"1221","Sub-task","T-052.3 Derivación a cita","Actividades:
+* Acción que reutiliza el agendamiento
+* Registro del vínculo entre reporte y cita
+* Mensaje automático en el hilo
+
+Historia: HU-052 Responder o derivar a una cita de control","1218","","","High","","vitalia","fase-2","Comunicación paciente–médico entre consultas"
+"1222","Story","HU-053 Aviso explícito de que el canal no es para urgencias","Como responsable del producto, quiero que nadie confunda este canal con una urgencia, para evitar un daño por una respuesta tardía.
+
+Criterios de aceptación:
+* CA-1: Dado que abro el canal de mensajes, cuando se muestra la pantalla, entonces aparece de forma permanente y legible el aviso de que no atiende urgencias, indicando llamar a la línea de emergencias.
+* CA-2: Dado que escribo por primera vez en una conversación, cuando envío el mensaje, entonces el sistema muestra el aviso completo antes de confirmar el envío.
+* CA-3: Dado que el aviso se muestra, cuando se evalúa su accesibilidad, entonces cumple el contraste mínimo y se mantiene visible en modo accesible.
+
+Requisitos: RF-43
+Rol: Paciente","","","E7 Comunicación paciente–médico entre consultas","High","2","vitalia","fase-2","Comunicación paciente–médico entre consultas"
+"1223","Sub-task","T-053.1 Componente de advertencia","Actividades:
+* Diseñar el aviso persistente
+* Validar contraste y tamaño
+* Incluir la línea de emergencias
+
+Historia: HU-053 Aviso explícito de que el canal no es para urgencias","1222","","","High","","vitalia","fase-2","Comunicación paciente–médico entre consultas"
+"1224","Sub-task","T-053.2 Confirmación en el primer mensaje","Actividades:
+* Diálogo previo al primer envío
+* Registro de que fue mostrado
+
+Historia: HU-053 Aviso explícito de que el canal no es para urgencias","1222","","","High","","vitalia","fase-2","Comunicación paciente–médico entre consultas"
+"1225","Story","HU-054 Notificación de respuesta del médico","Como paciente, quiero enterarme cuando mi médico responde, para no tener que revisar la aplicación a cada rato.
+
+Criterios de aceptación:
+* CA-1: Dado que el médico responde mi reporte, cuando se envía la respuesta, entonces recibo un aviso por mi canal preferido indicando que tengo respuesta.
+* CA-2: Dado que recibo el aviso, cuando lo abro, entonces me lleva directamente a la conversación correspondiente.
+* CA-3: Dado que el aviso viaja por WhatsApp o SMS, cuando se compone, entonces no incluye contenido clínico: solo informa que hay una respuesta disponible.
+
+Requisitos: RF-42
+Rol: Paciente","","","E7 Comunicación paciente–médico entre consultas","Medium","3","vitalia","fase-2","Comunicación paciente–médico entre consultas"
+"1226","Sub-task","T-054.1 Evento de respuesta","Actividades:
+* Emitir evento al responder
+* Componer aviso sin contenido clínico
+* Enviar por canal preferido
+
+Historia: HU-054 Notificación de respuesta del médico","1225","","","Medium","","vitalia","fase-2","Comunicación paciente–médico entre consultas"
+"1227","Sub-task","T-054.2 Enlace profundo a la conversación","Actividades:
+* Definir el enlace por conversación
+* Manejar el caso de sesión cerrada
+
+Historia: HU-054 Notificación de respuesta del médico","1225","","","Medium","","vitalia","fase-2","Comunicación paciente–médico entre consultas"
+"1228","Story","HU-055 Gestionar profesionales","Como administrador de la clínica, quiero registrar y administrar a los profesionales, para mantener la agenda al día cuando alguien entra o sale.
+
+Criterios de aceptación:
+* CA-1: Dado que registro un profesional con nombre, documento, especialidad y sedes donde atiende, cuando guardo, entonces queda habilitado para recibir citas en esas sedes.
+* CA-2: Dado que desactivo a un profesional, cuando se guarda, entonces deja de aparecer en el agendamiento, pero sus citas y su historia clínica registrada se conservan.
+* CA-3: Dado que un profesional tiene citas futuras, cuando intento desactivarlo, entonces el sistema advierte cuántas citas hay y exige decidir si se reasignan o se cancelan.
+* CA-4: Dado que administro profesionales de mi clínica, cuando consulto la lista, entonces no veo profesionales de otras clínicas.
+
+Requisitos: RF-49
+Rol: Administrador","","","E9 Panel administrativo y multi-clínica","High","5","vitalia","fase-3","Panel administrativo y multi-clínica"
+"1229","Story","HU-056 Gestionar horarios de atención","Como administrador, quiero definir los horarios y las ausencias de cada profesional, para que el sistema solo ofrezca espacios reales.
+
+Criterios de aceptación:
+* CA-1: Dado que defino el horario semanal de un profesional por sede, cuando guardo, entonces el motor de disponibilidad genera los espacios según ese horario.
+* CA-2: Dado que registro una ausencia (vacaciones, incapacidad), cuando guardo, entonces esos días dejan de ofrecerse para agendar.
+* CA-3: Dado que la ausencia se cruza con citas ya agendadas, cuando la registro, entonces el sistema las lista y exige reagendarlas o cancelarlas antes de confirmar.
+* CA-4: Dado que un profesional atiende en dos sedes el mismo día, cuando se calculan los espacios, entonces el sistema impide traslapes entre sedes.
+
+Requisitos: RF-49
+Rol: Administrador","","","E9 Panel administrativo y multi-clínica","High","8","vitalia","fase-3","Panel administrativo y multi-clínica"
+"1230","Story","HU-057 Aislamiento de información entre sedes","Como clínica con varias sedes, quiero que cada sede vea solo lo suyo, para mantener la operación ordenada y la información acotada.
+
+Criterios de aceptación:
+* CA-1: Dado que consulto la agenda desde una sede, cuando carga, entonces solo aparecen las citas de esa sede.
+* CA-2: Dado un médico que atiende en varias sedes, cuando cambia de sede en el panel, entonces la información se actualiza a la sede seleccionada.
+* CA-3: Dado un administrador de una sede, cuando intenta consultar datos de otra sede, entonces el sistema niega el acceso y registra el intento.
+* CA-4: Dado un paciente atendido en dos sedes de la misma clínica, cuando su médico consulta la historia clínica, entonces ve el expediente completo, sin fragmentarlo por sede.
+
+Requisitos: RF-48
+Rol: Administrador, Médico","","","E9 Panel administrativo y multi-clínica","High","8","vitalia","fase-3","Panel administrativo y multi-clínica"
+"1231","Story","HU-058 Reportes de operación","Como administrador, quiero ver cómo se comporta la operación, para tomar decisiones sobre agenda y personal.
+
+Criterios de aceptación:
+* CA-1: Dado que abro los reportes, cuando selecciono un periodo, entonces veo citas atendidas, canceladas e inasistencias con su variación respecto del periodo anterior.
+* CA-2: Dado que consulto el reporte, cuando se muestra, entonces incluye la adherencia promedio de los pacientes de la clínica y los tipos de cita más frecuentes.
+* CA-3: Dado que la clínica tiene varias sedes, cuando consulto, entonces puedo ver el consolidado y el desglose por sede.
+* CA-4: Dado que necesito compartir el reporte, cuando lo exporto, entonces obtengo un archivo con los mismos datos que muestra la pantalla.
+
+Requisitos: RF-50
+Rol: Administrador","","","E9 Panel administrativo y multi-clínica","Medium","8","vitalia","fase-3","Panel administrativo y multi-clínica"
+"1232","Story","HU-059 Consentimiento del paciente para el uso de IA","Como paciente, quiero decidir si autorizo que se use inteligencia artificial sobre mi historia clínica, para mantener el control sobre mis datos sensibles.
+
+Criterios de aceptación:
+* CA-1: Dado que la clínica tiene habilitado el asistente, cuando se me solicita la autorización, entonces el texto explica en lenguaje claro qué información se procesa y con qué finalidad.
+* CA-2: Dado que no otorgo la autorización, cuando el médico intenta usar el asistente sobre mi historia, entonces el sistema lo bloquea e informa que falta el consentimiento.
+* CA-3: Dado que otorgué la autorización, cuando decido revocarla desde mi perfil, entonces surte efecto de inmediato y queda registrada la revocación.
+* CA-4: Dado que otorgo o revoco, cuando se registra, entonces queda constancia con fecha, hora y versión del texto de consentimiento.
+
+Requisitos: RF-46
+Rol: Paciente","","","E8 Asistente de IA y contenido educativo","High","5","vitalia","fase-3","Asistente de IA y contenido educativo"
+"1233","Story","HU-060 Asistente clínico sobre la historia del paciente","Como médico, quiero preguntarle al asistente por los antecedentes del paciente, para no leer todo el expediente durante la consulta.
+
+Criterios de aceptación:
+* CA-1: Dado que el paciente autorizó el uso de IA, cuando pregunto por sus antecedentes, diagnósticos, alergias o evolución, entonces el asistente responde con base únicamente en la información registrada en su historia.
+* CA-2: Dado que el asistente responde, cuando leo la respuesta, entonces indica de qué registros la obtuvo (fecha y tipo de documento).
+* CA-3: Dado que la historia no contiene la información solicitada, cuando pregunto, entonces el asistente lo dice explícitamente en vez de inferir o completar.
+* CA-4: Dado que uso el asistente, cuando se muestra la respuesta, entonces incluye la advertencia de que es una ayuda de lectura y no sustituye el criterio clínico.
+
+Requisitos: RF-44
+Rol: Médico","","","E8 Asistente de IA y contenido educativo","Medium","13","vitalia","fase-3","Asistente de IA y contenido educativo"
+"1234","Story","HU-061 Intermediación de la IA a través de backend propio","Como responsable de seguridad, quiero que la historia clínica nunca salga del cliente hacia un tercero, para no exponer datos sensibles ni credenciales.
+
+Criterios de aceptación:
+* CA-1: Dado el código del cliente, cuando se revisa, entonces no contiene ninguna credencial del proveedor de IA ni llamadas directas a su API.
+* CA-2: Dado que el médico hace una consulta al asistente, cuando se procesa, entonces pasa por el backend, que decide qué fragmentos se envían y registra el acceso.
+* CA-3: Dado que se envía información al proveedor, cuando se compone la solicitud, entonces se excluyen los identificadores directos del paciente que no sean necesarios para responder.
+* CA-4: Dado que se realiza cualquier consulta al asistente, cuando ocurre, entonces queda registrada en la bitácora de auditoría con médico, paciente, fecha y hora.
+
+Requisitos: RF-45
+Rol: Sistema","","","E8 Asistente de IA y contenido educativo","High","8","vitalia","fase-3","Asistente de IA y contenido educativo"
+"1235","Story","HU-062 Contenido educativo curado","Como paciente con una enfermedad crónica, quiero leer información confiable sobre mi condición, para entender mi tratamiento sin buscar en internet.
+
+Criterios de aceptación:
+* CA-1: Dado que tengo un diagnóstico con contenido disponible, cuando abro mi plan, entonces veo el material educativo correspondiente a esa condición.
+* CA-2: Dado que abro un contenido, cuando se muestra, entonces indica su fuente y la fecha de la última revisión.
+* CA-3: Dado el origen del contenido, cuando se publica, entonces proviene del catálogo curado y aprobado por el equipo clínico, no de generación libre por IA.
+* CA-4: Dado que no hay contenido para mi condición, cuando abro mi plan, entonces la sección simplemente no aparece, sin mostrar un espacio vacío.
+
+Requisitos: RF-47
+Rol: Paciente","","","E8 Asistente de IA y contenido educativo","Low","5","vitalia","fase-3","Asistente de IA y contenido educativo"
+"1236","Story","HU-063 Modo accesible","Como paciente adulto mayor, quiero ver la aplicación con letra grande y alto contraste, para poder usarla sin ayuda de un familiar.
+
+Criterios de aceptación:
+* CA-1: Dado que activo el modo accesible, cuando se aplica, entonces el tamaño del texto aumenta y el contraste sube en todas las pantallas del paciente.
+* CA-2: Dado que el modo está activo, cuando cierro y vuelvo a abrir la aplicación, entonces la preferencia se mantiene.
+* CA-3: Dado que el modo está activo, cuando se evalúan las pantallas, entonces cumplen la relación de contraste mínima exigida por WCAG 2.1 AA y el tamaño mínimo de objetivo táctil.
+* CA-4: Dado que el dispositivo ya tiene configurado un tamaño de fuente mayor, cuando abro la aplicación por primera vez, entonces el sistema respeta esa configuración.
+
+Requisitos: RF-51
+Rol: Paciente","","","E10 Accesibilidad y experiencia","High","8","vitalia","fase-3","Accesibilidad y experiencia"
+"1237","Story","HU-064 Lectura en voz alta","Como paciente con dificultad para leer, quiero escuchar mi plan de tratamiento, para entender qué debo hacer sin depender de la vista.
+
+Criterios de aceptación:
+* CA-1: Dado que abro mi plan, cuando pulso el botón de escuchar, entonces el sistema lee en voz alta los medicamentos con dosis y horarios, y los cuidados.
+* CA-2: Dado que la lectura está en curso, cuando pulso de nuevo, entonces se detiene.
+* CA-3: Dado que la lectura se realiza, cuando se pronuncia el contenido, entonces usa el idioma español y un ritmo pausado.
+* CA-4: Dado que el dispositivo no admite la función, cuando abro la pantalla, entonces el botón no se muestra, sin generar error.
+
+Requisitos: RF-52
+Rol: Paciente","","","E10 Accesibilidad y experiencia","Medium","5","vitalia","fase-3","Accesibilidad y experiencia"
+"1238","Story","HU-065 Exportar el plan de tratamiento en PDF","Como paciente sin teléfono inteligente, quiero llevarme el plan impreso, para seguir el tratamiento en papel.
+
+Criterios de aceptación:
+* CA-1: Dado que abro mi plan vigente, cuando selecciono exportar, entonces obtengo un PDF con medicamentos, dosis, horarios, cuidados y próximos pasos.
+* CA-2: Dado que se genera el PDF, cuando lo reviso, entonces incluye el nombre del paciente, el profesional tratante, la fecha y la vigencia del tratamiento.
+* CA-3: Dado que el médico cierra la consulta, cuando lo requiere, entonces puede generar e imprimir el mismo documento desde el panel.
+* CA-4: Dado que el PDF se genera, cuando se compone, entonces usa tamaño de letra legible para adultos mayores y sin abreviaturas clínicas.
+
+Requisitos: RF-53
+Rol: Paciente, Médico","","","E10 Accesibilidad y experiencia","High","5","vitalia","fase-3","Accesibilidad y experiencia"
+"1239","Story","HU-066 Encuesta de satisfacción post-consulta","Como clínica, quiero saber cómo se sintió el paciente con la atención, para detectar problemas antes de que se vayan.
+
+Criterios de aceptación:
+* CA-1: Dado que una cita se marcó como atendida, cuando pasa el plazo configurado, entonces el paciente recibe una encuesta breve por su canal preferido.
+* CA-2: Dado que respondo la encuesta, cuando se registra, entonces la calificación queda asociada a la cita y al profesional.
+* CA-3: Dado que la calificación es baja, cuando se registra, entonces el administrador recibe un aviso para revisar el caso.
+* CA-4: Dado que no respondo, cuando pasa el plazo, entonces el sistema no insiste más de una vez.
+
+Requisitos: RF-54
+Rol: Paciente","","","E10 Accesibilidad y experiencia","Low","3","vitalia","fase-3","Accesibilidad y experiencia"
+"1240","Story","HU-067 Autorizar a un cuidador","Como paciente, quiero autorizar a un familiar para que me ayude con mi tratamiento, para tener apoyo sin entregarle toda mi historia clínica.
+
+Criterios de aceptación:
+* CA-1: Dado que registro a un cuidador con su nombre y celular, cuando confirmo, entonces el sistema le envía una invitación y el acceso queda pendiente de su aceptación.
+* CA-2: Dado que autorizo a un cuidador, cuando defino el alcance, entonces solo puedo concederle recordatorios y plan de cuidado, nunca la historia clínica completa.
+* CA-3: Dado que el cuidador acepta, cuando ingresa, entonces solo ve la información autorizada y así se le indica en pantalla.
+* CA-4: Dado que otorgo la autorización, cuando se registra, entonces queda constancia con fecha, hora, alcance concedido y medio de aceptación.
+
+Requisitos: RF-55
+Rol: Paciente","","","E11 Seguridad, privacidad y cumplimiento","High","8","vitalia","fase-1-4","Seguridad, privacidad y cumplimiento"
+"1241","Story","HU-068 Vista del cuidador","Como cuidador autorizado, quiero ver los recordatorios y cuidados de mi familiar, para ayudarle a cumplir el tratamiento.
+
+Criterios de aceptación:
+* CA-1: Dado que ingreso como cuidador, cuando carga la pantalla, entonces veo los recordatorios del día y el plan de cuidado de la persona que me autorizó.
+* CA-2: Dado que intento acceder a la historia clínica, notas o diagnósticos, cuando lo intento, entonces el sistema lo niega y registra el intento.
+* CA-3: Dado que la persona a mi cargo no confirma sus tomas, cuando se genera la alerta de incumplimiento, entonces también la recibo, limitada al plan de cuidado.
+* CA-4: Dado que acompaño a más de una persona, cuando ingreso, entonces puedo cambiar entre ellas y cada una ve solo su información.
+
+Requisitos: RF-55
+Rol: Cuidador","","","E11 Seguridad, privacidad y cumplimiento","High","5","vitalia","fase-1-4","Seguridad, privacidad y cumplimiento"
+"1242","Story","HU-069 Revocar el acceso de un cuidador","Como paciente, quiero quitarle el acceso a un cuidador cuando ya no lo necesito, para recuperar el control de mi información.
+
+Criterios de aceptación:
+* CA-1: Dado que tengo un cuidador autorizado, cuando revoco su acceso, entonces deja de ver mi información de inmediato.
+* CA-2: Dado que revoqué el acceso, cuando el cuidador intenta ingresar a mis datos, entonces el sistema se lo niega e informa que la autorización fue retirada.
+* CA-3: Dado que revoco, cuando se procesa, entonces queda registrada la revocación con fecha y hora en la bitácora.
+
+Requisitos: RF-55
+Rol: Paciente","","","E11 Seguridad, privacidad y cumplimiento","High","3","vitalia","fase-1-4","Seguridad, privacidad y cumplimiento"
+"1243","Story","HU-070 Consultar quién ha accedido a mi historia clínica","Como paciente, quiero saber quién ha visto mi historia clínica, para ejercer mi derecho a controlar mis datos.
+
+Criterios de aceptación:
+* CA-1: Dado que abro la sección de privacidad, cuando consulto los accesos, entonces veo quién accedió, en qué calidad y en qué fecha y hora.
+* CA-2: Dado que consulto el listado, cuando se muestra, entonces está ordenado del acceso más reciente al más antiguo y permite filtrar por periodo.
+* CA-3: Dado que identifico un acceso que no reconozco, cuando lo selecciono, entonces el sistema me ofrece el canal para radicar una solicitud ante el responsable del tratamiento de datos.
+
+Requisitos: RF-57
+Rol: Paciente","","","E11 Seguridad, privacidad y cumplimiento","Medium","5","vitalia","fase-1-4","Seguridad, privacidad y cumplimiento"
+"1244","Story","HU-071 Generar el Resumen Digital de Atención (RDA)","Como IPS, quiero generar el RDA por cada atención, para cumplir la normativa de interoperabilidad de historia clínica.
+
+Criterios de aceptación:
+* CA-1: Dado que se cierra una consulta, cuando se genera el RDA, entonces contiene los datos exigidos por la normativa vigente en el formato definido.
+* CA-2: Dado que faltan datos obligatorios para el RDA, cuando el médico intenta cerrar la consulta, entonces el sistema indica qué falta antes de permitir el cierre.
+* CA-3: Dado que el RDA se genera, cuando se guarda, entonces queda vinculado a la atención y disponible para consulta y reenvío.
+* CA-4: Dado que la normativa cambia de versión de formato, cuando se actualiza la configuración, entonces los RDA nuevos usan la versión vigente sin alterar los ya emitidos.
+
+Requisitos: RF-59
+Rol: Sistema","","","E12 Interoperabilidad (RDA)","High","13","vitalia","fase-4","Interoperabilidad (RDA)"
+"1245","Story","HU-072 Intercambiar el RDA con la plataforma nacional","Como IPS, quiero enviar y consultar el RDA en la plataforma de interoperabilidad, para que la historia del paciente esté disponible donde se le atienda.
+
+Criterios de aceptación:
+* CA-1: Dado un RDA generado, cuando se envía a la plataforma, entonces el sistema registra el identificador de la transacción y su resultado.
+* CA-2: Dado que el envío falla, cuando se agotan los reintentos, entonces queda en una bandeja de pendientes con el motivo del error, para reenvío manual.
+* CA-3: Dado que el paciente autorizó la consulta, cuando el médico solicita su resumen desde la plataforma, entonces el sistema lo recupera y lo muestra identificando su origen externo.
+* CA-4: Dado cualquier intercambio, cuando ocurre, entonces queda registrado en la bitácora de auditoría con el detalle de la operación.
+
+Requisitos: RF-60
+Rol: Sistema","","","E12 Interoperabilidad (RDA)","High","13","vitalia","fase-4","Interoperabilidad (RDA)"
+"1246","Story","HU-073 Registro de eventos de interoperabilidad","Como administrador, quiero ver el estado de los envíos de RDA, para detectar y corregir los que quedaron pendientes.
+
+Criterios de aceptación:
+* CA-1: Dado que abro el tablero de interoperabilidad, cuando carga, entonces veo los envíos del periodo con su estado: exitoso, pendiente o fallido.
+* CA-2: Dado un envío fallido, cuando lo selecciono, entonces veo el motivo del error y puedo reintentarlo.
+* CA-3: Dado que se supera el umbral de fallos configurado, cuando ocurre, entonces el sistema alerta al administrador.
+
+Requisitos: RF-60
+Rol: Administrador","","","E12 Interoperabilidad (RDA)","Medium","5","vitalia","fase-4","Interoperabilidad (RDA)"
+"1247","Story","HU-074 Consentimiento para compartir el resumen con otras instituciones","Como paciente, quiero decidir si mi resumen de atención se comparte con otras instituciones, para controlar hasta dónde viaja mi información de salud.
+
+Criterios de aceptación:
+* CA-1: Dado que se habilita la interoperabilidad, cuando se me solicita el consentimiento, entonces el texto explica qué se comparte, con quién y para qué.
+* CA-2: Dado que no autorizo, cuando se genera un RDA, entonces no se envía a la plataforma y el sistema deja constancia del motivo.
+* CA-3: Dado que autoricé, cuando revoco la autorización, entonces deja de enviarse desde ese momento, sin afectar los envíos ya realizados.
+
+Requisitos: RF-59, RF-55
+Rol: Paciente","","","E12 Interoperabilidad (RDA)","High","5","vitalia","fase-4","Interoperabilidad (RDA)"
