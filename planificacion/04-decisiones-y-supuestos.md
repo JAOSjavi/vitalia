@@ -1,7 +1,7 @@
 # Decisiones y supuestos
 
 **Fase del ciclo de vida:** Planificación
-**Versión:** 2.5 · 13 de octubre de 2026
+**Versión:** 2.6 · 13 de octubre de 2026
 
 Una **decisión** la tomó el dueño del proyecto. Un **supuesto** lo puso quien levantó los requisitos para no frenar el trabajo, y se cambia en cuanto haya mejor información.
 
@@ -37,6 +37,8 @@ Una **decisión** la tomó el dueño del proyecto. Un **supuesto** lo puso quien
 | D-24 | 13 oct 2026 | La historia clínica del consultorio entra al alcance. Al atender, el médico ve a un lado el asistente con el resumen y en el centro el formulario de la historia clínica, con lo mínimo que exija la norma | Épica E9 nueva, con seis historias. El contenido está en la sección 4 del [marco normativo](03-marco-normativo.md). El total pasa a 46 historias en 9 épicas |
 | D-25 | 13 oct 2026 | El diseño no debe verse genérico: los estados van con un punto de color y su nombre, las notas dejan la caja de color, y los iconos salen de una biblioteca que se vea muy bien. El estado va en una caja de bordes redondeados con peso y sombra, y botones y tarjetas llevan la misma sombra | Corregido en el lienzo. Reglas en la sección 6 de la [base visual](../diseno/08-base-visual.md) |
 | D-26 | 13 oct 2026 | Los iconos de la aplicación salen de Phosphor Icons | Se aplica al construir las pantallas. Los iconos del lienzo son provisionales |
+| D-27 | 13 oct 2026 | Los servicios se montan en la nube desde el primer día, sin instalar nada en el computador: la base de datos en Render y los archivos en Cloudflare R2 | Cambia el entorno de trabajo: sección 3 de [herramientas y entrega](../diseno/09-herramientas-y-entrega.md). Las pruebas que tocan la base tardan más; las de GitHub usan su propio PostgreSQL |
+| D-28 | 13 oct 2026 | El Desarrollo se construye por historias, sin pantalla de verificación del sistema, en este orden: registro e ingreso de paciente y de médico; manejo básico de citas; resumen con IA sobre los documentos del paciente | Las pruebas de concepto de la arquitectura se despejan dentro de cada bloque. Ver la sección 4 de [ESTADO.md](../ESTADO.md) |
 
 ## 2. Supuestos
 
@@ -72,7 +74,7 @@ Una **decisión** la tomó el dueño del proyecto. Un **supuesto** lo puso quien
 |---|---|---|---|
 | A-01 | Tecnología de la aplicación y del servidor | FastAPI en el servidor; React con Vite y TypeScript en las pantallas | El servidor, el dueño del proyecto. React frente a Astro, propuesta de diseño |
 | A-02 | Base de datos | PostgreSQL en Render, con permisos por fila | Dueño del proyecto |
-| A-03 | Dónde se aloja el sistema y los documentos | Render para la aplicación; archivos en almacenamiento compatible con S3 (propuesta: Cloudflare R2) | Render, el dueño del proyecto. El almacenamiento, propuesta de diseño |
+| A-03 | Dónde se aloja el sistema y los documentos | Render para la aplicación; archivos en Cloudflare R2, que habla el protocolo S3. El almacenamiento de objetos de Render está en alfa y MinIO dejó de publicarse en 2026 | Render, el dueño del proyecto. R2 era propuesta de diseño y quedó en firme con D-27 |
 | A-04 | Proveedor de inteligencia artificial | Qwen por la plataforma internacional de Alibaba Cloud | El dueño propuso DeepSeek o Qwen; se eligió Qwen por las razones de [04-asistente-ia.md](../diseno/04-asistente-ia.md) |
 | A-05 | Cómo se lee el texto de fotos y documentos escaneados | PDF con texto, dentro del servidor; fotos y escaneados, con el modelo de visión del mismo proveedor y solo con autorización del paciente | Propuesta de diseño |
 | A-06 | Proveedor de correo | Por API (propuesta: Resend) | Propuesta de diseño |
@@ -80,10 +82,11 @@ Una **decisión** la tomó el dueño del proyecto. Un **supuesto** lo puso quien
 | A-08 | Permisos por fila cuando todavía no hay sesión, y en los procesos en segundo plano | Funciones de la base que hacen una sola cosa cada una, y una identidad `sistema` para el lector y el envío de avisos. Ver la sección 3 del [modelo de datos](../diseno/02-modelo-de-datos.md) | Propuesta de diseño |
 | A-09 | Historia clínica que no cambia | Un disparador en la base rechaza modificar o borrar una atención cerrada; se corrige con notas aclaratorias | Propuesta de diseño, sobre D-24 |
 | A-10 | Pantalla de atención | Formulario en el centro, en ocho secciones; asistente a la derecha, plegable; el asistente nunca escribe en la historia | Propuesta de diseño, sobre D-24 |
-| A-11 | Herramientas, entorno local y flujo de entrega | Ver [09-herramientas-y-entrega.md](../diseno/09-herramientas-y-entrega.md). Repositorio remoto privado y pruebas automáticas antes de cada despliegue | Propuesta de diseño |
+| A-11 | Herramientas, servicios y flujo de entrega | Ver [09-herramientas-y-entrega.md](../diseno/09-herramientas-y-entrega.md). Repositorio remoto privado y pruebas automáticas antes de cada despliegue. El entorno de trabajo cambió con D-27 | Propuesta de diseño |
 | A-12 | Biblioteca para leer PDF | `pypdfium2` en lugar de PyMuPDF, cuya licencia obligaría a publicar el código | Propuesta de diseño |
 | A-13 | Pantallas que no están en el lienzo | No se dibujan antes: se arman con las piezas de la [base visual](../diseno/08-base-visual.md), siguiendo el prototipo | Propuesta de diseño, sobre D-18 |
 | A-14 | Biblioteca de iconos | Phosphor Icons, en un solo grosor | Propuesta de diseño que el dueño del proyecto confirmó (D-26) |
+| A-15 | Modelos de Qwen | `qwen3.7-plus` para las respuestas y `qwen3.5-ocr` para la lectura, en la región Singapur. Los que nombraba el diseño (`qwen-plus` y `qwen-vl-ocr`) son de la generación anterior. Se confirman con la primera llamada | Propuesta de diseño, sobre A-04 |
 
 Las "propuestas de diseño" se pueden cambiar sin rehacer el resto: están aisladas detrás de una sola pieza cada una.
 

@@ -2,7 +2,7 @@
 
 Sistema a la medida para **un consultorio médico general privado en Colombia**. El médico maneja su agenda y a sus pacientes, escribe la historia clínica de cada atención y cuenta con un asistente de inteligencia artificial que lee las historias clínicas que el paciente sube y responde preguntas sobre ellas.
 
-**Estado:** Planificación y Diseño cerrados y consistentes entre sí, con la historia clínica del consultorio incluida. Sin desarrollo iniciado.
+**Estado:** Planificación y Diseño cerrados. Desarrollo en curso: esqueleto del servidor y de las pantallas listo; siguen los servicios en la nube y el registro e ingreso.
 **Última actualización:** 13 de octubre de 2026
 
 ---
@@ -37,7 +37,7 @@ Sistema a la medida para **un consultorio médico general privado en Colombia**.
 |---|---|---|
 | **1. Planificación** | Hecha | Alcance, requisitos, marco normativo con el contenido mínimo de la historia clínica, historias y tareas |
 | **2. Diseño** | Cerrada en documentos el 13 de octubre | Arquitectura, modelo de datos, contrato de la API, diseño del asistente, pantallas y prototipo navegable |
-| **3. Desarrollo** | Siguiente | Empieza por las cuatro pruebas de concepto de la [arquitectura](diseno/01-arquitectura.md) |
+| **3. Desarrollo** | En curso | Esqueleto en `servidor/` y `pantallas/`. Se construye por historias; el orden está en [ESTADO.md](ESTADO.md) |
 | **4. Pruebas** | Sin iniciar | — |
 | **5. Despliegue** | Sin iniciar | — |
 
@@ -96,6 +96,8 @@ vitalia-proyecto/
 │   ├── 09-herramientas-y-entrega.md
 │   ├── lienzo/                  fuente de las once pantallas del lienzo
 │   └── prototipo/index.html     prototipo navegable
+├── servidor/                    API en Python: capas, migraciones y pruebas
+├── pantallas/                   aplicación web en React
 ├── historias-de-usuario/
 │   ├── RELACIONES.md            qué historia depende de cuál
 │   ├── E1-cuentas-e-ingreso/
@@ -142,7 +144,7 @@ Envío del Resumen Digital de Atención al Ministerio, cuentas para menores de e
 
 La lista vigente, en orden, está en la sección 4 de [ESTADO.md](ESTADO.md). Se lleva en un solo lugar para que no se desfase.
 
-**Tecnología:** Python con FastAPI, PostgreSQL en Render, React en las pantallas y Qwen como modelo de IA de la primera versión. El código se organiza con arquitectura limpia.
+**Tecnología:** Python con FastAPI, PostgreSQL en Render, archivos en Cloudflare R2, React en las pantallas y Qwen como modelo de IA de la primera versión. El código se organiza con arquitectura limpia.
 
 ---
 

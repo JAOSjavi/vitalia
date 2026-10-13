@@ -1,9 +1,9 @@
 # Herramientas y entrega
 
 **Fase del ciclo de vida:** Diseño
-**Versión:** 1.0 · 13 de octubre de 2026
+**Versión:** 1.1 · 13 de octubre de 2026
 
-Con qué piezas concretas se construye Vitalia, cómo se trabaja en el computador de quien programa y cómo llega el código a Render. Completa la [arquitectura](01-arquitectura.md), que decide los lenguajes y las capas.
+Con qué piezas concretas se construye Vitalia, con qué servicios se trabaja y cómo llega el código a Render. Completa la [arquitectura](01-arquitectura.md), que decide los lenguajes y las capas.
 
 Todo lo de este documento es **propuesta de diseño**: cada pieza está detrás de una capa y se puede cambiar sin rehacer el resto. No se fijan números de versión; se toma la última estable al empezar.
 
@@ -45,22 +45,74 @@ Todo lo de este documento es **propuesta de diseño**: cada pieza está detrás 
 | Fechas y horas | Las funciones del propio navegador, con la zona de Colombia | No hace falta una biblioteca |
 | Pruebas | Vitest y Testing Library; Playwright para unos pocos recorridos completos | — |
 
-## 3. Entorno local
+## 3. Servicios y entorno de trabajo
 
-En el computador de desarrollo hay Python, Node, `uv` y git. **Falta PostgreSQL.**
+El dueño del proyecto decidió montar los servicios **en la nube desde el primer día**, sin instalar nada en el computador (D-27). En el computador de desarrollo hay Python, Node, `uv` y git, y con eso basta.
 
-| Necesidad | Cómo se resuelve en local |
+| Necesidad | Cómo se resuelve |
 |---|---|
-| Base de datos | PostgreSQL instalado en Windows con el instalador oficial, en la misma versión mayor que se elija en Render. Dos bases: una de desarrollo y otra que las pruebas crean y borran |
-| Archivos | Un adaptador que guarda en una carpeta del disco. Cumple el mismo puerto que el de S3 |
-| Correo | Un adaptador que escribe el correo en la consola en vez de enviarlo |
-| IA | Un adaptador de mentira con respuestas fijas, para las pruebas. El proveedor real se usa solo cuando hay clave en la configuración |
-| Configuración | Un archivo `.env` que nunca entra al repositorio, y un `.env.example` con los nombres de las variables y sin valores |
-| Datos | Un guion de datos inventados: un médico, unos pocos pacientes, citas, documentos y atenciones. Sirve para desarrollar, para las pruebas y para mostrar el sistema |
+| Base de datos | PostgreSQL 18 en Render. La base `vitalia_dev` es la de desarrollo; las pruebas crean y borran `vitalia_pruebas` en la misma instancia |
+| Archivos | Cloudflare R2, espacio `vitalia-dev`. Las pruebas escriben bajo un prefijo propio y lo borran |
+| Correo | Un adaptador que escribe el correo en la consola en vez de enviarlo, hasta que exista el servicio de correo |
+| IA | Qwen, con la clave del dueño del proyecto. Las pruebas automáticas usan un adaptador de mentira con respuestas fijas y no gastan |
+| Configuración | El archivo `servidor/.env`, que nunca entra al repositorio, y `servidor/.env.example` con los nombres de las variables y sin valores |
+| Datos | Un guion de datos inventados: un médico, unos pocos pacientes, citas y documentos. Nace con las primeras tablas |
 
-Los tres adaptadores locales existen gracias a los puertos de la arquitectura limpia. El almacenamiento real, con sus enlaces firmados, se prueba en el ambiente de pruebas de Render.
+El adaptador de correo en consola y el de IA de mentira existen gracias a los puertos de la arquitectura limpia.
 
-Docker no es necesario. Si más adelante se quiere, el mismo entorno se puede describir en un archivo de Docker Compose sin cambiar el código.
+**Por qué R2 y no Render ni MinIO.** El almacenamiento de objetos de Render está en alfa con lista de espera. MinIO dejó de publicarse en 2026. R2 habla el mismo protocolo S3, así que cambiar de proveedor sigue siendo un asunto de configuración.
+
+**Lo que cuesta trabajar contra la nube.** Cada instrucción a la base cruza internet hasta Estados Unidos. Por eso las pruebas se separan: las del dominio y los casos de uso no tocan la base y se corren a cada cambio (`uv run pytest -m "not bd"`); las de base, antes de unir cada historia.
+
+### 3.1 PostgreSQL en Render
+
+1. Crear la cuenta en https://render.com, entrando con GitHub.
+2. **New → Postgres**, con estos valores:
+
+   | Campo | Valor |
+   |---|---|
+   | Name | `vitalia-bd` |
+   | Database | `vitalia_dev` |
+   | User | `vitalia_migraciones` |
+   | Region | Virginia (US East) |
+   | PostgreSQL Version | 18 |
+   | Plan | Free |
+
+3. En **Connections**, copiar **External Database URL** y pegarla tal cual en `BD_URL_MIGRACIONES`.
+
+Ese usuario es el dueño de las tablas y solo lo usan las migraciones. El de la aplicación, `vitalia_api`, se crea con SQL, sin privilegios de dueño, y su dirección va en `BD_URL`.
+
+El plan gratuito da 1 GB, no tiene respaldos y **vence a los 30 días de creada la base**, con 14 más de gracia. Sirve para construir con datos inventados; antes de esa fecha se pasa al plan pago.
+
+### 3.2 Archivos en Cloudflare R2
+
+1. Crear la cuenta en https://dash.cloudflare.com/sign-up y entrar a **R2 Object Storage**.
+2. **Create bucket**: nombre `vitalia-dev`, ubicación *Eastern North America*. Sin acceso público.
+3. **Overview → API Tokens → Manage → Create Account API token**: permiso **Object Read & Write**, limitado al espacio `vitalia-dev`.
+4. El secreto se muestra una sola vez. Los datos van a `servidor/.env`:
+
+   | Dato de Cloudflare | Variable |
+   |---|---|
+   | Endpoint `https://<id de cuenta>.r2.cloudflarestorage.com` | `ARCHIVOS_DIRECCION` |
+   | Access Key ID | `ARCHIVOS_CLAVE_ID` |
+   | Secret Access Key | `ARCHIVOS_CLAVE_SECRETA` |
+   | Nombre del espacio | `ARCHIVOS_ESPACIO` |
+
+### 3.3 Clave de la IA
+
+1. Crear la cuenta en https://account.alibabacloud.com/register/intl_register.htm.
+2. Entrar a https://modelstudio.console.alibabacloud.com/ y aceptar los términos.
+3. Elegir la región **Singapore**. La clave, la dirección y los modelos son por región.
+4. Copiar el identificador del espacio de trabajo: https://modelstudio.console.alibabacloud.com/ap-southeast-1/settings/workspace
+5. Crear la clave: https://modelstudio.console.alibabacloud.com/ap-southeast-1/settings/api-key. Se muestra una sola vez.
+6. En `servidor/.env`:
+
+   | Variable | Valor |
+   |---|---|
+   | `IA_CLAVE` | La clave |
+   | `IA_DIRECCION` | `https://<id del espacio>.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1` |
+   | `IA_MODELO_RESPUESTAS` | `qwen3.7-plus` |
+   | `IA_MODELO_LECTURA` | `qwen3.5-ocr` |
 
 ## 4. Repositorio y ramas
 
@@ -102,20 +154,27 @@ Dentro de las pruebas del servidor va la de los permisos por fila, que recorre e
 | Cuenta o recurso | Para qué | Cuándo |
 |---|---|---|
 | Repositorio remoto privado | Respaldo, pruebas automáticas y despliegue | Antes de la primera historia |
-| PostgreSQL en el computador | Desarrollar y probar los permisos por fila | Antes de la primera historia |
-| Render | Ambiente de pruebas | Para la prueba de permisos por fila y la de la cookie de sesión |
-| Proveedor de IA | Prueba de concepto del asistente | Para la prueba de concepto de la IA |
-| Almacenamiento de archivos | Guardar documentos | Para HU-027 |
+| PostgreSQL en Render | Desarrollar y probar los permisos por fila | Antes de la primera historia |
+| Cloudflare R2 | Guardar documentos | Antes de la primera historia; se usa desde HU-027 |
+| Proveedor de IA | Lectura de documentos y asistente | Antes de la primera historia; se usa desde HU-031 |
+| Servicio web y sitio en Render | Ambiente de pruebas publicado | Al cerrar el registro y el ingreso |
 | Servicio de correo | Recuperación de contraseña y avisos | Para HU-005 |
 | Dominio propio | La cookie de sesión entre el sitio y la API | Para la prueba de la cookie de sesión |
 
 ## 7. Orden de arranque del Desarrollo
 
-1. Repositorio remoto, PostgreSQL local y el esqueleto de `servidor/` y `pantallas/` con las pruebas automáticas corriendo.
-2. Prueba de concepto de la IA: sección 10 de la [guía del asistente](07-como-se-construye-el-asistente.md).
-3. Las otras tres pruebas de concepto de la [arquitectura](01-arquitectura.md).
-4. Los cimientos, en el orden de [RELACIONES.md](../historias-de-usuario/RELACIONES.md): HU-006, HU-036, HU-037 y HU-027.
+1. Los servicios de la sección 3 y el repositorio remoto.
+2. Comprobar cada servicio: privilegios del usuario dueño en Render y creación de `vitalia_api`; guardar y abrir un archivo en R2 con enlace firmado; una llamada a cada modelo.
+3. Registro e ingreso: HU-006, HU-036, HU-037, HU-001, HU-002, HU-003, HU-004 y HU-007.
+4. Citas, y después documentos y resumen con IA.
+
+El detalle y el estado de cada paso están en la sección 4 de [ESTADO.md](../ESTADO.md).
 
 ## Fuentes
 
 - [Render: despliegues, pruebas previas y orden previa al despliegue](https://render.com/docs/deploys)
+- [Render: crear y conectar PostgreSQL](https://render.com/docs/postgresql-creating-connecting)
+- [Render: plan gratuito](https://render.com/docs/free)
+- [Cloudflare R2: claves de acceso](https://developers.cloudflare.com/r2/api/tokens/)
+- [Cloudflare R2: precios](https://developers.cloudflare.com/r2/pricing/)
+- [Alibaba Cloud Model Studio: primera llamada](https://www.alibabacloud.com/help/en/model-studio/first-api-call-to-qwen)
