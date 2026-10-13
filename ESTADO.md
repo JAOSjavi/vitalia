@@ -18,11 +18,11 @@ Lo que cubre el alcance actual: cuentas, calendario de disponibilidad, citas de 
 | Alcance y flujo principal | [planificacion/01-alcance-y-flujo.md](planificacion/01-alcance-y-flujo.md) |
 | 39 requisitos funcionales y 14 no funcionales | [planificacion/02-requisitos.md](planificacion/02-requisitos.md) |
 | Leyes y seis preguntas para el abogado | [planificacion/03-marco-normativo.md](planificacion/03-marco-normativo.md) |
-| Decisiones (D-01 a D-17) y supuestos (S-01 a S-13) | [planificacion/04-decisiones-y-supuestos.md](planificacion/04-decisiones-y-supuestos.md) |
+| Decisiones (D-01 a D-19) y supuestos (S-01 a S-13) | [planificacion/04-decisiones-y-supuestos.md](planificacion/04-decisiones-y-supuestos.md) |
 | Reglas del tablero Kanban | [planificacion/05-kanban.md](planificacion/05-kanban.md) |
 | 39 historias en 8 épicas, con criterios y tareas | [historias-de-usuario/](historias-de-usuario/) |
 | Orden de construcción | [historias-de-usuario/RELACIONES.md](historias-de-usuario/RELACIONES.md) |
-| Tecnología y por qué | [diseno/01-arquitectura.md](diseno/01-arquitectura.md) |
+| Tecnología, capas del código y reglas de rendimiento | [diseno/01-arquitectura.md](diseno/01-arquitectura.md) |
 | Tablas y permisos por fila | [diseno/02-modelo-de-datos.md](diseno/02-modelo-de-datos.md) |
 | Operaciones de la API | [diseno/03-api.md](diseno/03-api.md) |
 | Decisiones del asistente de IA | [diseno/04-asistente-ia.md](diseno/04-asistente-ia.md) |
@@ -45,25 +45,25 @@ El código del prototipo está en [diseno/prototipo/index.html](diseno/prototipo
 | Fase | Estado | Detalle |
 |---|---|---|
 | **1. Planificación** | Hecha | Alcance, requisitos, marco normativo, 39 historias con 166 criterios y 89 tareas |
-| **2. Diseño** | Hecha en su primera versión | Arquitectura, modelo de datos, API, asistente, pantallas, prototipo navegable, lienzo pulido y diagramas |
+| **2. Diseño** | Hecha en su primera versión; queda así por ahora (D-18) | Arquitectura, modelo de datos, API, asistente, pantallas, prototipo navegable, lienzo pulido y diagramas |
 | **3. Desarrollo** | Sin iniciar | No hay código de la aplicación |
 | **4. Pruebas** | Sin iniciar | — |
 | **5. Despliegue** | Sin iniciar | — |
 
-**Tecnología decidida:** Python con FastAPI, PostgreSQL en Render, React con Vite y TypeScript, archivos en almacenamiento compatible con S3, y Qwen como modelo de IA de la primera versión detrás de un adaptador intercambiable.
+**Tecnología decidida:** Python con FastAPI, PostgreSQL en Render, React con Vite y TypeScript, archivos en almacenamiento compatible con S3, y Qwen como modelo de IA de la primera versión detrás de un adaptador intercambiable. El código se organiza con arquitectura limpia (D-19).
 
 ## 4. Siguientes pasos, en orden
 
 Planificación y Diseño ya están confirmados en git. Los commits van solo a nombre del dueño del proyecto, sin coautor. El repositorio no tiene remoto: la única copia está en este computador.
 
-1. **Revisar los diagramas** de [06-diagramas-de-arquitectura.md](diseno/06-diagramas-de-arquitectura.md) y ajustar lo que no refleje lo que se quiere construir.
-2. **Aprobar el diseño visual** del lienzo. Después: llevar ese aspecto al prototipo navegable y diseñar las pantallas que faltan en el lienzo (recuperar contraseña, subir documento, visor, perfil, configuración, bitácora, registrar tratamiento, lista de pacientes, vistas de día y semana).
-3. **Prueba de concepto de la IA.** Es la de mayor riesgo. El plan está en la sección 10 de [07-como-se-construye-el-asistente.md](diseno/07-como-se-construye-el-asistente.md): un guion suelto con cinco documentos inventados, uno de ellos largo, antes de tocar la aplicación. Hace falta una cuenta en el proveedor de IA y su clave.
-4. **Las otras tres pruebas de concepto** de la [arquitectura](diseno/01-arquitectura.md): permisos por fila en Render, cookie de sesión entre el sitio y la API, y calidad de las citas de origen.
-5. **Crear el tablero Kanban.** Hay que crear a mano un proyecto de tipo Kanban en Jira; luego se cargan las 8 épicas y las 39 historias. El proyecto anterior es de tipo Scrum y se archiva.
-6. **Llevar las seis preguntas al abogado.** La segunda (datos fuera de Colombia) condiciona el uso de datos reales.
-7. **Mostrar el prototipo a un médico**, cuando lo haya, y ajustar los supuestos.
-8. **Empezar Desarrollo** por los cimientos: HU-006, HU-036, HU-037 y HU-027.
+1. **Prueba de concepto de la IA.** Es la de mayor riesgo. El plan está en la sección 10 de [07-como-se-construye-el-asistente.md](diseno/07-como-se-construye-el-asistente.md): un guion suelto con cinco documentos inventados, uno de ellos largo, antes de tocar la aplicación. Hace falta una cuenta en el proveedor de IA y su clave.
+2. **Las otras tres pruebas de concepto** de la [arquitectura](diseno/01-arquitectura.md): permisos por fila en Render, cookie de sesión entre el sitio y la API, y calidad de las citas de origen.
+3. **Crear el tablero Kanban.** Hay que crear a mano un proyecto de tipo Kanban en Jira; luego se cargan las 8 épicas y las 39 historias. El proyecto anterior es de tipo Scrum y se archiva.
+4. **Llevar las seis preguntas al abogado.** La segunda (datos fuera de Colombia) condiciona el uso de datos reales.
+5. **Mostrar el prototipo a un médico**, cuando lo haya, y ajustar los supuestos.
+6. **Empezar Desarrollo** por los cimientos: HU-006, HU-036, HU-037 y HU-027, con las capas y las reglas de rendimiento de las secciones 7 y 8 de la [arquitectura](diseno/01-arquitectura.md).
+
+**En pausa por decisión del 13 de octubre (D-18).** El diseño queda como está por ahora. Cuando se retome: revisar los [diagramas](diseno/06-diagramas-de-arquitectura.md), aprobar el lienzo, llevar su aspecto al prototipo navegable y diseñar las pantallas que le faltan (recuperar contraseña, subir documento, visor, perfil, configuración, bitácora, registrar tratamiento, lista de pacientes, vistas de día y semana).
 
 ## 5. Lo que no está verificado
 
@@ -93,4 +93,5 @@ Planificación y Diseño ya están confirmados en git. Los commits van solo a no
 
 - Kanban sobre las cinco fases del ciclo de vida; primero las bases, después el código.
 - Solo lo útil: sin generadores, sin funciones "por si acaso".
+- Arquitectura limpia y código rápido: las reglas del consultorio no dependen de la tecnología, y la rapidez se mide antes de optimizar.
 - Pocas preguntas: se decide, se escribe el supuesto y se corrige sobre el documento.

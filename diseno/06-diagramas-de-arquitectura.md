@@ -1,7 +1,7 @@
 # Diagramas de arquitectura
 
 **Fase del ciclo de vida:** Diseño
-**Versión:** 1.0 · 13 de octubre de 2026
+**Versión:** 1.1 · 13 de octubre de 2026
 
 Todos los diagramas están en código Mermaid: se ven dibujados en GitHub, en VS Code con la extensión de Mermaid o pegándolos en https://mermaid.live. Van de lo general a lo particular. La explicación de cada decisión está en [01-arquitectura.md](01-arquitectura.md).
 
@@ -60,46 +60,44 @@ La aplicación web nunca llama al proveedor de IA ni al correo. A los archivos s
 
 ## 3. Componentes de la API
 
+La API se organiza con arquitectura limpia: las flechas continuas son dependencias y todas apuntan hacia el dominio.
+
 ```mermaid
 flowchart TB
-    subgraph rutas["Rutas"]
-        R1["Cuentas y sesión"]
-        R2["Calendario y citas"]
-        R3["Pacientes y tratamientos"]
-        R4["Documentos"]
-        R5["Asistente"]
-        R6["Bitácora"]
+    subgraph entrada["Entrada: recibe la petición y la traduce"]
+        R["Rutas de FastAPI<br/>cuentas, calendario, citas, pacientes,<br/>documentos, asistente y bitácora"]
+        L["Lector de documentos<br/>en segundo plano"]
     end
 
-    subgraph filtros["En cada petición, en este orden"]
-        F1["1. Sesión vigente"]
-        F2["2. Permiso del rol"]
-        F3["3. Identidad hacia la base"]
-        F1 --> F2 --> F3
+    subgraph casos["Casos de uso: una operación cada uno"]
+        C["Agendar una cita, mover una cita,<br/>subir un documento, preguntar al asistente,<br/>registrar un tratamiento…"]
+        P["Puertos<br/>unidad de trabajo, repositorios, bitácora,<br/>archivos, proveedor de IA, correo y reloj"]
     end
 
-    subgraph reglas["Reglas de negocio"]
-        S1["Disponibilidad"]
-        S2["Citas"]
-        S3["Documentos"]
-        S4["Asistente"]
-        S5["Tratamientos"]
-        S6["Bitácora"]
+    subgraph dominio["Dominio: reglas puras, sin tecnología"]
+        D["Espacios libres, estados de la cita,<br/>anticipación, autorizaciones,<br/>vigencia del tratamiento, comprobación de orígenes"]
     end
 
     subgraph adaptadores["Adaptadores: lo único que conoce a un tercero"]
-        A1["Base de datos"]
+        A1["PostgreSQL"]
         A2["Archivos"]
         A3["IA"]
         A4["Correo"]
     end
 
-    rutas --> filtros
-    filtros --> reglas
-    reglas --> adaptadores
+    R --> C
+    L --> C
+    C --> D
+    C --> P
+    A1 -. "cumple" .-> P
+    A2 -. "cumple" .-> P
+    A3 -. "cumple" .-> P
+    A4 -. "cumple" .-> P
 ```
 
-Cambiar de proveedor de IA, de almacenamiento o de correo toca un solo adaptador.
+En cada petición, en este orden: la entrada encuentra la sesión; el caso de uso verifica el permiso del rol; la unidad de trabajo abre la transacción y le indica el usuario a la base; el dominio aplica la regla; se guarda y se escribe la bitácora en la misma transacción.
+
+Cambiar de proveedor de IA, de almacenamiento o de correo toca un solo adaptador. El detalle de las capas está en la sección 7 de [01-arquitectura.md](01-arquitectura.md).
 
 ## 4. Despliegue
 

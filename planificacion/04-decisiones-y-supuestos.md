@@ -1,7 +1,7 @@
 # Decisiones y supuestos
 
 **Fase del ciclo de vida:** Planificación
-**Versión:** 2.0 · 12 de octubre de 2026
+**Versión:** 2.1 · 13 de octubre de 2026
 
 Una **decisión** la tomó el dueño del proyecto. Un **supuesto** lo puso quien levantó los requisitos para no frenar el trabajo, y se cambia en cuanto haya mejor información.
 
@@ -28,6 +28,8 @@ Una **decisión** la tomó el dueño del proyecto. Un **supuesto** lo puso quien
 | D-15 | 12 oct 2026 | Al agendar solo se muestran los días y las horas disponibles; lo ocupado no aparece | HU-012 ajustada |
 | D-16 | 12 oct 2026 | El calendario del médico permite ir al mes anterior y al siguiente, y al tocar un día abre sus citas | HU-022 ajustada |
 | D-17 | 12 oct 2026 | En el producto no hay botones para "ver como" otro rol: cada persona entra con su cuenta. Esos botones son solo del prototipo | Sin efecto en las historias |
+| D-18 | 13 oct 2026 | El diseño queda como está por ahora; no se sigue puliendo antes de desarrollar | La revisión de los diagramas, la aprobación del lienzo y las pantallas que le faltan quedan en pausa |
+| D-19 | 13 oct 2026 | El código sigue los principios de la arquitectura limpia y debe ser rápido | Capas y reglas de rendimiento en las secciones 7 y 8 de la [arquitectura](../diseno/01-arquitectura.md) |
 
 ## 2. Supuestos
 

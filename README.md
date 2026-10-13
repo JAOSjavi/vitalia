@@ -135,7 +135,7 @@ Nota clínica escrita por el médico, recordatorios de medicamento, factura elec
 
 La lista vigente, en orden, está en la sección 4 de [ESTADO.md](ESTADO.md). Se lleva en un solo lugar para que no se desfase.
 
-**Tecnología:** Python con FastAPI, PostgreSQL en Render, React en las pantallas y Qwen como modelo de IA de la primera versión.
+**Tecnología:** Python con FastAPI, PostgreSQL en Render, React en las pantallas y Qwen como modelo de IA de la primera versión. El código se organiza con arquitectura limpia.
 
 ---
 

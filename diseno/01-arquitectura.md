@@ -1,7 +1,7 @@
 # Arquitectura
 
 **Fase del ciclo de vida:** Diseño
-**Versión:** 1.0 · 12 de octubre de 2026
+**Versión:** 1.1 · 13 de octubre de 2026
 
 Cómo se construye Vitalia y por qué así. Cada decisión responde a un requisito de [planificacion/02-requisitos.md](../planificacion/02-requisitos.md).
 
@@ -18,6 +18,7 @@ Cómo se construye Vitalia y por qué así. Cada decisión responde a un requisi
 | Archivos | **Almacenamiento compatible con S3** (propuesta: Cloudflare R2) | Render no ofrece almacenamiento de archivos. Se necesita un espacio privado, cifrado y con enlaces firmados (HU-027) |
 | Inteligencia artificial | **Qwen** por la plataforma internacional de Alibaba Cloud, detrás de un adaptador intercambiable | Ver [04-asistente-ia.md](04-asistente-ia.md). El adaptador permite cambiar de proveedor sin tocar el resto |
 | Correo | Proveedor de correo por API (propuesta: Resend) | Recuperación de contraseña y avisos de cita |
+| Organización del código | **Arquitectura limpia**: capas con las dependencias hacia adentro | Lo pidió el dueño del proyecto (D-19). Las reglas del consultorio quedan separadas de FastAPI, de la base y de los proveedores, y se prueban sin ellos. Ver la sección 7 |
 
 Con esto quedan cerradas las decisiones A-01 a A-06 de [decisiones y supuestos](../planificacion/04-decisiones-y-supuestos.md).
 
@@ -75,7 +76,7 @@ flowchart TB
 3. Abre una transacción y le dice a la base quién es el usuario, para que los permisos por fila filtren (HU-036).
 4. Escribe la bitácora dentro de esa misma transacción (HU-037).
 
-El contrato está en [03-api.md](03-api.md).
+El contrato está en [03-api.md](03-api.md). Cómo se reparten estos pasos entre las capas del código está en la sección 7.
 
 ### 3.3 Base de datos
 
@@ -131,7 +132,7 @@ Ver [04-asistente-ia.md](04-asistente-ia.md).
 | RNF-07 Ley 1581 | Autorizaciones con versión y fecha; eliminación de documentos con su texto |
 | RNF-08 Mínimo de datos a la IA | El servidor arma el contexto y retira identificadores antes de enviar |
 | RNF-09 El asistente no diagnostica | Instrucciones fijas del asistente + pruebas con preguntas de diagnóstico |
-| RNF-10 Rendimiento | Índices, paginación y respuesta del asistente por partes |
+| RNF-10 Rendimiento | Reglas de la sección 8: una pantalla, una operación; índices, paginación, trabajo pesado por cola y respuesta del asistente por partes |
 | RNF-11 Accesibilidad | Criterios WCAG 2.1 AA aplicados desde el prototipo |
 | RNF-12 Respaldo | Copias continuas de la base de datos del plan pago, con restauración a cualquier momento de los últimos 3 días (7 en el plan Pro), y versiones en el espacio de archivos. Conservar copias por más tiempo exige una exportación periódica al espacio de archivos; está por decidir |
 | RNF-13 Disponibilidad | Servicio web en plan pago (el gratuito se duerme tras 15 minutos sin uso) |
@@ -174,18 +175,137 @@ Antes de construir en serio conviene despejar cuatro dudas con pruebas pequeñas
 
 La primera es la que más pesa: si la lectura falla, el asistente no sirve.
 
-## 7. Organización del código
+## 7. Arquitectura del código
+
+El código sigue los principios de la **arquitectura limpia** (decisión D-19). La idea central: las reglas del consultorio no dependen de la tecnología. FastAPI, PostgreSQL, el proveedor de IA y el correo son detalles que se pueden cambiar sin tocar esas reglas.
+
+### 7.1 Capas
+
+```mermaid
+flowchart TB
+    E["Entrada<br/>rutas de FastAPI y lector en segundo plano"]
+    C["Casos de uso<br/>una operación cada uno"]
+    D["Dominio<br/>reglas puras del consultorio"]
+    A["Adaptadores<br/>PostgreSQL, archivos, IA, correo"]
+
+    E --> C
+    C --> D
+    A -. "cumplen los puertos que<br/>definen los casos de uso" .-> C
+```
+
+| Capa | Qué contiene | De qué puede depender |
+|---|---|---|
+| **Dominio** | Las reglas que existirían aunque no hubiera programa: cálculo de espacios libres, estados de una cita, anticipación de 24 horas, vigencia de un tratamiento, cuándo vale una autorización, comprobación de un origen citado | De nada. Python puro |
+| **Casos de uso** | Una operación del sistema por archivo: agendar una cita, mover una cita, subir un documento, preguntar al asistente, registrar un tratamiento. Coordinan: piden datos, aplican las reglas del dominio y mandan guardar. Aquí se definen los **puertos**: lo que un caso de uso necesita de afuera, descrito sin decir quién lo hace | Solo del dominio |
+| **Adaptadores** | Las piezas que cumplen los puertos: repositorios de PostgreSQL, almacenamiento de archivos, proveedor de IA y correo | De los casos de uso y del dominio |
+| **Entrada** | Lo que recibe una petición y la traduce: rutas de FastAPI, validación del formato, cookie de sesión y el lector en segundo plano | De los casos de uso |
+
+**Regla de dependencia.** Las dependencias apuntan hacia adentro. El dominio no importa nada de las otras capas, y un caso de uso no importa FastAPI, SQL ni el cliente del proveedor de IA. Una prueba automática revisa las importaciones y falla si alguien rompe la regla.
+
+| Puerto | Para qué | Quién lo cumple hoy |
+|---|---|---|
+| Unidad de trabajo | Abrir la transacción, decirle a la base quién es el usuario y confirmar o deshacer | PostgreSQL |
+| Repositorios: cuentas, calendario, citas, pacientes, documentos y tratamientos | Leer y guardar | PostgreSQL |
+| Bitácora | Registrar quién hizo qué | PostgreSQL, en la misma transacción |
+| Archivos | Guardar, borrar y firmar enlaces temporales | Almacenamiento compatible con S3 |
+| Proveedor de IA | Leer una página y responder | Qwen |
+| Correo | Enviar avisos y enlaces de un solo uso | Resend |
+| Reloj | Dar la hora actual | El del sistema; en las pruebas, uno fijo |
+
+### 7.2 Una petición, capa por capa
+
+Los pasos de la sección 3.2, más la regla y la respuesta, se reparten así:
+
+| Paso | Capa |
+|---|---|
+| Leer la cookie y encontrar la sesión | Entrada |
+| Verificar que el rol tiene permiso para la operación | Casos de uso, en un paso común a todos |
+| Abrir la transacción e indicar el usuario a la base | Puerto "unidad de trabajo", que cumple el adaptador de PostgreSQL |
+| Aplicar la regla, por ejemplo que falten más de 24 horas | Dominio |
+| Guardar y escribir la bitácora | Puertos de repositorio y de bitácora, en la misma transacción |
+| Traducir el resultado o el error a la respuesta de la API | Entrada |
+
+El dominio avisa de un problema con un error propio ("espacio ocupado", "falta anticipación"). La entrada es la única que sabe a qué código de la [API](03-api.md) corresponde.
+
+### 7.3 Carpetas
 
 ```
 vitalia-proyecto/
-├── planificacion/        fase 1
-├── diseno/               fase 2
+├── planificacion/            fase 1
+├── diseno/                   fase 2
 ├── historias-de-usuario/
-├── servidor/             API en FastAPI, migraciones y pruebas
-└── pantallas/            aplicación en React
+├── servidor/
+│   ├── vitalia/
+│   │   ├── dominio/          reglas puras; no importa nada de afuera
+│   │   ├── casos_de_uso/     una operación por archivo, y los puertos
+│   │   ├── adaptadores/      postgres/, archivos/, ia/, correo/
+│   │   ├── entrada/          rutas de FastAPI y lector en segundo plano
+│   │   └── principal.py      único lugar que une adaptadores con casos de uso
+│   ├── migraciones/
+│   └── pruebas/
+└── pantallas/
+    └── src/
+        ├── api/              único lugar que habla con la API
+        ├── paciente/         pantallas del paciente
+        ├── medico/           pantallas del médico
+        └── comunes/          piezas y funciones compartidas
 ```
 
 Las carpetas `servidor/` y `pantallas/` se crean al empezar la fase de Desarrollo.
+
+En las pantallas la misma idea se aplica en pequeño: ningún componente llama a la API por su cuenta, todos pasan por `api/`. El navegador puede validar para avisar pronto, por ejemplo las reglas de la contraseña, pero quien decide es el servidor.
+
+### 7.4 Pruebas por capa
+
+| Capa | Cómo se prueba | Cuánto tarda |
+|---|---|---|
+| Dominio | Sin base ni red: entradas y resultado esperado | Milisegundos |
+| Casos de uso | Con puertos de mentira, en memoria | Milisegundos |
+| Adaptadores | Contra un PostgreSQL de verdad. Aquí viven las pruebas de permisos por fila (HU-036) | Segundos |
+| Entrada | Unas pocas pruebas de punta a punta por historia | Segundos |
+
+### 7.5 Sin exceso
+
+La arquitectura limpia mal aplicada llena el código de capas vacías. Tres límites:
+
+- Una consulta que solo muestra datos (una lista, la agenda del día) pasa por un caso de uso delgado que pide los datos ya listos al repositorio. No se arman objetos del dominio para solo mostrarlos.
+- Un puerto existe cuando detrás hay un tercero o la base de datos. No se crean interfaces para piezas internas.
+- Los datos se convierten de una forma a otra solo donde la forma cambia de verdad: de la fila al dominio y del dominio a la respuesta.
+
+## 8. Rendimiento
+
+La meta es RNF-10: las pantallas de consulta responden en menos de 2 segundos con conexión 4G. "Rápido" se cumple con reglas que se pueden revisar y con medición, no optimizando a ciegas.
+
+### 8.1 Servidor
+
+| Regla | Por qué |
+|---|---|
+| Todo lo que espera (base, archivos, IA y correo) es asíncrono, con conexiones reutilizadas y tiempo máximo de espera | Un servicio pequeño atiende varias peticiones a la vez sin quedarse bloqueado en una |
+| El trabajo pesado no va en la petición: leer documentos y enviar correos salen por cola, y la lectura corre fuera del hilo que atiende las peticiones | Subir un archivo o cancelar una cita responden de inmediato (HU-031, CA-4) |
+| Una pantalla, una operación: la ficha, el inicio del paciente y la agenda traen todo lo suyo en una o dos consultas a la base | Evita decenas de consultas pequeñas, la causa más común de lentitud |
+| Las listas van paginadas y traen solo las columnas que se muestran. El texto de las páginas de un documento nunca viaja en una lista | Respuestas pequeñas para celulares modestos |
+| Los índices del [modelo de datos](02-modelo-de-datos.md) entran desde la primera migración | La agenda, la búsqueda y "mis citas" no recorren tablas enteras |
+| Los espacios libres se calculan en memoria, en el dominio, con tres consultas: horario, bloqueos y citas del rango | Es una función pura: rápida y fácil de probar |
+| La matriz de permisos se carga en memoria al arrancar | Se consulta en cada petición y solo cambia con un despliegue |
+| La última actividad de la sesión se actualiza como mucho una vez por minuto | Evita una escritura en cada petición |
+| Los archivos se suben por partes, sin cargarlos enteros en memoria, y se descargan directo del almacenamiento con el enlace firmado | La API no mueve los bytes de cada documento. El servicio más pequeño de Render tiene 512 MB |
+| El lector procesa los escaneados página por página | El mismo motivo: no pasarse de la memoria del servicio |
+| La respuesta del asistente llega por partes y el resumen del paciente se guarda | El médico ve texto de inmediato y no se paga dos veces por el mismo resumen |
+
+### 8.2 Pantallas
+
+| Regla | Por qué |
+|---|---|
+| El código se parte por zona: el paciente no descarga el panel del médico, ni al revés | Menos que bajar en un celular modesto (RNF-14) |
+| El visor de PDF y el calendario se descargan solo al abrirlos | Son las piezas más pesadas |
+| Los datos ya pedidos se guardan en memoria mientras dura la sesión y se borran al salir | Volver a una pantalla no repite la petición. Nada clínico queda guardado en el navegador |
+| Los archivos del sitio llevan un nombre que cambia con cada versión | El navegador los guarda y no los vuelve a bajar |
+
+### 8.3 Medir antes de optimizar
+
+- Cada petición registra cuánto tardó, sin datos del paciente.
+- Presupuesto propuesto: las consultas de la API responden en menos de 300 ms en 95 de cada 100 casos, sin contar al asistente, y la carga inicial del paciente pesa menos de 200 KB comprimida. Las dos cifras se confirman con las primeras historias desplegadas.
+- Si algo se pasa del presupuesto, primero se mide dónde se va el tiempo y después se corrige. No se complica el código por una lentitud que nadie ha medido.
 
 ## Fuentes
 
