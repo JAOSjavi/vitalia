@@ -5,6 +5,7 @@ description = "Servidor de Vitalia"
 requires-python = ">=3.13"
 dependencies = [
     "alembic>=1.20.0",
+    "argon2-cffi>=25.1.0",
     "asyncpg>=0.32.0",
     "fastapi>=0.143.0",
     "python-dotenv>=1.2.4",
@@ -69,6 +70,7 @@ forbidden_modules = [
     "asyncpg",
     "alembic",
     "dotenv",
+    "argon2",
 ]
 
 [dependency-groups]

@@ -4,20 +4,27 @@ import asyncio
 import os
 import secrets
 from collections.abc import AsyncIterator, Awaitable, Callable, Iterator
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Literal
 from uuid import UUID
 
+import httpx
 import pytest
 from alembic import command
 from alembic.config import Config
 from dotenv import load_dotenv
+from fastapi import FastAPI
 from sqlalchemy import text
 from sqlalchemy.engine import make_url
 from sqlalchemy.ext.asyncio import AsyncEngine
 
 from vitalia.adaptadores.postgres.conexion import crear_motor
 from vitalia.adaptadores.postgres.unidad import UnidadPostgres
+from vitalia.adaptadores.reloj import RelojDelSistema
+from vitalia.casos_de_uso.crear_enlace_de_puesta_en_marcha import CrearEnlaceDePuestaEnMarcha
+from vitalia.configuracion import Configuracion
+from vitalia.principal import armar
 
 SERVIDOR = Path(__file__).parent.parent
 BASE_DE_PRUEBAS = "vitalia_pruebas"
@@ -72,14 +79,18 @@ def unidad(motor_api: AsyncEngine) -> UnidadPostgres:
     return UnidadPostgres(motor_api)
 
 
-CrearUsuario = Callable[[Literal["medico", "paciente"]], Awaitable[UUID]]
+CrearUsuario = Callable[[Literal["paciente"]], Awaitable[UUID]]
 
 
 @pytest.fixture(scope="session")
 def crear_usuario(motor_dueno: AsyncEngine) -> CrearUsuario:
-    """Crea una cuenta inventada. Como dueño, quita por un momento los permisos forzados."""
+    """Crea un paciente inventado sin contraseña, directo en la base, para probar permisos.
 
-    async def _crear(rol: Literal["medico", "paciente"]) -> UUID:
+    Como dueño, quita por un momento los permisos forzados. Las cuentas que ingresan se crean
+    por la API, como lo haría una persona.
+    """
+
+    async def _crear(rol: Literal["paciente"]) -> UUID:
         tablas = ("usuarios", "pacientes", "medicos")
         async with motor_dueno.begin() as conexion:
             for tabla in tablas:
@@ -91,17 +102,13 @@ def crear_usuario(motor_dueno: AsyncEngine) -> CrearUsuario:
                 ),
                 {"numero": str(secrets.randbelow(10**10)), "rol": rol},
             )
-            if rol == "paciente":
-                orden = (
+            await conexion.execute(
+                text(
                     "INSERT INTO pacientes (usuario_id, nombres, apellidos, fecha_nacimiento, "
                     "telefono) VALUES (:id, 'Paciente', 'De prueba', '1980-05-17', '3000000000')"
-                )
-            else:
-                orden = (
-                    "INSERT INTO medicos (usuario_id, nombres, apellidos) "
-                    "VALUES (:id, 'Médica', 'De prueba')"
-                )
-            await conexion.execute(text(orden), {"id": usuario_id})
+                ),
+                {"id": usuario_id},
+            )
             for tabla in tablas:
                 await conexion.execute(text(f"ALTER TABLE {tabla} FORCE ROW LEVEL SECURITY"))
         return usuario_id
@@ -109,7 +116,79 @@ def crear_usuario(motor_dueno: AsyncEngine) -> CrearUsuario:
     return _crear
 
 
+class RelojMovible:
+    """Reloj de las pruebas: marca la hora real más lo que se le adelante."""
+
+    def __init__(self) -> None:
+        self.adelanto = timedelta()
+
+    def ahora(self) -> datetime:
+        return datetime.now(UTC) + self.adelanto
+
+
 @pytest.fixture(scope="session")
-async def medico(crear_usuario: CrearUsuario) -> UUID:
-    """El único médico del consultorio (supuesto S-01)."""
-    return await crear_usuario("medico")
+def reloj() -> RelojMovible:
+    return RelojMovible()
+
+
+@pytest.fixture(autouse=True)
+def reloj_en_hora(reloj: RelojMovible) -> Iterator[None]:
+    yield
+    reloj.adelanto = timedelta()
+
+
+@pytest.fixture(scope="session")
+async def api(url_api: str, reloj: RelojMovible) -> AsyncIterator[FastAPI]:
+    aplicacion = armar(Configuracion(bd_url=url_api, sesion_secreto="pruebas"), reloj)
+    async with aplicacion.router.lifespan_context(aplicacion):
+        yield aplicacion
+
+
+Cliente = Callable[..., httpx.AsyncClient]
+
+
+@pytest.fixture
+def cliente(api: FastAPI) -> Cliente:
+    """Un navegador de mentira. Cada equipo tiene su propia dirección de red."""
+
+    def _cliente(equipo: str = "10.0.0.1") -> httpx.AsyncClient:
+        transporte = httpx.ASGITransport(app=api, client=(equipo, 50000))
+        return httpx.AsyncClient(
+            transport=transporte, base_url="https://vitalia.prueba", headers={"X-Vitalia": "1"}
+        )
+
+    return _cliente
+
+
+DOCUMENTO_DEL_MEDICO = {"tipo_documento": "CC", "numero_documento": "52345678"}
+CONTRASENA_DE_PRUEBA = "consultorio2026"
+
+
+@pytest.fixture(scope="session")
+async def medico(api: FastAPI, url_api: str) -> UUID:
+    """El único médico del consultorio (supuesto S-01), creado con la puesta en marcha."""
+    motor = crear_motor(url_api, reutilizar=False)
+    try:
+        caso = CrearEnlaceDePuestaEnMarcha(UnidadPostgres(motor), RelojDelSistema())
+        enlace = await caso.ejecutar()
+    finally:
+        await motor.dispose()
+
+    transporte = httpx.ASGITransport(app=api, client=("10.0.0.9", 50000))
+    async with httpx.AsyncClient(
+        transport=transporte, base_url="https://vitalia.prueba", headers={"X-Vitalia": "1"}
+    ) as navegador:
+        creada = await navegador.post(
+            "/api/v1/puesta-en-marcha",
+            json={
+                "enlace": enlace,
+                **DOCUMENTO_DEL_MEDICO,
+                "nombres": "Camila",
+                "apellidos": "Ríos",
+                "correo": "camila@ejemplo.test",
+                "contrasena": CONTRASENA_DE_PRUEBA,
+            },
+        )
+        assert creada.status_code == 201, creada.text
+        yo = await navegador.get("/api/v1/yo")
+    return UUID(yo.json()["usuario_id"])

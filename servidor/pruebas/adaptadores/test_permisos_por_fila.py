@@ -88,7 +88,9 @@ async def test_toda_tabla_tiene_permisos_forzados_y_ninguna_politica_abierta(
         tablas = (
             await conexion.execute(
                 text(
-                    "SELECT relname, relrowsecurity, relforcerowsecurity FROM pg_class "
+                    "SELECT relname, relrowsecurity, relforcerowsecurity, "
+                    "has_table_privilege('vitalia_api', oid, 'SELECT, INSERT, UPDATE, DELETE') "
+                    "AS con_acceso FROM pg_class "
                     "WHERE relnamespace = 'public'::regnamespace AND relkind IN ('r', 'p') "
                     "AND relname <> 'alembic_version'"
                 )
@@ -107,9 +109,10 @@ async def test_toda_tabla_tiene_permisos_forzados_y_ninguna_politica_abierta(
     sin_forzar = [t.relname for t in tablas if not (t.relrowsecurity and t.relforcerowsecurity)]
     assert sin_forzar == [], f"Tablas sin permisos por fila forzados: {sin_forzar}"
 
+    # Una tabla a la que la aplicación no tiene ningún acceso queda cerrada sin política.
     con_politica = {p.tablename for p in politicas}
-    sin_politica = sorted({t.relname for t in tablas} - con_politica)
-    assert sin_politica == [], f"Tablas sin política para la aplicación: {sin_politica}"
+    sin_politica = sorted({t.relname for t in tablas if t.con_acceso} - con_politica)
+    assert sin_politica == [], f"Tablas abiertas a la aplicación sin política: {sin_politica}"
 
     # Toda política de la aplicación depende de la identidad: sin ella no pasa ninguna fila.
     abiertas = [

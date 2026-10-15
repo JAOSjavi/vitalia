@@ -1,0 +1,21 @@
+{
+  "puntos": [
+    {
+      "titulo": "Qué hace",
+      "texto": "Ayuda al médico a resumir y buscar datos en los documentos que usted sube."
+    },
+    {
+      "titulo": "Qué no hace",
+      "texto": "No lo diagnostica ni recomienda tratamientos."
+    },
+    {
+      "titulo": "Qué se envía",
+      "texto": "El texto de sus documentos, sin su nombre, su documento, su teléfono ni su correo, a un proveedor externo."
+    },
+    {
+      "titulo": "Es opcional",
+      "texto": "Puede retirar la autorización cuando quiera; sus documentos siguen disponibles para el médico."
+    }
+  ],
+  "contenido": "Autorización para usar inteligencia artificial sobre mis documentos. Versión 1, borrador pendiente de revisión jurídica.\n\nAutorizo a {consultorio} a enviar el texto de los documentos clínicos que yo suba a un proveedor externo de inteligencia artificial, con el único fin de ayudar al médico a resumirlos y a encontrar datos en ellos. Antes de enviarlos se retiran mi nombre, mi documento, mi teléfono y mi correo. El asistente no emite diagnósticos ni recomienda tratamientos.\n\nEsta autorización es opcional y no condiciona mi atención. Puedo retirarla en cualquier momento desde mi perfil; desde ese momento no se envía nada más."
+}

@@ -8,12 +8,14 @@ from uuid import UUID
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncConnection, AsyncEngine
 
+from vitalia.adaptadores.postgres.consultorios import ConsultoriosPostgres
+from vitalia.adaptadores.postgres.cuentas import CuentasPostgres
 from vitalia.dominio.identidad import Identidad
 from vitalia.dominio.permisos import MatrizDePermisos
 
 
 class BitacoraPostgres:
-    def __init__(self, conexion: AsyncConnection, identidad: Identidad) -> None:
+    def __init__(self, conexion: AsyncConnection, identidad: Identidad | None) -> None:
         self._conexion = conexion
         self._identidad = identidad
 
@@ -25,6 +27,8 @@ class BitacoraPostgres:
         objeto: str | None = None,
         detalle: Mapping[str, object] | None = None,
     ) -> None:
+        if self._identidad is None:
+            raise RuntimeError("Sin sesión, la bitácora se escribe desde las funciones de la base")
         await self._conexion.execute(
             text(
                 "INSERT INTO bitacora (usuario_id, rol, paciente_id, accion, objeto, detalle) "
@@ -51,10 +55,12 @@ class PermisosPostgres:
 
 
 class TrabajoPostgres:
-    def __init__(self, conexion: AsyncConnection, identidad: Identidad) -> None:
+    def __init__(self, conexion: AsyncConnection, identidad: Identidad | None) -> None:
         self.conexion = conexion
         self.bitacora = BitacoraPostgres(conexion, identidad)
         self.permisos = PermisosPostgres(conexion)
+        self.cuentas = CuentasPostgres(conexion)
+        self.consultorios = ConsultoriosPostgres(conexion)
 
 
 class UnidadPostgres:
@@ -62,8 +68,12 @@ class UnidadPostgres:
         self._motor = motor
 
     @asynccontextmanager
-    async def abrir(self, identidad: Identidad) -> AsyncIterator[TrabajoPostgres]:
+    async def abrir(self, identidad: Identidad | None) -> AsyncIterator[TrabajoPostgres]:
         async with self._motor.begin() as conexion:
+            if identidad is None:
+                # Sin identidad ninguna política deja pasar filas: solo sirven las funciones.
+                yield TrabajoPostgres(conexion, None)
+                return
             # El tercer argumento hace que valgan solo dentro de esta transacción.
             await conexion.execute(
                 text(
