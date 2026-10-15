@@ -1,14 +1,52 @@
 """Puertos: lo que los casos de uso necesitan de afuera, sin decir quién lo hace."""
 
-from collections.abc import AsyncIterator, Sequence
+from collections.abc import AsyncIterator, Mapping, Sequence
+from contextlib import AbstractAsyncContextManager
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Literal, Protocol
+from uuid import UUID
+
+from vitalia.dominio.identidad import Identidad
+from vitalia.dominio.permisos import MatrizDePermisos
 
 
 class BaseDeDatos(Protocol):
     async def responde(self) -> bool:
         """Dice si la base atiende una consulta."""
+        ...
+
+
+class Bitacora(Protocol):
+    async def registrar(
+        self,
+        accion: str,
+        *,
+        paciente_id: UUID | None = None,
+        objeto: str | None = None,
+        detalle: Mapping[str, object] | None = None,
+    ) -> None:
+        """Anota quién hizo qué. El detalle nunca lleva contenido clínico."""
+        ...
+
+
+class Permisos(Protocol):
+    async def matriz(self) -> MatrizDePermisos: ...
+
+
+class Trabajo(Protocol):
+    """Una transacción abierta a nombre de alguien. Sus repositorios la comparten."""
+
+    @property
+    def bitacora(self) -> Bitacora: ...
+
+    @property
+    def permisos(self) -> Permisos: ...
+
+
+class UnidadDeTrabajo(Protocol):
+    def abrir(self, identidad: Identidad) -> AbstractAsyncContextManager[Trabajo]:
+        """Abre la transacción y le dice a la base quién es. Confirma al salir; deshace si falla."""
         ...
 
 

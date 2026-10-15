@@ -2,8 +2,11 @@
 
 import asyncio
 import os
-from collections.abc import AsyncIterator, Iterator
+import secrets
+from collections.abc import AsyncIterator, Awaitable, Callable, Iterator
 from pathlib import Path
+from typing import Literal
+from uuid import UUID
 
 import pytest
 from alembic import command
@@ -14,6 +17,7 @@ from sqlalchemy.engine import make_url
 from sqlalchemy.ext.asyncio import AsyncEngine
 
 from vitalia.adaptadores.postgres.conexion import crear_motor
+from vitalia.adaptadores.postgres.unidad import UnidadPostgres
 
 SERVIDOR = Path(__file__).parent.parent
 BASE_DE_PRUEBAS = "vitalia_pruebas"
@@ -53,3 +57,59 @@ async def motor_api(url_api: str) -> AsyncIterator[AsyncEngine]:
     motor = crear_motor(url_api)
     yield motor
     await motor.dispose()
+
+
+@pytest.fixture(scope="session")
+async def motor_dueno(url_api: str) -> AsyncIterator[AsyncEngine]:
+    """Motor conectado como el dueño de las tablas, el mismo usuario de las migraciones."""
+    motor = crear_motor(_en_la_base_de_pruebas("BD_URL_MIGRACIONES"))
+    yield motor
+    await motor.dispose()
+
+
+@pytest.fixture(scope="session")
+def unidad(motor_api: AsyncEngine) -> UnidadPostgres:
+    return UnidadPostgres(motor_api)
+
+
+CrearUsuario = Callable[[Literal["medico", "paciente"]], Awaitable[UUID]]
+
+
+@pytest.fixture(scope="session")
+def crear_usuario(motor_dueno: AsyncEngine) -> CrearUsuario:
+    """Crea una cuenta inventada. Como dueño, quita por un momento los permisos forzados."""
+
+    async def _crear(rol: Literal["medico", "paciente"]) -> UUID:
+        tablas = ("usuarios", "pacientes", "medicos")
+        async with motor_dueno.begin() as conexion:
+            for tabla in tablas:
+                await conexion.execute(text(f"ALTER TABLE {tabla} NO FORCE ROW LEVEL SECURITY"))
+            usuario_id: UUID = await conexion.scalar(
+                text(
+                    "INSERT INTO usuarios (tipo_documento, numero_documento, rol) "
+                    "VALUES ('CC', :numero, :rol) RETURNING id"
+                ),
+                {"numero": str(secrets.randbelow(10**10)), "rol": rol},
+            )
+            if rol == "paciente":
+                orden = (
+                    "INSERT INTO pacientes (usuario_id, nombres, apellidos, fecha_nacimiento, "
+                    "telefono) VALUES (:id, 'Paciente', 'De prueba', '1980-05-17', '3000000000')"
+                )
+            else:
+                orden = (
+                    "INSERT INTO medicos (usuario_id, nombres, apellidos) "
+                    "VALUES (:id, 'Médica', 'De prueba')"
+                )
+            await conexion.execute(text(orden), {"id": usuario_id})
+            for tabla in tablas:
+                await conexion.execute(text(f"ALTER TABLE {tabla} FORCE ROW LEVEL SECURITY"))
+        return usuario_id
+
+    return _crear
+
+
+@pytest.fixture(scope="session")
+async def medico(crear_usuario: CrearUsuario) -> UUID:
+    """El único médico del consultorio (supuesto S-01)."""
+    return await crear_usuario("medico")
