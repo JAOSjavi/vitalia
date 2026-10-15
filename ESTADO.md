@@ -1,6 +1,6 @@
 # Estado del proyecto y etapas del Desarrollo
 
-**Fecha:** 13 de octubre de 2026
+**Fecha:** 14 de octubre de 2026
 **Para qué sirve este archivo:** retomar el trabajo sin releer toda la conversación. Léalo primero.
 
 ---
@@ -17,7 +17,7 @@ Lo que cubre el alcance: cuentas, calendario de disponibilidad, citas de ambos l
 |---|---|---|
 | **1. Planificación** | Hecha | Alcance, requisitos, marco normativo, 46 historias en 9 épicas con 205 criterios, 109 tareas y 200 puntos |
 | **2. Diseño** | Cerrada en documentos | Arquitectura limpia, modelo de datos con permisos por fila, API, asistente, pantallas, diagramas, base visual, herramientas y entrega |
-| **3. Desarrollo** | **En curso** | Esqueleto del servidor y de las pantallas confirmado en la rama `esqueleto`. Falta crear los servicios en la nube (paso 0) para empezar el bloque 1. Ver la sección 4 |
+| **3. Desarrollo** | **En curso** | Bloque 1 (registro e ingreso) construido y probado contra un PostgreSQL 18 temporal. Falta el paso 0: crear los servicios en la nube y correrlo contra Render. Ver la sección 4 |
 | **4. Pruebas** | Sin iniciar | — |
 | **5. Despliegue** | Sin iniciar | — |
 
@@ -93,8 +93,8 @@ El paso a paso de cada uno está en la sección 3 de [herramientas y entrega](di
 
 | Qué | Estado |
 |---|---|
-| `servidor/` con las cuatro capas, migraciones, regla de dependencia entre capas y pruebas | Hecho, en la rama `esqueleto` |
-| `pantallas/` con las variables de la base visual, las piezas tarjeta y estado, y la carga separada por zona | Hecho, en la rama `esqueleto` |
+| `servidor/` con las cuatro capas, migraciones, regla de dependencia entre capas y pruebas | Hecho |
+| `pantallas/` con las variables de la base visual, sus piezas y la carga separada por zona | Hecho |
 | Pruebas automáticas en cada cambio | Escritas. Corren cuando exista el repositorio remoto |
 | Conectar a Render, leer los privilegios del usuario dueño y crear `vitalia_api` sin privilegios | Pendiente del paso 0. **Despeja la duda 3 de la arquitectura** |
 | Guardar, leer y borrar un archivo en R2; abrirlo con enlace firmado y comprobar que sin firma se rechaza | Pendiente del paso 0 |
@@ -111,6 +111,16 @@ Cada historia sigue las capas de la [arquitectura](diseno/01-arquitectura.md), c
 | **3 · Documentos y resumen con IA** | Almacenamiento privado, subir y listar documentos, lectura por página, autorización de IA, aislamiento por paciente, ficha, resumen, preguntas y visor | HU-027 a HU-035, HU-025 |
 | **Después** | Recuperación de contraseña; bloqueos, asistencia, avisos por correo y calendario; registro y corrección de pacientes desde el panel; cobro; tratamientos; historia clínica del consultorio | HU-005, HU-009, HU-018, HU-019, HU-022, HU-024, HU-026, HU-040, HU-038, HU-039, HU-041 a HU-046 |
 
+**Bloque 1: hecho el 14 de octubre, en la rama `bloque-1-registro-e-ingreso`**
+
+| Qué | Cómo quedó |
+|---|---|
+| Servidor | Tres migraciones: cuentas, roles, matriz de permisos, bitácora, sesiones, intentos, enlaces y autorizaciones, todas con permisos por fila forzados. Lo que pasa sin sesión va por funciones de la base. 65 pruebas en verde contra PostgreSQL 18.4, una por criterio de aceptación; las migraciones se aplican, se deshacen y se vuelven a aplicar |
+| Pantallas | Ingresar (P-01), Crear mi cuenta en tres pasos con la hoja del tratamiento de datos (P-02), cuenta del médico con el enlace de puesta en marcha (P-13), datos del consultorio (M-11), inicio mínimo del paciente y el marco de cada zona. 7 pruebas en verde; carga inicial de 95 KB comprimida |
+| Recorrido a la vista | Puesta en marcha, datos del consultorio, registro de un paciente con la hoja de datos, inicio del paciente con los datos del consultorio, un paciente que intenta entrar al panel del médico vuelve a su zona, y al salir el botón de atrás no muestra información |
+| Enlace de la cuenta del médico | `uv run python -m vitalia.principal puesta-en-marcha` en `servidor/`. Sirve una vez y vence en 24 horas |
+| Textos de autorización | Borradores de la versión 1 en `servidor/migraciones/textos/`, para que los revise el abogado |
+
 **Lo que cada bloque deja para después**
 
 | Bloque | Qué queda por fuera | Por qué |
@@ -119,6 +129,7 @@ Cada historia sigue las capas de la [arquitectura](diseno/01-arquitectura.md), c
 | 1 | Activación de una cuenta creada por el médico (HU-002, CA-4) | Depende de HU-024 |
 | 1 | Aceptar una versión nueva del texto y verlo en el perfil (HU-003, CA-3 y CA-4) | Van con la pantalla de perfil |
 | 1 | Lista de lo que falta por configurar (HU-001, CA-4) | Va con el horario y los tipos de cita, en el bloque 2 |
+| 1 | Enlace "Olvidé mi contraseña" en la pantalla de ingreso | Llega con HU-005, que necesita el servicio de correo. No se dejó un enlace sin destino |
 | 2 | Bloqueos en el cálculo de espacios | HU-009 llega después; el cálculo ya los recibe como dato |
 
 **Dónde se despeja cada duda de la arquitectura**
@@ -162,12 +173,14 @@ Todo lo anterior se construye y se prueba con datos inventados. Para atender pac
 | Tema | Situación |
 |---|---|
 | Servicios en la nube | Sin crear. Nada del código ha corrido contra Render, R2 ni Qwen |
-| Pruebas de base de datos | Pasan contra un PostgreSQL 18.4 temporal en el computador, que no trae las extensiones `btree_gist` y `unaccent`: la primera migración no ha corrido completa |
+| Pruebas de base de datos | Pasan contra un PostgreSQL 18.4 temporal en el computador, que no trae las extensiones `btree_gist` y `unaccent`: esas dos líneas de la primera migración no han corrido. El instalador oficial, Render y las pruebas de GitHub sí las traen |
+| Permisos forzados para el dueño de las tablas | Con ellos, ni el usuario de las migraciones ve filas si se conecta directo. Para cargar datos en una migración futura hay que quitarlos un momento dentro de la misma transacción. Falta confirmar que el usuario por defecto de Render no sea superusuario, porque ese se salta los permisos |
+| Ingreso, a la vista | El navegador del entorno estaba oculto y no entregó bien las teclas en la pantalla de ingreso. El ingreso correcto, el fallido y el bloqueo están probados de punta a punta en las pruebas automáticas, no a la vista |
 | Pruebas automáticas de GitHub | Escritas, sin correr: no hay repositorio remoto |
 | Privilegios del usuario dueño en Render | Su documentación no los indica. Dice que se pueden crear usuarios con SQL; lo despeja el paso 1 |
 | Modelos `qwen3.7-plus` y `qwen3.5-ocr` | Tomados de la documentación del proveedor el 13 de octubre; sin probar. El diseño nombraba la generación anterior |
 | Medio de pago en Cloudflare y en Alibaba Cloud | Es lo usual para activar el servicio; su documentación no lo confirma |
-| Grosor de los iconos | Se usa el de dos tonos de Phosphor, fijado en un solo lugar de `pantallas/src/principal.tsx`. La base visual dice "un solo grosor" sin decir cuál |
+| Grosor de los iconos | Se usa el de dos tonos de Phosphor, fijado en un solo lugar de `pantallas/src/principal.tsx`. La base visual dice "un solo grosor" sin decir cuál. Los iconos que se usan están listados en `pantallas/src/comunes/iconos.ts` |
 | Cambios del 13 de octubre en el lienzo | Se revisó que el código esté bien formado; no se vieron dibujados |
 | Resto del lienzo | Aprobado por el dueño del proyecto como base visual. El contraste del texto se midió y pasa el nivel AA |
 | Prototipo navegable | Probado con 143 comprobaciones automáticas. A la vista solo se revisó una pantalla. No refleja las decisiones del 13 de octubre: ver la sección 6 de [05-pantallas.md](diseno/05-pantallas.md) |

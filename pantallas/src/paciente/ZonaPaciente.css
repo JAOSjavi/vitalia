@@ -1,0 +1,84 @@
+.zona-paciente {
+  max-width: 440px;
+  min-height: 100vh;
+  margin: 0 auto;
+}
+
+.zona-paciente__barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+}
+
+.zona-paciente__salir {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  color: var(--tinta-suave);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.zona-paciente__salir:hover {
+  background: var(--acento-suave);
+  color: var(--acento-oscuro);
+}
+
+.zona-paciente__contenido {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 8px 20px 28px;
+}
+
+.zona-paciente__contenido h1 {
+  font-size: var(--tamano-titulo-pantalla);
+  line-height: 32px;
+}
+
+.zona-paciente__consultorio {
+  display: flex;
+  gap: 14px;
+  padding: 16px 20px;
+}
+
+.zona-paciente__icono {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radio-campo);
+  background: var(--acento-suave);
+  color: var(--acento);
+}
+
+.zona-paciente__datos {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.zona-paciente__datos h2 {
+  font-size: var(--tamano-titulo-tarjeta);
+  line-height: 24px;
+}
+
+.zona-paciente__datos a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-family: var(--letra-dato);
+  font-weight: 600;
+  text-decoration: none;
+}

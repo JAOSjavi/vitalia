@@ -1,0 +1,108 @@
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.campo__etiqueta {
+  font-size: var(--tamano-secundario);
+  line-height: 20px;
+  font-weight: 700;
+}
+
+.campo__ayuda {
+  color: var(--tinta-suave);
+  font-size: var(--tamano-secundario);
+  line-height: 20px;
+}
+
+.campo__error {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: var(--tamano-secundario);
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.campo__punto {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radio-completo);
+  background: var(--punto-rojo);
+  transform: translateY(-1px);
+}
+
+.entrada,
+.selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  height: 52px;
+  padding: 0 14px;
+  border: 1.5px solid var(--linea-campo);
+  border-radius: var(--radio-campo);
+  background: var(--superficie);
+  color: var(--tinta-suave);
+}
+
+.entrada--con-boton {
+  padding-right: 4px;
+}
+
+.entrada:focus-within,
+.selector:focus {
+  border-color: var(--acento);
+  box-shadow: 0 0 0 3px var(--acento-suave);
+  outline: 0;
+}
+
+.entrada--invalida {
+  border-color: var(--punto-rojo);
+}
+
+.entrada__icono {
+  display: flex;
+  flex: none;
+}
+
+.entrada__control {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--tinta);
+  font: inherit;
+}
+
+.entrada__control--dato {
+  font-family: var(--letra-dato);
+  font-size: 15.5px;
+}
+
+.entrada__boton {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--tinta-suave);
+  cursor: pointer;
+}
+
+.selector {
+  appearance: auto;
+  padding: 0 8px;
+  color: var(--tinta);
+  font: inherit;
+  font-size: 15px;
+}

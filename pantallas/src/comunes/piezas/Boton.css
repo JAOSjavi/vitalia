@@ -1,0 +1,52 @@
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 0 20px;
+  border-radius: var(--radio-boton);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.boton:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.boton--principal {
+  min-height: 54px;
+  border: 0;
+  background: var(--acento);
+  box-shadow: var(--sombra-acento);
+  color: var(--superficie);
+  font-size: 17px;
+}
+
+.boton--principal:hover {
+  background: var(--acento-oscuro);
+  color: var(--superficie);
+}
+
+.boton--borde {
+  border: 1.5px solid var(--acento);
+  background: var(--superficie);
+  box-shadow: var(--sombra-1);
+  color: var(--acento);
+}
+
+.boton--neutro {
+  border: 1.5px solid var(--linea);
+  background: var(--superficie);
+  box-shadow: var(--sombra-1);
+  color: var(--tinta);
+}
+
+.boton--borde:hover,
+.boton--neutro:hover {
+  background: var(--acento-suave);
+}

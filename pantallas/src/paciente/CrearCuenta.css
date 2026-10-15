@@ -1,0 +1,87 @@
+.crear-cuenta {
+  gap: 20px;
+  padding-top: 20px;
+}
+
+.crear-cuenta__encabezado {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.crear-cuenta__titulo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.crear-cuenta__titulo h1 {
+  font-size: 22px;
+  line-height: 26px;
+}
+
+.crear-cuenta__atras {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  color: var(--tinta);
+  cursor: pointer;
+}
+
+.crear-cuenta__ley {
+  font-size: var(--tamano-secundario);
+  line-height: 20px;
+}
+
+.crear-cuenta__puntos {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--tamano-secundario);
+  line-height: 20px;
+}
+
+.crear-cuenta__puntos li {
+  display: flex;
+  gap: 12px;
+}
+
+.crear-cuenta__vineta {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  margin-top: 6px;
+  border-radius: var(--radio-completo);
+  background: var(--acento);
+}
+
+/* El uso de inteligencia artificial va resaltado (D-14). */
+.crear-cuenta__punto--resaltado {
+  margin: 0 -8px;
+  padding: 12px;
+  border: 1.5px solid var(--acento);
+  border-radius: 14px;
+  background: var(--acento-suave);
+}
+
+.crear-cuenta__completa {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 240px;
+  overflow-y: auto;
+  padding: 12px 14px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-campo);
+  font-size: var(--tamano-secundario);
+  line-height: 21px;
+}

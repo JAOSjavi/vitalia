@@ -1,0 +1,16 @@
+.pasos {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  gap: 6px;
+}
+
+.pasos span {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--linea);
+}
+
+.pasos .pasos__hecho {
+  background: var(--acento);
+}

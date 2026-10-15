@@ -1,0 +1,39 @@
+.nota {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-campo);
+  background: var(--superficie);
+  box-shadow: var(--sombra-1);
+  color: var(--tinta);
+  font-size: var(--tamano-secundario);
+  line-height: 21px;
+}
+
+.nota__punto {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  margin-top: 6px;
+  border-radius: var(--radio-completo);
+}
+
+.nota__punto--ambar {
+  background: var(--punto-ambar);
+}
+
+.nota__punto--rojo {
+  background: var(--punto-rojo);
+}
+
+.nota__texto {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nota__texto a {
+  font-weight: 700;
+}

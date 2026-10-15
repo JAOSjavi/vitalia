@@ -1,7 +1,7 @@
 # Decisiones y supuestos
 
 **Fase del ciclo de vida:** Planificación
-**Versión:** 2.6 · 13 de octubre de 2026
+**Versión:** 2.7 · 14 de octubre de 2026
 
 Una **decisión** la tomó el dueño del proyecto. Un **supuesto** lo puso quien levantó los requisitos para no frenar el trabajo, y se cambia en cuanto haya mejor información.
 
@@ -67,6 +67,10 @@ Una **decisión** la tomó el dueño del proyecto. Un **supuesto** lo puso quien
 | S-21 | Los datos de identificación que pide la historia clínica y no están en el registro los puede llenar el paciente desde su perfil o el médico desde la ficha | HU-041 | Dueño del proyecto |
 | S-22 | Cuando el médico registra a un paciente, el correo es opcional. Sin correo no hay cuenta activa hasta que el médico le agregue uno | HU-024, HU-040 | Dueño del proyecto |
 | S-23 | La primera versión sale solo con la apariencia clara, con los tamaños de letra del lienzo aprobado | Todas las pantallas | Dueño del proyecto |
+| S-24 | Los fallos de ingreso cuentan por un resumen del documento y no por la cuenta, para que una cuenta que no existe se bloquee igual y el ingreso no revele cuál existe. Quince minutos sin fallar vuelven a contar desde cero. El tope por equipo es de 20 fallos en 15 minutos | HU-004 | Diseño |
+| S-25 | En la puesta en marcha el médico escribe también sus nombres y apellidos, además del documento, el correo y la contraseña. El registro profesional se escribe en los datos del consultorio | HU-001 | Dueño del proyecto |
+| S-26 | El paciente que se registra entra de inmediato a su inicio, sin confirmar el correo | HU-002 | Dueño del proyecto |
+| S-27 | Los iconos usan el grosor de dos tonos de Phosphor | Todas las pantallas | Dueño del proyecto |
 
 ## 3. Decisiones que se cerraron en la fase de Diseño
 

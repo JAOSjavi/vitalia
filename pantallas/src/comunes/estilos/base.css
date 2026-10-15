@@ -37,3 +37,89 @@ a:hover {
   outline: 2px solid var(--acento);
   outline-offset: 2px;
 }
+
+/* Piezas de composición que comparten varias pantallas. */
+
+.pantalla-movil {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  max-width: 440px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 56px 24px 28px;
+}
+
+.tarjeta-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid var(--linea);
+  border-radius: 20px;
+  background: var(--superficie);
+  box-shadow: var(--sombra-2);
+}
+
+.rejilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+}
+
+.botones {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2.1fr);
+  gap: 10px;
+}
+
+.documento {
+  display: flex;
+  gap: 8px;
+}
+
+.documento__tipo {
+  flex: none;
+  width: 118px;
+}
+
+.documento .entrada {
+  flex: 1;
+}
+
+.casilla {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 15px;
+  line-height: 21px;
+  cursor: pointer;
+}
+
+.casilla input {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  accent-color: var(--acento);
+}
+
+.texto-suave {
+  color: var(--tinta-suave);
+}
+
+.enlace {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--acento);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}

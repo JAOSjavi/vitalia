@@ -14,18 +14,42 @@ export class ErrorDeApi extends Error {
     this.codigo = codigo;
     this.detalle = detalle;
   }
+
+  /** Los mensajes por campo que manda el servidor cuando los datos no sirven. */
+  get campos(): Record<string, string> {
+    return this.codigo === "datos_invalidos" && this.detalle && typeof this.detalle === "object"
+      ? (this.detalle as Record<string, string>)
+      : {};
+  }
 }
 
 export async function pedir<T>(ruta: string, opciones: RequestInit = {}): Promise<T> {
-  const respuesta = await fetch(BASE + ruta, { credentials: "include", ...opciones });
+  const encabezados = new Headers(opciones.headers);
+  // La API rechaza toda operación que modifica si no trae este encabezado.
+  if ((opciones.method ?? "GET") !== "GET") encabezados.set("X-Vitalia", "1");
+  if (opciones.body) encabezados.set("Content-Type", "application/json");
+
+  const respuesta = await fetch(BASE + ruta, {
+    ...opciones,
+    headers: encabezados,
+    credentials: "include",
+  });
   if (!respuesta.ok) {
     const error = await respuesta.json().catch(() => null);
     throw new ErrorDeApi(
       respuesta.status,
       error?.codigo ?? "desconocido",
-      error?.mensaje ?? "No se pudo completar la operación",
+      error?.mensaje ?? "No se pudo completar la operación. Intente de nuevo.",
       error?.detalle,
     );
   }
+  if (respuesta.status === 204) return undefined as T;
   return (await respuesta.json()) as T;
+}
+
+export function enviar<T>(ruta: string, metodo: "POST" | "PUT" | "DELETE", cuerpo?: unknown) {
+  return pedir<T>(ruta, {
+    method: metodo,
+    body: cuerpo === undefined ? undefined : JSON.stringify(cuerpo),
+  });
 }

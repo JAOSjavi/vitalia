@@ -1,0 +1,38 @@
+.marca {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.marca__sello {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  background: var(--acento);
+  color: var(--superficie);
+  font-family: var(--letra-titulo);
+  font-weight: 700;
+}
+
+.marca--pequena .marca__sello {
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  font-size: 23px;
+}
+
+.marca--grande .marca__sello {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(31, 71, 184, 0.28);
+  font-size: 34px;
+}
+
+.marca__nombre {
+  font-family: var(--letra-titulo);
+  font-size: 23px;
+  line-height: 26px;
+  font-weight: 700;
+}

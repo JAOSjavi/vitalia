@@ -1,0 +1,35 @@
+.consultorio__titulo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.consultorio__titulo h1 {
+  font-size: 34px;
+  line-height: 40px;
+}
+
+.consultorio__formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.consultorio__seccion {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+}
+
+.consultorio__seccion h2 {
+  font-size: var(--tamano-titulo-tarjeta);
+  line-height: 24px;
+}
+
+.consultorio__acciones {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+}
