@@ -5,6 +5,7 @@ from contextlib import contextmanager
 
 from sqlalchemy.exc import DBAPIError
 
+from vitalia.dominio.agenda import EspacioOcupado
 from vitalia.dominio.cuentas import (
     AutorizacionDesactualizada,
     DocumentoYaRegistrado,
@@ -21,6 +22,7 @@ _TRADUCCIONES: tuple[tuple[str, type[Exception]], ...] = (
     ("ya_hay_medico", YaHayMedico),
     ("un_solo_medico", YaHayMedico),
     ("usuarios_tipo_documento_numero_documento_key", DocumentoYaRegistrado),
+    ("sin_choques", EspacioOcupado),
 )
 
 

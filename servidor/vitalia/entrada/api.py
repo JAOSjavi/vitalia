@@ -7,7 +7,7 @@ from fastapi import FastAPI, Request, Response
 from pydantic import BaseModel
 from starlette.types import Lifespan
 
-from vitalia.entrada import rutas_consultorio, rutas_cuentas
+from vitalia.entrada import rutas_citas, rutas_consultorio, rutas_cuentas
 from vitalia.entrada.casos import Ajustes, CasosDeUso
 from vitalia.entrada.errores import registrar_traducciones, respuesta_de_error
 
@@ -31,6 +31,7 @@ def crear_api(
     registrar_traducciones(api)
     api.include_router(rutas_cuentas.rutas)
     api.include_router(rutas_consultorio.rutas)
+    api.include_router(rutas_citas.rutas)
 
     @api.middleware("http")
     async def reglas_comunes(

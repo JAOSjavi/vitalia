@@ -7,6 +7,15 @@ from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
+from vitalia.dominio.agenda import (
+    AgendaNoDisponible,
+    CitaNoModificable,
+    CitaRepetida,
+    EspacioNoDisponible,
+    EspacioOcupado,
+    FaltaAnticipacion,
+    FueraDeHorario,
+)
 from vitalia.dominio.cuentas import (
     AutorizacionDesactualizada,
     DatosInvalidos,
@@ -15,6 +24,7 @@ from vitalia.dominio.cuentas import (
     MenorDeEdad,
     YaHayMedico,
 )
+from vitalia.dominio.errores import NoEncontrado
 from vitalia.dominio.ingreso import CredencialesInvalidas, IngresoBloqueado
 from vitalia.dominio.permisos import AccesoDenegado
 from vitalia.entrada.sesion import SinSesion
@@ -54,6 +64,28 @@ _FIJOS: dict[type[Exception], tuple[int, str, str]] = {
         "Las cuentas son para mayores de edad. Comuníquese con el consultorio.",
     ),
     EnlaceInvalido: (422, "enlace_invalido", "El enlace ya se usó o venció."),
+    NoEncontrado: (404, "no_encontrado", "No se encontró lo que busca."),
+    AgendaNoDisponible: (
+        422,
+        "agenda_no_disponible",
+        "La agenda todavía no está disponible. Comuníquese con el consultorio.",
+    ),
+    EspacioNoDisponible: (
+        422,
+        "espacio_no_disponible",
+        "Esa hora no está disponible. Elija una de las que se ofrecen.",
+    ),
+    FueraDeHorario: (
+        409,
+        "fuera_de_horario",
+        "Esa hora está por fuera de su horario de atención. Confirme si quiere darla igual.",
+    ),
+    CitaRepetida: (
+        409,
+        "cita_repetida",
+        "Ya tiene una cita futura de este tipo. Confirme si quiere agendar otra.",
+    ),
+    CitaNoModificable: (409, "cita_no_modificable", "Esta cita ya no se puede mover ni cancelar."),
 }
 
 
@@ -93,6 +125,27 @@ def registrar_traducciones(api: FastAPI) -> None:
             {"hasta": error.hasta.isoformat()},
         )
 
+    async def espacio_ocupado(_: Request, error: Exception) -> JSONResponse:
+        assert isinstance(error, EspacioOcupado)
+        return respuesta_de_error(
+            409,
+            "espacio_ocupado",
+            "Alguien tomó ese espacio mientras usted elegía. Estos son los más cercanos.",
+            {"alternativas": [inicio.isoformat() for inicio in error.alternativas]},
+        )
+
+    async def falta_anticipacion(_: Request, error: Exception) -> JSONResponse:
+        assert isinstance(error, FaltaAnticipacion)
+        return respuesta_de_error(
+            422,
+            "falta_anticipacion",
+            f"Faltan menos de {error.horas} horas. Para moverla o cancelarla, "
+            "llame al consultorio.",
+            {"horas": error.horas},
+        )
+
+    api.add_exception_handler(EspacioOcupado, espacio_ocupado)
+    api.add_exception_handler(FaltaAnticipacion, falta_anticipacion)
     api.add_exception_handler(DatosInvalidos, datos_invalidos)
     api.add_exception_handler(RequestValidationError, formato_invalido)
     api.add_exception_handler(IngresoBloqueado, bloqueado)

@@ -8,8 +8,10 @@ from uuid import UUID
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncConnection, AsyncEngine
 
+from vitalia.adaptadores.postgres.agenda import AgendaPostgres
 from vitalia.adaptadores.postgres.consultorios import ConsultoriosPostgres
 from vitalia.adaptadores.postgres.cuentas import CuentasPostgres
+from vitalia.adaptadores.postgres.pacientes import PacientesPostgres
 from vitalia.dominio.identidad import Identidad
 from vitalia.dominio.permisos import MatrizDePermisos
 
@@ -61,6 +63,8 @@ class TrabajoPostgres:
         self.permisos = PermisosPostgres(conexion)
         self.cuentas = CuentasPostgres(conexion)
         self.consultorios = ConsultoriosPostgres(conexion)
+        self.agenda = AgendaPostgres(conexion)
+        self.pacientes = PacientesPostgres(conexion)
 
 
 class UnidadPostgres:

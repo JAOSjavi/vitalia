@@ -15,17 +15,28 @@ from vitalia.adaptadores.contrasenas import ContrasenasArgon2
 from vitalia.adaptadores.postgres.conexion import BasePostgres, crear_motor
 from vitalia.adaptadores.postgres.unidad import UnidadPostgres
 from vitalia.adaptadores.reloj import RelojDelSistema
+from vitalia.casos_de_uso.agendar_cita import AgendarCita
 from vitalia.casos_de_uso.autorizar import Autorizador
+from vitalia.casos_de_uso.buscar_pacientes import BuscarPacientes
+from vitalia.casos_de_uso.cancelar_cita import CancelarCita
 from vitalia.casos_de_uso.cerrar_sesion import CerrarSesion
+from vitalia.casos_de_uso.consultar_disponibilidad import ConsultarDisponibilidad
 from vitalia.casos_de_uso.crear_enlace_de_puesta_en_marcha import CrearEnlaceDePuestaEnMarcha
 from vitalia.casos_de_uso.editar_consultorio import EditarConsultorio
+from vitalia.casos_de_uso.guardar_horario import GuardarHorario
 from vitalia.casos_de_uso.ingresar import Ingresar
+from vitalia.casos_de_uso.listar_citas import ListarCitas
+from vitalia.casos_de_uso.mover_cita import MoverCita
 from vitalia.casos_de_uso.poner_en_marcha import PonerEnMarcha
 from vitalia.casos_de_uso.puertos import Reloj
 from vitalia.casos_de_uso.registrar_paciente import RegistrarPaciente
 from vitalia.casos_de_uso.revisar_salud import RevisarSalud
+from vitalia.casos_de_uso.tipos_de_cita import TiposDeCita
 from vitalia.casos_de_uso.validar_sesion import ValidarSesion
+from vitalia.casos_de_uso.ver_agenda_de_hoy import VerAgendaDeHoy
 from vitalia.casos_de_uso.ver_consultorio import VerConsultorio
+from vitalia.casos_de_uso.ver_horario import VerHorario
+from vitalia.casos_de_uso.ver_inicio_del_paciente import VerInicioDelPaciente
 from vitalia.casos_de_uso.ver_mi_cuenta import VerMiCuenta
 from vitalia.casos_de_uso.ver_texto_de_autorizacion import VerTextoDeAutorizacion
 from vitalia.configuracion import Configuracion, leer
@@ -52,6 +63,17 @@ def armar(configuracion: Configuracion, reloj: Reloj | None = None) -> FastAPI:
         poner_en_marcha=PonerEnMarcha(unidad, contrasenas, reloj),
         ver_consultorio=VerConsultorio(unidad, autorizador),
         editar_consultorio=EditarConsultorio(unidad, autorizador),
+        ver_horario=VerHorario(unidad, autorizador),
+        guardar_horario=GuardarHorario(unidad, autorizador, reloj),
+        tipos_de_cita=TiposDeCita(unidad, autorizador),
+        consultar_disponibilidad=ConsultarDisponibilidad(unidad, autorizador, reloj),
+        agendar_cita=AgendarCita(unidad, autorizador, reloj),
+        listar_citas=ListarCitas(unidad, autorizador),
+        mover_cita=MoverCita(unidad, autorizador, reloj),
+        cancelar_cita=CancelarCita(unidad, autorizador, reloj),
+        ver_inicio_del_paciente=VerInicioDelPaciente(unidad, autorizador, reloj),
+        ver_agenda_de_hoy=VerAgendaDeHoy(unidad, autorizador, reloj),
+        buscar_pacientes=BuscarPacientes(unidad, autorizador),
     )
 
     @asynccontextmanager

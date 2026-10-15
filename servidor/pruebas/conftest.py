@@ -125,6 +125,10 @@ class RelojMovible:
     def ahora(self) -> datetime:
         return datetime.now(UTC) + self.adelanto
 
+    def poner(self, momento: datetime) -> None:
+        """Deja el reloj en ese momento; desde ahí sigue andando."""
+        self.adelanto = momento - datetime.now(UTC)
+
 
 @pytest.fixture(scope="session")
 def reloj() -> RelojMovible:
@@ -192,3 +196,108 @@ async def medico(api: FastAPI, url_api: str) -> UUID:
         assert creada.status_code == 201, creada.text
         yo = await navegador.get("/api/v1/yo")
     return UUID(yo.json()["usuario_id"])
+
+
+def navegador(api: FastAPI, equipo: str = "10.0.0.1") -> httpx.AsyncClient:
+    transporte = httpx.ASGITransport(app=api, client=(equipo, 50000))
+    return httpx.AsyncClient(
+        transport=transporte, base_url="https://vitalia.prueba", headers={"X-Vitalia": "1"}
+    )
+
+
+IngresarDoctora = Callable[[], Awaitable[httpx.AsyncClient]]
+
+
+@pytest.fixture
+async def ingresar_doctora(api: FastAPI, medico: UUID) -> AsyncIterator[IngresarDoctora]:
+    """Abre la sesión de la médica. Se llama después de poner el reloj, o la sesión vencería."""
+    abiertos: list[httpx.AsyncClient] = []
+
+    async def _ingresar() -> httpx.AsyncClient:
+        cliente = navegador(api, "10.0.0.9")
+        abiertos.append(cliente)
+        respuesta = await cliente.post(
+            "/api/v1/sesion", json={**DOCUMENTO_DEL_MEDICO, "contrasena": CONTRASENA_DE_PRUEBA}
+        )
+        assert respuesta.status_code == 200, respuesta.text
+        return cliente
+
+    yield _ingresar
+    for cliente in abiertos:
+        await cliente.aclose()
+
+
+NuevoPaciente = Callable[..., Awaitable[httpx.AsyncClient]]
+
+
+@pytest.fixture
+async def nuevo_paciente(api: FastAPI) -> AsyncIterator[NuevoPaciente]:
+    """Registra pacientes inventados por la API y entrega su navegador con la sesión abierta."""
+    abiertos: list[httpx.AsyncClient] = []
+
+    async def _registrar(
+        nombres: str = "Rosa Elena", apellidos: str = "Duarte"
+    ) -> httpx.AsyncClient:
+        cliente = navegador(api)
+        abiertos.append(cliente)
+        texto = (await cliente.get("/api/v1/autorizaciones/texto?tipo=datos")).json()
+        respuesta = await cliente.post(
+            "/api/v1/cuentas/registro",
+            json={
+                "tipo_documento": "CC",
+                "numero_documento": str(secrets.randbelow(10**9) + 10**8),
+                "nombres": nombres,
+                "apellidos": apellidos,
+                "fecha_nacimiento": "1958-03-02",
+                "telefono": "3185550116",
+                "correo": "paciente@ejemplo.test",
+                "contrasena": "girasol2026",
+                "texto_datos": texto["id"],
+            },
+        )
+        assert respuesta.status_code == 201, respuesta.text
+        return cliente
+
+    yield _registrar
+    for cliente in abiertos:
+        await cliente.aclose()
+
+
+@pytest.fixture(scope="session")
+async def consultorio_listo(api: FastAPI, medico: UUID) -> dict[str, str]:
+    """Datos del consultorio, horario de lunes a viernes de 8 a 12 y de 2 a 5, y dos tipos de cita.
+
+    Devuelve el id de cada tipo de cita.
+    """
+    async with navegador(api, "10.0.0.9") as cliente:
+        await cliente.post(
+            "/api/v1/sesion", json={**DOCUMENTO_DEL_MEDICO, "contrasena": CONTRASENA_DE_PRUEBA}
+        )
+        franjas = [
+            {"dia_semana": dia, "hora_inicio": inicio, "hora_fin": fin}
+            for dia in range(1, 6)
+            for inicio, fin in (("08:00", "12:00"), ("14:00", "17:00"))
+        ]
+        datos = await cliente.put(
+            "/api/v1/consultorio",
+            json={
+                "nombre": "Consultorio Dra. Camila Ríos",
+                "direccion": "Calle 10 # 5-20, Tunja",
+                "telefono": "608 742 1100",
+                "correo": None,
+                "medico_nombres": "Camila",
+                "medico_apellidos": "Ríos",
+                "registro_profesional": "RM 15-2031",
+            },
+        )
+        assert datos.status_code == 204, datos.text
+        guardado = await cliente.put("/api/v1/horario", json={"franjas": franjas})
+        assert guardado.status_code == 200, guardado.text
+        tipos = {}
+        for nombre, minutos in (("Consulta general", 30), ("Control", 20)):
+            creado = await cliente.post(
+                "/api/v1/tipos-cita", json={"nombre": nombre, "duracion_minutos": minutos}
+            )
+            assert creado.status_code == 201, creado.text
+            tipos[nombre] = creado.json()["id"]
+    return tipos

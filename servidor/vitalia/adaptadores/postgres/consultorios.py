@@ -5,7 +5,11 @@ from uuid import UUID
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncConnection
 
-from vitalia.casos_de_uso.puertos import ConsultorioPublico, DatosDelConsultorio
+from vitalia.casos_de_uso.puertos import (
+    ConsultorioPublico,
+    DatosDelConsultorio,
+    ReglasDelConsultorio,
+)
 
 
 class ConsultoriosPostgres:
@@ -15,6 +19,19 @@ class ConsultoriosPostgres:
     async def publico(self) -> ConsultorioPublico:
         fila = (await self._conexion.execute(text("SELECT * FROM consultorio_publico()"))).one()
         return ConsultorioPublico(fila.nombre, fila.telefono, fila.medico)
+
+    async def reglas(self) -> ReglasDelConsultorio:
+        fila = (
+            await self._conexion.execute(
+                text(
+                    "SELECT anticipacion_horas, margen_agenda_minutos, telefono, direccion "
+                    "FROM consultorio"
+                )
+            )
+        ).one()
+        return ReglasDelConsultorio(
+            fila.anticipacion_horas, fila.margen_agenda_minutos, fila.telefono, fila.direccion
+        )
 
     async def datos(self) -> DatosDelConsultorio:
         fila = (

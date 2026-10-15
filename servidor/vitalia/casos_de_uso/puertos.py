@@ -7,6 +7,7 @@ from datetime import date, datetime
 from typing import Literal, Protocol
 from uuid import UUID
 
+from vitalia.dominio.agenda import EstadoDeCita, Franja, Intervalo, TipoDeCita
 from vitalia.dominio.cuentas import DatosDelMedico, DatosDelPaciente, Documento
 from vitalia.dominio.identidad import Identidad, Rol
 from vitalia.dominio.ingreso import Intentos
@@ -142,12 +143,117 @@ class DatosDelConsultorio:
     registro_profesional: str | None
 
 
+@dataclass(frozen=True)
+class ReglasDelConsultorio:
+    anticipacion_horas: int
+    margen_agenda_minutos: int
+    telefono: str | None
+    direccion: str | None
+
+
 class Consultorios(Protocol):
     async def publico(self) -> ConsultorioPublico: ...
+
+    async def reglas(self) -> ReglasDelConsultorio: ...
 
     async def datos(self) -> DatosDelConsultorio: ...
 
     async def guardar(self, medico_id: UUID, datos: DatosDelConsultorio) -> None: ...
+
+
+@dataclass(frozen=True)
+class Cita:
+    id: UUID
+    paciente_id: UUID
+    paciente: str
+    tipo_id: UUID
+    tipo: str
+    inicio: datetime
+    fin: datetime
+    estado: EstadoDeCita
+    fuera_de_horario: bool
+    # El último motivo que dio quien la movió o la canceló (HU-017, CA-3).
+    motivo: str | None
+
+
+class Agenda(Protocol):
+    async def franjas(self) -> list[Franja]: ...
+
+    async def reemplazar_franjas(self, franjas: Sequence[Franja]) -> None: ...
+
+    async def tipos(self, solo_activos: bool) -> list[TipoDeCita]: ...
+
+    async def tipo(self, tipo_id: UUID) -> TipoDeCita | None: ...
+
+    async def crear_tipo(self, nombre: str, duracion_minutos: int) -> TipoDeCita: ...
+
+    async def guardar_tipo(self, tipo: TipoDeCita) -> None: ...
+
+    async def ocupados(self, desde: datetime, hasta: datetime) -> list[tuple[UUID, Intervalo]]:
+        """Lo ocupado en el rango, sin decir de quién. Sirve también al paciente."""
+        ...
+
+    async def citas(
+        self,
+        *,
+        desde: datetime | None = None,
+        hasta: datetime | None = None,
+        paciente_id: UUID | None = None,
+        estado: EstadoDeCita | None = None,
+        limite: int | None = None,
+    ) -> list[Cita]:
+        """Las citas en orden de inicio. Los permisos por fila dejan al paciente solo las suyas."""
+        ...
+
+    async def cita(self, cita_id: UUID) -> Cita | None: ...
+
+    async def crear_cita(
+        self,
+        paciente_id: UUID,
+        tipo_id: UUID,
+        intervalo: Intervalo,
+        creada_por: UUID,
+        fuera_de_horario: bool,
+    ) -> UUID:
+        """Lanza EspacioOcupado si se cruza con otra cita: lo impide la base."""
+        ...
+
+    async def mover_cita(self, cita_id: UUID, intervalo: Intervalo, fuera_de_horario: bool) -> None:
+        """Lanza EspacioOcupado si se cruza con otra cita: lo impide la base."""
+        ...
+
+    async def cancelar_cita(self, cita_id: UUID) -> None: ...
+
+    async def anotar_cambio(
+        self,
+        cita_id: UUID,
+        usuario_id: UUID,
+        tipo: Literal["creada", "movida", "cancelada"],
+        inicio_anterior: datetime | None = None,
+        inicio_nuevo: datetime | None = None,
+        motivo: str | None = None,
+    ) -> None: ...
+
+    async def paciente_de_la_sesion(self) -> UUID | None: ...
+
+
+@dataclass(frozen=True)
+class PacienteEnLista:
+    id: UUID
+    nombres: str
+    apellidos: str
+    documento: Documento
+    telefono: str
+
+
+class Pacientes(Protocol):
+    async def buscar(
+        self, texto: str | None, pagina: int, tamano: int
+    ) -> tuple[list[PacienteEnLista], int]:
+        """Una página en orden alfabético y el total de pacientes que coinciden."""
+        ...
+
+    async def existe(self, paciente_id: UUID) -> bool: ...
 
 
 class Trabajo(Protocol):
@@ -164,6 +270,12 @@ class Trabajo(Protocol):
 
     @property
     def consultorios(self) -> Consultorios: ...
+
+    @property
+    def agenda(self) -> Agenda: ...
+
+    @property
+    def pacientes(self) -> Pacientes: ...
 
 
 class UnidadDeTrabajo(Protocol):
