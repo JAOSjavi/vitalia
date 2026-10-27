@@ -14,8 +14,8 @@ from fastapi import FastAPI
 
 from vitalia.adaptadores.archivos_en_disco import ArchivosEnDisco
 from vitalia.adaptadores.contrasenas import ContrasenasArgon2
-from vitalia.adaptadores.ia.de_mentira import VectoresDeMentira
-from vitalia.adaptadores.ia.qwen import VectoresQwen
+from vitalia.adaptadores.ia.de_mentira import IADeMentira, VectoresDeMentira
+from vitalia.adaptadores.ia.qwen import IAQwen, VectoresQwen
 from vitalia.adaptadores.pdf import LectorPdfium
 from vitalia.adaptadores.postgres.conexion import BasePostgres, crear_motor
 from vitalia.adaptadores.postgres.unidad import UnidadPostgres
@@ -36,6 +36,7 @@ from vitalia.casos_de_uso.leer_documentos import LeerDocumentos
 from vitalia.casos_de_uso.listar_citas import ListarCitas
 from vitalia.casos_de_uso.mover_cita import MoverCita
 from vitalia.casos_de_uso.poner_en_marcha import PonerEnMarcha
+from vitalia.casos_de_uso.preguntar_al_asistente import Limites, PreguntarAlAsistente
 from vitalia.casos_de_uso.puertos import ProveedorIA, Reloj, Vectorizador
 from vitalia.casos_de_uso.registrar_paciente import RegistrarPaciente
 from vitalia.casos_de_uso.revisar_salud import RevisarSalud
@@ -64,7 +65,8 @@ def armar(
 ) -> FastAPI:
     """El reloj y la IA solo se cambian en las pruebas.
 
-    Sin proveedor de IA, el lector lee los PDF con texto; los escaneados quedan sin leer.
+    Sin clave de IA, el lector lee los PDF con texto y deja sin leer los escaneados; los vectores
+    salen de las palabras y el asistente responde con un texto fijo.
     """
     motor = crear_motor(configuracion.bd_url)
     unidad = UnidadPostgres(motor)
@@ -72,8 +74,13 @@ def armar(
     contrasenas = ContrasenasArgon2()
     autorizador = Autorizador(unidad)
     archivos = ArchivosEnDisco(configuracion.carpeta_de_archivos)
+    ia = ia or _ia(configuracion)
     lector = LeerDocumentos(unidad, archivos, LectorPdfium(), ia)
     vectores = _vectores(configuracion)
+    limites = Limites(
+        tope_contexto=configuracion.ia_tope_contexto,
+        consultas_por_hora=configuracion.ia_tope_consultas_hora,
+    )
     indexador = IndexarDocumentos(unidad, vectores)
 
     casos = CasosDeUso(
@@ -101,6 +108,9 @@ def armar(
         subir_documento=SubirDocumento(unidad, autorizador, archivos, reloj),
         ver_mis_documentos=VerMisDocumentos(unidad, autorizador),
         buscar_fragmentos=BuscarFragmentos(unidad, autorizador, vectores),
+        preguntar_al_asistente=PreguntarAlAsistente(
+            unidad, autorizador, vectores, ia or IADeMentira(), reloj, limites
+        ),
     )
 
     @asynccontextmanager
@@ -122,6 +132,17 @@ def armar(
     api.state.lector = lector
     api.state.indexador = indexador
     return api
+
+
+def _ia(configuracion: Configuracion) -> ProveedorIA | None:
+    if configuracion.ia_direccion and configuracion.ia_clave:
+        return IAQwen(
+            configuracion.ia_direccion,
+            configuracion.ia_clave,
+            configuracion.ia_modelo_respuestas,
+            configuracion.ia_modelo_lectura,
+        )
+    return None
 
 
 def _vectores(configuracion: Configuracion) -> Vectorizador:

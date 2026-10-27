@@ -151,11 +151,13 @@ Los fragmentos encontrados se agrupan por fuente y se ordenan por fecha. Cada do
 
 > Eres un asistente que ayuda a un médico a consultar los documentos que entregó un paciente y las atenciones registradas en el consultorio.
 > 1. Responde únicamente con lo que está escrito en los fragmentos que recibes.
-> 2. Después de cada dato indica su origen así: [D2, pág. 1] para un documento o [A3] para una atención, y copia entre comillas la frase en que te basas.
+> 2. Después de cada dato indica su origen con la etiqueta, la página y la frase exacta entre comillas, así: [D2, pág. 1: "frase copiada"] para un documento o [A3: "frase copiada"] para una atención.
 > 3. Si la información no aparece en los fragmentos, responde "No lo encontré en los documentos ni en las atenciones". No supongas ni completes.
 > 4. No des diagnósticos ni recomiendes tratamientos. Si te lo piden, aclara que solo resumes lo registrado.
 > 5. Si dos fragmentos se contradicen, muestra ambos datos con su origen.
 > 6. Responde en español, de forma breve y en orden de fecha.
+
+La regla 2 pide la frase dentro de la misma cita (27 de octubre, al construir): así el servidor sabe sin adivinar qué frase va con qué origen. Las instrucciones construidas están en `servidor/vitalia/dominio/asistente.py`, con una regla 7 que le dice al modelo que no intente adivinar los rótulos [PACIENTE], [DOCUMENTO], [TELÉFONO] y [CORREO].
 
 La regla 3 cambió de "no aparece en los documentos" a "no lo encontré": con búsqueda de fragmentos, el modelo solo ve una parte, y la respuesta tiene que decirlo con honestidad.
 

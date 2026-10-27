@@ -60,6 +60,37 @@ class FragmentosPostgres:
             ],
         )
 
+    async def caracteres(self, paciente_id: UUID) -> int:
+        total: int = await self._conexion.scalar(
+            text("SELECT coalesce(sum(length(texto)), 0) FROM fragmentos WHERE paciente_id = :p"),
+            {"p": paciente_id},
+        )
+        return total
+
+    async def todos(self, paciente_id: UUID) -> list[FragmentoEncontrado]:
+        filas = await self._conexion.execute(
+            text(
+                "SELECT f.id, f.documento_id, d.nombre, d.fecha_documento, f.pagina, f.texto "
+                "FROM fragmentos f JOIN documentos d ON d.id = f.documento_id "
+                "WHERE f.paciente_id = :p ORDER BY d.fecha_documento, f.pagina, f.orden"
+            ),
+            {"p": paciente_id},
+        )
+        return [
+            FragmentoEncontrado(
+                id=f.id,
+                documento_id=f.documento_id,
+                documento=f.nombre,
+                fecha_documento=f.fecha_documento,
+                pagina=f.pagina,
+                texto=f.texto,
+                puntaje=0.0,
+                rango_significado=None,
+                rango_palabras=None,
+            )
+            for f in filas
+        ]
+
     async def buscar(
         self,
         paciente_id: UUID,

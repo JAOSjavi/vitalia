@@ -3,6 +3,7 @@
 import json
 from collections.abc import AsyncIterator, Mapping
 from contextlib import asynccontextmanager
+from datetime import datetime
 from uuid import UUID
 
 from sqlalchemy import text
@@ -47,6 +48,16 @@ class BitacoraPostgres:
                 "detalle": None if detalle is None else json.dumps(detalle),
             },
         )
+
+    async def contar(self, accion: str, desde: datetime) -> int:
+        total: int = await self._conexion.scalar(
+            text(
+                "SELECT count(*) FROM bitacora WHERE usuario_id = usuario_actual() "
+                "AND accion = :accion AND fecha >= :desde"
+            ),
+            {"accion": accion, "desde": desde},
+        )
+        return total
 
 
 class PermisosPostgres:

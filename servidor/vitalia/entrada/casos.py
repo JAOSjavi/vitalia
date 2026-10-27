@@ -14,6 +14,7 @@ from vitalia.casos_de_uso.ingresar import Ingresar
 from vitalia.casos_de_uso.listar_citas import ListarCitas
 from vitalia.casos_de_uso.mover_cita import MoverCita
 from vitalia.casos_de_uso.poner_en_marcha import PonerEnMarcha
+from vitalia.casos_de_uso.preguntar_al_asistente import PreguntarAlAsistente
 from vitalia.casos_de_uso.registrar_paciente import RegistrarPaciente
 from vitalia.casos_de_uso.revisar_salud import RevisarSalud
 from vitalia.casos_de_uso.subir_documento import SubirDocumento
@@ -54,6 +55,7 @@ class CasosDeUso:
     subir_documento: SubirDocumento
     ver_mis_documentos: VerMisDocumentos
     buscar_fragmentos: BuscarFragmentos
+    preguntar_al_asistente: PreguntarAlAsistente
 
 
 @dataclass(frozen=True)

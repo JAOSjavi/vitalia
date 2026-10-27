@@ -14,6 +14,7 @@ from vitalia.casos_de_uso.puertos import (
     LectorDePDF,
     PaginaLeida,
     ProveedorIA,
+    ProveedorNoDisponible,
     UnidadDeTrabajo,
 )
 from vitalia.dominio.documentos import EstadoDeLectura, estado_final, legibilidad, tiene_texto
@@ -71,12 +72,13 @@ class LeerDocumentos:
             reintentar = tomado.intentos < INTENTOS_MAXIMOS and not isinstance(
                 error, SinProveedorDeLectura
             )
+            ajeno_al_documento = isinstance(error, SinProveedorDeLectura | ProveedorNoDisponible)
             # Solo el tipo del error: el mensaje podría traer texto del documento.
             _registro.warning("No se pudo leer un documento: %s", type(error).__name__)
             if reintentar:
                 estado: EstadoDeLectura = "en_proceso"
-            elif isinstance(error, SinProveedorDeLectura):
-                # No es culpa del documento: se podrá leer cuando haya un modelo configurado.
+            elif ajeno_al_documento:
+                # No es culpa del documento: se podrá leer cuando el modelo esté disponible.
                 estado = "sin_leer"
             else:
                 estado = "no_legible"

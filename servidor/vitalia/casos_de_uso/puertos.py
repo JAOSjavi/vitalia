@@ -39,6 +39,10 @@ class Bitacora(Protocol):
         """Anota quién hizo qué. El detalle nunca lleva contenido clínico."""
         ...
 
+    async def contar(self, accion: str, desde: datetime) -> int:
+        """Cuántas veces el usuario de la sesión hizo esa acción desde ese momento."""
+        ...
+
 
 class Permisos(Protocol):
     async def matriz(self) -> MatrizDePermisos: ...
@@ -392,6 +396,14 @@ class Fragmentos(Protocol):
         """Por significado y por palabras, combinadas, del más al menos parecido."""
         ...
 
+    async def caracteres(self, paciente_id: UUID) -> int:
+        """Cuánto texto suman todos los fragmentos del paciente. Cero si no tiene."""
+        ...
+
+    async def todos(self, paciente_id: UUID) -> list[FragmentoEncontrado]:
+        """Todos los del paciente, para cuando caben enteros en una consulta."""
+        ...
+
 
 class Vectorizador(Protocol):
     """Convierte textos en vectores: números que representan lo que significan."""
@@ -481,6 +493,13 @@ class Correo(Protocol):
 class Turno:
     autor: Literal["medico", "asistente"]
     texto: str
+
+
+class ProveedorNoDisponible(Exception):
+    """El proveedor de IA no respondió, tardó demasiado o rechazó la petición.
+
+    No es culpa del documento ni de la pregunta: se puede intentar después.
+    """
 
 
 class ProveedorIA(Protocol):

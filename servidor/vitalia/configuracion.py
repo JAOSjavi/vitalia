@@ -24,6 +24,11 @@ class Configuracion:
     ia_clave: str | None = None
     ia_modelo_vectores: str = "qwen3.7-text-embedding"
     ia_dimensiones: int = 1024
+    ia_modelo_respuestas: str = "qwen3.7-plus"
+    ia_modelo_lectura: str = "qwen-vl-ocr-2025-11-20"
+    # Máximo de texto de los fragmentos en una pregunta, en caracteres.
+    ia_tope_contexto: int = 16000
+    ia_tope_consultas_hora: int = 30
 
 
 def leer() -> Configuracion:
@@ -38,6 +43,13 @@ def leer() -> Configuracion:
         ia_clave=os.environ.get("IA_CLAVE") or None,
         ia_modelo_vectores=os.environ.get("IA_MODELO_VECTORES") or Configuracion.ia_modelo_vectores,
         ia_dimensiones=int(os.environ.get("IA_DIMENSIONES") or Configuracion.ia_dimensiones),
+        ia_modelo_respuestas=os.environ.get("IA_MODELO_RESPUESTAS")
+        or Configuracion.ia_modelo_respuestas,
+        ia_modelo_lectura=os.environ.get("IA_MODELO_LECTURA") or Configuracion.ia_modelo_lectura,
+        ia_tope_contexto=int(os.environ.get("IA_TOPE_CONTEXTO") or Configuracion.ia_tope_contexto),
+        ia_tope_consultas_hora=int(
+            os.environ.get("IA_TOPE_CONSULTAS_HORA") or Configuracion.ia_tope_consultas_hora
+        ),
     )
 
 

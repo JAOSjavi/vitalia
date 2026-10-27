@@ -7,6 +7,7 @@ from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
+from vitalia.casos_de_uso.puertos import ProveedorNoDisponible
 from vitalia.dominio.agenda import (
     AgendaNoDisponible,
     CitaNoModificable,
@@ -16,6 +17,7 @@ from vitalia.dominio.agenda import (
     FaltaAnticipacion,
     FueraDeHorario,
 )
+from vitalia.dominio.asistente import SinFragmentos, TopeDeConsultas
 from vitalia.dominio.cuentas import (
     AutorizacionDesactualizada,
     DatosInvalidos,
@@ -89,9 +91,20 @@ _FIJOS: dict[type[Exception], tuple[int, str, str]] = {
     ),
     CitaNoModificable: (409, "cita_no_modificable", "Esta cita ya no se puede mover ni cancelar."),
     IANoAutorizada: (
-        409,
+        422,
         "ia_no_autorizada",
         "El paciente no ha autorizado el uso de inteligencia artificial con sus datos.",
+    ),
+    SinFragmentos: (
+        422,
+        "sin_documentos_indexados",
+        "El paciente todavía no tiene documentos listos para el asistente.",
+    ),
+    ProveedorNoDisponible: (
+        503,
+        "proveedor_no_disponible",
+        "El asistente no está disponible en este momento. "
+        "Los documentos siguen disponibles en el visor.",
     ),
 }
 
@@ -160,6 +173,16 @@ def registrar_traducciones(api: FastAPI) -> None:
             {"documento_id": str(error.documento_id)},
         )
 
+    async def tope_de_consultas(_: Request, error: Exception) -> JSONResponse:
+        assert isinstance(error, TopeDeConsultas)
+        return respuesta_de_error(
+            429,
+            "tope_de_consultas",
+            f"Llegó al máximo de {error.tope} preguntas por hora. Intente más tarde.",
+            {"tope": error.tope},
+        )
+
+    api.add_exception_handler(TopeDeConsultas, tope_de_consultas)
     api.add_exception_handler(DocumentoRepetido, documento_repetido)
     api.add_exception_handler(EspacioOcupado, espacio_ocupado)
     api.add_exception_handler(FaltaAnticipacion, falta_anticipacion)

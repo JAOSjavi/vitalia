@@ -134,7 +134,7 @@ El enlace temporal dura máximo 15 minutos. El visor pide uno nuevo cuando el an
 
 Antes de llamar al proveedor de IA, estas operaciones verifican, en este orden: rol médico, autorización de IA vigente del paciente, que tenga al menos un fragmento indexado y el tope de consultas por hora. Si algo falla, responden 422 o 429 y **no** se llama al proveedor (HU-033, CA-3).
 
-La respuesta a una pregunta llega por partes, para que el texto aparezca mientras se escribe. Al final llegan dos listas: los orígenes citados, cada uno con documento y página o con la atención, y la frase citada; y lo consultado, es decir, los documentos, páginas y atenciones de los fragmentos que encontró la búsqueda (D-30).
+La respuesta a una pregunta llega por partes, para que el texto aparezca mientras se escribe: una línea JSON por evento (`application/x-ndjson`), `{"tipo": "texto"}` mientras el modelo escribe, `{"tipo": "fin"}` al terminar y `{"tipo": "error", "codigo": "proveedor_no_disponible"}` si el proveedor falla a mitad de camino. Sin autorización de IA o sin fragmentos responde 422 (`ia_no_autorizada`, `sin_documentos_indexados`), con el tope por hora 429 (`tope_de_consultas`) y si el proveedor no responde al buscar, 503. El cuerpo lleva `pregunta` y `conversacion`, la lista de turnos anteriores, que la pantalla reenvía porque la conversación no se guarda. Al final llegan dos listas: los orígenes citados, cada uno con documento y página o con la atención, y la frase citada; y lo consultado, es decir, los documentos, páginas y atenciones de los fragmentos que encontró la búsqueda (D-30).
 
 La pantalla de atención usa estas mismas operaciones. No hay ninguna que escriba en la historia clínica con lo que responde el asistente (HU-042, CA-4).
 
