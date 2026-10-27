@@ -1,7 +1,7 @@
 # Decisiones y supuestos
 
 **Fase del ciclo de vida:** Planificación
-**Versión:** 2.7 · 14 de octubre de 2026
+**Versión:** 2.8 · 26 de octubre de 2026
 
 Una **decisión** la tomó el dueño del proyecto. Un **supuesto** lo puso quien levantó los requisitos para no frenar el trabajo, y se cambia en cuanto haya mejor información.
 
@@ -39,6 +39,7 @@ Una **decisión** la tomó el dueño del proyecto. Un **supuesto** lo puso quien
 | D-26 | 13 oct 2026 | Los iconos de la aplicación salen de Phosphor Icons | Se aplica al construir las pantallas. Los iconos del lienzo son provisionales |
 | D-27 | 13 oct 2026 | Los servicios se montan en la nube desde el primer día, sin instalar nada en el computador: la base de datos en Render y los archivos en Cloudflare R2 | Cambia el entorno de trabajo: sección 3 de [herramientas y entrega](../diseno/09-herramientas-y-entrega.md). Las pruebas que tocan la base tardan más; las de GitHub usan su propio PostgreSQL |
 | D-28 | 13 oct 2026 | El Desarrollo se construye por historias, sin pantalla de verificación del sistema, en este orden: registro e ingreso de paciente y de médico; manejo básico de citas; resumen con IA sobre los documentos del paciente | Las pruebas de concepto de la arquitectura se despejan dentro de cada bloque. Ver la sección 4 de [ESTADO.md](../ESTADO.md) |
+| D-29 | 26 oct 2026 | Para programar, la base de datos corre en Docker con la imagen de PostgreSQL 18; no se instala en el computador. Render sigue siendo donde se publica | Ajusta D-27. `docker-compose.yml` en la raíz; detalle en [estado_desarrollo.md](../estado_desarrollo.md) |
 
 ## 2. Supuestos
 

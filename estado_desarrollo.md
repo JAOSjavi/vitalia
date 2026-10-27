@@ -15,6 +15,7 @@
 | Bloque 2 · Citas, servidor | **Hecho y confirmado** en la rama: 104 pruebas en verde |
 | Bloque 2 · Citas, pantallas | **Escritas, sin terminar**: compilan sin errores de tipos, pero falta conectarlas al menú del médico, sus pruebas y verlas en el navegador (sección 4) |
 | Bloque 3 · Documentos y resumen con IA | Sin empezar |
+| Base de datos para programar | **PostgreSQL 18 en Docker**, funcionando: 105 pruebas en verde contra él. Ver la sección 2 |
 | Servicios en la nube (Render, R2, Qwen) | Sin crear. Ver la sección 3 |
 
 ### Commits
@@ -31,33 +32,35 @@
 
 ---
 
-## 2. Base de datos: cómo se ha probado y qué sigue
+## 2. Base de datos en Docker
 
-**No se instaló PostgreSQL en el computador.** Para correr las pruebas se usó un PostgreSQL 18.4 temporal que trae el paquete de Python `pixeltable-pgserver`, levantado dentro de la carpeta de trabajo temporal de la sesión y apagado al terminar. Ese PostgreSQL no trae las extensiones `btree_gist` y `unaccent`, así que para probar se quitaban esas dos líneas de la migración `0001` en una copia; el código del repositorio no se tocó.
+Desde el 26 de octubre la base para programar es **PostgreSQL 18 en Docker** (decisión D-29). No se instala nada más en el computador.
 
-**Decisión pendiente de aplicar (pedida el 26 de octubre):** usar **Docker con una imagen de PostgreSQL** en vez de ese PostgreSQL temporal.
-
-| Paso | Quién |
+| Qué | Dónde |
 |---|---|
-| 1. Instalar Docker Desktop (`winget install --id Docker.DockerDesktop`). El computador ya tiene WSL2, que es lo que necesita | Javier |
-| 2. Agregar `docker-compose.yml` en la raíz con `postgres:18` (puerto 5432, volumen con nombre) y un guion que cree `vitalia_migraciones` (dueño, con CREATEDB), `vitalia_api` (sin privilegios) y la base `vitalia_dev` | Claude |
-| 3. Opcional: el mismo archivo con un servidor S3 local para los documentos. MinIO ya no se publica; la alternativa vigente es `rustfs/rustfs` (puertos 9000 y 9001) | Claude |
-| 4. `servidor/.env` con `BD_URL` y `BD_URL_MIGRACIONES` apuntando a `localhost:5432` | Claude, sin claves reales |
-| 5. Correr las migraciones y toda la suite contra el contenedor | Claude |
+| Servicio | `docker-compose.yml` en la raíz: imagen `postgres:18`, solo en `127.0.0.1:5432`, datos en el volumen `vitalia_datos` |
+| Usuarios y base | `servidor/guiones/bd/01-usuarios.sh` crea `vitalia_migraciones` (dueño de las tablas), `vitalia_api` (sin privilegios) y `vitalia_dev` la primera vez que arranca |
+| Contraseñas | Generadas al azar en `.env` (raíz, para Docker) y `servidor/.env` (para la aplicación). Git ignora los dos |
+| Pruebas | Crean y borran `vitalia_pruebas` en el mismo contenedor |
 
-Con esto cambia la decisión D-27 (servicios en la nube desde el primer día): local con Docker para programar y Render para publicar. Hay que registrarlo en [planificacion/04-decisiones-y-supuestos.md](planificacion/04-decisiones-y-supuestos.md) y en la sección 3 de [diseno/09-herramientas-y-entrega.md](diseno/09-herramientas-y-entrega.md).
+```
+docker compose up -d                  levanta la base
+docker compose down                   la detiene; los datos quedan en el volumen
+docker compose down -v                la borra por completo; al subir se vuelve a crear vacía
+```
 
-Las pruebas de GitHub (`.github/workflows/pruebas.yml`) ya usan la imagen `postgres:18` como servicio.
+En las direcciones de conexión va `127.0.0.1`, no `localhost`: en Windows `localhost` intenta primero por IPv6 y el contenedor no escucha ahí, así que las conexiones se quedaban esperando.
 
----
+Comprobado el 26 de octubre: migraciones aplicadas, deshechas y vueltas a aplicar, y las 105 pruebas del servidor en verde, incluida la de las extensiones `btree_gist` y `unaccent`.
+
+Para publicar sigue Render (sección 3). El almacenamiento de documentos en local se agrega a este mismo archivo al empezar el bloque 3 (propuesta: `rustfs/rustfs`, porque MinIO dejó de publicarse).
 
 ## 3. Lo que sigue pendiente de Javier
 
-1. **Docker Desktop** (sección 2).
-2. **Repositorio privado en GitHub**, vacío. Al conectarlo, `master` pasa a llamarse `main`.
-3. **Clave de Qwen** (Alibaba Cloud Model Studio, región Singapur): hace falta para el bloque 3. Paso a paso en la sección 3.3 de [diseno/09-herramientas-y-entrega.md](diseno/09-herramientas-y-entrega.md). Modelos: `qwen3.7-plus` y `qwen3.5-ocr`. La clave va solo en `servidor/.env`, nunca en el chat.
-4. **Render y Cloudflare R2**: para publicar, no para programar. Paso a paso en la misma sección 3.
-5. **Dos fotos con datos inventados** para medir la lectura de la IA al empezar el bloque 3.
+1. **Repositorio privado en GitHub**, vacío. Al conectarlo, `master` pasa a llamarse `main`.
+2. **Clave de Qwen** (Alibaba Cloud Model Studio, región Singapur): hace falta para el bloque 3. Paso a paso en la sección 3.3 de [diseno/09-herramientas-y-entrega.md](diseno/09-herramientas-y-entrega.md). Modelos: `qwen3.7-plus` y `qwen3.5-ocr`. La clave va solo en `servidor/.env`, nunca en el chat.
+3. **Render y Cloudflare R2**: para publicar, no para programar. Paso a paso en la misma sección 3.
+4. **Dos fotos con datos inventados** para medir la lectura de la IA al empezar el bloque 3.
 
 ---
 
@@ -85,7 +88,7 @@ Falta, en este orden:
 1. **Conectar `medico/ZonaMedico.tsx`**: menú con Hoy, Pacientes, Configuración y Consultorio, y las rutas `hoy`, `pacientes`, `citas/nueva`, `citas/:cita/mover`, `configuracion` y `consultorio`. La ruta inicial pasa a ser `hoy`.
 2. Pruebas de pantallas (Vitest), como las del bloque 1: agendar solo con espacios libres, espacio ocupado con alternativas, cancelar con confirmación, menos de 24 horas, cancelar como médico exige motivo.
 3. `npm run test` y `npm run build`.
-4. Recorrerlas en el navegador contra la API y la base del contenedor de Docker, comparando con el lienzo (`diseno/lienzo/Paciente-Agendar`, `Paciente-Citas`, `Main` y `Medico-Hoy`).
+4. Recorrerlas en el navegador contra la API y la base de Docker, comparando con el lienzo (`diseno/lienzo/Paciente-Agendar`, `Paciente-Citas`, `Main` y `Medico-Hoy`).
 5. Confirmar, unir `bloque-2-citas` a `master` y actualizar [ESTADO.md](ESTADO.md).
 
 Después sigue el **bloque 3**, documentos y resumen con IA, con el orden de la sección 4 de [ESTADO.md](ESTADO.md).
@@ -98,7 +101,7 @@ Después sigue el **bloque 3**, documentos y resumen con IA, con el orden de la 
 |---|---|
 | Revisar el servidor | En `servidor/`: `uv run ruff check .`, `uv run ruff format --check .`, `uv run mypy`, `uv run lint-imports` |
 | Pruebas rápidas, sin base | En `servidor/`: `uv run pytest -m "not bd"` |
-| Todas las pruebas | En `servidor/`: `uv run pytest` (necesita `BD_URL` y `BD_URL_MIGRACIONES`) |
+| Todas las pruebas | Con la base arriba (`docker compose up -d`), en `servidor/`: `uv run pytest` |
 | Migraciones | En `servidor/`: `uv run alembic upgrade head` |
 | Arrancar la API | En `servidor/`: `uv run uvicorn --factory vitalia.principal:crear --port 8000` |
 | Enlace para la cuenta del médico | En `servidor/`: `uv run python -m vitalia.principal puesta-en-marcha` |

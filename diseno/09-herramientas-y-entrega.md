@@ -51,7 +51,7 @@ El dueño del proyecto decidió montar los servicios **en la nube desde el prime
 
 | Necesidad | Cómo se resuelve |
 |---|---|
-| Base de datos | PostgreSQL 18 en Render. La base `vitalia_dev` es la de desarrollo; las pruebas crean y borran `vitalia_pruebas` en la misma instancia |
+| Base de datos | Para programar, PostgreSQL 18 en Docker (`docker-compose.yml`, D-29). Para publicar, PostgreSQL 18 en Render. En los dos, `vitalia_dev` es la base de trabajo y las pruebas crean y borran `vitalia_pruebas` |
 | Archivos | Cloudflare R2, espacio `vitalia-dev`. Las pruebas escriben bajo un prefijo propio y lo borran |
 | Correo | Un adaptador que escribe el correo en la consola en vez de enviarlo, hasta que exista el servicio de correo |
 | IA | Qwen, con la clave del dueño del proyecto. Las pruebas automáticas usan un adaptador de mentira con respuestas fijas y no gastan |

@@ -1,0 +1,29 @@
+# Servicios para programar en el computador. Al publicar los reemplaza Render.
+# Las contraseñas salen del archivo .env de esta carpeta, que nunca entra al repositorio.
+#
+#   docker compose up -d      levanta la base
+#   docker compose down       la detiene; los datos quedan en el volumen
+name: vitalia
+
+services:
+  bd:
+    image: postgres:18
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_CLAVE:?Falta POSTGRES_CLAVE en .env}
+      CLAVE_MIGRACIONES: ${CLAVE_MIGRACIONES:?Falta CLAVE_MIGRACIONES en .env}
+      CLAVE_API: ${CLAVE_API:?Falta CLAVE_API en .env}
+    ports:
+      # Solo desde este computador.
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - datos:/var/lib/postgresql
+      # Crea los dos usuarios y la base de desarrollo la primera vez que arranca.
+      - ./servidor/guiones/bd:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  datos:
