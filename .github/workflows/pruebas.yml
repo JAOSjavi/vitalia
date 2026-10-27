@@ -11,7 +11,7 @@ jobs:
         working-directory: servidor
     services:
       postgres:
-        image: postgres:18
+        image: pgvector/pgvector:pg18-trixie
         env:
           # Base desechable que vive solo durante las pruebas: sin contraseñas.
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -32,6 +32,10 @@ jobs:
       - name: Usuarios y base de datos
         run: |
           psql -h localhost -U postgres -v ON_ERROR_STOP=1 <<'SQL'
+          -- pgvector solo lo instala un superusuario; en template1 queda en toda base nueva.
+          \c template1
+          CREATE EXTENSION vector;
+          \c postgres
           CREATE ROLE vitalia_migraciones LOGIN CREATEDB;
           CREATE ROLE vitalia_api LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOBYPASSRLS;
           CREATE DATABASE vitalia_dev OWNER vitalia_migraciones;

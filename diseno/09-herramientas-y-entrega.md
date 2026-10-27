@@ -51,7 +51,7 @@ El dueño del proyecto decidió montar los servicios **en la nube desde el prime
 
 | Necesidad | Cómo se resuelve |
 |---|---|
-| Base de datos | Para programar, PostgreSQL 18 en Docker (`docker-compose.yml`, D-29), con la imagen `pgvector/pgvector:pg18`, que es la oficial de PostgreSQL 18 más la extensión `pgvector` (D-30); las pruebas de GitHub usan la misma. En Render la extensión se activa con la migración. Para publicar, PostgreSQL 18 en Render. En los dos, `vitalia_dev` es la base de trabajo y las pruebas crean y borran `vitalia_pruebas` |
+| Base de datos | Para programar, PostgreSQL 18 en Docker (`docker-compose.yml`, D-29), con la imagen `pgvector/pgvector:pg18-trixie`, que es la oficial de PostgreSQL 18 sobre Debian trixie más la extensión `pgvector` (D-30); trixie porque es la base de `postgres:18`, y la misma versión de glibc ordena igual el texto del volumen ya creado. Las pruebas de GitHub usan la misma. `pgvector` solo lo instala un superusuario: el guion de arranque de Docker y el de las pruebas lo dejan en `template1`, y la migración 0005 solo confirma que esté. En Render se comprueba al publicar. Para publicar, PostgreSQL 18 en Render. En los dos, `vitalia_dev` es la base de trabajo y las pruebas crean y borran `vitalia_pruebas` |
 | Archivos | Cloudflare R2, espacio `vitalia-dev`. Las pruebas escriben bajo un prefijo propio y lo borran |
 | Correo | Un adaptador que escribe el correo en la consola en vez de enviarlo, hasta que exista el servicio de correo |
 | IA | Qwen, con la clave del dueño del proyecto. Las pruebas automáticas usan un adaptador de mentira con respuestas fijas y vectores calculados de las palabras del texto: no gastan y la búsqueda se puede probar igual |

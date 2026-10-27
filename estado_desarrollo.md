@@ -93,7 +93,7 @@ El 26 de octubre, antes de empezar el bloque 3, se decidió que el asistente bus
 | Requisitos y decisiones | RF-31, RF-32, RF-34 y RF-35; decisión D-30 |
 | Historias | HU-031 a HU-035, HU-042 y HU-044: 7 criterios nuevos y 14 ajustados |
 
-**Al construir, primero:** cambiar la imagen de `docker-compose.yml` y de `.github/workflows/pruebas.yml` a `pgvector/pgvector:pg18` (el volumen sirve igual), y agregar `IA_MODELO_VECTORES` e `IA_DIMENSIONES` a `servidor/.env.example`.
+**Paso 0, hecho el 27 de octubre:** imagen `pgvector/pgvector:pg18-trixie` en `docker-compose.yml` y en las pruebas de GitHub; `pgvector` instalado como superusuario en `template1` por `servidor/guiones/bd/01-usuarios.sh` (en un volumen ya creado se instaló a mano una vez); migración `0005_documentos_y_fragmentos.py` con `documentos`, `paginas_documento`, `trabajos_lectura`, `fragmentos`, la configuración de búsqueda `vitalia_es` y el borrado de fragmentos al retirar la autorización de IA; variables `IA_MODELO_VECTORES` e `IA_DIMENSIONES` en `servidor/.env.example`; cinco pruebas en `pruebas/adaptadores/test_fragmentos.py`. Sigue el paso 1: subir un PDF y leerlo por página.
 
 **Sin clave de Qwen se puede construir:** guardar y subir documentos, leer PDF con texto, partir en fragmentos, la tabla y la búsqueda con un adaptador de mentira cuyos vectores salen de las palabras, el aislamiento por paciente y la comprobación de orígenes. Con la clave: leer fotos, vectorizar de verdad, preguntar y medir la búsqueda con el conjunto de prueba.
 

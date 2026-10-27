@@ -9,3 +9,8 @@ CREATE ROLE vitalia_migraciones LOGIN CREATEDB PASSWORD '$CLAVE_MIGRACIONES';
 CREATE ROLE vitalia_api LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOBYPASSRLS PASSWORD '$CLAVE_API';
 CREATE DATABASE vitalia_dev OWNER vitalia_migraciones;
 SQL
+
+# pgvector solo lo instala un superusuario. En template1 queda en toda base nueva: la de
+# desarrollo y la que crean las pruebas. La migración 0005 ya la encuentra instalada.
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname template1 -c "CREATE EXTENSION vector"
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname vitalia_dev -c "CREATE EXTENSION vector"
