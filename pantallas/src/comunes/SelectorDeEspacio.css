@@ -1,0 +1,115 @@
+.selector-de-espacio {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.selector-de-espacio__grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.selector-de-espacio h2 {
+  font-family: var(--letra-texto);
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 700;
+}
+
+.selector-de-espacio__titulo {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.selector-de-espacio__dias {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+  gap: 8px;
+}
+
+.selector-de-espacio__dia,
+.selector-de-espacio__hora {
+  border: 1px solid var(--linea);
+  background: var(--superficie);
+  box-shadow: var(--sombra-1);
+  color: var(--tinta);
+  font: inherit;
+  cursor: pointer;
+}
+
+.selector-de-espacio__dia {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 72px;
+  border-radius: 14px;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--tinta-suave);
+}
+
+.selector-de-espacio__numero {
+  color: var(--tinta);
+  font-family: var(--letra-titulo);
+  font-size: 24px;
+  line-height: 26px;
+  font-weight: 600;
+}
+
+.selector-de-espacio__dia[aria-pressed="true"],
+.selector-de-espacio__hora[aria-pressed="true"] {
+  border-color: var(--acento);
+  background: var(--acento);
+  box-shadow: var(--sombra-acento);
+  color: var(--superficie);
+}
+
+.selector-de-espacio__dia[aria-pressed="true"] .selector-de-espacio__numero {
+  color: var(--superficie);
+}
+
+.selector-de-espacio__franja {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.selector-de-espacio__rotulo {
+  color: var(--tinta-suave);
+  font-size: var(--tamano-etiqueta);
+  line-height: 18px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.selector-de-espacio__horas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 8px;
+}
+
+.selector-de-espacio__hora {
+  min-height: 48px;
+  border-radius: var(--radio-campo);
+  font-family: var(--letra-dato);
+  font-size: 14.5px;
+}
+
+.selector-de-espacio__hora[aria-pressed="true"] {
+  font-weight: 600;
+}
+
+.selector-de-espacio__aviso {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  line-height: 19px;
+}

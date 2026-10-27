@@ -1,0 +1,137 @@
+.hoy__encabezado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.hoy__encabezado h1 {
+  font-size: 34px;
+  line-height: 40px;
+}
+
+.hoy__cabecera {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--linea-suave);
+  font-size: var(--tamano-secundario);
+}
+
+.hoy__cabecera h2 {
+  font-size: var(--tamano-titulo-tarjeta);
+  line-height: 24px;
+}
+
+.hoy__cita + .hoy__cita {
+  border-top: 1px solid var(--linea-suave);
+}
+
+.hoy__fila {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 20px;
+}
+
+.hoy__hora {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  width: 92px;
+  font-family: var(--letra-dato);
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.hoy__hora .texto-suave {
+  font-family: var(--letra-texto);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.hoy__avatar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radio-completo);
+  background: var(--acento-suave);
+  color: var(--acento-oscuro);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.hoy__paciente {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.hoy__nombre {
+  font-size: 15.5px;
+  line-height: 22px;
+  font-weight: 700;
+}
+
+.hoy__acciones {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 6px;
+}
+
+.hoy__accion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--linea);
+  border-radius: 10px;
+  background: var(--superficie);
+  box-shadow: var(--sombra-1);
+  color: var(--tinta-suave);
+  cursor: pointer;
+}
+
+.hoy__accion:hover {
+  background: var(--acento-suave);
+  color: var(--acento-oscuro);
+}
+
+.hoy__cancelar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 20px 16px 146px;
+}
+
+.hoy__botones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+@media (max-width: 720px) {
+  .hoy__fila {
+    flex-wrap: wrap;
+  }
+
+  .hoy__hora {
+    width: auto;
+  }
+
+  .hoy__cancelar {
+    padding-left: 20px;
+  }
+}

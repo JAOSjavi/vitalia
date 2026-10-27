@@ -1,0 +1,101 @@
+.mis-citas__grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mis-citas__grupo h2 {
+  font-size: var(--tamano-titulo-tarjeta);
+  line-height: 24px;
+}
+
+.mis-citas__cita,
+.mis-citas__anteriores {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--linea);
+  border-radius: 18px;
+  background: var(--superficie);
+  box-shadow: var(--sombra-2);
+}
+
+.mis-citas__fila,
+.mis-citas__anterior {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mis-citas__anterior + .mis-citas__anterior {
+  padding-top: 12px;
+  border-top: 1px solid var(--linea-suave);
+}
+
+.mis-citas__fecha {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 56px;
+  border-radius: var(--radio-campo);
+  background: var(--acento-suave);
+  color: var(--acento-oscuro);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+}
+
+.mis-citas__dia {
+  font-family: var(--letra-titulo);
+  font-size: 22px;
+  line-height: 24px;
+}
+
+.mis-citas__datos {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.mis-citas__datos .texto-suave {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mis-citas__tipo {
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 700;
+}
+
+.mis-citas__motivo {
+  font-size: 14px;
+}
+
+.mis-citas__acciones {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.mis-citas__acciones .boton {
+  min-height: 46px;
+}
+
+.mis-citas__telefono {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-family: var(--letra-dato);
+  font-weight: 600;
+  text-decoration: none;
+}

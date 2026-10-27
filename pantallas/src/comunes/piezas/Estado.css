@@ -36,3 +36,15 @@
 .estado__punto--gris {
   background: var(--punto-gris);
 }
+
+.estado__punto--aro {
+  border: 2px solid var(--acento);
+}
+
+.estado__punto--azul {
+  background: var(--acento);
+}
+
+.estado--azul {
+  color: var(--acento);
+}

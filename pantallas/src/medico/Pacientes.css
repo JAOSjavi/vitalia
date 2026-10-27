@@ -1,0 +1,53 @@
+.pacientes__titulo {
+  font-size: 34px;
+  line-height: 40px;
+}
+
+.pacientes__cabecera {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--linea-suave);
+  font-size: var(--tamano-secundario);
+}
+
+.pacientes__fila {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+}
+
+.pacientes__fila + .pacientes__fila {
+  border-top: 1px solid var(--linea-suave);
+}
+
+.pacientes__datos {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 200px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.pacientes__nombre {
+  font-size: 15.5px;
+  line-height: 22px;
+  font-weight: 700;
+}
+
+.pacientes__dato {
+  font-family: var(--letra-dato);
+}
+
+.pacientes__agendar {
+  min-height: 44px;
+  font-size: 15px;
+}
+
+.pacientes__paginas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}

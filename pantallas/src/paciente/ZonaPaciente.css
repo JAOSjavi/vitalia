@@ -1,14 +1,69 @@
 .zona-paciente {
+  display: flex;
+  flex-direction: column;
   max-width: 440px;
   min-height: 100vh;
   margin: 0 auto;
 }
 
-.zona-paciente__barra {
+.zona-paciente > main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 20px 28px;
+}
+
+.zona-paciente__encabezado {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
+  gap: 12px;
+}
+
+.zona-paciente__encabezado h1 {
+  font-size: var(--tamano-titulo-pantalla);
+  line-height: 32px;
+}
+
+.zona-paciente__secciones {
+  position: sticky;
+  bottom: 0;
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  padding: 8px 8px 12px;
+  border-top: 1px solid var(--linea);
+  background: var(--superficie);
+}
+
+.zona-paciente__seccion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 56px;
+  color: var(--tinta-suave);
+  font-size: 12.5px;
+  line-height: 16px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.zona-paciente__icono-seccion {
+  display: flex;
+  padding: 4px 16px;
+  border-radius: var(--radio-completo);
+}
+
+.zona-paciente__seccion.active {
+  color: var(--acento);
+  font-weight: 700;
+}
+
+.zona-paciente__seccion.active .zona-paciente__icono-seccion {
+  background: var(--acento-suave);
 }
 
 .zona-paciente__salir {
@@ -30,55 +85,4 @@
 .zona-paciente__salir:hover {
   background: var(--acento-suave);
   color: var(--acento-oscuro);
-}
-
-.zona-paciente__contenido {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 8px 20px 28px;
-}
-
-.zona-paciente__contenido h1 {
-  font-size: var(--tamano-titulo-pantalla);
-  line-height: 32px;
-}
-
-.zona-paciente__consultorio {
-  display: flex;
-  gap: 14px;
-  padding: 16px 20px;
-}
-
-.zona-paciente__icono {
-  display: flex;
-  flex: none;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radio-campo);
-  background: var(--acento-suave);
-  color: var(--acento);
-}
-
-.zona-paciente__datos {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.zona-paciente__datos h2 {
-  font-size: var(--tamano-titulo-tarjeta);
-  line-height: 24px;
-}
-
-.zona-paciente__datos a {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 44px;
-  font-family: var(--letra-dato);
-  font-weight: 600;
-  text-decoration: none;
 }

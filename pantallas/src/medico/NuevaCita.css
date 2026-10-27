@@ -1,0 +1,128 @@
+.nueva-cita__titulo {
+  font-size: 34px;
+  line-height: 40px;
+}
+
+.nueva-cita__seccion {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+}
+
+.nueva-cita__seccion > h2 {
+  font-size: var(--tamano-titulo-tarjeta);
+  line-height: 24px;
+}
+
+.nueva-cita__elegido {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.nueva-cita__nombre {
+  font-weight: 700;
+}
+
+.nueva-cita__buscar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nueva-cita__resultado {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 52px;
+  padding: 8px 14px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-campo);
+  background: var(--superficie);
+  box-shadow: var(--sombra-1);
+  color: var(--tinta);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.nueva-cita__resultado:hover {
+  border-color: var(--acento);
+}
+
+.nueva-cita__tipos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.nueva-cita__tipos button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 160px;
+  padding: 10px 14px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-campo);
+  background: var(--superficie);
+  box-shadow: var(--sombra-1);
+  color: var(--tinta);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.nueva-cita__tipos button .texto-suave {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.nueva-cita__tipos button[aria-pressed="true"] {
+  border-color: var(--acento);
+  background: var(--acento);
+  box-shadow: var(--sombra-acento);
+  color: var(--superficie);
+}
+
+.nueva-cita__tipos button[aria-pressed="true"] .texto-suave {
+  color: var(--superficie);
+}
+
+.nueva-cita__otra summary {
+  min-height: 44px;
+  color: var(--acento);
+  font-weight: 700;
+  line-height: 44px;
+  cursor: pointer;
+}
+
+.nueva-cita__alternativas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.nueva-cita__alternativas button {
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-campo);
+  background: var(--superficie);
+  box-shadow: var(--sombra-1);
+  font: inherit;
+  cursor: pointer;
+}
+
+.nueva-cita__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.nueva-cita__acciones > span {
+  margin-right: auto;
+}
