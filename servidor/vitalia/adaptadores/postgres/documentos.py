@@ -1,7 +1,7 @@
 """Documentos del paciente, sus páginas leídas y la cola del lector en PostgreSQL."""
 
 from collections.abc import Sequence
-from typing import Any, cast
+from typing import Any, Literal, cast
 from uuid import UUID
 
 from sqlalchemy import text
@@ -154,6 +154,24 @@ class DocumentosPostgres:
                 for p in paginas
             ],
         )
+
+    async def paginas(self, documento_id: UUID) -> list[PaginaLeida]:
+        filas = await self._conexion.execute(
+            text(
+                "SELECT numero, texto, origen, legibilidad FROM paginas_documento "
+                "WHERE documento_id = :d ORDER BY numero"
+            ),
+            {"d": documento_id},
+        )
+        return [
+            PaginaLeida(
+                f.numero,
+                f.texto,
+                cast(Literal["pdf", "reconocido"], f.origen),
+                f.legibilidad if f.legibilidad is not None else 1.0,
+            )
+            for f in filas
+        ]
 
     async def marcar(
         self, documento_id: UUID, estado: EstadoDeLectura, paginas: int | None = None

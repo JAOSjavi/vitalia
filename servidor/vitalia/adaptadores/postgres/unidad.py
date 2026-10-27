@@ -12,6 +12,7 @@ from vitalia.adaptadores.postgres.agenda import AgendaPostgres
 from vitalia.adaptadores.postgres.consultorios import ConsultoriosPostgres
 from vitalia.adaptadores.postgres.cuentas import CuentasPostgres
 from vitalia.adaptadores.postgres.documentos import DocumentosPostgres
+from vitalia.adaptadores.postgres.fragmentos import FragmentosPostgres
 from vitalia.adaptadores.postgres.pacientes import PacientesPostgres
 from vitalia.dominio.identidad import Identidad
 from vitalia.dominio.permisos import MatrizDePermisos
@@ -67,6 +68,7 @@ class TrabajoPostgres:
         self.agenda = AgendaPostgres(conexion)
         self.pacientes = PacientesPostgres(conexion)
         self.documentos = DocumentosPostgres(conexion)
+        self.fragmentos = FragmentosPostgres(conexion)
 
 
 class UnidadPostgres:

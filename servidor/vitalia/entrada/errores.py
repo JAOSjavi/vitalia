@@ -26,6 +26,7 @@ from vitalia.dominio.cuentas import (
 )
 from vitalia.dominio.documentos import DocumentoRepetido
 from vitalia.dominio.errores import NoEncontrado
+from vitalia.dominio.fragmentos import IANoAutorizada
 from vitalia.dominio.ingreso import CredencialesInvalidas, IngresoBloqueado
 from vitalia.dominio.permisos import AccesoDenegado
 from vitalia.entrada.sesion import SinSesion
@@ -87,6 +88,11 @@ _FIJOS: dict[type[Exception], tuple[int, str, str]] = {
         "Ya tiene una cita futura de este tipo. Confirme si quiere agendar otra.",
     ),
     CitaNoModificable: (409, "cita_no_modificable", "Esta cita ya no se puede mover ni cancelar."),
+    IANoAutorizada: (
+        409,
+        "ia_no_autorizada",
+        "El paciente no ha autorizado el uso de inteligencia artificial con sus datos.",
+    ),
 }
 
 

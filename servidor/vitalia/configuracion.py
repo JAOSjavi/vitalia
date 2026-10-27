@@ -19,6 +19,11 @@ class Configuracion:
     carpeta_de_archivos: Path = _CARPETA_DE_ARCHIVOS
     # Las pruebas lo apagan y llaman al lector cuando lo necesitan.
     lector_en_segundo_plano: bool = True
+    # Proveedor de IA. Sin dirección o sin clave, los vectores salen de las palabras.
+    ia_direccion: str | None = None
+    ia_clave: str | None = None
+    ia_modelo_vectores: str = "qwen3.7-text-embedding"
+    ia_dimensiones: int = 1024
 
 
 def leer() -> Configuracion:
@@ -29,6 +34,10 @@ def leer() -> Configuracion:
         sesion_secreto=_obligatoria("SESION_SECRETO"),
         sitio_url=os.environ.get("SITIO_URL") or Configuracion.sitio_url,
         carpeta_de_archivos=Path(carpeta) if carpeta else _CARPETA_DE_ARCHIVOS,
+        ia_direccion=os.environ.get("IA_DIRECCION") or None,
+        ia_clave=os.environ.get("IA_CLAVE") or None,
+        ia_modelo_vectores=os.environ.get("IA_MODELO_VECTORES") or Configuracion.ia_modelo_vectores,
+        ia_dimensiones=int(os.environ.get("IA_DIMENSIONES") or Configuracion.ia_dimensiones),
     )
 
 

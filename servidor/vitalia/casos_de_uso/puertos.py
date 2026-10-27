@@ -15,6 +15,7 @@ from vitalia.dominio.documentos import (
     Formato,
     TipoDeDocumento,
 )
+from vitalia.dominio.fragmentos import Identificadores
 from vitalia.dominio.identidad import Identidad, Rol
 from vitalia.dominio.ingreso import Intentos
 from vitalia.dominio.permisos import MatrizDePermisos
@@ -338,9 +339,69 @@ class Documentos(Protocol):
 
     async def guardar_paginas(self, documento_id: UUID, paginas: Sequence[PaginaLeida]) -> None: ...
 
+    async def paginas(self, documento_id: UUID) -> list[PaginaLeida]: ...
+
     async def marcar(
         self, documento_id: UUID, estado: EstadoDeLectura, paginas: int | None = None
     ) -> None: ...
+
+
+@dataclass(frozen=True)
+class FragmentoNuevo:
+    pagina: int
+    orden: int
+    texto: str
+    vector: Sequence[float]
+
+
+@dataclass(frozen=True)
+class FragmentoEncontrado:
+    id: UUID
+    documento_id: UUID
+    documento: str
+    fecha_documento: date
+    pagina: int
+    texto: str
+    puntaje: float
+    # Puesto en cada búsqueda; None si esa búsqueda no lo trajo.
+    rango_significado: int | None
+    rango_palabras: int | None
+
+
+class Fragmentos(Protocol):
+    """Lo que busca el asistente. Siempre de un solo paciente."""
+
+    async def identificadores(self, paciente_id: UUID) -> Identificadores:
+        """Lo que hay que tapar antes de enviar texto del paciente al proveedor."""
+        ...
+
+    async def reemplazar_del_documento(
+        self, documento_id: UUID, fragmentos: Sequence[FragmentoNuevo], modelo: str
+    ) -> None:
+        """Borra los que tenga el documento y guarda estos: indexar dos veces da lo mismo."""
+        ...
+
+    async def buscar(
+        self,
+        paciente_id: UUID,
+        vector: Sequence[float],
+        consulta: str,
+        por_metodo: int,
+        total: int,
+    ) -> list[FragmentoEncontrado]:
+        """Por significado y por palabras, combinadas, del más al menos parecido."""
+        ...
+
+
+class Vectorizador(Protocol):
+    """Convierte textos en vectores: números que representan lo que significan."""
+
+    @property
+    def modelo(self) -> str: ...
+
+    async def vectorizar(self, textos: Sequence[str]) -> list[list[float]]:
+        """Un vector por texto, en el mismo orden."""
+        ...
 
 
 class Archivos(Protocol):
@@ -390,6 +451,9 @@ class Trabajo(Protocol):
 
     @property
     def documentos(self) -> Documentos: ...
+
+    @property
+    def fragmentos(self) -> Fragmentos: ...
 
 
 class UnidadDeTrabajo(Protocol):

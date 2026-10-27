@@ -3,6 +3,7 @@
 from dataclasses import dataclass
 
 from vitalia.casos_de_uso.agendar_cita import AgendarCita
+from vitalia.casos_de_uso.buscar_fragmentos import BuscarFragmentos
 from vitalia.casos_de_uso.buscar_pacientes import BuscarPacientes
 from vitalia.casos_de_uso.cancelar_cita import CancelarCita
 from vitalia.casos_de_uso.cerrar_sesion import CerrarSesion
@@ -52,6 +53,7 @@ class CasosDeUso:
     buscar_pacientes: BuscarPacientes
     subir_documento: SubirDocumento
     ver_mis_documentos: VerMisDocumentos
+    buscar_fragmentos: BuscarFragmentos
 
 
 @dataclass(frozen=True)

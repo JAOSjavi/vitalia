@@ -6,6 +6,7 @@ Enlace de puesta en marcha: uv run python -m vitalia.principal puesta-en-marcha
 
 import argparse
 import asyncio
+import logging
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager, suppress
 
@@ -13,12 +14,15 @@ from fastapi import FastAPI
 
 from vitalia.adaptadores.archivos_en_disco import ArchivosEnDisco
 from vitalia.adaptadores.contrasenas import ContrasenasArgon2
+from vitalia.adaptadores.ia.de_mentira import VectoresDeMentira
+from vitalia.adaptadores.ia.qwen import VectoresQwen
 from vitalia.adaptadores.pdf import LectorPdfium
 from vitalia.adaptadores.postgres.conexion import BasePostgres, crear_motor
 from vitalia.adaptadores.postgres.unidad import UnidadPostgres
 from vitalia.adaptadores.reloj import RelojDelSistema
 from vitalia.casos_de_uso.agendar_cita import AgendarCita
 from vitalia.casos_de_uso.autorizar import Autorizador
+from vitalia.casos_de_uso.buscar_fragmentos import BuscarFragmentos
 from vitalia.casos_de_uso.buscar_pacientes import BuscarPacientes
 from vitalia.casos_de_uso.cancelar_cita import CancelarCita
 from vitalia.casos_de_uso.cerrar_sesion import CerrarSesion
@@ -26,12 +30,13 @@ from vitalia.casos_de_uso.consultar_disponibilidad import ConsultarDisponibilida
 from vitalia.casos_de_uso.crear_enlace_de_puesta_en_marcha import CrearEnlaceDePuestaEnMarcha
 from vitalia.casos_de_uso.editar_consultorio import EditarConsultorio
 from vitalia.casos_de_uso.guardar_horario import GuardarHorario
+from vitalia.casos_de_uso.indexar_documentos import IndexarDocumentos
 from vitalia.casos_de_uso.ingresar import Ingresar
 from vitalia.casos_de_uso.leer_documentos import LeerDocumentos
 from vitalia.casos_de_uso.listar_citas import ListarCitas
 from vitalia.casos_de_uso.mover_cita import MoverCita
 from vitalia.casos_de_uso.poner_en_marcha import PonerEnMarcha
-from vitalia.casos_de_uso.puertos import ProveedorIA, Reloj
+from vitalia.casos_de_uso.puertos import ProveedorIA, Reloj, Vectorizador
 from vitalia.casos_de_uso.registrar_paciente import RegistrarPaciente
 from vitalia.casos_de_uso.revisar_salud import RevisarSalud
 from vitalia.casos_de_uso.subir_documento import SubirDocumento
@@ -48,6 +53,8 @@ from vitalia.configuracion import Configuracion, leer
 from vitalia.entrada.api import crear_api
 from vitalia.entrada.casos import Ajustes, CasosDeUso
 from vitalia.entrada.lector import leer_en_segundo_plano
+
+_registro = logging.getLogger(__name__)
 
 
 def armar(
@@ -66,6 +73,8 @@ def armar(
     autorizador = Autorizador(unidad)
     archivos = ArchivosEnDisco(configuracion.carpeta_de_archivos)
     lector = LeerDocumentos(unidad, archivos, LectorPdfium(), ia)
+    vectores = _vectores(configuracion)
+    indexador = IndexarDocumentos(unidad, vectores)
 
     casos = CasosDeUso(
         revisar_salud=RevisarSalud(BasePostgres(motor)),
@@ -91,17 +100,19 @@ def armar(
         buscar_pacientes=BuscarPacientes(unidad, autorizador),
         subir_documento=SubirDocumento(unidad, autorizador, archivos, reloj),
         ver_mis_documentos=VerMisDocumentos(unidad, autorizador),
+        buscar_fragmentos=BuscarFragmentos(unidad, autorizador, vectores),
     )
 
     @asynccontextmanager
     async def ciclo_de_vida(_: FastAPI) -> AsyncIterator[None]:
         en_segundo_plano = None
         if configuracion.lector_en_segundo_plano:
-            en_segundo_plano = asyncio.create_task(leer_en_segundo_plano(lector))
+            en_segundo_plano = asyncio.create_task(leer_en_segundo_plano(lector, indexador))
         yield
         if en_segundo_plano is not None:
             en_segundo_plano.cancel()
-            with suppress(asyncio.CancelledError):
+            # Al cancelarlo puede terminar con un error de la base a medio conectar.
+            with suppress(asyncio.CancelledError, Exception):
                 await en_segundo_plano
         await motor.dispose()
 
@@ -109,7 +120,22 @@ def armar(
     api = crear_api(casos, ajustes, ciclo_de_vida)
     # Las pruebas llaman al lector cuando lo necesitan, en vez de esperar al de segundo plano.
     api.state.lector = lector
+    api.state.indexador = indexador
     return api
+
+
+def _vectores(configuracion: Configuracion) -> Vectorizador:
+    if configuracion.ia_direccion and configuracion.ia_clave:
+        return VectoresQwen(
+            configuracion.ia_direccion,
+            configuracion.ia_clave,
+            configuracion.ia_modelo_vectores,
+            configuracion.ia_dimensiones,
+        )
+    _registro.warning(
+        "Sin IA_DIRECCION o IA_CLAVE: los vectores salen de las palabras, no de un modelo"
+    )
+    return VectoresDeMentira(configuracion.ia_dimensiones)
 
 
 def crear() -> FastAPI:
