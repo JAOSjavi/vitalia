@@ -7,6 +7,7 @@ import { BotonSalir } from "../comunes/BotonSalir";
 import { Marca } from "../comunes/piezas/Marca";
 import { Configuracion } from "./Configuracion";
 import { DatosDelConsultorio } from "./DatosDelConsultorio";
+import { Ficha } from "./Ficha";
 import { Hoy } from "./Hoy";
 import { NuevaCita } from "./NuevaCita";
 import { Pacientes } from "./Pacientes";
@@ -42,6 +43,7 @@ export default function ZonaMedico() {
         <Route index element={<Navigate to="hoy" replace />} />
         <Route path="hoy" element={<Hoy />} />
         <Route path="pacientes" element={<Pacientes />} />
+        <Route path="pacientes/:paciente" element={<Ficha />} />
         <Route path="citas/nueva" element={<NuevaCita />} />
         <Route path="citas/:cita/mover" element={<NuevaCita />} />
         <Route path="configuracion" element={<Configuracion />} />

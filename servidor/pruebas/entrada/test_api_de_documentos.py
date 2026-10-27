@@ -60,7 +60,7 @@ async def test_sube_un_pdf_y_queda_en_proceso_en_la_lista(nuevo_paciente: NuevoP
     assert documento["nombre"] == "Control de presión"
     assert documento["formato"] == "pdf"
     assert documento["estado_lectura"] == "en_proceso"
-    lista = (await rosa.get("/api/v1/documentos")).json()
+    lista = (await rosa.get("/api/v1/documentos")).json()["documentos"]
     assert [d["id"] for d in lista] == [documento["id"]]
 
 
@@ -72,7 +72,7 @@ async def test_el_lector_guarda_el_texto_pagina_por_pagina(
 
     await lector(api).leer_pendientes()
 
-    leido = (await rosa.get("/api/v1/documentos")).json()[0]
+    leido = (await rosa.get("/api/v1/documentos")).json()["documentos"][0]
     assert leido["estado_lectura"] == "legible"
     assert leido["paginas"] == 2
     paginas = await como_sistema(
@@ -114,7 +114,7 @@ async def test_el_mismo_archivo_dos_veces_no_deja_copias(nuevo_paciente: NuevoPa
     assert repetido.status_code == 409
     assert repetido.json()["codigo"] == "documento_repetido"
     assert repetido.json()["detalle"] == {"documento_id": primero["id"]}
-    assert len((await rosa.get("/api/v1/documentos")).json()) == 1
+    assert len((await rosa.get("/api/v1/documentos")).json()["documentos"]) == 1
 
 
 async def test_otro_paciente_puede_subir_el_mismo_archivo(nuevo_paciente: NuevoPaciente) -> None:
@@ -125,7 +125,7 @@ async def test_otro_paciente_puede_subir_el_mismo_archivo(nuevo_paciente: NuevoP
     respuesta = await subir(luis, HISTORIA)
 
     assert respuesta.status_code == 201
-    assert len((await luis.get("/api/v1/documentos")).json()) == 1
+    assert len((await luis.get("/api/v1/documentos")).json()["documentos"]) == 1
 
 
 @pytest.mark.parametrize(
@@ -148,7 +148,7 @@ async def test_rechaza_el_archivo_y_dice_por_que(
 
     assert respuesta.status_code == 400, respuesta.text
     assert campo in respuesta.json()["detalle"]
-    assert (await rosa.get("/api/v1/documentos")).json() == []
+    assert (await rosa.get("/api/v1/documentos")).json()["documentos"] == []
 
 
 async def test_el_medico_no_sube_documentos(ingresar_doctora: IngresarDoctora) -> None:
@@ -164,7 +164,7 @@ async def test_cada_paciente_ve_solo_sus_documentos(nuevo_paciente: NuevoPacient
     luis = await nuevo_paciente("Luis", "Pardo")
     await subir(rosa, HISTORIA)
 
-    assert (await luis.get("/api/v1/documentos")).json() == []
+    assert (await luis.get("/api/v1/documentos")).json()["documentos"] == []
 
 
 async def test_un_pdf_danado_queda_no_legible_tras_los_reintentos(
@@ -175,7 +175,9 @@ async def test_un_pdf_danado_queda_no_legible_tras_los_reintentos(
 
     await lector(api).leer_pendientes()
 
-    assert (await rosa.get("/api/v1/documentos")).json()[0]["estado_lectura"] == "no_legible"
+    assert (await rosa.get("/api/v1/documentos")).json()["documentos"][0][
+        "estado_lectura"
+    ] == "no_legible"
 
 
 class IAEspia:
@@ -217,7 +219,9 @@ async def test_un_escaneado_sin_autorizacion_no_sale_hacia_la_ia(
     await lector_con_ia.leer_pendientes()
 
     assert espia.imagenes == []
-    estados = {d["estado_lectura"] for d in (await rosa.get("/api/v1/documentos")).json()}
+    estados = {
+        d["estado_lectura"] for d in (await rosa.get("/api/v1/documentos")).json()["documentos"]
+    }
     assert estados == {"sin_leer"}
 
 
@@ -234,7 +238,7 @@ async def test_un_escaneado_con_autorizacion_se_reconoce_pagina_por_pagina(
 
     assert len(espia.imagenes) == 2
     assert all(imagen.startswith(b"\x89PNG") for imagen in espia.imagenes)
-    leido = (await gloria.get("/api/v1/documentos")).json()[0]
+    leido = (await gloria.get("/api/v1/documentos")).json()["documentos"][0]
     assert (leido["estado_lectura"], leido["paginas"]) == ("legible", 2)
     paginas = await como_sistema(
         unidad,
@@ -252,4 +256,121 @@ async def test_sin_modelo_configurado_el_escaneado_queda_sin_leer(
 
     await lector(api).leer_pendientes()  # el de la API no tiene proveedor de IA
 
-    assert (await gloria.get("/api/v1/documentos")).json()[0]["estado_lectura"] == "sin_leer"
+    assert (await gloria.get("/api/v1/documentos")).json()["documentos"][0][
+        "estado_lectura"
+    ] == "sin_leer"
+
+
+async def test_mis_documentos_dice_si_autorizo_la_ia(nuevo_paciente: NuevoPaciente) -> None:
+    con_ia = await nuevo_paciente(ia=True)
+    sin_ia = await nuevo_paciente("Luis", "Pardo", ia=False)
+
+    assert (await con_ia.get("/api/v1/documentos")).json()["ia_autorizada"] is True
+    assert (await sin_ia.get("/api/v1/documentos")).json()["ia_autorizada"] is False
+
+
+async def id_del_paciente(doctora: httpx.AsyncClient, apellido: str) -> str:
+    encontrados = (await doctora.get(f"/api/v1/pacientes?buscar={apellido}")).json()
+    paciente: str = encontrados["pacientes"][0]["id"]
+    return paciente
+
+
+async def test_la_medica_ve_la_ficha_con_sus_documentos(
+    unidad: UnidadPostgres, nuevo_paciente: NuevoPaciente, ingresar_doctora: IngresarDoctora
+) -> None:
+    rosa = await nuevo_paciente("Rosa Elena", "Fichaprueba", ia=True)
+    documento = (await subir(rosa, HISTORIA)).json()
+    doctora = await ingresar_doctora()
+    paciente = await id_del_paciente(doctora, "Fichaprueba")
+
+    respuesta = await doctora.get(f"/api/v1/pacientes/{paciente}")
+
+    assert respuesta.status_code == 200, respuesta.text
+    ficha = respuesta.json()
+    assert ficha["paciente"]["apellidos"] == "Fichaprueba"
+    assert ficha["paciente"]["fecha_nacimiento"] == "1958-03-02"
+    assert ficha["ia_autorizada"] is True
+    assert [d["id"] for d in ficha["documentos"]] == [documento["id"]]
+    assert ficha["citas"] == []
+    # Abrir la ficha queda en la bitácora, que solo lee el médico (HU-025, CA-4).
+    async with unidad.abrir(SISTEMA) as trabajo:
+        await trabajo.conexion.execute(
+            text("SELECT set_config('vitalia.identidad', 'medico', true)")
+        )
+        vistas = await trabajo.conexion.scalar(
+            text("SELECT count(*) FROM bitacora WHERE accion = 'ficha_vista' AND paciente_id = :p"),
+            {"p": UUID(paciente)},
+        )
+    assert vistas == 1
+
+
+async def test_la_ficha_no_es_para_el_paciente_ni_de_alguien_que_no_existe(
+    nuevo_paciente: NuevoPaciente, ingresar_doctora: IngresarDoctora
+) -> None:
+    rosa = await nuevo_paciente("Rosa Elena", "Otraficha")
+    doctora = await ingresar_doctora()
+    paciente = await id_del_paciente(doctora, "Otraficha")
+
+    assert (await rosa.get(f"/api/v1/pacientes/{paciente}")).status_code == 403
+    no_existe = await doctora.get("/api/v1/pacientes/00000000-0000-7000-8000-000000000000")
+    assert no_existe.status_code == 404
+
+
+async def test_el_paciente_y_la_medica_abren_el_archivo(
+    nuevo_paciente: NuevoPaciente, ingresar_doctora: IngresarDoctora
+) -> None:
+    rosa = await nuevo_paciente()
+    luis = await nuevo_paciente("Luis", "Pardo")
+    documento = (await subir(rosa, HISTORIA)).json()["id"]
+    doctora = await ingresar_doctora()
+
+    propio = await rosa.get(f"/api/v1/documentos/{documento}/archivo")
+    de_la_medica = await doctora.get(f"/api/v1/documentos/{documento}/archivo")
+    ajeno = await luis.get(f"/api/v1/documentos/{documento}/archivo")
+
+    assert propio.status_code == 200
+    assert propio.content == HISTORIA
+    assert propio.headers["content-type"] == "application/pdf"
+    assert propio.headers["content-disposition"].startswith("inline;")
+    assert de_la_medica.content == HISTORIA
+    assert ajeno.status_code == 404  # no se distingue de uno que no existe
+
+
+async def test_eliminar_borra_el_documento_sus_fragmentos_y_su_archivo(
+    api: FastAPI,
+    unidad: UnidadPostgres,
+    carpeta_de_archivos: Path,
+    nuevo_paciente: NuevoPaciente,
+) -> None:
+    rosa = await nuevo_paciente(ia=True)
+    documento = UUID((await subir(rosa, HISTORIA)).json()["id"])
+    await lector(api).leer_pendientes()
+    await api.state.indexador.indexar_pendientes()
+    [fila] = await como_sistema(
+        unidad, "SELECT clave_archivo FROM documentos WHERE id = :d", d=documento
+    )
+    assert (carpeta_de_archivos / fila.clave_archivo).exists()
+
+    respuesta = await rosa.delete(f"/api/v1/documentos/{documento}")
+
+    assert respuesta.status_code == 204
+    assert (await rosa.get("/api/v1/documentos")).json()["documentos"] == []
+    for tabla, columna in (("paginas_documento", "documento_id"), ("fragmentos", "documento_id")):
+        assert (
+            await como_sistema(unidad, f"SELECT 1 FROM {tabla} WHERE {columna} = :d", d=documento)
+            == []
+        )
+    assert not (carpeta_de_archivos / fila.clave_archivo).exists()
+
+
+async def test_nadie_elimina_lo_que_no_es_suyo(
+    nuevo_paciente: NuevoPaciente, ingresar_doctora: IngresarDoctora
+) -> None:
+    rosa = await nuevo_paciente()
+    luis = await nuevo_paciente("Luis", "Pardo")
+    documento = (await subir(rosa, HISTORIA)).json()["id"]
+    doctora = await ingresar_doctora()
+
+    assert (await luis.delete(f"/api/v1/documentos/{documento}")).status_code == 404
+    assert (await doctora.delete(f"/api/v1/documentos/{documento}")).status_code == 403
+    assert len((await rosa.get("/api/v1/documentos")).json()["documentos"]) == 1

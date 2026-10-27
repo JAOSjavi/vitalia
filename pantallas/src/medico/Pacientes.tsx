@@ -63,7 +63,9 @@ export function Pacientes() {
             return (
               <div key={paciente.id} className="pacientes__fila">
                 <div className="pacientes__datos">
-                  <span className="pacientes__nombre">{nombre}</span>
+                  <Link to={`/medico/pacientes/${paciente.id}`} className="pacientes__nombre">
+                    {nombre}
+                  </Link>
                   <span className="texto-suave">
                     <span className="pacientes__dato">
                       {paciente.tipo_documento} {paciente.numero_documento}

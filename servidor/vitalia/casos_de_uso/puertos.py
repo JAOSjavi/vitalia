@@ -257,6 +257,18 @@ class PacienteEnLista:
     telefono: str
 
 
+@dataclass(frozen=True)
+class DatosDeLaFicha:
+    id: UUID
+    nombres: str
+    apellidos: str
+    documento: Documento
+    fecha_nacimiento: date
+    telefono: str
+    correo: str | None
+    activo: bool
+
+
 class Pacientes(Protocol):
     async def buscar(
         self, texto: str | None, pagina: int, tamano: int
@@ -265,6 +277,8 @@ class Pacientes(Protocol):
         ...
 
     async def existe(self, paciente_id: UUID) -> bool: ...
+
+    async def ficha(self, paciente_id: UUID) -> DatosDeLaFicha | None: ...
 
 
 @dataclass(frozen=True)
@@ -284,6 +298,15 @@ class DocumentoSubido:
 class DocumentoPorLeer:
     id: UUID
     paciente_id: UUID
+    formato: Formato
+    clave_archivo: str
+
+
+@dataclass(frozen=True)
+class DocumentoParaAbrir:
+    id: UUID
+    paciente_id: UUID
+    nombre: str
     formato: Formato
     clave_archivo: str
 
@@ -321,7 +344,19 @@ class Documentos(Protocol):
         """Los del paciente de la sesión, del más reciente al más antiguo."""
         ...
 
+    async def listar_de(self, paciente_id: UUID) -> list[DocumentoSubido]:
+        """Los de un paciente, para el médico. Del más reciente al más antiguo."""
+        ...
+
     async def encolar(self, documento_id: UUID, tipo: TipoDeTrabajo) -> None: ...
+
+    async def para_abrir(self, documento_id: UUID) -> DocumentoParaAbrir | None:
+        """None si no existe o si quien pregunta no lo puede ver: no se distingue."""
+        ...
+
+    async def eliminar(self, documento_id: UUID) -> str | None:
+        """Lo borra con sus páginas y fragmentos y devuelve la clave de su archivo."""
+        ...
 
     # Lo que sigue lo usa el lector, con la identidad sistema.
 

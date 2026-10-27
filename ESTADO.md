@@ -17,7 +17,7 @@ Lo que cubre el alcance: cuentas, calendario de disponibilidad, citas de ambos l
 |---|---|---|
 | **1. Planificación** | Hecha | Alcance, requisitos, marco normativo, 46 historias en 9 épicas con 212 criterios, 110 tareas y 200 puntos |
 | **2. Diseño** | Cerrada en documentos | Arquitectura limpia, modelo de datos con permisos por fila, API, asistente, pantallas, diagramas, base visual, herramientas y entrega |
-| **3. Desarrollo** | **En curso** | Bloques 1 (registro e ingreso) y 2 (citas) construidos, probados contra PostgreSQL 18 en Docker y unidos a `master`. Bloque 3 en curso: subir, leer, indexar con Qwen, buscar y preguntar al asistente ya funcionan en el servidor; las respuestas con Qwen esperan la verificación de la cuenta en Alibaba. Siguen el resumen y las pantallas. Falta crear los servicios en la nube y correrlo contra Render. Ver la sección 4 y [estado_desarrollo.md](estado_desarrollo.md) |
+| **3. Desarrollo** | **En curso** | Bloques 1 (registro e ingreso) y 2 (citas) construidos, probados contra PostgreSQL 18 en Docker y unidos a `master`. Bloque 3 en curso: subir, leer, indexar con Qwen, buscar y preguntar al asistente ya funcionan en el servidor; las respuestas con Qwen esperan la verificación de la cuenta en Alibaba. Ya tienen pantalla, según el lienzo: Mis documentos del paciente (subir, ver y eliminar) y la ficha del médico con el asistente. Siguen el resumen, los tratamientos y el enlace firmado con R2. Falta crear los servicios en la nube y correrlo contra Render. Ver la sección 4 y [estado_desarrollo.md](estado_desarrollo.md) |
 | **4. Pruebas** | Sin iniciar | — |
 | **5. Despliegue** | Sin iniciar | — |
 

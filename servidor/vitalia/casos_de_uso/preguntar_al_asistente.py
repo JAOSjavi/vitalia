@@ -34,6 +34,7 @@ from vitalia.dominio.asistente import (
     TopeDeConsultas,
     armar_contexto,
     comprobar_origenes,
+    etiquetas_por_orden_de_subida,
     lo_consultado,
 )
 from vitalia.dominio.cuentas import DatosInvalidos
@@ -115,6 +116,7 @@ class PreguntarAlAsistente:
                 if caracteres <= self._limites.tope_contexto
                 else None
             )
+            documentos = await trabajo.documentos.listar_de(paciente_id)
 
         turnos = _limpios(conversacion, paciente)
         limpia = retirar_identificadores(pregunta, paciente)
@@ -123,7 +125,10 @@ class PreguntarAlAsistente:
         else:
             encontrados = todos
 
-        contexto = armar_contexto([_para_contexto(f) for f in encontrados])
+        contexto = armar_contexto(
+            [_para_contexto(f) for f in encontrados],
+            etiquetas_por_orden_de_subida([d.id for d in documentos]),
+        )
         async with self._unidad.abrir(identidad) as trabajo:
             # Quién preguntó, sobre quién y cuándo. Nunca la pregunta ni la respuesta.
             await trabajo.bitacora.registrar(

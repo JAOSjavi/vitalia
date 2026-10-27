@@ -31,9 +31,16 @@
 }
 
 .pacientes__nombre {
+  color: var(--tinta);
   font-size: 15.5px;
   line-height: 22px;
   font-weight: 700;
+  text-decoration: none;
+}
+
+.pacientes__nombre:hover {
+  color: var(--acento);
+  text-decoration: underline;
 }
 
 .pacientes__dato {

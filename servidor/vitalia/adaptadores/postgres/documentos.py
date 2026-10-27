@@ -9,6 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncConnection
 
 from vitalia.adaptadores.postgres.errores import traducir_errores
 from vitalia.casos_de_uso.puertos import (
+    DocumentoParaAbrir,
     DocumentoPorLeer,
     DocumentoSubido,
     PaginaLeida,
@@ -77,11 +78,44 @@ class DocumentosPostgres:
         )
         return [_documento(f) for f in filas]
 
+    async def listar_de(self, paciente_id: UUID) -> list[DocumentoSubido]:
+        filas = await self._conexion.execute(
+            text(
+                f"SELECT {_COLUMNAS} FROM documentos WHERE paciente_id = :p "
+                "ORDER BY fecha_documento DESC, subido_en DESC"
+            ),
+            {"p": paciente_id},
+        )
+        return [_documento(f) for f in filas]
+
     async def encolar(self, documento_id: UUID, tipo: TipoDeTrabajo) -> None:
         await self._conexion.execute(
             text("INSERT INTO trabajos_lectura (tipo, documento_id) VALUES (:tipo, :documento)"),
             {"tipo": tipo, "documento": documento_id},
         )
+
+    async def para_abrir(self, documento_id: UUID) -> DocumentoParaAbrir | None:
+        fila = (
+            await self._conexion.execute(
+                text(
+                    "SELECT id, paciente_id, nombre, formato, clave_archivo FROM documentos "
+                    "WHERE id = :id"
+                ),
+                {"id": documento_id},
+            )
+        ).one_or_none()
+        if fila is None:
+            return None
+        return DocumentoParaAbrir(
+            fila.id, fila.paciente_id, fila.nombre, cast(Formato, fila.formato), fila.clave_archivo
+        )
+
+    async def eliminar(self, documento_id: UUID) -> str | None:
+        clave: str | None = await self._conexion.scalar(
+            text("DELETE FROM documentos WHERE id = :id RETURNING clave_archivo"),
+            {"id": documento_id},
+        )
+        return clave
 
     async def tomar_trabajo(self, tipo: TipoDeTrabajo) -> TrabajoDeLectura | None:
         # SKIP LOCKED: si hay otro lector, cada uno toma un trabajo distinto sin esperar.

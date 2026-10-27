@@ -82,3 +82,8 @@ export function cuandoCorto(momento: string, ahora = new Date()) {
   const largo = cuando(momento, ahora);
   return largo === "Hoy" || largo === "Mañana" ? largo : fechaCorta(momento);
 }
+
+/** Un día "2026-08-20" como en el lienzo: "20 ago 2026". */
+export function diaCorto(dia: string) {
+  return fechaConAnio(deDia(dia)).replace(/ de /g, " ");
+}

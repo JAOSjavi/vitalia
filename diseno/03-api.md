@@ -117,7 +117,7 @@ El botón de cobro (HU-026) no tiene operación en la API. Al registrar un pacie
 | Operación | Ruta | Rol | Historia |
 |---|---|---|---|
 | Subir un documento | `POST /documentos` | P | HU-028 |
-| Listar mis documentos | `GET /documentos` | P | HU-029 |
+| Listar mis documentos, con si autoricé la IA | `GET /documentos` | P | HU-029 |
 | Listar los documentos de un paciente | `GET /pacientes/{id}/documentos` | M | HU-025, HU-030 |
 | Pedir el enlace temporal para abrir un documento | `POST /documentos/{id}/enlace` | P, M | HU-027, HU-029, HU-030 |
 | Eliminar un documento | `DELETE /documentos/{id}` | P | HU-029 |

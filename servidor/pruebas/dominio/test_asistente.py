@@ -7,6 +7,7 @@ from vitalia.dominio.asistente import (
     FragmentoParaContexto,
     armar_contexto,
     comprobar_origenes,
+    etiquetas_por_orden_de_subida,
     extraer_citas,
     lo_consultado,
 )
@@ -89,3 +90,14 @@ def test_lo_consultado_lista_documentos_y_paginas() -> None:
         ("Control de febrero", (1, 3)),
         ("Control de mayo", (2,)),
     ]
+
+
+def test_las_etiquetas_siguen_el_orden_de_subida_y_no_el_de_la_busqueda() -> None:
+    primero, segundo = sorted([FEBRERO, MAYO])
+    etiquetas = etiquetas_por_orden_de_subida([segundo, primero])
+
+    contexto = armar_contexto([f for f in ENCONTRADOS if f.documento_id == segundo], etiquetas)
+
+    assert etiquetas == {primero: "D1", segundo: "D2"}
+    assert contexto.etiquetas == {"D2": segundo}
+    assert "=== D2 ·" in contexto.texto

@@ -1,0 +1,243 @@
+/* El panel del asistente del lienzo (Médico · Ficha del paciente). */
+
+.asistente {
+  display: flex;
+  flex: 1.4 1 480px;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-tarjeta);
+  background: var(--superficie);
+  box-shadow: var(--sombra-2);
+}
+
+.asistente__encabezado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 12px;
+}
+
+.asistente__encabezado h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 23px;
+  line-height: 28px;
+  font-weight: 600;
+}
+
+.asistente__icono {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--acento-oscuro);
+  color: var(--superficie);
+}
+
+.asistente__icono svg {
+  width: 20px;
+  height: 20px;
+}
+
+.asistente__preguntas {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.asistente__preguntas h3 {
+  font-family: var(--letra-titulo);
+  font-size: 19px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.asistente__pregunta {
+  align-self: flex-end;
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 16px 16px 4px 16px;
+  background: var(--acento);
+  color: var(--superficie);
+  font-size: 15px;
+  line-height: 21px;
+}
+
+.asistente__respuesta {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+  gap: 6px;
+  max-width: 92%;
+  padding: 12px 14px;
+  border-radius: 16px 16px 16px 4px;
+  background: var(--fondo);
+  font-size: 15px;
+  line-height: 21px;
+  white-space: pre-wrap;
+}
+
+.asistente__buscando,
+.asistente__consultado {
+  color: var(--tinta-suave);
+}
+
+.asistente__consultado {
+  font-size: 13.5px;
+  line-height: 19px;
+  white-space: normal;
+}
+
+.asistente__cita {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 26px;
+  margin-left: 2px;
+  padding: 0 8px;
+  border: 1px solid var(--acento);
+  border-radius: 8px;
+  background: var(--superficie);
+  color: var(--acento);
+  font-family: var(--letra-dato);
+  font-size: 12.5px;
+  line-height: 24px;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 1px 2px rgba(18, 28, 51, 0.1);
+  vertical-align: baseline;
+}
+
+a.asistente__cita:hover {
+  background: var(--acento-suave);
+  color: var(--acento-oscuro);
+}
+
+.asistente__cita--sin-verificar {
+  border-color: var(--linea-campo);
+  color: var(--tinta);
+}
+
+.asistente__cita--descartada {
+  border-color: var(--linea);
+  color: var(--tinta-suave);
+  text-decoration: line-through;
+  box-shadow: none;
+}
+
+.asistente__punto {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radio-completo);
+  background: var(--punto-ambar);
+}
+
+.asistente__sugerencias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.asistente__sugerencia {
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-completo);
+  background: var(--superficie);
+  color: var(--tinta);
+  font: inherit;
+  font-size: 14.5px;
+  box-shadow: var(--sombra-1);
+  cursor: pointer;
+}
+
+.asistente__sugerencia:hover:not(:disabled) {
+  border-color: var(--acento);
+  color: var(--acento-oscuro);
+}
+
+.asistente__sugerencia:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.asistente__caja {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 52px;
+  padding: 0 4px 0 16px;
+  border: 1.5px solid var(--linea);
+  border-radius: 14px;
+  background: var(--superficie);
+}
+
+.asistente__caja:focus-within {
+  border-color: var(--acento);
+  outline: 3px solid var(--acento-suave);
+}
+
+.asistente__entrada {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--tinta);
+  font: inherit;
+  font-size: 15.5px;
+}
+
+.asistente__enviar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 11px;
+  background: var(--acento);
+  color: var(--superficie);
+  box-shadow: var(--sombra-acento);
+  cursor: pointer;
+}
+
+.asistente__enviar:disabled {
+  box-shadow: none;
+  cursor: default;
+  opacity: 0.5;
+}
+
+.asistente__enviar svg {
+  width: 18px;
+  height: 18px;
+}
+
+.asistente__nota {
+  color: var(--tinta-suave);
+  font-size: 13.5px;
+  line-height: 19px;
+}
+
+.asistente__nota--con-icono {
+  display: flex;
+  gap: 8px;
+}
+
+.asistente__nota--con-icono svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 1px;
+}

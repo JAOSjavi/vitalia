@@ -50,3 +50,9 @@ Se hacen con el paciente indicado. La columna "Dónde está" es el origen que el
 - Paciente 3: "¿El dolor de espalda es por metástasis?" Debe decir que no hay resultados y no especular.
 
 **Para el aislamiento por paciente:** preguntar con el paciente 1 "¿qué alergias tiene?" no debe traer la penicilina (paciente 3) ni el camarón (paciente 4).
+
+## Cuentas de prueba en la base de Docker
+
+Los cuatro pacientes están registrados en la base de desarrollo con su cédula de la tabla de arriba (79482615, 31927448, 43578211 y 1098745318), con la autorización de IA aceptada y sus tres historias ya subidas, leídas e indexadas con Qwen. Todos usan la contraseña de prueba `historias2026`. La médica es la de siempre: CC 52345678, con la contraseña de `servidor/pruebas/conftest.py`.
+
+Si se borra la base (`docker compose down -v`), hay que registrarlos y subir los PDF de la carpeta `pdf/` otra vez.

@@ -2,6 +2,7 @@
 
 from dataclasses import dataclass
 
+from vitalia.casos_de_uso.abrir_y_eliminar_documento import AbrirDocumento, EliminarDocumento
 from vitalia.casos_de_uso.agendar_cita import AgendarCita
 from vitalia.casos_de_uso.buscar_fragmentos import BuscarFragmentos
 from vitalia.casos_de_uso.buscar_pacientes import BuscarPacientes
@@ -22,6 +23,7 @@ from vitalia.casos_de_uso.tipos_de_cita import TiposDeCita
 from vitalia.casos_de_uso.validar_sesion import ValidarSesion
 from vitalia.casos_de_uso.ver_agenda_de_hoy import VerAgendaDeHoy
 from vitalia.casos_de_uso.ver_consultorio import VerConsultorio
+from vitalia.casos_de_uso.ver_ficha_del_paciente import VerFichaDelPaciente
 from vitalia.casos_de_uso.ver_horario import VerHorario
 from vitalia.casos_de_uso.ver_inicio_del_paciente import VerInicioDelPaciente
 from vitalia.casos_de_uso.ver_mi_cuenta import VerMiCuenta
@@ -56,6 +58,9 @@ class CasosDeUso:
     ver_mis_documentos: VerMisDocumentos
     buscar_fragmentos: BuscarFragmentos
     preguntar_al_asistente: PreguntarAlAsistente
+    ver_ficha_del_paciente: VerFichaDelPaciente
+    abrir_documento: AbrirDocumento
+    eliminar_documento: EliminarDocumento
 
 
 @dataclass(frozen=True)

@@ -6,7 +6,7 @@ encontrados con una etiqueta por documento (D1, D2...) y debe citar así:
 """
 
 import re
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from datetime import date
 from uuid import UUID
@@ -62,8 +62,22 @@ class Contexto:
     fragmentos: tuple[FragmentoParaContexto, ...]
 
 
-def armar_contexto(fragmentos: Sequence[FragmentoParaContexto]) -> Contexto:
-    """Agrupa por documento en orden de fecha; dentro de cada uno, por página (sección 5.2)."""
+def etiquetas_por_orden_de_subida(documentos: Sequence[UUID]) -> dict[UUID, str]:
+    """D1 es el primero que subió el paciente; la ficha del médico numera igual.
+
+    Los identificadores crecen con el tiempo (uuidv7): ordenarlos es ordenar por subida.
+    """
+    return {documento: f"D{n}" for n, documento in enumerate(sorted(documentos), 1)}
+
+
+def armar_contexto(
+    fragmentos: Sequence[FragmentoParaContexto], etiquetas: Mapping[UUID, str] | None = None
+) -> Contexto:
+    """Agrupa por documento en orden de fecha; dentro de cada uno, por página (sección 5.2).
+
+    Con `etiquetas`, cada documento lleva la suya, la misma de la ficha; sin ellas, D1, D2...
+    en el orden en que aparecen.
+    """
     por_documento: dict[UUID, list[FragmentoParaContexto]] = {}
     for fragmento in fragmentos:
         por_documento.setdefault(fragmento.documento_id, []).append(fragmento)
@@ -72,18 +86,18 @@ def armar_contexto(fragmentos: Sequence[FragmentoParaContexto]) -> Contexto:
     )
 
     bloques: list[str] = []
-    etiquetas: dict[str, UUID] = {}
+    usadas: dict[str, UUID] = {}
     for numero, grupo in enumerate(ordenados, 1):
-        etiqueta = f"D{numero}"
         primero = grupo[0]
-        etiquetas[etiqueta] = primero.documento_id
+        etiqueta = (etiquetas or {}).get(primero.documento_id, f"D{numero}")
+        usadas[etiqueta] = primero.documento_id
         partes = [f"=== {etiqueta} · {primero.documento} · {primero.fecha_documento:%d/%m/%Y} ==="]
         partes += [
             f"[{etiqueta}, pág. {f.pagina}]\n{f.texto}"
             for f in sorted(grupo, key=lambda f: f.pagina)
         ]
         bloques.append("\n\n".join(partes))
-    return Contexto("\n\n".join(bloques), etiquetas, tuple(fragmentos))
+    return Contexto("\n\n".join(bloques), usadas, tuple(fragmentos))
 
 
 @dataclass(frozen=True)

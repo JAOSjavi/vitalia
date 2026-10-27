@@ -2,10 +2,11 @@ import "./ZonaPaciente.css";
 
 import { NavLink, Navigate, Route, Routes, useLocation } from "react-router";
 
-import { CalendarBlankIcon, HouseIcon } from "../comunes/iconos";
+import { CalendarBlankIcon, FileTextIcon, HouseIcon } from "../comunes/iconos";
 import { Agendar } from "./Agendar";
 import { Inicio } from "./Inicio";
 import { MisCitas } from "./MisCitas";
+import { MisDocumentos } from "./MisDocumentos";
 
 // Zona del paciente, pensada primero para celular.
 export default function ZonaPaciente() {
@@ -18,6 +19,7 @@ export default function ZonaPaciente() {
         <Route path="citas" element={<MisCitas />} />
         <Route path="agendar" element={<Agendar />} />
         <Route path="citas/:cita/mover" element={<Agendar />} />
+        <Route path="documentos" element={<MisDocumentos />} />
         <Route path="*" element={<Navigate to="/paciente" replace />} />
       </Routes>
       {!enUnFlujo && (
@@ -33,6 +35,12 @@ export default function ZonaPaciente() {
               <CalendarBlankIcon aria-hidden="true" />
             </span>
             Citas
+          </NavLink>
+          <NavLink to="/paciente/documentos" className="zona-paciente__seccion">
+            <span className="zona-paciente__icono-seccion">
+              <FileTextIcon aria-hidden="true" />
+            </span>
+            Documentos
           </NavLink>
         </nav>
       )}

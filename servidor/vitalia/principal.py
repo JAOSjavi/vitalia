@@ -20,6 +20,7 @@ from vitalia.adaptadores.pdf import LectorPdfium
 from vitalia.adaptadores.postgres.conexion import BasePostgres, crear_motor
 from vitalia.adaptadores.postgres.unidad import UnidadPostgres
 from vitalia.adaptadores.reloj import RelojDelSistema
+from vitalia.casos_de_uso.abrir_y_eliminar_documento import AbrirDocumento, EliminarDocumento
 from vitalia.casos_de_uso.agendar_cita import AgendarCita
 from vitalia.casos_de_uso.autorizar import Autorizador
 from vitalia.casos_de_uso.buscar_fragmentos import BuscarFragmentos
@@ -45,6 +46,7 @@ from vitalia.casos_de_uso.tipos_de_cita import TiposDeCita
 from vitalia.casos_de_uso.validar_sesion import ValidarSesion
 from vitalia.casos_de_uso.ver_agenda_de_hoy import VerAgendaDeHoy
 from vitalia.casos_de_uso.ver_consultorio import VerConsultorio
+from vitalia.casos_de_uso.ver_ficha_del_paciente import VerFichaDelPaciente
 from vitalia.casos_de_uso.ver_horario import VerHorario
 from vitalia.casos_de_uso.ver_inicio_del_paciente import VerInicioDelPaciente
 from vitalia.casos_de_uso.ver_mi_cuenta import VerMiCuenta
@@ -108,6 +110,9 @@ def armar(
         subir_documento=SubirDocumento(unidad, autorizador, archivos, reloj),
         ver_mis_documentos=VerMisDocumentos(unidad, autorizador),
         buscar_fragmentos=BuscarFragmentos(unidad, autorizador, vectores),
+        ver_ficha_del_paciente=VerFichaDelPaciente(unidad, autorizador),
+        abrir_documento=AbrirDocumento(unidad, autorizador, archivos),
+        eliminar_documento=EliminarDocumento(unidad, autorizador, archivos),
         preguntar_al_asistente=PreguntarAlAsistente(
             unidad, autorizador, vectores, ia or IADeMentira(), reloj, limites
         ),

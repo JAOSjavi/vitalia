@@ -27,13 +27,17 @@ export async function pedir<T>(ruta: string, opciones: RequestInit = {}): Promis
   const encabezados = new Headers(opciones.headers);
   // La API rechaza toda operación que modifica si no trae este encabezado.
   if ((opciones.method ?? "GET") !== "GET") encabezados.set("X-Vitalia", "1");
-  if (opciones.body) encabezados.set("Content-Type", "application/json");
+  // Un archivo va como formulario: el navegador pone su propio tipo, con el separador.
+  if (typeof opciones.body === "string") encabezados.set("Content-Type", "application/json");
 
-  const respuesta = await fetch(BASE + ruta, {
-    ...opciones,
-    headers: encabezados,
-    credentials: "include",
-  });
+  const respuesta = await llamar(ruta, { ...opciones, headers: encabezados });
+  if (respuesta.status === 204) return undefined as T;
+  return (await respuesta.json()) as T;
+}
+
+/** Hace la petición y convierte cualquier respuesta de error en un ErrorDeApi. */
+export async function llamar(ruta: string, opciones: RequestInit): Promise<Response> {
+  const respuesta = await fetch(BASE + ruta, { ...opciones, credentials: "include" });
   if (!respuesta.ok) {
     const error = await respuesta.json().catch(() => null);
     throw new ErrorDeApi(
@@ -43,8 +47,7 @@ export async function pedir<T>(ruta: string, opciones: RequestInit = {}): Promis
       error?.detalle,
     );
   }
-  if (respuesta.status === 204) return undefined as T;
-  return (await respuesta.json()) as T;
+  return respuesta;
 }
 
 export function enviar<T>(ruta: string, metodo: "POST" | "PUT" | "DELETE", cuerpo?: unknown) {
