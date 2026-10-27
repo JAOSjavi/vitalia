@@ -92,7 +92,7 @@ Una **decisión** la tomó el dueño del proyecto. Un **supuesto** lo puso quien
 | A-12 | Biblioteca para leer PDF | `pypdfium2` en lugar de PyMuPDF, cuya licencia obligaría a publicar el código | Propuesta de diseño |
 | A-13 | Pantallas que no están en el lienzo | No se dibujan antes: se arman con las piezas de la [base visual](../diseno/08-base-visual.md), siguiendo el prototipo | Propuesta de diseño, sobre D-18 |
 | A-14 | Biblioteca de iconos | Phosphor Icons, en un solo grosor | Propuesta de diseño que el dueño del proyecto confirmó (D-26) |
-| A-15 | Modelos de Qwen | `qwen3.7-plus` para las respuestas y `qwen3.5-ocr` para la lectura, en la región Singapur. Los que nombraba el diseño (`qwen-plus` y `qwen-vl-ocr`) son de la generación anterior. Se confirman con la primera llamada | Propuesta de diseño, sobre A-04 |
+| A-15 | Modelos de Qwen | `qwen3.7-plus` para las respuestas y `qwen-vl-ocr-2025-11-20` para la lectura, en la región Singapur. Los que nombraba el diseño (`qwen-plus` y `qwen-vl-ocr`) son de la generación anterior. Se confirman con la primera llamada | Propuesta de diseño, sobre A-04 |
 
 Las "propuestas de diseño" se pueden cambiar sin rehacer el resto: están aisladas detrás de una sola pieza cada una.
 

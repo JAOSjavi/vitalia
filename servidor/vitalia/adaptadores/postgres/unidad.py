@@ -11,6 +11,7 @@ from sqlalchemy.ext.asyncio import AsyncConnection, AsyncEngine
 from vitalia.adaptadores.postgres.agenda import AgendaPostgres
 from vitalia.adaptadores.postgres.consultorios import ConsultoriosPostgres
 from vitalia.adaptadores.postgres.cuentas import CuentasPostgres
+from vitalia.adaptadores.postgres.documentos import DocumentosPostgres
 from vitalia.adaptadores.postgres.pacientes import PacientesPostgres
 from vitalia.dominio.identidad import Identidad
 from vitalia.dominio.permisos import MatrizDePermisos
@@ -65,6 +66,7 @@ class TrabajoPostgres:
         self.consultorios = ConsultoriosPostgres(conexion)
         self.agenda = AgendaPostgres(conexion)
         self.pacientes = PacientesPostgres(conexion)
+        self.documentos = DocumentosPostgres(conexion)
 
 
 class UnidadPostgres:

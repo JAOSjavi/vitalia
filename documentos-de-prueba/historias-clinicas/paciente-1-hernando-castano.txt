@@ -1,0 +1,402 @@
+PACIENTE 1 · HERNANDO CASTAÑO RÍOS · HIPERTENSIÓN, DISLIPIDEMIA Y TABAQUISMO
+Tres historias. Cada una va en un Word aparte: copie desde "IPS ARRAYANES SALUD" hasta "FIN DE LA HISTORIA".
+
+
+######################################################################
+HISTORIA 1 DE 3 · 12/02/2026
+######################################################################
+
+IPS ARRAYANES SALUD
+NIT 900.000.111-1 · Código de habilitación 110010000111
+Carrera 70 # 24-30, Bogotá D.C. · Teléfono (601) 000 1111
+
+HISTORIA CLÍNICA ELECTRÓNICA
+CONSULTA EXTERNA DE MEDICINA GENERAL
+Registro de atención n.º AT-2026-004812
+
+1. IDENTIFICACIÓN DEL PACIENTE
+Nombres y apellidos: Hernando Castaño Ríos
+Documento: Cédula de ciudadanía 79.482.615
+Fecha de nacimiento: 14/03/1968
+Edad: 57 años
+Sexo: Masculino
+Estado civil: Casado
+Ocupación: Conductor de taxi
+Dirección: Carrera 68B # 22-41, barrio Modelia
+Municipio de residencia: Bogotá D.C. · Zona urbana
+Teléfono: 310 482 7713
+Aseguradora: EPS Andina Salud · Régimen contributivo, cotizante
+Persona responsable: Luz Marina Peña Duarte · Esposa · 311 905 2284
+
+2. DATOS DE LA ATENCIÓN
+Fecha y hora de inicio: 12/02/2026 07:40
+Fecha y hora de fin: 12/02/2026 08:05
+Modalidad: Presencial, en la sede
+Servicio: Consulta externa de medicina general
+Tipo de consulta: Control
+Finalidad de la consulta: Tratamiento, control de enfermedad crónica
+Causa que motiva la atención: Enfermedad general
+Acompañante: Asiste solo
+
+3. MOTIVO DE CONSULTA
+"Vengo al control de la presión y a traer los exámenes."
+
+4. ENFERMEDAD ACTUAL
+Paciente con hipertensión arterial diagnosticada en 2019, en manejo con losartán 50 mg una vez al día. Refiere adherencia irregular: olvida la dosis con frecuencia los fines de semana. Trae registro de presión en casa de las últimas dos semanas con cifras entre 145 y 160 de sistólica y entre 90 y 95 de diastólica. Refiere cefalea occipital ocasional al despertar, dos a tres veces por semana, que cede sola. Niega dolor torácico, palpitaciones, disnea, edema de miembros inferiores y alteraciones visuales. Fuma 10 cigarrillos al día. Trae laboratorios tomados el 05/02/2026.
+
+5. ANTECEDENTES
+Personales patológicos: Hipertensión arterial desde 2019.
+Quirúrgicos: Herniorrafia inguinal derecha en 2012, sin complicaciones.
+Farmacológicos actuales: Losartán 50 mg, una tableta al día.
+Alérgicos:
+  - Medicamentoso: ibuprofeno. Presentó angioedema de labios en 2017.
+  - Alimentarios: no refiere.
+  - Ambientales: no refiere.
+Tóxicos y factores de riesgo: Tabaquismo activo, 10 cigarrillos al día desde los 26 años (índice aproximado de 15 paquetes-año). Consumo de alcohol: dos a tres cervezas los fines de semana. Sedentarismo: trabaja sentado unas 10 horas al día y no hace ejercicio.
+Familiares:
+  - Padre: infarto agudo de miocardio a los 62 años, fallecido.
+  - Madre: diabetes mellitus tipo 2.
+  - Hermano: hipertensión arterial.
+
+6. REVISIÓN POR SISTEMAS
+Neurológico: cefalea occipital ocasional, descrita en la enfermedad actual.
+Cardiovascular, respiratorio, digestivo, genitourinario, osteomuscular y piel: sin hallazgos.
+
+7. SIGNOS VITALES Y MEDIDAS
+Tensión arterial: 156/94 mmHg (brazo izquierdo, sentado). Segunda toma a los 5 minutos: 152/92 mmHg
+Frecuencia cardiaca: 78 latidos por minuto
+Frecuencia respiratoria: 16 respiraciones por minuto
+Temperatura: 36,5 °C
+Saturación de oxígeno: 96 % al aire ambiente
+Peso: 84,0 kg
+Talla: 1,70 m
+Índice de masa corporal: 29,1 kg/m²
+Perímetro abdominal: 101 cm
+
+8. EXAMEN FÍSICO
+Aspecto general: alerta, orientado, hidratado, sin dificultad respiratoria.
+Cabeza y cuello: fondo de ojo sin dilatar, sin cruces arteriovenosos evidentes. Sin ingurgitación yugular. Tiroides normal.
+Tórax: ruidos cardiacos rítmicos, sin soplos. Murmullo vesicular conservado, sin agregados.
+Abdomen: blando, no doloroso, sin masas.
+Extremidades: sin edema. Pulsos pedios presentes y simétricos.
+Neurológico: sin déficit motor ni sensitivo.
+
+9. RESULTADOS DE PARACLÍNICOS
+Laboratorios del 05/02/2026:
+  - Colesterol total: 248 mg/dL
+  - Colesterol LDL: 168 mg/dL
+  - Colesterol HDL: 38 mg/dL
+  - Triglicéridos: 210 mg/dL
+  - Glucemia en ayunas: 98 mg/dL
+  - Creatinina: 1,02 mg/dL · Tasa de filtración estimada (CKD-EPI): 82 mL/min/1,73 m²
+  - Potasio: 4,3 mEq/L
+  - Relación albúmina/creatinina en orina: 18 mg/g
+  - Uroanálisis: normal
+
+10. ANÁLISIS
+Hipertensión arterial no controlada, explicada por adherencia irregular y dosis insuficiente. Dislipidemia mixta de diagnóstico nuevo. Tabaquismo activo, sobrepeso y antecedente de infarto temprano en el padre. Riesgo cardiovascular calculado con Framingham ajustado para Colombia: alto. Función renal conservada y sin albuminuria. Se ajusta el antihipertensivo, se inicia estatina y se ofrece apoyo para dejar de fumar.
+
+11. DIAGNÓSTICOS (CIE-10)
+Principal: I10 Hipertensión esencial (primaria) · Confirmado repetido
+Relacionado: E78.2 Hiperlipidemia mixta · Confirmado nuevo
+Relacionado: Z72.0 Problemas relacionados con el uso del tabaco · Confirmado nuevo
+
+12. PLAN DE MANEJO
+
+12.1 Fórmula médica
+  1. Losartán 50 mg tableta. Una tableta por vía oral cada 12 horas. Duración: 90 días. Cantidad: 180 tabletas.
+  2. Atorvastatina 20 mg tableta. Una tableta por vía oral en la noche. Duración: 90 días. Cantidad: 90 tabletas.
+
+12.2 Órdenes de exámenes y procedimientos
+  - Electrocardiograma de 12 derivaciones.
+  - Perfil lipídico y transaminasa ALT en 12 semanas.
+
+12.3 Remisiones e interconsultas
+  - Programa de cesación de tabaco de la IPS (consejería grupal).
+
+12.4 Incapacidad
+No se otorga.
+
+12.5 Recomendaciones y educación
+Dieta baja en sal (menos de 5 g al día) y en grasas saturadas. Caminar 30 minutos cinco días a la semana. Tomar la presión en casa tres veces por semana y traer el registro. Usar una alarma en el celular para no olvidar las dosis. Se explica que no debe tomar ibuprofeno ni otros antiinflamatorios por su alergia.
+
+12.6 Signos de alarma
+Consultar a urgencias si presenta dolor en el pecho, cefalea súbita e intensa, pérdida de fuerza o de sensibilidad en un lado del cuerpo, dificultad para hablar o presión mayor de 180/110 mmHg.
+
+12.7 Próximo control
+En 3 meses, con los resultados del electrocardiograma y del perfil lipídico.
+
+13. DESTINO AL FINALIZAR LA ATENCIÓN
+Domicilio.
+
+14. PROFESIONAL QUE ATIENDE
+Andrés Felipe Rojas Medina · Médico general
+Cédula de ciudadanía 80.214.637 · Registro médico 11-4417-18
+Firmado electrónicamente el 12/02/2026 a las 08:05
+
+Documento de prueba con datos inventados. No corresponde a ninguna persona ni institución real.
+FIN DE LA HISTORIA
+
+
+######################################################################
+HISTORIA 2 DE 3 · 14/05/2026
+######################################################################
+
+IPS ARRAYANES SALUD
+NIT 900.000.111-1 · Código de habilitación 110010000111
+Carrera 70 # 24-30, Bogotá D.C. · Teléfono (601) 000 1111
+
+HISTORIA CLÍNICA ELECTRÓNICA
+CONSULTA EXTERNA DE MEDICINA GENERAL
+Registro de atención n.º AT-2026-011937
+
+1. IDENTIFICACIÓN DEL PACIENTE
+Nombres y apellidos: Hernando Castaño Ríos
+Documento: Cédula de ciudadanía 79.482.615
+Fecha de nacimiento: 14/03/1968
+Edad: 58 años
+Sexo: Masculino
+Estado civil: Casado
+Ocupación: Conductor de taxi
+Dirección: Carrera 68B # 22-41, barrio Modelia
+Municipio de residencia: Bogotá D.C. · Zona urbana
+Teléfono: 310 482 7713
+Aseguradora: EPS Andina Salud · Régimen contributivo, cotizante
+Persona responsable: Luz Marina Peña Duarte · Esposa · 311 905 2284
+
+2. DATOS DE LA ATENCIÓN
+Fecha y hora de inicio: 14/05/2026 08:10
+Fecha y hora de fin: 14/05/2026 08:32
+Modalidad: Presencial, en la sede
+Servicio: Consulta externa de medicina general
+Tipo de consulta: Control
+Finalidad de la consulta: Tratamiento, control de enfermedad crónica
+Causa que motiva la atención: Enfermedad general
+Acompañante: Luz Marina Peña Duarte · Esposa · 311 905 2284
+
+3. MOTIVO DE CONSULTA
+"Control de la presión y del colesterol."
+
+4. ENFERMEDAD ACTUAL
+Control a los tres meses. Desde el último control toma losartán 50 mg cada 12 horas y atorvastatina 20 mg en la noche; mejoró la adherencia con alarma en el celular. Presión en casa entre 135 y 145 de sistólica y entre 85 y 90 de diastólica. La cefalea matutina desapareció. Niega dolores musculares con la atorvastatina. Asistió a dos sesiones del programa de cesación de tabaco y bajó de 10 a 5 cigarrillos al día. Camina 20 minutos tres veces por semana. Trae electrocardiograma y laboratorios.
+
+5. ANTECEDENTES
+Personales patológicos: Hipertensión arterial desde 2019. Dislipidemia mixta desde febrero de 2026.
+Quirúrgicos: Herniorrafia inguinal derecha en 2012.
+Farmacológicos actuales: Losartán 50 mg cada 12 horas. Atorvastatina 20 mg en la noche.
+Alérgicos:
+  - Medicamentoso: ibuprofeno (angioedema de labios en 2017).
+  - Alimentarios: no refiere.
+  - Ambientales: no refiere.
+Tóxicos y factores de riesgo: Tabaquismo activo, ahora 5 cigarrillos al día. Alcohol: dos cervezas los fines de semana. Actividad física: caminata tres veces por semana.
+Familiares: Padre con infarto a los 62 años, fallecido. Madre con diabetes tipo 2. Hermano con hipertensión.
+
+6. REVISIÓN POR SISTEMAS
+Sin hallazgos en ningún sistema.
+
+7. SIGNOS VITALES Y MEDIDAS
+Tensión arterial: 142/88 mmHg. Segunda toma: 140/86 mmHg
+Frecuencia cardiaca: 74 latidos por minuto
+Frecuencia respiratoria: 16 respiraciones por minuto
+Temperatura: 36,4 °C
+Saturación de oxígeno: 97 % al aire ambiente
+Peso: 82,4 kg
+Talla: 1,70 m
+Índice de masa corporal: 28,5 kg/m²
+Perímetro abdominal: 99 cm
+
+8. EXAMEN FÍSICO
+Aspecto general: alerta, orientado, buen estado general.
+Cuello: sin ingurgitación yugular ni soplos carotídeos.
+Tórax: ruidos cardiacos rítmicos, sin soplos. Pulmones sin agregados.
+Abdomen: blando, no doloroso.
+Extremidades: sin edema. Pulsos pedios presentes.
+Neurológico: sin déficit.
+
+9. RESULTADOS DE PARACLÍNICOS
+Electrocardiograma del 20/02/2026: ritmo sinusal, frecuencia de 72 por minuto, eje normal. Criterios de voltaje limítrofes para hipertrofia ventricular izquierda (Sokolow-Lyon de 34 mm). Sin alteraciones de la repolarización.
+Laboratorios del 07/05/2026:
+  - Colesterol total: 186 mg/dL
+  - Colesterol LDL: 112 mg/dL
+  - Colesterol HDL: 40 mg/dL
+  - Triglicéridos: 170 mg/dL
+  - Transaminasa ALT: 31 U/L
+
+10. ANÁLISIS
+Mejoría de la presión con mejor adherencia, pero sin llegar a la meta de menos de 130/80 mmHg que corresponde a su riesgo cardiovascular alto. El electrocardiograma sugiere repercusión inicial de la hipertensión sobre el corazón. El LDL bajó de 168 a 112 mg/dL, aún por encima de la meta de menos de 100 mg/dL. Buena tolerancia a la estatina, con ALT normal. Redujo el tabaco a la mitad. Se agrega amlodipino y se sube la atorvastatina.
+
+11. DIAGNÓSTICOS (CIE-10)
+Principal: I10 Hipertensión esencial (primaria) · Confirmado repetido
+Relacionado: E78.2 Hiperlipidemia mixta · Confirmado repetido
+Relacionado: Z72.0 Problemas relacionados con el uso del tabaco · Confirmado repetido
+
+12. PLAN DE MANEJO
+
+12.1 Fórmula médica
+  1. Losartán 50 mg tableta. Una tableta por vía oral cada 12 horas. Duración: 90 días. Cantidad: 180 tabletas.
+  2. Amlodipino 5 mg tableta. Una tableta por vía oral en la mañana. Duración: 90 días. Cantidad: 90 tabletas.
+  3. Atorvastatina 40 mg tableta. Una tableta por vía oral en la noche. Duración: 90 días. Cantidad: 90 tabletas. Reemplaza la de 20 mg.
+
+12.2 Órdenes de exámenes y procedimientos
+  - Perfil lipídico, creatinina, potasio y ALT en 12 semanas.
+
+12.3 Remisiones e interconsultas
+  - Continúa en el programa de cesación de tabaco.
+
+12.4 Incapacidad
+No se otorga.
+
+12.5 Recomendaciones y educación
+Mantener la dieta baja en sal y la caminata; subir a cinco días por semana. Fijar una fecha para dejar de fumar del todo. Se explica que el amlodipino puede producir hinchazón leve de los tobillos y que debe comentarlo en el próximo control. No tomar ibuprofeno ni otros antiinflamatorios.
+
+12.6 Signos de alarma
+Dolor en el pecho, cefalea súbita e intensa, pérdida de fuerza en un lado del cuerpo, dificultad para hablar o presión mayor de 180/110 mmHg: acudir a urgencias.
+
+12.7 Próximo control
+En 3 meses, con los laboratorios.
+
+13. DESTINO AL FINALIZAR LA ATENCIÓN
+Domicilio.
+
+14. PROFESIONAL QUE ATIENDE
+Andrés Felipe Rojas Medina · Médico general
+Cédula de ciudadanía 80.214.637 · Registro médico 11-4417-18
+Firmado electrónicamente el 14/05/2026 a las 08:32
+
+Documento de prueba con datos inventados. No corresponde a ninguna persona ni institución real.
+FIN DE LA HISTORIA
+
+
+######################################################################
+HISTORIA 3 DE 3 · 20/08/2026
+######################################################################
+
+IPS ARRAYANES SALUD
+NIT 900.000.111-1 · Código de habilitación 110010000111
+Carrera 70 # 24-30, Bogotá D.C. · Teléfono (601) 000 1111
+
+HISTORIA CLÍNICA ELECTRÓNICA
+CONSULTA EXTERNA DE MEDICINA GENERAL
+Registro de atención n.º AT-2026-019204
+
+1. IDENTIFICACIÓN DEL PACIENTE
+Nombres y apellidos: Hernando Castaño Ríos
+Documento: Cédula de ciudadanía 79.482.615
+Fecha de nacimiento: 14/03/1968
+Edad: 58 años
+Sexo: Masculino
+Estado civil: Casado
+Ocupación: Conductor de taxi
+Dirección: Carrera 68B # 22-41, barrio Modelia
+Municipio de residencia: Bogotá D.C. · Zona urbana
+Teléfono: 310 482 7713
+Aseguradora: EPS Andina Salud · Régimen contributivo, cotizante
+Persona responsable: Luz Marina Peña Duarte · Esposa · 311 905 2284
+
+2. DATOS DE LA ATENCIÓN
+Fecha y hora de inicio: 20/08/2026 07:50
+Fecha y hora de fin: 20/08/2026 08:20
+Modalidad: Presencial, en la sede
+Servicio: Consulta externa de medicina general
+Tipo de consulta: Control
+Finalidad de la consulta: Tratamiento, control de enfermedad crónica
+Causa que motiva la atención: Enfermedad general
+Acompañante: Asiste solo
+
+3. MOTIVO DE CONSULTA
+"Control, y me está doliendo la rodilla derecha."
+
+4. ENFERMEDAD ACTUAL
+Control a los tres meses. Toma losartán 50 mg cada 12 horas, amlodipino 5 mg en la mañana y atorvastatina 40 mg en la noche, sin olvidos. Presión en casa entre 125 y 132 de sistólica y entre 78 y 84 de diastólica. Dejó de fumar por completo el 05/07/2026 (seis semanas sin fumar); refiere ansiedad leve que maneja con caminatas. Desde junio nota hinchazón leve en ambos tobillos al final del día, que desaparece en la mañana; niega disnea, ortopnea y dolor en las piernas.
+Además, desde hace un mes presenta dolor en la rodilla derecha, de tipo mecánico, que empeora al subir escaleras y al bajarse del taxi, intensidad 5 sobre 10. Niega trauma, calor, enrojecimiento y bloqueos. No ha tomado antiinflamatorios por su alergia; tomó acetaminofén ocasionalmente con alivio parcial.
+
+5. ANTECEDENTES
+Personales patológicos: Hipertensión arterial desde 2019. Dislipidemia mixta desde febrero de 2026.
+Quirúrgicos: Herniorrafia inguinal derecha en 2012.
+Farmacológicos actuales: Losartán 50 mg cada 12 horas. Amlodipino 5 mg en la mañana. Atorvastatina 40 mg en la noche.
+Alérgicos:
+  - Medicamentoso: ibuprofeno (angioedema de labios en 2017).
+  - Alimentarios: no refiere.
+  - Ambientales: no refiere.
+Tóxicos y factores de riesgo: Exfumador desde el 05/07/2026, con índice acumulado de 15 paquetes-año. Alcohol: ocasional. Actividad física: caminata cinco días por semana.
+Familiares: Padre con infarto a los 62 años, fallecido. Madre con diabetes tipo 2. Hermano con hipertensión.
+
+6. REVISIÓN POR SISTEMAS
+Cardiovascular: edema leve de tobillos, descrito en la enfermedad actual.
+Osteomuscular: dolor de rodilla derecha, descrito en la enfermedad actual.
+Demás sistemas: sin hallazgos.
+
+7. SIGNOS VITALES Y MEDIDAS
+Tensión arterial: 128/80 mmHg
+Frecuencia cardiaca: 70 latidos por minuto
+Frecuencia respiratoria: 15 respiraciones por minuto
+Temperatura: 36,5 °C
+Saturación de oxígeno: 97 % al aire ambiente
+Peso: 80,9 kg
+Talla: 1,70 m
+Índice de masa corporal: 28,0 kg/m²
+Perímetro abdominal: 97 cm
+
+8. EXAMEN FÍSICO
+Aspecto general: buen estado general.
+Tórax: ruidos cardiacos rítmicos, sin soplos. Pulmones limpios.
+Abdomen: sin hallazgos.
+Extremidades: edema grado I bimaleolar, blando, sin cambios en la piel. Pulsos pedios presentes.
+Rodilla derecha: sin derrame ni calor. Crepitación al movimiento. Dolor a la palpación de la interlínea articular interna. Ligamentos estables. Prueba de McMurray negativa. Arcos de movimiento completos con dolor al final de la flexión.
+Neurológico: sin déficit.
+
+9. RESULTADOS DE PARACLÍNICOS
+Laboratorios del 12/08/2026:
+  - Colesterol total: 162 mg/dL
+  - Colesterol LDL: 94 mg/dL
+  - Colesterol HDL: 42 mg/dL
+  - Triglicéridos: 140 mg/dL
+  - Creatinina: 1,05 mg/dL
+  - Potasio: 4,5 mEq/L
+  - Transaminasa ALT: 29 U/L
+
+10. ANÁLISIS
+Hipertensión en meta (128/80 mmHg) y LDL en meta (94 mg/dL). Función renal y potasio normales con losartán. Dejó de fumar hace seis semanas, logro importante para su riesgo cardiovascular. El edema leve de tobillos se atribuye al amlodipino; por ser leve y con buen control de la presión, se mantiene la dosis y se vigila. Si aumenta, se cambiará el amlodipino por otro antihipertensivo.
+Dolor de rodilla derecha de características mecánicas, compatible con gonartrosis inicial; se confirma con radiografía. No se formulan antiinflamatorios por su alergia a ibuprofeno con angioedema.
+
+11. DIAGNÓSTICOS (CIE-10)
+Principal: I10 Hipertensión esencial (primaria) · Confirmado repetido
+Relacionado: E78.2 Hiperlipidemia mixta · Confirmado repetido
+Relacionado: M17.1 Otras gonartrosis primarias (rodilla derecha) · Impresión diagnóstica
+
+12. PLAN DE MANEJO
+
+12.1 Fórmula médica
+  1. Losartán 50 mg tableta. Una tableta por vía oral cada 12 horas. Duración: 120 días. Cantidad: 240 tabletas.
+  2. Amlodipino 5 mg tableta. Una tableta por vía oral en la mañana. Duración: 120 días. Cantidad: 120 tabletas.
+  3. Atorvastatina 40 mg tableta. Una tableta por vía oral en la noche. Duración: 120 días. Cantidad: 120 tabletas.
+  4. Acetaminofén 500 mg tableta. Dos tabletas por vía oral cada 8 horas si hay dolor, sin pasar de 3 gramos al día. Duración: 10 días. Cantidad: 60 tabletas.
+
+12.2 Órdenes de exámenes y procedimientos
+  - Radiografía de rodilla derecha, proyecciones anteroposterior y lateral, de pie.
+
+12.3 Remisiones e interconsultas
+  - Fisioterapia: 10 sesiones para fortalecimiento de cuádriceps.
+
+12.4 Incapacidad
+No se otorga.
+
+12.5 Recomendaciones y educación
+Continuar sin fumar; se felicita al paciente. Elevar las piernas al final del día. Mantener la caminata en terreno plano y evitar escaleras mientras dura el dolor. Bajar de peso ayuda a la rodilla. No tomar ibuprofeno, naproxeno ni otros antiinflamatorios por su alergia.
+
+12.6 Signos de alarma
+Hinchazón de una sola pierna con dolor, rodilla caliente o roja, falta de aire, dolor en el pecho o presión mayor de 180/110 mmHg: acudir a urgencias.
+
+12.7 Próximo control
+En 4 meses (diciembre de 2026), con la radiografía. Laboratorios de control anuales.
+
+13. DESTINO AL FINALIZAR LA ATENCIÓN
+Domicilio.
+
+14. PROFESIONAL QUE ATIENDE
+Andrés Felipe Rojas Medina · Médico general
+Cédula de ciudadanía 80.214.637 · Registro médico 11-4417-18
+Firmado electrónicamente el 20/08/2026 a las 08:20
+
+Documento de prueba con datos inventados. No corresponde a ninguna persona ni institución real.
+FIN DE LA HISTORIA

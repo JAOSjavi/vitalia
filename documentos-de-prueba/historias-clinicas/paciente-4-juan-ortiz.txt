@@ -1,0 +1,386 @@
+PACIENTE 4 · JUAN SEBASTIÁN ORTIZ BERMÚDEZ · ASMA Y RINITIS ALÉRGICA
+Tres historias. Cada una va en un Word aparte: copie desde "IPS CAÑAVERALES" hasta "FIN DE LA HISTORIA".
+
+
+######################################################################
+HISTORIA 1 DE 3 · 10/02/2026
+######################################################################
+
+IPS CAÑAVERALES
+NIT 900.000.444-4 · Código de habilitación 680010000444
+Calle 48 # 29-10, Bucaramanga, Santander · Teléfono (607) 000 4444
+
+HISTORIA CLÍNICA ELECTRÓNICA
+CONSULTA EXTERNA DE MEDICINA GENERAL
+Registro de atención n.º CV-2026-002164
+
+1. IDENTIFICACIÓN DEL PACIENTE
+Nombres y apellidos: Juan Sebastián Ortiz Bermúdez
+Documento: Cédula de ciudadanía 1.098.745.318
+Fecha de nacimiento: 09/11/1994
+Edad: 31 años
+Sexo: Masculino
+Estado civil: Soltero
+Ocupación: Ingeniero de sistemas, trabaja desde casa
+Dirección: Carrera 27 # 45-18, barrio Cabecera del Llano
+Municipio de residencia: Bucaramanga, Santander · Zona urbana
+Teléfono: 318 552 0617
+Aseguradora: EPS Oriente Salud · Régimen contributivo, cotizante
+Persona responsable: Olga Lucía Bermúdez Pinto · Madre · 317 220 4831
+
+2. DATOS DE LA ATENCIÓN
+Fecha y hora de inicio: 10/02/2026 16:00
+Fecha y hora de fin: 10/02/2026 16:25
+Modalidad: Presencial, en la sede
+Servicio: Consulta externa de medicina general
+Tipo de consulta: Control
+Finalidad de la consulta: Tratamiento, control de enfermedad crónica
+Causa que motiva la atención: Enfermedad general
+Acompañante: Asiste solo
+
+3. MOTIVO DE CONSULTA
+"Me estoy ahogando más seguido."
+
+4. ENFERMEDAD ACTUAL
+Paciente con asma desde la infancia. Desde hace 2 meses presenta tos, pecho apretado y silbido en el pecho 4 a 5 días por semana, y se despierta en la noche por tos 2 a 3 veces al mes. Usa salbutamol 4 a 5 veces por semana. Tuvo que dejar de trotar porque se ahoga. Usa la beclometasona solo cuando se siente mal, no todos los días, y no usa inhalocámara. Los síntomas aumentaron desde que adoptó un gato a mediados de 2025, que duerme en su habitación. Además presenta congestión nasal y estornudos en las mañanas. Prueba de control del asma (ACT): 16 de 25 puntos.
+
+5. ANTECEDENTES
+Personales patológicos: Asma desde los 7 años. Una hospitalización por crisis de asma a los 12 años; ninguna en la edad adulta y nunca en cuidados intensivos. Rinitis alérgica.
+Quirúrgicos: No refiere.
+Farmacológicos actuales: Beclometasona 250 mcg inhalada, 2 inhalaciones cada 12 horas (uso irregular). Salbutamol 100 mcg inhalado si hay síntomas.
+Alérgicos:
+  - Ambiental: ácaros del polvo (prueba cutánea positiva en 2019).
+  - Alimentaria: camarón. Presentó urticaria y hinchazón de labios en 2020.
+  - Medicamentosos: no refiere.
+Tóxicos y factores de riesgo: No fuma ni usa vapeador. Alcohol social. Gato en la casa desde 2025. Última vacuna de influenza en 2024.
+Familiares:
+  - Madre: asma.
+  - Padre: hipertensión arterial.
+  - Hermana: dermatitis atópica.
+
+6. REVISIÓN POR SISTEMAS
+Respiratorio: tos, silbido y pecho apretado, descritos en la enfermedad actual.
+Otorrinolaringológico: congestión nasal y estornudos matutinos.
+Demás sistemas: sin hallazgos.
+
+7. SIGNOS VITALES Y MEDIDAS
+Tensión arterial: 118/72 mmHg
+Frecuencia cardiaca: 84 latidos por minuto
+Frecuencia respiratoria: 18 respiraciones por minuto
+Temperatura: 36,5 °C
+Saturación de oxígeno: 97 % al aire ambiente
+Peso: 78,0 kg
+Talla: 1,76 m
+Índice de masa corporal: 25,2 kg/m²
+Flujo espiratorio pico: 420 L/min (cerca del 70 % de su valor esperado)
+
+8. EXAMEN FÍSICO
+Aspecto general: alerta, habla con frases completas, sin dificultad respiratoria.
+Nariz: mucosa pálida y edematosa, cornetes inferiores aumentados de tamaño, moco claro.
+Garganta: sin alteraciones.
+Tórax: sin tirajes. Murmullo vesicular conservado. Sibilancias espiratorias escasas en ambas bases al hacer espiración forzada.
+Corazón: ruidos rítmicos, sin soplos.
+Piel: sin lesiones.
+Se revisa la técnica del inhalador: no exhala antes de inhalar y no sostiene la respiración. Se corrige en la consulta.
+
+9. RESULTADOS DE PARACLÍNICOS
+No tiene espirometría previa en la edad adulta.
+
+10. ANÁLISIS
+Asma parcialmente controlada según los criterios de GINA: síntomas casi diarios, uso frecuente de salbutamol, despertares nocturnos y limitación para el ejercicio. Las causas son el uso irregular del corticoide inhalado, la mala técnica y la exposición al gato y a los ácaros. Rinitis alérgica activa, que empeora el asma. Se cambia a budesonida con formoterol en un solo inhalador, se trata la rinitis y se pide espirometría para confirmar y medir la obstrucción.
+
+11. DIAGNÓSTICOS (CIE-10)
+Principal: J45.0 Asma predominantemente alérgica · Confirmado repetido
+Relacionado: J30.3 Otras rinitis alérgicas · Confirmado repetido
+
+12. PLAN DE MANEJO
+
+12.1 Fórmula médica
+  1. Budesonida 160 mcg con formoterol 4,5 mcg, inhalador de polvo seco. Dos inhalaciones cada 12 horas. Vía inhalada. Duración: 90 días. Cantidad: 3 inhaladores de 120 dosis.
+  2. Salbutamol 100 mcg, inhalador presurizado. Dos inhalaciones con inhalocámara cada 4 a 6 horas solo si hay síntomas. Vía inhalada. Duración: 90 días. Cantidad: 1 inhalador de 200 dosis.
+  3. Inhalocámara para adulto. Cantidad: 1.
+  4. Mometasona 50 mcg spray nasal. Dos aplicaciones en cada fosa nasal una vez al día. Vía nasal. Duración: 90 días. Cantidad: 2 frascos.
+  5. Loratadina 10 mg tableta. Una tableta por vía oral al día si hay estornudos. Duración: 30 días. Cantidad: 30 tabletas.
+  Se suspende la beclometasona.
+
+12.2 Órdenes de exámenes y procedimientos
+  - Espirometría antes y después de broncodilatador.
+  - Hemograma con recuento de eosinófilos.
+
+12.3 Remisiones e interconsultas
+  - Ninguna.
+
+12.4 Incapacidad
+No se otorga.
+
+12.5 Recomendaciones y educación
+Usar la budesonida con formoterol todos los días, aunque se sienta bien. Enjuagarse la boca después de cada uso. Sacar al gato de la habitación y lavar la ropa de cama cada semana con agua caliente; fundas antiácaros para colchón y almohada. Se entrega plan de acción escrito para crisis. No comer camarón. Vacunarse contra la influenza.
+
+12.6 Signos de alarma
+Acudir a urgencias si el ahogo no mejora con dos dosis de salbutamol, si no puede hablar frases completas, si tiene labios o uñas moradas o si necesita salbutamol más de cada 4 horas.
+
+12.7 Próximo control
+En 3 meses, con la espirometría y el hemograma.
+
+13. DESTINO AL FINALIZAR LA ATENCIÓN
+Domicilio.
+
+14. PROFESIONAL QUE ATIENDE
+Daniela Fernanda Suárez Ardila · Médica general
+Cédula de ciudadanía 1.098.612.044 · Registro médico 68-1190-19
+Firmado electrónicamente el 10/02/2026 a las 16:25
+
+Documento de prueba con datos inventados. No corresponde a ninguna persona ni institución real.
+FIN DE LA HISTORIA
+
+
+######################################################################
+HISTORIA 2 DE 3 · 19/05/2026
+######################################################################
+
+IPS CAÑAVERALES
+NIT 900.000.444-4 · Código de habilitación 680010000444
+Calle 48 # 29-10, Bucaramanga, Santander · Teléfono (607) 000 4444
+
+HISTORIA CLÍNICA ELECTRÓNICA
+CONSULTA EXTERNA DE MEDICINA GENERAL
+Registro de atención n.º CV-2026-007820
+
+1. IDENTIFICACIÓN DEL PACIENTE
+Nombres y apellidos: Juan Sebastián Ortiz Bermúdez
+Documento: Cédula de ciudadanía 1.098.745.318
+Fecha de nacimiento: 09/11/1994
+Edad: 31 años
+Sexo: Masculino
+Estado civil: Soltero
+Ocupación: Ingeniero de sistemas, trabaja desde casa
+Dirección: Carrera 27 # 45-18, barrio Cabecera del Llano
+Municipio de residencia: Bucaramanga, Santander · Zona urbana
+Teléfono: 318 552 0617
+Aseguradora: EPS Oriente Salud · Régimen contributivo, cotizante
+Persona responsable: Olga Lucía Bermúdez Pinto · Madre · 317 220 4831
+
+2. DATOS DE LA ATENCIÓN
+Fecha y hora de inicio: 19/05/2026 18:10
+Fecha y hora de fin: 19/05/2026 18:55
+Modalidad: Presencial, en la sede
+Servicio: Consulta externa de medicina general, cita prioritaria
+Tipo de consulta: Control
+Finalidad de la consulta: Tratamiento
+Causa que motiva la atención: Enfermedad general
+Acompañante: Olga Lucía Bermúdez Pinto · Madre · 317 220 4831
+
+3. MOTIVO DE CONSULTA
+"Desde hace tres días tengo tos y me silba el pecho."
+
+4. ENFERMEDAD ACTUAL
+Hace 5 días inició con moco nasal, dolor de garganta y fiebre de 38,2 °C el primer día. Desde hace 3 días presenta tos seca, silbido en el pecho y ahogo al caminar dentro de la casa. En las últimas 24 horas ha usado salbutamol cada 4 horas con alivio parcial. Venía usando budesonida con formoterol todos los días desde febrero y había mejorado: en abril tenía una prueba de control del asma (ACT) de 21 puntos y casi no usaba salbutamol. El gato ya no duerme en su habitación. Trae espirometría y hemograma.
+
+5. ANTECEDENTES
+Personales patológicos: Asma desde los 7 años, una hospitalización a los 12 años. Rinitis alérgica.
+Quirúrgicos: No refiere.
+Farmacológicos actuales: Budesonida 160 mcg con formoterol 4,5 mcg, 2 inhalaciones cada 12 horas. Salbutamol 100 mcg si hay síntomas. Mometasona nasal una vez al día.
+Alérgicos:
+  - Ambiental: ácaros del polvo.
+  - Alimentaria: camarón (urticaria y hinchazón de labios en 2020).
+  - Medicamentosos: no refiere.
+Tóxicos y factores de riesgo: No fuma. Gato en la casa, fuera de la habitación.
+Familiares: Madre con asma. Padre con hipertensión. Hermana con dermatitis atópica.
+
+6. REVISIÓN POR SISTEMAS
+Respiratorio y otorrinolaringológico: descritos en la enfermedad actual.
+Generales: fiebre el primer día, ya sin fiebre.
+Demás sistemas: sin hallazgos.
+
+7. SIGNOS VITALES Y MEDIDAS
+Al ingreso:
+  Tensión arterial: 122/76 mmHg
+  Frecuencia cardiaca: 102 latidos por minuto
+  Frecuencia respiratoria: 22 respiraciones por minuto
+  Temperatura: 37,6 °C
+  Saturación de oxígeno: 94 % al aire ambiente
+  Flujo espiratorio pico: 330 L/min
+  Peso: 77,5 kg · Talla: 1,76 m · Índice de masa corporal: 25,0 kg/m²
+Después del tratamiento en la consulta (18:50):
+  Frecuencia cardiaca: 96 latidos por minuto
+  Frecuencia respiratoria: 18 respiraciones por minuto
+  Saturación de oxígeno: 96 % al aire ambiente
+  Flujo espiratorio pico: 440 L/min
+
+8. EXAMEN FÍSICO
+Al ingreso: alerta, habla con frases completas, sin cianosis. Garganta enrojecida, sin placas. Tórax sin tirajes. Sibilancias espiratorias en ambos campos pulmonares. Ruidos cardiacos rítmicos, taquicárdicos.
+Tratamiento en la consulta: salbutamol 4 inhalaciones con inhalocámara cada 20 minutos, tres veces.
+Después del tratamiento: sibilancias escasas solo al final de la espiración. Respira sin esfuerzo.
+
+9. RESULTADOS DE PARACLÍNICOS
+Espirometría del 18/03/2026:
+  - Antes del broncodilatador: FEV1 3,42 L (78 % del esperado), FVC 4,61 L (91 % del esperado), relación FEV1/FVC 0,74.
+  - Después del broncodilatador: FEV1 3,90 L, aumento de 480 mL (14 %).
+  - Interpretación: obstrucción leve con respuesta significativa al broncodilatador. Compatible con asma.
+Hemograma del 18/03/2026: leucocitos 7.400 por mm³, eosinófilos 520 por mm³, hemoglobina 15,2 g/dL, plaquetas 265.000 por mm³.
+
+10. ANÁLISIS
+Crisis de asma leve a moderada desencadenada por una infección viral de vías respiratorias altas. Responde bien al salbutamol en la consulta: la saturación sube de 94 % a 96 % y el flujo pico de 330 a 440 L/min. No tiene criterios para hospitalizar. La espirometría de marzo confirma el asma, y los eosinófilos elevados apoyan su origen alérgico. Se da prednisolona oral por 5 días y se continúa el tratamiento de base.
+
+11. DIAGNÓSTICOS (CIE-10)
+Principal: J45.0 Asma predominantemente alérgica, en crisis leve a moderada · Confirmado repetido
+Relacionado: J06.9 Infección aguda de las vías respiratorias superiores, no especificada · Confirmado nuevo
+
+12. PLAN DE MANEJO
+
+12.1 Fórmula médica
+  1. Prednisolona 5 mg tableta. Ocho tabletas (40 mg) por vía oral cada mañana con el desayuno. Duración: 5 días. Cantidad: 40 tabletas.
+  2. Salbutamol 100 mcg, inhalador presurizado. Cuatro inhalaciones con inhalocámara cada 4 horas por 48 horas; luego dos inhalaciones solo si hay síntomas. Vía inhalada. Cantidad: 1 inhalador de 200 dosis.
+  3. Acetaminofén 500 mg tableta. Dos tabletas por vía oral cada 8 horas solo si hay fiebre. Duración: 3 días. Cantidad: 18 tabletas.
+  Continúa budesonida con formoterol 2 inhalaciones cada 12 horas y mometasona nasal.
+
+12.2 Órdenes de exámenes y procedimientos
+  - Ninguno.
+
+12.3 Remisiones e interconsultas
+  - Ninguna.
+
+12.4 Incapacidad
+Tres días: del 19/05/2026 al 21/05/2026.
+
+12.5 Recomendaciones y educación
+Reposo relativo y buena hidratación. Medir el flujo pico en la mañana y en la noche y anotarlo. No suspender la budesonida con formoterol. La prednisolona puede quitar el sueño y subir el apetito; se toma completa los 5 días.
+
+12.6 Signos de alarma
+Acudir a urgencias si el salbutamol no le dura al menos 4 horas, si el flujo pico baja de 250 L/min, si no puede hablar frases completas, si tiene labios morados o si vuelve la fiebre alta.
+
+12.7 Próximo control
+Revisión en 5 a 7 días. Control de asma programado en agosto de 2026.
+
+13. DESTINO AL FINALIZAR LA ATENCIÓN
+Domicilio, con mejoría después del tratamiento en la consulta.
+
+14. PROFESIONAL QUE ATIENDE
+Daniela Fernanda Suárez Ardila · Médica general
+Cédula de ciudadanía 1.098.612.044 · Registro médico 68-1190-19
+Firmado electrónicamente el 19/05/2026 a las 18:55
+
+Documento de prueba con datos inventados. No corresponde a ninguna persona ni institución real.
+FIN DE LA HISTORIA
+
+
+######################################################################
+HISTORIA 3 DE 3 · 25/08/2026
+######################################################################
+
+IPS CAÑAVERALES
+NIT 900.000.444-4 · Código de habilitación 680010000444
+Calle 48 # 29-10, Bucaramanga, Santander · Teléfono (607) 000 4444
+
+HISTORIA CLÍNICA ELECTRÓNICA
+CONSULTA EXTERNA DE MEDICINA GENERAL
+Registro de atención n.º CV-2026-013572
+
+1. IDENTIFICACIÓN DEL PACIENTE
+Nombres y apellidos: Juan Sebastián Ortiz Bermúdez
+Documento: Cédula de ciudadanía 1.098.745.318
+Fecha de nacimiento: 09/11/1994
+Edad: 31 años
+Sexo: Masculino
+Estado civil: Soltero
+Ocupación: Ingeniero de sistemas, trabaja desde casa
+Dirección: Carrera 27 # 45-18, barrio Cabecera del Llano
+Municipio de residencia: Bucaramanga, Santander · Zona urbana
+Teléfono: 318 552 0617
+Aseguradora: EPS Oriente Salud · Régimen contributivo, cotizante
+Persona responsable: Olga Lucía Bermúdez Pinto · Madre · 317 220 4831
+
+2. DATOS DE LA ATENCIÓN
+Fecha y hora de inicio: 25/08/2026 16:30
+Fecha y hora de fin: 25/08/2026 16:55
+Modalidad: Presencial, en la sede
+Servicio: Consulta externa de medicina general
+Tipo de consulta: Control
+Finalidad de la consulta: Tratamiento, control de enfermedad crónica
+Causa que motiva la atención: Enfermedad general
+Acompañante: Asiste solo
+
+3. MOTIVO DE CONSULTA
+"Control del asma, me he sentido bien."
+
+4. ENFERMEDAD ACTUAL
+Control a los tres meses. La crisis de mayo se resolvió en 6 días con prednisolona y no ha vuelto a tener crisis. Síntomas de asma menos de una vez por semana, ningún despertar en la noche y usó salbutamol una sola vez en el último mes. Volvió a trotar tres veces por semana sin ahogo. Usa budesonida con formoterol todos los días y la mometasona nasal; dejó la loratadina porque ya no estornuda. El gato sigue fuera de la habitación. Prueba de control del asma (ACT): 23 de 25 puntos. Flujo pico en casa entre 540 y 570 L/min.
+
+5. ANTECEDENTES
+Personales patológicos: Asma desde los 7 años. Crisis de asma leve a moderada en mayo de 2026 por infección viral, manejada en consulta. Rinitis alérgica.
+Quirúrgicos: No refiere.
+Farmacológicos actuales: Budesonida 160 mcg con formoterol 4,5 mcg, 2 inhalaciones cada 12 horas. Salbutamol 100 mcg si hay síntomas. Mometasona nasal una vez al día.
+Alérgicos:
+  - Ambiental: ácaros del polvo.
+  - Alimentaria: camarón (urticaria y hinchazón de labios en 2020).
+  - Medicamentosos: no refiere.
+Tóxicos y factores de riesgo: No fuma. Gato en la casa, fuera de la habitación. Trota tres veces por semana.
+Familiares: Madre con asma. Padre con hipertensión. Hermana con dermatitis atópica.
+
+6. REVISIÓN POR SISTEMAS
+Sin hallazgos en ningún sistema.
+
+7. SIGNOS VITALES Y MEDIDAS
+Tensión arterial: 116/70 mmHg
+Frecuencia cardiaca: 72 latidos por minuto
+Frecuencia respiratoria: 16 respiraciones por minuto
+Temperatura: 36,4 °C
+Saturación de oxígeno: 98 % al aire ambiente
+Peso: 76,8 kg
+Talla: 1,76 m
+Índice de masa corporal: 24,8 kg/m²
+Flujo espiratorio pico: 560 L/min
+
+8. EXAMEN FÍSICO
+Aspecto general: buen estado general.
+Nariz: mucosa rosada, cornetes de tamaño normal.
+Tórax: murmullo vesicular conservado, sin sibilancias ni en espiración forzada.
+Corazón: ruidos rítmicos, sin soplos.
+Técnica del inhalador: correcta.
+
+9. RESULTADOS DE PARACLÍNICOS
+No trae exámenes nuevos. Espirometría de referencia del 18/03/2026: obstrucción leve con respuesta significativa al broncodilatador.
+
+10. ANÁLISIS
+Asma bien controlada desde hace 3 meses, con flujo pico de 560 L/min frente a 420 en febrero. Rinitis controlada. Se mantiene la misma dosis de budesonida con formoterol; si sigue controlado hasta noviembre, se valorará bajar la dosis. No tiene la vacuna de influenza del año: está indicada por el asma.
+
+11. DIAGNÓSTICOS (CIE-10)
+Principal: J45.0 Asma predominantemente alérgica · Confirmado repetido
+Relacionado: J30.3 Otras rinitis alérgicas · Confirmado repetido
+
+12. PLAN DE MANEJO
+
+12.1 Fórmula médica
+  1. Budesonida 160 mcg con formoterol 4,5 mcg, inhalador de polvo seco. Dos inhalaciones cada 12 horas. Vía inhalada. Duración: 90 días. Cantidad: 3 inhaladores de 120 dosis.
+  2. Salbutamol 100 mcg, inhalador presurizado. Dos inhalaciones con inhalocámara solo si hay síntomas. Vía inhalada. Duración: 90 días. Cantidad: 1 inhalador de 200 dosis.
+  3. Mometasona 50 mcg spray nasal. Dos aplicaciones en cada fosa nasal una vez al día. Vía nasal. Duración: 90 días. Cantidad: 2 frascos.
+  Se suspende la loratadina.
+
+12.2 Órdenes de exámenes y procedimientos
+  - Vacuna contra la influenza estacional, una dosis intramuscular.
+
+12.3 Remisiones e interconsultas
+  - Ninguna.
+
+12.4 Incapacidad
+No se otorga.
+
+12.5 Recomendaciones y educación
+Seguir con el inhalador todos los días aunque esté bien. Continuar el ejercicio; usar dos inhalaciones de salbutamol 15 minutos antes de trotar solo si le da tos con el ejercicio. Mantener el gato fuera de la habitación. Seguir sin comer camarón.
+
+12.6 Signos de alarma
+Acudir a urgencias si el ahogo no mejora con dos dosis de salbutamol, si no puede hablar frases completas o si el flujo pico baja de 250 L/min.
+
+12.7 Próximo control
+En 3 meses (noviembre de 2026) para valorar la reducción de la dosis.
+
+13. DESTINO AL FINALIZAR LA ATENCIÓN
+Domicilio.
+
+14. PROFESIONAL QUE ATIENDE
+Daniela Fernanda Suárez Ardila · Médica general
+Cédula de ciudadanía 1.098.612.044 · Registro médico 68-1190-19
+Firmado electrónicamente el 25/08/2026 a las 16:55
+
+Documento de prueba con datos inventados. No corresponde a ninguna persona ni institución real.
+FIN DE LA HISTORIA

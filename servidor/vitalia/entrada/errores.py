@@ -24,6 +24,7 @@ from vitalia.dominio.cuentas import (
     MenorDeEdad,
     YaHayMedico,
 )
+from vitalia.dominio.documentos import DocumentoRepetido
 from vitalia.dominio.errores import NoEncontrado
 from vitalia.dominio.ingreso import CredencialesInvalidas, IngresoBloqueado
 from vitalia.dominio.permisos import AccesoDenegado
@@ -144,6 +145,16 @@ def registrar_traducciones(api: FastAPI) -> None:
             {"horas": error.horas},
         )
 
+    async def documento_repetido(_: Request, error: Exception) -> JSONResponse:
+        assert isinstance(error, DocumentoRepetido)
+        return respuesta_de_error(
+            409,
+            "documento_repetido",
+            "Ese archivo ya está en sus documentos.",
+            {"documento_id": str(error.documento_id)},
+        )
+
+    api.add_exception_handler(DocumentoRepetido, documento_repetido)
     api.add_exception_handler(EspacioOcupado, espacio_ocupado)
     api.add_exception_handler(FaltaAnticipacion, falta_anticipacion)
     api.add_exception_handler(DatosInvalidos, datos_invalidos)

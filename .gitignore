@@ -20,3 +20,6 @@ dist/
 Thumbs.db
 .vscode/
 .idea/
+
+# Archivos subidos mientras se programa (servidor/.archivos)
+.archivos/

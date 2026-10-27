@@ -17,7 +17,7 @@ Lo que cubre el alcance: cuentas, calendario de disponibilidad, citas de ambos l
 |---|---|---|
 | **1. Planificación** | Hecha | Alcance, requisitos, marco normativo, 46 historias en 9 épicas con 212 criterios, 110 tareas y 200 puntos |
 | **2. Diseño** | Cerrada en documentos | Arquitectura limpia, modelo de datos con permisos por fila, API, asistente, pantallas, diagramas, base visual, herramientas y entrega |
-| **3. Desarrollo** | **En curso** | Bloques 1 (registro e ingreso) y 2 (citas) construidos, probados contra PostgreSQL 18 en Docker y unidos a `master`. Sigue el bloque 3. Falta el paso 0: crear los servicios en la nube y correrlo contra Render. Ver la sección 4 y [estado_desarrollo.md](estado_desarrollo.md) |
+| **3. Desarrollo** | **En curso** | Bloques 1 (registro e ingreso) y 2 (citas) construidos, probados contra PostgreSQL 18 en Docker y unidos a `master`. Bloque 3 en curso: subir y leer documentos ya funciona; siguen fragmentos, búsqueda y preguntas. Falta crear los servicios en la nube y correrlo contra Render. Ver la sección 4 y [estado_desarrollo.md](estado_desarrollo.md) |
 | **4. Pruebas** | Sin iniciar | — |
 | **5. Despliegue** | Sin iniciar | — |
 
@@ -187,7 +187,7 @@ Todo lo anterior se construye y se prueba con datos inventados. Para atender pac
 | Ingreso, a la vista | El navegador del entorno estaba oculto y no entregó bien las teclas en la pantalla de ingreso. El ingreso correcto, el fallido y el bloqueo están probados de punta a punta en las pruebas automáticas, no a la vista |
 | Pruebas automáticas de GitHub | Escritas, sin correr: no hay repositorio remoto |
 | Privilegios del usuario dueño en Render | Su documentación no los indica. Dice que se pueden crear usuarios con SQL; lo despeja el paso 1 |
-| Modelos `qwen3.7-plus` y `qwen3.5-ocr` | Tomados de la documentación del proveedor el 13 de octubre; sin probar. El diseño nombraba la generación anterior |
+| Modelos `qwen3.7-plus` y `qwen-vl-ocr-2025-11-20` | Existen en la región Singapur; responden `AccessDenied.Unpurchased` hasta que Alibaba apruebe la verificación de identidad de la cuenta (en revisión desde el 27 de octubre). `qwen3.7-text-embedding` ya funciona |
 | Búsqueda de fragmentos (D-30) | Diseñada el 26 de octubre, sin construir. `qwen3.7-text-embedding` y `pgvector` en Render se tomaron de la documentación de cada uno ese día; ninguno se ha probado. Los números de la búsqueda (fragmentos de 1.000 caracteres, 20 por método, 12 enviados) son el punto de partida y se ajustan con el conjunto de prueba |
 | Texto de la autorización de IA, versión 2 | Hace falta para que las atenciones entren a la búsqueda. Sin escribir; lo revisa el abogado junto con la versión 1 |
 | Medio de pago en Cloudflare y en Alibaba Cloud | Es lo usual para activar el servicio; su documentación no lo confirma |
@@ -196,7 +196,7 @@ Todo lo anterior se construye y se prueba con datos inventados. Para atender pac
 | Resto del lienzo | Aprobado por el dueño del proyecto como base visual. El contraste del texto se midió y pasa el nivel AA |
 | Prototipo navegable | Probado con 143 comprobaciones automáticas. A la vista solo se revisó una pantalla. No refleja las decisiones del 13 de octubre: ver la sección 6 de [05-pantallas.md](diseno/05-pantallas.md) |
 | Permisos por fila sin sesión | El diseño con funciones de la base está escrito, no probado. Lo despeja el bloque 1 |
-| `pypdfium2` | Reemplaza a PyMuPDF por licencia; falta probar qué tan bien lee. Lo despeja el bloque 3 |
+| `pypdfium2` | Probado el 27 de octubre con las 12 historias inventadas en PDF: texto completo y en orden en todas. Falta probarlo con PDF de otras fuentes |
 | Phosphor Icons | Confirmada por el dueño del proyecto e instalada. Falta comprobar que tenga todos los iconos médicos que usa Vitalia |
 | Campos clínicos de la historia clínica | La lista la armó quien levantó los requisitos; falta que la revise un médico |
 | Proyecto de resolución que reemplazaría la 1995 de 1999 | Publicado el 22 de julio de 2026. Al 13 de octubre no se encontró expedido. Solo se leyó su memoria justificativa, no el articulado |

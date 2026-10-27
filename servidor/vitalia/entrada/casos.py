@@ -15,6 +15,7 @@ from vitalia.casos_de_uso.mover_cita import MoverCita
 from vitalia.casos_de_uso.poner_en_marcha import PonerEnMarcha
 from vitalia.casos_de_uso.registrar_paciente import RegistrarPaciente
 from vitalia.casos_de_uso.revisar_salud import RevisarSalud
+from vitalia.casos_de_uso.subir_documento import SubirDocumento
 from vitalia.casos_de_uso.tipos_de_cita import TiposDeCita
 from vitalia.casos_de_uso.validar_sesion import ValidarSesion
 from vitalia.casos_de_uso.ver_agenda_de_hoy import VerAgendaDeHoy
@@ -22,6 +23,7 @@ from vitalia.casos_de_uso.ver_consultorio import VerConsultorio
 from vitalia.casos_de_uso.ver_horario import VerHorario
 from vitalia.casos_de_uso.ver_inicio_del_paciente import VerInicioDelPaciente
 from vitalia.casos_de_uso.ver_mi_cuenta import VerMiCuenta
+from vitalia.casos_de_uso.ver_mis_documentos import VerMisDocumentos
 from vitalia.casos_de_uso.ver_texto_de_autorizacion import VerTextoDeAutorizacion
 
 
@@ -48,6 +50,8 @@ class CasosDeUso:
     ver_inicio_del_paciente: VerInicioDelPaciente
     ver_agenda_de_hoy: VerAgendaDeHoy
     buscar_pacientes: BuscarPacientes
+    subir_documento: SubirDocumento
+    ver_mis_documentos: VerMisDocumentos
 
 
 @dataclass(frozen=True)

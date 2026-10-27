@@ -112,7 +112,7 @@ El plan gratuito da 1 GB, no tiene respaldos y **vence a los 30 días de creada 
    | `IA_CLAVE` | La clave |
    | `IA_DIRECCION` | `https://<id del espacio>.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1` |
    | `IA_MODELO_RESPUESTAS` | `qwen3.7-plus` |
-   | `IA_MODELO_LECTURA` | `qwen3.5-ocr` |
+   | `IA_MODELO_LECTURA` | `qwen-vl-ocr-2025-11-20` |
    | `IA_MODELO_VECTORES` | `qwen3.7-text-embedding` |
    | `IA_DIMENSIONES` | `1024` |
 

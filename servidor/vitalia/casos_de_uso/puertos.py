@@ -9,6 +9,12 @@ from uuid import UUID
 
 from vitalia.dominio.agenda import EstadoDeCita, Franja, Intervalo, TipoDeCita
 from vitalia.dominio.cuentas import DatosDelMedico, DatosDelPaciente, Documento
+from vitalia.dominio.documentos import (
+    ArchivoValido,
+    EstadoDeLectura,
+    Formato,
+    TipoDeDocumento,
+)
 from vitalia.dominio.identidad import Identidad, Rol
 from vitalia.dominio.ingreso import Intentos
 from vitalia.dominio.permisos import MatrizDePermisos
@@ -256,6 +262,111 @@ class Pacientes(Protocol):
     async def existe(self, paciente_id: UUID) -> bool: ...
 
 
+@dataclass(frozen=True)
+class DocumentoSubido:
+    id: UUID
+    nombre: str
+    fecha_documento: date
+    tipo: TipoDeDocumento
+    formato: Formato
+    tamano: int
+    estado_lectura: EstadoDeLectura
+    paginas: int | None
+    subido_en: datetime
+
+
+@dataclass(frozen=True)
+class DocumentoPorLeer:
+    id: UUID
+    paciente_id: UUID
+    formato: Formato
+    clave_archivo: str
+
+
+@dataclass(frozen=True)
+class TrabajoDeLectura:
+    id: UUID
+    documento_id: UUID
+    intentos: int
+
+
+@dataclass(frozen=True)
+class PaginaLeida:
+    numero: int
+    texto: str
+    origen: Literal["pdf", "reconocido"]
+    legibilidad: float
+
+
+TipoDeTrabajo = Literal["leer", "indexar_documento"]
+
+
+class Documentos(Protocol):
+    """Documentos del paciente y la cola del lector. Los permisos por fila dicen quién ve qué."""
+
+    async def por_huella(self, huella: str) -> UUID | None:
+        """El documento del paciente de la sesión con ese mismo contenido, si ya lo subió."""
+        ...
+
+    async def crear(self, archivo: ArchivoValido, clave_archivo: str) -> DocumentoSubido:
+        """Lo guarda a nombre del paciente de la sesión, ya en proceso de lectura."""
+        ...
+
+    async def listar(self) -> list[DocumentoSubido]:
+        """Los del paciente de la sesión, del más reciente al más antiguo."""
+        ...
+
+    async def encolar(self, documento_id: UUID, tipo: TipoDeTrabajo) -> None: ...
+
+    # Lo que sigue lo usa el lector, con la identidad sistema.
+
+    async def tomar_trabajo(self, tipo: TipoDeTrabajo) -> TrabajoDeLectura | None:
+        """El trabajo pendiente más antiguo, ya marcado en curso. Dos lectores no toman el mismo."""
+        ...
+
+    async def terminar_trabajo(
+        self, trabajo_id: UUID, *, error: str | None = None, reintentar: bool = False
+    ) -> None:
+        """Sin error queda hecho; con error, pendiente otra vez o fallido."""
+        ...
+
+    async def por_leer(self, documento_id: UUID) -> DocumentoPorLeer: ...
+
+    async def ia_autorizada(self, paciente_id: UUID) -> bool:
+        """Si la última decisión del paciente sobre la IA es aceptarla."""
+        ...
+
+    async def guardar_paginas(self, documento_id: UUID, paginas: Sequence[PaginaLeida]) -> None: ...
+
+    async def marcar(
+        self, documento_id: UUID, estado: EstadoDeLectura, paginas: int | None = None
+    ) -> None: ...
+
+
+class Archivos(Protocol):
+    """Donde se guardan los archivos: privados, sin ninguna ruta pública (HU-027)."""
+
+    async def guardar(self, clave: str, contenido: bytes) -> None: ...
+
+    async def leer(self, clave: str) -> bytes: ...
+
+    async def borrar(self, clave: str) -> None:
+        """No falla si el archivo ya no existe."""
+        ...
+
+
+class LectorDePDF(Protocol):
+    """Lee un PDF dentro del servidor: nada sale a un proveedor externo."""
+
+    async def textos(self, contenido: bytes) -> list[str]:
+        """El texto de cada página, en orden. Una página sin texto da una cadena vacía."""
+        ...
+
+    async def imagen_de_pagina(self, contenido: bytes, numero: int) -> bytes:
+        """La página dibujada como imagen PNG, para reconocer su texto. Empieza en 1."""
+        ...
+
+
 class Trabajo(Protocol):
     """Una transacción abierta a nombre de alguien. Sus repositorios la comparten."""
 
@@ -276,6 +387,9 @@ class Trabajo(Protocol):
 
     @property
     def pacientes(self) -> Pacientes: ...
+
+    @property
+    def documentos(self) -> Documentos: ...
 
 
 class UnidadDeTrabajo(Protocol):
