@@ -26,8 +26,9 @@ export function deDia(dia: string) {
   return new Date(`${dia}T12:00:00-05:00`);
 }
 
+/** "9:00 a. m." con espacios que no se cortan: en celular la hora no se parte en dos líneas. */
 export function hora(momento: string | Date) {
-  return HORA.format(new Date(momento));
+  return HORA.format(new Date(momento)).replace(/\s/g, " ");
 }
 
 export function fechaLarga(momento: string | Date) {

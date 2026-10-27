@@ -49,7 +49,11 @@ export function Agendar() {
       await consultas.invalidateQueries({ queryKey: ["inicio"] });
       navegar("/paciente/citas", {
         state: {
-          aviso: `Su cita quedó ${moviendo ? "movida" : "confirmada"} para el ${fechaLarga(inicio)} a las ${hora(inicio)}.`,
+          // La hora ya termina en punto ("a. m."): no se agrega otro.
+          aviso: `Su cita quedó ${moviendo ? "movida" : "confirmada"} para el ${fechaLarga(inicio)} a las ${hora(inicio)}`.replace(
+            /([^.])$/,
+            "$1.",
+          ),
         },
       });
     } catch (error) {
