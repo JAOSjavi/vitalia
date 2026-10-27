@@ -39,6 +39,7 @@ from vitalia.casos_de_uso.mover_cita import MoverCita
 from vitalia.casos_de_uso.poner_en_marcha import PonerEnMarcha
 from vitalia.casos_de_uso.preguntar_al_asistente import Limites, PreguntarAlAsistente
 from vitalia.casos_de_uso.puertos import ProveedorIA, Reloj, Vectorizador
+from vitalia.casos_de_uso.registrar_asistencia import RegistrarAsistencia
 from vitalia.casos_de_uso.registrar_paciente import RegistrarPaciente
 from vitalia.casos_de_uso.revisar_salud import RevisarSalud
 from vitalia.casos_de_uso.subir_documento import SubirDocumento
@@ -104,6 +105,7 @@ def armar(
         listar_citas=ListarCitas(unidad, autorizador),
         mover_cita=MoverCita(unidad, autorizador, reloj),
         cancelar_cita=CancelarCita(unidad, autorizador, reloj),
+        registrar_asistencia=RegistrarAsistencia(unidad, autorizador, reloj),
         ver_inicio_del_paciente=VerInicioDelPaciente(unidad, autorizador, reloj),
         ver_agenda_de_hoy=VerAgendaDeHoy(unidad, autorizador, reloj),
         buscar_pacientes=BuscarPacientes(unidad, autorizador),

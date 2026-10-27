@@ -4,9 +4,44 @@
   gap: 10px;
 }
 
+/* Como en el lienzo: rótulos pequeños en mayúscula, no títulos. */
 .mis-citas__grupo h2 {
-  font-size: var(--tamano-titulo-tarjeta);
-  line-height: 24px;
+  color: var(--tinta-suave);
+  font-family: var(--letra-texto);
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.mis-citas__grupo + .mis-citas__grupo {
+  margin-top: 8px;
+}
+
+.mis-citas__agendar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: var(--radio-completo);
+  background: var(--acento);
+  box-shadow: var(--sombra-acento);
+  color: var(--superficie);
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.mis-citas__agendar:hover {
+  background: var(--acento-oscuro);
+  color: var(--superficie);
+}
+
+.mis-citas__agendar svg {
+  width: 18px;
+  height: 18px;
 }
 
 .mis-citas__cita,
@@ -39,8 +74,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 52px;
-  height: 56px;
+  width: 56px;
+  height: 64px;
   border-radius: var(--radio-campo);
   background: var(--acento-suave);
   color: var(--acento-oscuro);
@@ -49,10 +84,15 @@
   font-weight: 700;
 }
 
+.mis-citas__fecha--hoy {
+  background: var(--acento);
+  color: var(--superficie);
+}
+
 .mis-citas__dia {
   font-family: var(--letra-titulo);
-  font-size: 22px;
-  line-height: 24px;
+  font-size: 28px;
+  line-height: 30px;
 }
 
 .mis-citas__datos {
@@ -91,11 +131,43 @@
 }
 
 .mis-citas__telefono {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 8px;
-  min-height: 44px;
+  justify-content: center;
+  gap: 10px;
+  min-height: 46px;
+  border: 1.5px solid var(--linea);
+  border-radius: 12px;
+  background: var(--superficie);
+  box-shadow: var(--sombra-1);
+  color: var(--tinta);
   font-family: var(--letra-dato);
+  font-size: 15.5px;
   font-weight: 600;
   text-decoration: none;
+}
+
+.mis-citas__telefono svg {
+  width: 18px;
+  height: 18px;
+  color: var(--acento);
+}
+
+.mis-citas__acciones .boton {
+  font-size: 15.5px;
+}
+
+.mis-citas__cancelar {
+  color: var(--alerta);
+}
+
+.mis-citas__datos .texto-suave {
+  align-items: flex-start;
+}
+
+.mis-citas__datos .texto-suave svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
 }

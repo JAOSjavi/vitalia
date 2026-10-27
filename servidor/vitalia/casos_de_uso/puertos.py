@@ -7,7 +7,7 @@ from datetime import date, datetime
 from typing import Literal, Protocol
 from uuid import UUID
 
-from vitalia.dominio.agenda import EstadoDeCita, Franja, Intervalo, TipoDeCita
+from vitalia.dominio.agenda import Asistencia, EstadoDeCita, Franja, Intervalo, TipoDeCita
 from vitalia.dominio.cuentas import DatosDelMedico, DatosDelPaciente, Documento
 from vitalia.dominio.documentos import (
     ArchivoValido,
@@ -235,11 +235,13 @@ class Agenda(Protocol):
 
     async def cancelar_cita(self, cita_id: UUID) -> None: ...
 
+    async def marcar_asistencia(self, cita_id: UUID, estado: Asistencia) -> None: ...
+
     async def anotar_cambio(
         self,
         cita_id: UUID,
         usuario_id: UUID,
-        tipo: Literal["creada", "movida", "cancelada"],
+        tipo: Literal["creada", "movida", "cancelada", "asistencia", "correccion"],
         inicio_anterior: datetime | None = None,
         inicio_nuevo: datetime | None = None,
         motivo: str | None = None,

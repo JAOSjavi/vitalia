@@ -16,6 +16,7 @@ from vitalia.casos_de_uso.listar_citas import ListarCitas
 from vitalia.casos_de_uso.mover_cita import MoverCita
 from vitalia.casos_de_uso.poner_en_marcha import PonerEnMarcha
 from vitalia.casos_de_uso.preguntar_al_asistente import PreguntarAlAsistente
+from vitalia.casos_de_uso.registrar_asistencia import RegistrarAsistencia
 from vitalia.casos_de_uso.registrar_paciente import RegistrarPaciente
 from vitalia.casos_de_uso.revisar_salud import RevisarSalud
 from vitalia.casos_de_uso.subir_documento import SubirDocumento
@@ -51,6 +52,7 @@ class CasosDeUso:
     listar_citas: ListarCitas
     mover_cita: MoverCita
     cancelar_cita: CancelarCita
+    registrar_asistencia: RegistrarAsistencia
     ver_inicio_del_paciente: VerInicioDelPaciente
     ver_agenda_de_hoy: VerAgendaDeHoy
     buscar_pacientes: BuscarPacientes

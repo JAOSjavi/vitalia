@@ -38,3 +38,8 @@ export { PaperPlaneRightIcon } from "@phosphor-icons/react/PaperPlaneRight";
 export { UploadSimpleIcon } from "@phosphor-icons/react/UploadSimple";
 export { ImageIcon } from "@phosphor-icons/react/Image";
 export { SparkleIcon } from "@phosphor-icons/react/Sparkle";
+export { SlidersHorizontalIcon } from "@phosphor-icons/react/SlidersHorizontal";
+export { ClipboardTextIcon } from "@phosphor-icons/react/ClipboardText";
+export { CreditCardIcon } from "@phosphor-icons/react/CreditCard";
+export { CheckIcon } from "@phosphor-icons/react/Check";
+export { UserMinusIcon } from "@phosphor-icons/react/UserMinus";

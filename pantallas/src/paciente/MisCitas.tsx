@@ -8,10 +8,16 @@ import { ErrorDeApi } from "../api/cliente";
 import { cancelarCita, inicioDelPaciente, misCitas, type Cita } from "../api/citas";
 import { ESTADOS_DE_CITA } from "../comunes/estados";
 import { cuando, diaDelMes, fechaConAnio, fechaLarga, hora, mes } from "../comunes/fechas";
-import { ArrowsLeftRightIcon, CalendarPlusIcon, ClockIcon, PhoneIcon, XIcon } from "../comunes/iconos";
+import { ArrowsLeftRightIcon, ClockIcon, PhoneIcon, PlusIcon, XIcon } from "../comunes/iconos";
 import { Boton, BotonEnlace } from "../comunes/piezas/Boton";
 import { Estado } from "../comunes/piezas/Estado";
 import { Nota } from "../comunes/piezas/Nota";
+
+/** "Hoy", "Mañana" o el día de la semana: la fecha ya va en el bloque de al lado. */
+function diaCorto(momento: string) {
+  const dia = cuando(momento);
+  return dia === "Hoy" || dia === "Mañana" ? dia : dia.split(" ")[0];
+}
 
 /** P-06. Próximas primero, en orden de fecha; luego las anteriores (HU-013, HU-014, HU-015). */
 export function MisCitas() {
@@ -45,10 +51,10 @@ export function MisCitas() {
     <main>
       <header className="zona-paciente__encabezado">
         <h1>Mis citas</h1>
-        <BotonEnlace a="/paciente/agendar" clase="borde">
-          <CalendarPlusIcon />
+        <Link to="/paciente/agendar" className="mis-citas__agendar">
+          <PlusIcon aria-hidden="true" weight="bold" />
           Agendar
-        </BotonEnlace>
+        </Link>
       </header>
       {aviso && <Nota>{aviso}</Nota>}
       {fallo && <Nota tono="rojo">{fallo}</Nota>}
@@ -67,7 +73,10 @@ export function MisCitas() {
             return (
               <article key={cita.id} className="mis-citas__cita">
                 <div className="mis-citas__fila">
-                  <span className="mis-citas__fecha" aria-hidden="true">
+                  <span
+                    className={`mis-citas__fecha ${cuando(cita.inicio) === "Hoy" ? "mis-citas__fecha--hoy" : ""}`}
+                    aria-hidden="true"
+                  >
                     <span>{mes(cita.inicio)}</span>
                     <span className="mis-citas__dia">{diaDelMes(cita.inicio)}</span>
                   </span>
@@ -75,7 +84,7 @@ export function MisCitas() {
                     <span className="mis-citas__tipo">{cita.tipo}</span>
                     <span className="texto-suave">
                       <ClockIcon aria-hidden="true" />
-                      {cuando(cita.inicio)} · {hora(cita.inicio)} · {cita.duracion_minutos} min
+                      {diaCorto(cita.inicio)} · {hora(cita.inicio)} · {cita.duracion_minutos} min
                     </span>
                   </div>
                   <Estado tono={ESTADOS_DE_CITA[cita.estado].tono}>
@@ -114,11 +123,15 @@ export function MisCitas() {
                   </Nota>
                 ) : (
                   <div className="mis-citas__acciones">
-                    <BotonEnlace a={`/paciente/citas/${cita.id}/mover`} clase="neutro">
+                    <BotonEnlace a={`/paciente/citas/${cita.id}/mover`} clase="borde">
                       <ArrowsLeftRightIcon />
                       Mover
                     </BotonEnlace>
-                    <Boton clase="neutro" onClick={() => setParametros({ cancelar: cita.id })}>
+                    <Boton
+                      clase="neutro"
+                      className="mis-citas__cancelar"
+                      onClick={() => setParametros({ cancelar: cita.id })}
+                    >
                       <XIcon />
                       Cancelar
                     </Boton>
@@ -139,7 +152,7 @@ export function MisCitas() {
                 <div className="mis-citas__datos">
                   <span className="mis-citas__tipo">{cita.tipo}</span>
                   <span className="texto-suave">
-                    {fechaConAnio(cita.inicio)} · {hora(cita.inicio)}
+                    {fechaConAnio(cita.inicio).replace(/ de /g, " ")} · {hora(cita.inicio)}
                   </span>
                   {cita.motivo && (
                     <span className="texto-suave mis-citas__motivo">Motivo: {cita.motivo}</span>

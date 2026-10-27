@@ -124,3 +124,15 @@
     grid-template-columns: 1fr;
   }
 }
+
+.configuracion__encabezado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.configuracion__consultorio {
+  font-weight: 700;
+}

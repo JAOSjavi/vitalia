@@ -45,7 +45,7 @@ export function NuevaCita() {
 
   if (moviendo && !cita) {
     return (
-      <main className="zona-medico__contenido">
+      <main className="zona-medico__contenido zona-medico__contenido--angosto">
         <Nota>
           Abra la cita desde la <Link to="/medico/hoy">agenda de hoy</Link> para moverla.
         </Nota>
@@ -103,7 +103,7 @@ export function NuevaCita() {
   }
 
   return (
-    <main className="zona-medico__contenido">
+    <main className="zona-medico__contenido zona-medico__contenido--angosto">
       <header>
         <h1 className="nueva-cita__titulo">{moviendo ? "Mover la cita" : "Nueva cita"}</h1>
         {moviendo && cita && (
@@ -162,6 +162,7 @@ export function NuevaCita() {
             <SelectorDeEspacio
               tipo={tipo}
               cita={citaId}
+              diaInicial={parametros.get("dia")}
               elegido={inicio}
               alElegir={(elegido) => {
                 setOtraHora({ dia: "", hora: "" });

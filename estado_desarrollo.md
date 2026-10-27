@@ -127,6 +127,23 @@ Queda por fuera: el enlace temporal firmado cuando exista R2 (HU-027); cambiar l
 
 ---
 
+## 4.2 Interfaz corregida según el lienzo (27 de octubre)
+
+Una sesión anterior armó pantallas a su manera. Se rehicieron siguiendo el lienzo ([artefacto](https://claude.ai/artifact/R6WLHr5eAt7FQztseugqQY) y su copia en `diseno/lienzo/`): el paciente en celular y el médico en computador. En el lienzo publicado el tablero "Paciente · Inicio" quedó borrado salvo la barra de abajo; la copia completa está en `diseno/lienzo/Main.dc.html`.
+
+| Pantalla | Qué cambió |
+|---|---|
+| Menú del médico | Hoy, Calendario, Pacientes, Configuración; Bitácora y Cobro como "Pronto"; abajo las iniciales, el nombre, el registro y salir. Los datos del consultorio se abren desde Configuración |
+| Hoy | Buscador de pacientes, columna derecha con la tarjeta de quien sigue y el avance del día, pausas entre franjas, botones Atendida, No asistió, Mover, Cancelar y Corregir |
+| Calendario (nuevo, HU-022) | Vista de mes como el tablero, más semana y día; festivos de Colombia calculados en `comunes/festivos.ts`; "Agendar en este día" abre la cita nueva en ese día |
+| Inicio del paciente | Iniciales arriba (abren "Salir"), tarjeta "Mis documentos" con subidos y legibles; se quitó la tarjeta del consultorio, que no está en el lienzo |
+| Mis citas | Botón Agendar lleno, rótulos en mayúscula pequeña, bloque de fecha azul cuando es hoy, teléfono como botón |
+| Fechas | Sin coma, como en el lienzo: "martes 13 de octubre", "mié 14 oct" |
+
+Para que los botones de Hoy funcionen se construyó **HU-018 asistencia** en el servidor: `POST /citas/{id}/asistencia` (migración `0009`), y la agenda de hoy trae `sigue` con edad, documentos y autorización de IA de quien sigue, sin abrir su ficha ni dejar rastro en la bitácora.
+
+**Quedan fuera hasta que existan:** bloqueos (HU-009: no aparecen en el calendario ni el botón "Bloquear horario"), registrar paciente desde el panel (HU-024), tratamientos (E8: ni la pestaña del paciente ni la línea de la tarjeta de quien sigue), "Próximo espacio libre" del avance del día.
+
 ## 5. Cómo se trabaja con el código
 
 | Para | Orden, desde la carpeta indicada |
@@ -153,4 +170,4 @@ Variables del servidor: ver `servidor/.env.example` (`BD_URL`, `BD_URL_MIGRACION
 
 ### Lo que el bloque 2 dejó para después
 
-Bloqueos (HU-009), asistencia (HU-018), avisos por correo (HU-019), calendario de semana y mes (HU-022), registrar paciente desde el panel (HU-024), cobro (HU-026), y en el inicio del paciente los tratamientos y documentos (HU-020, CA-3 a CA-5).
+Bloqueos (HU-009), avisos por correo (HU-019), registrar paciente desde el panel (HU-024), cobro (HU-026) y, en el inicio del paciente, los tratamientos (HU-020). Asistencia (HU-018) y calendario (HU-022) se hicieron el 27 de octubre (sección 4.2).

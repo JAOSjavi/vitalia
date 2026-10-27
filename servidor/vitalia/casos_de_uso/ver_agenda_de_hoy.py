@@ -1,8 +1,9 @@
 """Agenda de hoy del médico, con lo que falta por configurar (HU-021, HU-001 CA-4)."""
 
 from dataclasses import dataclass
-from datetime import datetime, time, timedelta
+from datetime import date, datetime, time, timedelta
 from typing import Literal
+from uuid import UUID
 
 from vitalia.casos_de_uso.autorizar import Autorizador
 from vitalia.casos_de_uso.puertos import Cita, Reloj, UnidadDeTrabajo
@@ -14,12 +15,28 @@ Pendiente = Literal["horario", "tipos_cita", "consultorio"]
 
 
 @dataclass(frozen=True)
+class QuienSigue:
+    """Lo justo del paciente que sigue para prepararse, sin abrir su ficha ni dejar rastro."""
+
+    cita_id: UUID
+    edad: int
+    documentos: int
+    legibles: int
+    ia_autorizada: bool
+
+
+@dataclass(frozen=True)
 class AgendaDeHoy:
     dia: datetime
     citas: list[Cita]
     # Si hoy no hay citas, la próxima que haya agendada (HU-021, CA-3).
     proxima: Cita | None
     pendientes: list[Pendiente]
+    sigue: QuienSigue | None = None
+
+
+def edad(nacimiento: date, hoy: date) -> int:
+    return hoy.year - nacimiento.year - ((hoy.month, hoy.day) < (nacimiento.month, nacimiento.day))
 
 
 class VerAgendaDeHoy:
@@ -48,4 +65,17 @@ class VerAgendaDeHoy:
                 pendientes.append("tipos_cita")
             if not (await trabajo.consultorios.publico()).nombre:
                 pendientes.append("consultorio")
-        return AgendaDeHoy(inicio_del_dia, citas, proxima, pendientes)
+            sigue = None
+            cita = next((c for c in citas if c.estado == "confirmada" and c.fin > ahora), None)
+            if cita is not None:
+                datos = await trabajo.pacientes.ficha(cita.paciente_id)
+                documentos = await trabajo.documentos.listar_de(cita.paciente_id)
+                if datos is not None:
+                    sigue = QuienSigue(
+                        cita_id=cita.id,
+                        edad=edad(datos.fecha_nacimiento, dia_en_colombia(ahora)),
+                        documentos=len(documentos),
+                        legibles=sum(d.estado_lectura == "legible" for d in documentos),
+                        ia_autorizada=await trabajo.documentos.ia_autorizada(cita.paciente_id),
+                    )
+        return AgendaDeHoy(inicio_del_dia, citas, proxima, pendientes, sigue)

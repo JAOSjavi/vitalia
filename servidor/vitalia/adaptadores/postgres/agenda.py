@@ -10,7 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncConnection
 
 from vitalia.adaptadores.postgres.errores import traducir_errores
 from vitalia.casos_de_uso.puertos import Cita
-from vitalia.dominio.agenda import EstadoDeCita, Franja, Intervalo, TipoDeCita
+from vitalia.dominio.agenda import Asistencia, EstadoDeCita, Franja, Intervalo, TipoDeCita
 
 # El último motivo de cada cita sale de su historial de cambios.
 _CITAS = """
@@ -203,11 +203,17 @@ class AgendaPostgres:
             text("UPDATE citas SET estado = 'cancelada' WHERE id = :id"), {"id": cita_id}
         )
 
+    async def marcar_asistencia(self, cita_id: UUID, estado: Asistencia) -> None:
+        await self._conexion.execute(
+            text("UPDATE citas SET estado = :estado WHERE id = :id"),
+            {"id": cita_id, "estado": estado},
+        )
+
     async def anotar_cambio(
         self,
         cita_id: UUID,
         usuario_id: UUID,
-        tipo: Literal["creada", "movida", "cancelada"],
+        tipo: Literal["creada", "movida", "cancelada", "asistencia", "correccion"],
         inicio_anterior: datetime | None = None,
         inicio_nuevo: datetime | None = None,
         motivo: str | None = None,

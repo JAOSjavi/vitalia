@@ -113,22 +113,95 @@
   color: var(--superficie);
 }
 
-.inicio__vacio,
-.inicio__consultorio {
-  display: flex;
-  gap: 14px;
-  padding: 16px 20px;
-}
-
 .inicio__vacio {
+  display: flex;
   flex-direction: column;
   gap: 4px;
+  padding: 20px;
 }
 
-.inicio__vacio h2,
-.inicio__consultorio h2 {
-  font-size: 19px;
-  line-height: 24px;
+.inicio__vacio h2 {
+  font-size: var(--tamano-titulo-tarjeta);
+}
+
+.inicio__nombre {
+  font-size: 26px;
+  line-height: 30px;
+}
+
+/* Las iniciales abren el menú con "Salir". */
+.inicio__perfil {
+  position: relative;
+}
+
+.inicio__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: var(--radio-completo);
+  background: var(--acento-suave);
+  color: var(--acento-oscuro);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.inicio__menu {
+  position: absolute;
+  top: 52px;
+  right: 0;
+  z-index: 2;
+  padding: 6px;
+  border: 1px solid var(--linea);
+  border-radius: 12px;
+  background: var(--superficie);
+  box-shadow: var(--sombra-2);
+}
+
+.inicio__documentos {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1px solid var(--linea);
+  border-radius: 16px;
+  background: var(--superficie);
+  box-shadow: var(--sombra-2);
+  color: var(--tinta);
+  text-decoration: none;
+}
+
+.inicio__documentos:hover {
+  background: #f3f6fe;
+}
+
+.inicio__documentos-texto {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.inicio__documentos-titulo {
+  font-size: 15.5px;
+  line-height: 22px;
+  font-weight: 700;
+}
+
+.inicio__documentos .texto-suave {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.inicio__flecha {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  color: var(--tinta-suave);
 }
 
 .inicio__icono {
@@ -136,9 +209,14 @@
   flex: none;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radio-campo);
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
   background: var(--acento-suave);
   color: var(--acento);
+}
+
+.inicio__icono svg {
+  width: 20px;
+  height: 20px;
 }

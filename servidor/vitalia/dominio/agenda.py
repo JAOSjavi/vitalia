@@ -199,3 +199,28 @@ def puede_cambiarla_el_paciente(inicio: datetime, ahora: datetime, anticipacion_
 def revisar_que_se_pueda_cambiar(estado: EstadoDeCita, fin: datetime, ahora: datetime) -> None:
     if estado != "confirmada" or fin <= ahora:
         raise CitaNoModificable()
+
+
+Asistencia = Literal["atendida", "no_asistio"]
+
+
+def revisar_asistencia(
+    estado: EstadoDeCita, nuevo: Asistencia, inicio: datetime, ahora: datetime
+) -> Literal["asistencia", "correccion"]:
+    """Se marca el día de la cita o después; "no asistió" solo cuando su hora ya pasó (HU-018).
+
+    Una cita ya marcada se corrige solo el mismo día. Una cancelada no se marca.
+    """
+    if estado == "cancelada":
+        raise CitaNoModificable()
+    if dia_en_colombia(inicio) > dia_en_colombia(ahora):
+        raise DatosInvalidos({"estado": "La cita todavía no es hoy"})
+    if nuevo == "no_asistio" and inicio > ahora:
+        raise DatosInvalidos({"estado": "La hora de la cita todavía no ha pasado"})
+    if estado == "confirmada":
+        return "asistencia"
+    if estado == nuevo:
+        raise DatosInvalidos({"estado": "La cita ya tiene ese estado"})
+    if dia_en_colombia(inicio) != dia_en_colombia(ahora):
+        raise DatosInvalidos({"estado": "La asistencia solo se corrige el mismo día de la cita"})
+    return "correccion"

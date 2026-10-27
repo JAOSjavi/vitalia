@@ -1,3 +1,4 @@
+/* Panel del médico: medidas del lienzo (Médico · Hoy). */
 .zona-medico {
   display: flex;
   flex-wrap: wrap;
@@ -6,10 +7,14 @@
 }
 
 .zona-medico__menu {
+  position: sticky;
+  top: 0;
   display: flex;
-  flex: 1 1 240px;
+  flex: 0 0 240px;
   flex-direction: column;
   gap: 24px;
+  box-sizing: border-box;
+  height: 100vh;
   padding: 24px 16px;
   border-right: 1px solid var(--linea);
   background: var(--superficie);
@@ -31,18 +36,20 @@
   gap: 12px;
   min-height: 44px;
   padding: 0 12px;
-  border: 0;
   border-radius: 10px;
-  background: none;
   color: var(--tinta-suave);
-  font: inherit;
   font-size: 15.5px;
   font-weight: 600;
   text-decoration: none;
-  cursor: pointer;
 }
 
-.zona-medico__enlace:hover {
+.zona-medico__enlace svg {
+  flex: none;
+  width: 20px;
+  height: 20px;
+}
+
+a.zona-medico__enlace:hover {
   background: var(--fondo);
   color: var(--tinta);
 }
@@ -53,38 +60,131 @@
   font-weight: 700;
 }
 
-.zona-medico__salir {
-  margin-top: auto;
+.zona-medico__enlace--pronto {
+  cursor: default;
 }
 
+.zona-medico__texto {
+  flex: 1;
+}
+
+.zona-medico__pronto {
+  font-size: 12.5px;
+  line-height: 18px;
+  font-weight: 600;
+}
+
+.zona-medico__quien {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+  padding: 12px 8px 0;
+  border-top: 1px solid var(--linea-suave);
+}
+
+.zona-medico__avatar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radio-completo);
+  background: var(--acento-oscuro);
+  color: var(--superficie);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.zona-medico__datos {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.zona-medico__nombre {
+  font-size: 14.5px;
+  line-height: 20px;
+  font-weight: 700;
+}
+
+.zona-medico__registro {
+  color: var(--tinta-suave);
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.zona-medico__salir {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--tinta-suave);
+  cursor: pointer;
+}
+
+.zona-medico__salir svg {
+  width: 20px;
+  height: 20px;
+}
+
+.zona-medico__salir:hover {
+  background: var(--fondo);
+  color: var(--tinta);
+}
+
+/* El contenido ocupa todo el ancho, como en los tableros de computador. */
 .zona-medico__contenido {
   display: flex;
-  flex: 999 1 560px;
+  flex: 1 1 560px;
   flex-direction: column;
   gap: 24px;
+  box-sizing: border-box;
   min-width: 0;
-  max-width: 920px;
-  padding: 32px;
+  padding: 28px 32px 40px;
 }
 
+/* En pantallas angostas el menú pasa arriba; el panel está pensado para computador. */
 @media (max-width: 820px) {
   .zona-medico__menu {
+    position: static;
+    flex: 1 1 100%;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
+    height: auto;
     border-right: 0;
     border-bottom: 1px solid var(--linea);
   }
 
   .zona-medico__enlaces {
     flex-direction: row;
+    flex-wrap: wrap;
   }
 
-  .zona-medico__salir {
+  .zona-medico__enlace--pronto {
+    display: none;
+  }
+
+  .zona-medico__quien {
     margin: 0 0 0 auto;
+    padding: 0;
+    border: 0;
   }
 
   .zona-medico__contenido {
     padding: 24px 16px;
   }
+}
+
+/* Formularios y listas: sin tablero propio en el lienzo, se quedan a un ancho cómodo. */
+.zona-medico__contenido--angosto {
+  max-width: 920px;
 }

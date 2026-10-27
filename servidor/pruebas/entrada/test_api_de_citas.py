@@ -7,12 +7,9 @@ otra. El reloj se pone en un momento conocido de esa semana.
 import asyncio
 from datetime import date, datetime, timedelta
 from typing import Any
-from uuid import UUID
 
 import httpx
 import pytest
-from sqlalchemy import text
-from sqlalchemy.ext.asyncio import AsyncEngine
 
 from conftest import IngresarDoctora, NuevoPaciente, RelojMovible
 from vitalia.dominio.cuentas import COLOMBIA
@@ -396,28 +393,106 @@ async def test_una_cita_atendida_no_se_mueve_ni_se_cancela(
     nuevo_paciente: NuevoPaciente,
     reloj: RelojMovible,
     ingresar_doctora: IngresarDoctora,
-    motor_dueno: AsyncEngine,
 ) -> None:
     lunes = date(2031, 6, 30)
     reloj.poner(a_las(lunes - timedelta(days=3), 9))
     rosa = await nuevo_paciente()
     await _agendar(rosa, consultorio_listo["Consulta general"], a_las(lunes, 9))
     cita = (await _mis_citas(rosa))[0]
-    # Marcar la asistencia llega con HU-018: aquí se marca directo en la base.
-    async with motor_dueno.begin() as conexion:
-        await conexion.execute(text("ALTER TABLE citas NO FORCE ROW LEVEL SECURITY"))
-        await conexion.execute(
-            text("UPDATE citas SET estado = 'atendida' WHERE id = :id"), {"id": UUID(cita["id"])}
-        )
-        await conexion.execute(text("ALTER TABLE citas FORCE ROW LEVEL SECURITY"))
-
+    reloj.poner(a_las(lunes, 9, 40))
     doctora = await ingresar_doctora()
+    await doctora.post(f"/api/v1/citas/{cita['id']}/asistencia", json={"estado": "atendida"})
+
     respuesta = await doctora.post(
         f"/api/v1/citas/{cita['id']}/cancelar", json={"motivo": "Prueba"}
     )
 
     assert respuesta.status_code == 409
     assert respuesta.json()["codigo"] == "cita_no_modificable"
+
+
+# --- HU-018: asistencia
+
+
+async def _cita_de(
+    rosa: httpx.AsyncClient, tipo: str, reloj: RelojMovible, inicio: datetime
+) -> str:
+    """Rosa agenda tres días antes; devuelve el número de la cita."""
+    await _agendar(rosa, tipo, inicio)
+    cita_id: str = (await _mis_citas(rosa))[0]["id"]
+    return cita_id
+
+
+async def _marcar(ingresar_doctora: IngresarDoctora, cita_id: str, estado: str) -> httpx.Response:
+    # Cada salto del reloj vence la sesión anterior: la doctora vuelve a ingresar.
+    doctora = await ingresar_doctora()
+    return await doctora.post(f"/api/v1/citas/{cita_id}/asistencia", json={"estado": estado})
+
+
+async def _estado(ingresar_doctora: IngresarDoctora, cita_id: str) -> str:
+    doctora = await ingresar_doctora()
+    citas = (await doctora.get("/api/v1/citas")).json()
+    estado: str = next(c["estado"] for c in citas if c["id"] == cita_id)
+    return estado
+
+
+async def test_la_asistencia_se_marca_el_dia_de_la_cita(
+    consultorio_listo: dict[str, str],
+    nuevo_paciente: NuevoPaciente,
+    reloj: RelojMovible,
+    ingresar_doctora: IngresarDoctora,
+) -> None:
+    lunes = date(2031, 8, 4)
+    reloj.poner(a_las(lunes - timedelta(days=3), 9))
+    rosa = await nuevo_paciente()
+    cita = await _cita_de(rosa, consultorio_listo["Consulta general"], reloj, a_las(lunes, 9))
+
+    antes_de_tiempo = await _marcar(ingresar_doctora, cita, "atendida")
+    reloj.poner(a_las(lunes, 8, 30))
+    no_asistio_antes = await _marcar(ingresar_doctora, cita, "no_asistio")
+    atendida = await _marcar(ingresar_doctora, cita, "atendida")
+
+    assert antes_de_tiempo.status_code == 400
+    assert no_asistio_antes.status_code == 400
+    assert atendida.status_code == 204
+    assert await _estado(ingresar_doctora, cita) == "atendida"
+
+
+async def test_la_asistencia_se_corrige_solo_el_mismo_dia(
+    consultorio_listo: dict[str, str],
+    nuevo_paciente: NuevoPaciente,
+    reloj: RelojMovible,
+    ingresar_doctora: IngresarDoctora,
+) -> None:
+    lunes = date(2031, 8, 11)
+    reloj.poner(a_las(lunes - timedelta(days=3), 9))
+    rosa = await nuevo_paciente()
+    cita = await _cita_de(rosa, consultorio_listo["Consulta general"], reloj, a_las(lunes, 9))
+
+    reloj.poner(a_las(lunes, 10))
+    await _marcar(ingresar_doctora, cita, "no_asistio")
+    corregida = await _marcar(ingresar_doctora, cita, "atendida")
+    reloj.poner(a_las(lunes + timedelta(days=1), 8))
+    al_otro_dia = await _marcar(ingresar_doctora, cita, "no_asistio")
+
+    assert corregida.status_code == 204
+    assert al_otro_dia.status_code == 400
+    assert await _estado(ingresar_doctora, cita) == "atendida"
+
+
+async def test_un_paciente_no_marca_asistencia(
+    consultorio_listo: dict[str, str],
+    nuevo_paciente: NuevoPaciente,
+    reloj: RelojMovible,
+) -> None:
+    lunes = date(2031, 8, 18)
+    reloj.poner(a_las(lunes, 8))
+    rosa = await nuevo_paciente()
+    cita = await _cita_de(rosa, consultorio_listo["Consulta general"], reloj, a_las(lunes, 9, 30))
+
+    respuesta = await rosa.post(f"/api/v1/citas/{cita}/asistencia", json={"estado": "atendida"})
+
+    assert respuesta.status_code == 403
 
 
 # --- HU-021 y HU-001 CA-4: agenda de hoy y lo que falta por configurar
@@ -444,6 +519,10 @@ async def test_la_agenda_de_hoy_va_por_hora_con_paciente_tipo_y_estado(
         ("Carlos Muñoz Hoy", "Control", "confirmada"),
     ]
     assert agenda["pendientes"] == []
+    # La que sigue es la de Rosa: la tarjeta trae su edad y sus documentos, sin abrir la ficha.
+    assert agenda["sigue"]["cita_id"] == agenda["citas"][0]["id"]
+    assert agenda["sigue"]["documentos"] == 0
+    assert agenda["sigue"]["ia_autorizada"] is False
 
 
 async def test_un_dia_sin_citas_muestra_la_proxima(

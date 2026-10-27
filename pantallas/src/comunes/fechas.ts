@@ -31,12 +31,17 @@ export function hora(momento: string | Date) {
   return HORA.format(new Date(momento)).replace(/\s/g, " ");
 }
 
+/** "martes 13 de octubre", como en el lienzo: sin coma después del día. */
 export function fechaLarga(momento: string | Date) {
-  return FECHA_LARGA.format(new Date(momento));
+  return FECHA_LARGA.format(new Date(momento)).replace(",", "");
 }
 
+/** "mié 14 oct", como en el lienzo. */
 export function fechaCorta(momento: string | Date) {
-  return FECHA_CORTA.format(new Date(momento)).replace(/\./g, "");
+  return FECHA_CORTA.format(new Date(momento))
+    .replace(/\./g, "")
+    .replace(",", "")
+    .replace(/ de /g, " ");
 }
 
 export function fechaConAnio(momento: string | Date) {

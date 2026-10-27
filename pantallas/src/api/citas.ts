@@ -36,11 +36,21 @@ export type InicioDelPaciente = {
 
 export type Pendiente = "horario" | "tipos_cita" | "consultorio";
 
+/** Lo justo del paciente que sigue, para la tarjeta de Hoy; no abre su ficha. */
+export type QuienSigue = {
+  cita_id: string;
+  edad: number;
+  documentos: number;
+  legibles: number;
+  ia_autorizada: boolean;
+};
+
 export type AgendaDeHoy = {
   dia: string;
   citas: Cita[];
   proxima: Cita | null;
   pendientes: Pendiente[];
+  sigue: QuienSigue | null;
 };
 
 export type Franja = { dia_semana: number; hora_inicio: string; hora_fin: string };
@@ -111,6 +121,16 @@ export function moverCita(
 
 export function cancelarCita(id: string, motivo?: string) {
   return enviar<void>(`/api/v1/citas/${id}/cancelar`, "POST", { motivo: motivo || null });
+}
+
+/** Para el médico, todas las citas de un rango; para el paciente, las suyas. */
+export function citasEntre(desde: Date, hasta: Date) {
+  const parametros = new URLSearchParams({ desde: desde.toISOString(), hasta: hasta.toISOString() });
+  return pedir<Cita[]>(`/api/v1/citas?${parametros}`);
+}
+
+export function marcarAsistencia(id: string, estado: "atendida" | "no_asistio") {
+  return enviar<void>(`/api/v1/citas/${id}/asistencia`, "POST", { estado });
 }
 
 export function inicioDelPaciente() {

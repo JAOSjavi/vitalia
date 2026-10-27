@@ -2,7 +2,7 @@ import "./Pacientes.css";
 
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 
 import { buscarPacientes } from "../api/citas";
 import { CalendarPlusIcon, MagnifyingGlassIcon } from "../comunes/iconos";
@@ -23,7 +23,9 @@ function useDemorado(valor: string, milisegundos = 300) {
 
 /** M-04. Lista alfabética por páginas y búsqueda por nombre o documento (HU-023). */
 export function Pacientes() {
-  const [texto, setTexto] = useState("");
+  // Desde el buscador de Hoy llega lo que se buscó.
+  const [parametros] = useSearchParams();
+  const [texto, setTexto] = useState(parametros.get("buscar") ?? "");
   const [pagina, setPagina] = useState(1);
   const buscado = useDemorado(texto);
   const resultado = useQuery({
@@ -35,7 +37,7 @@ export function Pacientes() {
   const paginas = datos ? Math.max(1, Math.ceil(datos.total / datos.tamano)) : 1;
 
   return (
-    <main className="zona-medico__contenido">
+    <main className="zona-medico__contenido zona-medico__contenido--angosto">
       <h1 className="pacientes__titulo">Pacientes</h1>
       <Entrada
         type="search"

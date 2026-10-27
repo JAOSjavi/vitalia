@@ -1,18 +1,21 @@
 import "./Inicio.css";
 
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { Link } from "react-router";
 
 import { inicioDelPaciente } from "../api/citas";
-import { consultorioPublico } from "../api/consultorio";
+import { misDocumentos } from "../api/documentos";
 import { BotonSalir } from "../comunes/BotonSalir";
 import { conMayuscula, cuandoCorto, fechaLarga, hora } from "../comunes/fechas";
 import {
   CalendarBlankIcon,
   CalendarPlusIcon,
+  CaretRightIcon,
+  FileTextIcon,
   MapPinIcon,
   PhoneIcon,
-  StethoscopeIcon,
+  PlusIcon,
 } from "../comunes/iconos";
 import { BotonEnlace } from "../comunes/piezas/Boton";
 import { Tarjeta } from "../comunes/piezas/Tarjeta";
@@ -24,21 +27,43 @@ function saludo(horaDelDia = new Date().getHours()) {
   return "Buenas noches,";
 }
 
-/** P-04. La próxima cita con mover y cancelar, y el acceso para agendar (HU-020, CA-1 y CA-2). */
+function iniciales(nombres = "", apellidos = "") {
+  return `${nombres.trim()[0] ?? ""}${(nombres.trim().split(" ")[1] ?? apellidos.trim())[0] ?? ""}`.toUpperCase();
+}
+
+/** P-04, como el tablero "Paciente · Inicio" del lienzo (HU-020, CA-1 y CA-2). */
 export function Inicio() {
   const cuenta = useCuenta();
   const inicio = useQuery({ queryKey: ["inicio"], queryFn: inicioDelPaciente });
-  const consultorio = useQuery({ queryKey: ["consultorio-publico"], queryFn: consultorioPublico });
+  const documentos = useQuery({ queryKey: ["mis-documentos"], queryFn: misDocumentos });
+  const [menu, setMenu] = useState(false);
   const proxima = inicio.data?.proxima;
+  const subidos = documentos.data?.documentos ?? [];
+  const legibles = subidos.filter((d) => d.estado_lectura === "legible").length;
 
   return (
     <main>
       <header className="zona-paciente__encabezado">
         <div>
           <p className="texto-suave inicio__saludo">{saludo()}</p>
-          <h1>{cuenta.data?.nombres}</h1>
+          <h1 className="inicio__nombre">{cuenta.data?.nombres}</h1>
         </div>
-        <BotonSalir className="zona-paciente__salir" />
+        <div className="inicio__perfil">
+          <button
+            type="button"
+            className="inicio__avatar"
+            aria-label="Mi perfil"
+            aria-expanded={menu}
+            onClick={() => setMenu(!menu)}
+          >
+            {iniciales(cuenta.data?.nombres, cuenta.data?.apellidos)}
+          </button>
+          {menu && (
+            <div className="inicio__menu">
+              <BotonSalir className="zona-paciente__salir" />
+            </div>
+          )}
+        </div>
       </header>
 
       {inicio.data &&
@@ -90,24 +115,25 @@ export function Inicio() {
         ))}
 
       <BotonEnlace a="/paciente/agendar" clase={proxima ? "borde" : "principal"}>
-        <CalendarPlusIcon />
+        {proxima ? <PlusIcon weight="bold" /> : <CalendarPlusIcon />}
         {proxima ? "Agendar otra cita" : "Agendar una cita"}
       </BotonEnlace>
 
-      {consultorio.data?.nombre && (
-        <Tarjeta nombre="Su consultorio">
-          <div className="inicio__consultorio">
-            <span className="inicio__icono" aria-hidden="true">
-              <StethoscopeIcon />
+      {documentos.data && (
+        <Link to="/paciente/documentos" className="inicio__documentos">
+          <span className="inicio__icono" aria-hidden="true">
+            <FileTextIcon />
+          </span>
+          <span className="inicio__documentos-texto">
+            <span className="inicio__documentos-titulo">Mis documentos</span>
+            <span className="texto-suave">
+              {subidos.length
+                ? `${subidos.length} ${subidos.length === 1 ? "subido" : "subidos"} · ${legibles} ${legibles === 1 ? "legible" : "legibles"}`
+                : "Suba sus historias, exámenes o fórmulas"}
             </span>
-            <div>
-              <h2>{consultorio.data.nombre}</h2>
-              {consultorio.data.medico && (
-                <span className="texto-suave">{consultorio.data.medico} · Medicina general</span>
-              )}
-            </div>
-          </div>
-        </Tarjeta>
+          </span>
+          <CaretRightIcon aria-hidden="true" weight="bold" className="inicio__flecha" />
+        </Link>
       )}
     </main>
   );

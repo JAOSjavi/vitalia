@@ -21,7 +21,9 @@ export function apiDeMentira(respuestas: Record<string, Respuesta>) {
           typeof opciones.body === "string" ? JSON.parse(opciones.body) : (opciones.body ?? undefined),
         encabezados: new Headers(opciones.headers),
       });
-      const respuesta = respuestas[clave] ?? { estado: 404, cuerpo: { codigo: "no_existe" } };
+      // Si no hay una respuesta para la ruta con sus parámetros, sirve la de la ruta sola.
+      const respuesta = respuestas[clave] ??
+        respuestas[clave.split("?")[0]] ?? { estado: 404, cuerpo: { codigo: "no_existe" } };
       const estado = respuesta.estado ?? 200;
       return {
         ok: estado < 400,

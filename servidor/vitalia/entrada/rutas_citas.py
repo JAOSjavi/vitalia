@@ -8,7 +8,7 @@ from fastapi import APIRouter, Request, status
 from pydantic import AwareDatetime, BaseModel, Field
 
 from vitalia.casos_de_uso.puertos import Cita as CitaDelDominio
-from vitalia.dominio.agenda import EstadoDeCita, Franja, TipoDeCita
+from vitalia.dominio.agenda import Asistencia, EstadoDeCita, Franja, TipoDeCita
 from vitalia.dominio.cuentas import TipoDocumento
 from vitalia.entrada.sesion import Sesion, casos
 
@@ -116,6 +116,10 @@ class Cancelacion(BaseModel):
     motivo: str | None = Field(default=None, max_length=300)
 
 
+class MarcaDeAsistencia(BaseModel):
+    estado: Asistencia
+
+
 class InicioDelPaciente(BaseModel):
     proxima: Cita | None
     puede_cambiarla: bool
@@ -124,11 +128,20 @@ class InicioDelPaciente(BaseModel):
     direccion: str | None
 
 
+class QuienSigue(BaseModel):
+    cita_id: UUID
+    edad: int
+    documentos: int
+    legibles: int
+    ia_autorizada: bool
+
+
 class AgendaDeHoy(BaseModel):
     dia: datetime
     citas: list[Cita]
     proxima: Cita | None
     pendientes: list[Literal["horario", "tipos_cita", "consultorio"]]
+    sigue: QuienSigue | None
 
 
 class Paciente(BaseModel):
@@ -258,6 +271,13 @@ async def cancelar_cita(
     await casos(request).cancelar_cita.ejecutar(identidad, cita_id, cancelacion.motivo)
 
 
+@rutas.post("/citas/{cita_id}/asistencia", status_code=status.HTTP_204_NO_CONTENT)
+async def registrar_asistencia(
+    cita_id: UUID, marca: MarcaDeAsistencia, identidad: Sesion, request: Request
+) -> None:
+    await casos(request).registrar_asistencia.ejecutar(identidad, cita_id, marca.estado)
+
+
 @rutas.get("/yo/inicio")
 async def inicio_del_paciente(identidad: Sesion, request: Request) -> InicioDelPaciente:
     inicio = await casos(request).ver_inicio_del_paciente.ejecutar(identidad)
@@ -281,6 +301,7 @@ async def agenda_de_hoy(identidad: Sesion, request: Request) -> AgendaDeHoy:
         citas=[Cita.de(c) for c in agenda.citas],
         proxima=Cita.de(agenda.proxima) if agenda.proxima else None,
         pendientes=agenda.pendientes,
+        sigue=QuienSigue(**vars(agenda.sigue)) if agenda.sigue else None,
     )
 
 

@@ -67,3 +67,37 @@ test("avisa lo que falta configurar con enlace a cada parte", async () => {
   );
   expect(screen.getByText(/los pacientes no pueden agendar/)).toBeVisible();
 });
+
+test("la que sigue tiene su tarjeta y se marca como atendida", async () => {
+  const pedidos = apiDeMentira({
+    "GET /api/v1/agenda/hoy": {
+      cuerpo: {
+        dia: "2026-10-26",
+        citas: [CITA],
+        proxima: null,
+        pendientes: [],
+        sigue: { cita_id: "c1", edad: 68, documentos: 4, legibles: 3, ia_autorizada: true },
+      },
+    },
+    "POST /api/v1/citas/c1/asistencia": { estado: 204 },
+  });
+  mostrar("/medico/hoy", { "/medico/hoy": <Hoy /> });
+
+  const tarjeta = await screen.findByRole("region", { name: "La cita que sigue" });
+  expect(tarjeta).toHaveTextContent("Consulta general · 30 min · 68 años");
+  expect(tarjeta).toHaveTextContent("4 documentos subidos, 3 legibles");
+  expect(screen.getByRole("link", { name: /Abrir la ficha/ })).toHaveAttribute(
+    "href",
+    "/medico/pacientes/p1",
+  );
+  // Todavía no es la hora: "no asistió" espera a que pase.
+  expect(
+    screen.getByRole("button", { name: "Marcar que Rosa Elena Duarte no asistió" }),
+  ).toBeDisabled();
+
+  await userEvent.click(screen.getByRole("button", { name: "Atendida" }));
+
+  expect(pedidos.find((p) => p.clave === "POST /api/v1/citas/c1/asistencia")?.cuerpo).toEqual({
+    estado: "atendida",
+  });
+});
