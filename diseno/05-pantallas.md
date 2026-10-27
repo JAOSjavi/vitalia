@@ -1,7 +1,7 @@
 # Pantallas
 
 **Fase del ciclo de vida:** Diseño
-**Versión:** 1.1 · 13 de octubre de 2026
+**Versión:** 1.2 · 26 de octubre de 2026
 
 Inventario de pantallas, cómo se pasa de una a otra y qué historia cubre cada una. El prototipo navegable cubre el alcance del 12 de octubre; lo que cambió con las decisiones D-20 a D-24 está en el inventario y en la sección 6.
 
@@ -104,7 +104,7 @@ Es la pantalla que pidió el dueño del proyecto (D-24). Está dibujada en el li
 |---|---|
 | Encabezado | El paciente con su edad y su documento, la hora de inicio, el aviso de "borrador guardado" y el botón para cerrar la atención |
 | Centro: formulario | Ocho secciones en una sola columna, con un índice para saltar entre ellas: datos de la consulta; motivo y enfermedad actual; antecedentes; revisión por sistemas; signos vitales y examen físico; diagnóstico; plan, fórmula, órdenes e incapacidad; y cómo termina |
-| Derecha: asistente | El resumen del paciente y las preguntas, igual que en la ficha. Se puede plegar para darle más espacio al formulario |
+| Derecha: asistente | El resumen del paciente y las preguntas, igual que en la ficha. Debajo de cada respuesta, plegada, la lista de lo consultado. Se puede plegar para darle más espacio al formulario |
 | Avisos | Datos de identificación pendientes, arriba del formulario; y la lista de lo que falta, al intentar cerrar |
 
 Reglas de la pantalla:

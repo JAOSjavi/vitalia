@@ -1,7 +1,7 @@
 # Requisitos
 
 **Fase del ciclo de vida:** Planificación
-**Versión:** 2.1 · 13 de octubre de 2026
+**Versión:** 2.2 · 26 de octubre de 2026
 
 Cada requisito funcional (RF) indica la historia que lo desarrolla. Cada requisito no funcional (RNF) indica de qué norma o necesidad sale.
 
@@ -69,11 +69,11 @@ Cada requisito funcional (RF) indica la historia que lo desarrolla. Cada requisi
 
 | ID | El sistema debe… | Historia |
 |---|---|---|
-| RF-31 | Exigir la autorización expresa y revocable del paciente antes de usar IA sobre sus documentos | HU-032 |
-| RF-32 | Permitir al médico hacer preguntas en lenguaje natural sobre los documentos de un paciente | HU-034 |
+| RF-31 | Exigir la autorización expresa y revocable del paciente antes de usar IA sobre sus documentos y sus atenciones | HU-032 |
+| RF-32 | Permitir al médico hacer preguntas en lenguaje natural sobre los documentos y las atenciones cerradas de un paciente, buscando los fragmentos que responden | HU-034 |
 | RF-33 | Generar un resumen de diagnósticos, procedimientos, tratamientos, alergias y estado actual del paciente | HU-035 |
-| RF-34 | Indicar en cada respuesta el documento y la página de origen, y decir cuándo un dato no aparece | HU-034, HU-035 |
-| RF-35 | Hacer toda consulta a la IA desde el servidor y solo con los documentos del paciente consultado | HU-033 |
+| RF-34 | Indicar en cada respuesta el documento y la página, o la atención, de origen; mostrar lo consultado y decir cuándo un dato no se encontró | HU-034, HU-035 |
+| RF-35 | Hacer toda consulta a la IA desde el servidor y solo con los fragmentos del paciente consultado | HU-033 |
 
 ### E7 — Seguridad base
 

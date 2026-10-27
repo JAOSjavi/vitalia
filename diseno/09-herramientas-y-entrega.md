@@ -1,7 +1,7 @@
 # Herramientas y entrega
 
 **Fase del ciclo de vida:** Diseño
-**Versión:** 1.1 · 13 de octubre de 2026
+**Versión:** 1.2 · 26 de octubre de 2026
 
 Con qué piezas concretas se construye Vitalia, con qué servicios se trabaja y cómo llega el código a Render. Completa la [arquitectura](01-arquitectura.md), que decide los lenguajes y las capas.
 
@@ -51,10 +51,10 @@ El dueño del proyecto decidió montar los servicios **en la nube desde el prime
 
 | Necesidad | Cómo se resuelve |
 |---|---|
-| Base de datos | Para programar, PostgreSQL 18 en Docker (`docker-compose.yml`, D-29). Para publicar, PostgreSQL 18 en Render. En los dos, `vitalia_dev` es la base de trabajo y las pruebas crean y borran `vitalia_pruebas` |
+| Base de datos | Para programar, PostgreSQL 18 en Docker (`docker-compose.yml`, D-29), con la imagen `pgvector/pgvector:pg18`, que es la oficial de PostgreSQL 18 más la extensión `pgvector` (D-30); las pruebas de GitHub usan la misma. En Render la extensión se activa con la migración. Para publicar, PostgreSQL 18 en Render. En los dos, `vitalia_dev` es la base de trabajo y las pruebas crean y borran `vitalia_pruebas` |
 | Archivos | Cloudflare R2, espacio `vitalia-dev`. Las pruebas escriben bajo un prefijo propio y lo borran |
 | Correo | Un adaptador que escribe el correo en la consola en vez de enviarlo, hasta que exista el servicio de correo |
-| IA | Qwen, con la clave del dueño del proyecto. Las pruebas automáticas usan un adaptador de mentira con respuestas fijas y no gastan |
+| IA | Qwen, con la clave del dueño del proyecto. Las pruebas automáticas usan un adaptador de mentira con respuestas fijas y vectores calculados de las palabras del texto: no gastan y la búsqueda se puede probar igual |
 | Configuración | El archivo `servidor/.env`, que nunca entra al repositorio, y `servidor/.env.example` con los nombres de las variables y sin valores |
 | Datos | Un guion de datos inventados: un médico, unos pocos pacientes, citas y documentos. Nace con las primeras tablas |
 
@@ -113,6 +113,8 @@ El plan gratuito da 1 GB, no tiene respaldos y **vence a los 30 días de creada 
    | `IA_DIRECCION` | `https://<id del espacio>.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1` |
    | `IA_MODELO_RESPUESTAS` | `qwen3.7-plus` |
    | `IA_MODELO_LECTURA` | `qwen3.5-ocr` |
+   | `IA_MODELO_VECTORES` | `qwen3.7-text-embedding` |
+   | `IA_DIMENSIONES` | `1024` |
 
 ## 4. Repositorio y ramas
 

@@ -1,7 +1,7 @@
 # Diagramas de arquitectura
 
 **Fase del ciclo de vida:** Diseño
-**Versión:** 1.2 · 13 de octubre de 2026
+**Versión:** 1.3 · 26 de octubre de 2026
 
 Todos los diagramas están en código Mermaid: se ven dibujados en GitHub, en VS Code con la extensión de Mermaid o pegándolos en https://mermaid.live. Van de lo general a lo particular. La explicación de cada decisión está en [01-arquitectura.md](01-arquitectura.md).
 
@@ -208,6 +208,12 @@ sequenceDiagram
         L->>B: Deja el documento sin leer
     end
     L->>B: Guarda las páginas y el estado
+    opt Legible y con IA autorizada
+        L->>L: Parte cada página en fragmentos y retira identificadores
+        L->>I: Pide los vectores de los fragmentos
+        I-->>L: Vectores
+        L->>B: Guarda los fragmentos con su vector
+    end
 ```
 
 ### 5.4 Pregunta al asistente
@@ -224,13 +230,16 @@ sequenceDiagram
     alt Algo falla
         A-->>M: No se puede, con la razón
     else Todo en orden
-        A->>B: Texto de los documentos legibles de X
-        A->>A: Retira identificadores y arma el contexto
-        A->>I: Instrucciones, documentos de X y pregunta
+        A->>A: Retira identificadores de la pregunta
+        A->>I: Pide el vector de la pregunta
+        I-->>A: Vector
+        A->>B: Busca por significado y por palabras, solo en los fragmentos de X
+        B-->>A: Los fragmentos más cercanos, de documentos y atenciones
+        A->>I: Instrucciones, fragmentos rotulados y pregunta
         I-->>A: Respuesta por partes con orígenes
-        A->>A: Comprueba cada origen contra el texto guardado
+        A->>A: Comprueba cada origen contra los fragmentos enviados
         A->>B: Bitácora: quién, sobre quién y cuándo
-        A-->>M: Respuesta con documento y página
+        A-->>M: Respuesta con origen y lista de lo consultado
     end
 ```
 

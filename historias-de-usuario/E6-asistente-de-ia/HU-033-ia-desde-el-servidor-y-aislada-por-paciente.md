@@ -16,11 +16,12 @@
 ## Criterios de aceptación
 
 - **CA-1** · Dado el código que corre en el navegador, cuando se revisa, entonces no contiene la clave del proveedor de IA ni llamadas directas a él.
-- **CA-2** · Dada una consulta sobre un paciente, cuando el servidor arma la petición, entonces incluye únicamente el texto de los documentos legibles de ese paciente.
+- **CA-2** · Dada una consulta sobre un paciente, cuando el servidor busca los fragmentos, entonces solo encuentra fragmentos de ese paciente, de sus documentos y de sus atenciones cerradas, y la petición al proveedor lleva solo esos. *(Ajustado por D-30.)*
 - **CA-3** · Dado un paciente sin autorización vigente, cuando se intenta una consulta, entonces el servidor la bloquea antes de llamar al proveedor.
-- **CA-4** · Dada una consulta, cuando se envía, entonces no incluye el número de documento, el celular ni el correo del paciente.
-- **CA-5** · Dado que el volumen de documentos supera lo que admite una sola petición, cuando se arma el contexto, entonces se usan los resúmenes por documento y el médico ve el aviso.
+- **CA-4** · Dada una consulta o una vectorización, cuando se envía, entonces no incluye el nombre, el número de documento, el celular ni el correo del paciente. *(Ajustado por D-30.)*
+- **CA-5** · Dado un paciente con más texto del que admite una petición, cuando pregunto, entonces se envían solo los fragmentos más cercanos a la pregunta, buscados por significado y por palabras, sin pasar del tope. *(Ajustado por D-30.)*
 - **CA-6** · Dada cada consulta, cuando termina, entonces queda en la bitácora quién preguntó, sobre qué paciente y cuándo.
+- **CA-7** · Dado un paciente cuya autorización vigente es la versión 1 del texto, cuando pregunto, entonces la búsqueda no incluye sus atenciones y lo veo indicado. *(Agregado por D-30.)*
 
 ## Tareas y actividades
 
@@ -30,21 +31,22 @@
 - Validación del rol médico y de la autorización del paciente
 - Límite de consultas por hora
 
-### T-033.2 Armado del contexto
+### T-033.2 Búsqueda y armado del contexto
 
-- Selección de los documentos del paciente consultado
+- Función de búsqueda por paciente: por significado con `pgvector` y por palabras en español, combinadas
 - Retiro de los identificadores directos
-- Uso de resúmenes por documento cuando el volumen crece
+- Fragmentos rotulados por documento y página o por atención
 
 ### T-033.3 Pruebas
 
 - Consulta sobre un paciente sin autorización
 - Intento de consulta con rol paciente
-- Verificación de que no se mezclan documentos de pacientes distintos
+- Verificación de que la búsqueda no trae fragmentos de otro paciente
+- Paciente con la autorización versión 1: sin atenciones
 
 ## Nota de diseño
 
-El proveedor de la primera versión es Qwen, detrás de un adaptador que permite cambiarlo por configuración. Al modelo se le envía el texto ya leído de los documentos, no los archivos. El detalle está en [diseño del asistente](../../diseno/04-asistente-ia.md).
+El proveedor de la primera versión es Qwen, detrás de un adaptador que permite cambiarlo por configuración. Al modelo se le envían los fragmentos encontrados, no los archivos ni todo el historial (D-30). El detalle está en [diseño del asistente](../../diseno/04-asistente-ia.md).
 
 ## Relación con otras historias
 

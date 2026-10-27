@@ -16,8 +16,8 @@
 ## Criterios de aceptación
 
 - **CA-1** · Dada una cita de hoy o la ficha de un paciente, cuando elijo "Atender", entonces se abre la atención con la fecha y la hora de inicio y el formulario de la historia clínica en el centro.
-- **CA-2** · Dado que el paciente autorizó el uso de IA y tiene documentos legibles, cuando se abre la atención, entonces a un lado aparece el resumen del paciente y puedo hacerle preguntas al asistente sin salir de la pantalla.
-- **CA-3** · Dado que el paciente no autorizó el uso de IA o no tiene documentos legibles, cuando se abre la atención, entonces el lado del asistente lo explica y el formulario funciona igual.
+- **CA-2** · Dado que el paciente autorizó el uso de IA y tiene documentos indexados o atenciones cerradas, cuando se abre la atención, entonces a un lado aparece el resumen del paciente y puedo hacerle preguntas al asistente sin salir de la pantalla.
+- **CA-3** · Dado que el paciente no autorizó el uso de IA o no tiene nada indexado, cuando se abre la atención, entonces el lado del asistente lo explica y el formulario funciona igual.
 - **CA-4** · Dado que el asistente responde, cuando leo su respuesta, entonces nada de lo que dice pasa al formulario por sí solo: lo que queda en la historia lo escribo yo.
 - **CA-5** · Dado que estoy escribiendo, cuando cambio de sección o se cierra la pantalla, entonces lo escrito queda guardado como borrador y lo recupero al volver.
 - **CA-6** · Dado un paciente con una atención abierta, cuando intento abrirle otra, entonces el sistema me lleva a la que ya está abierta.

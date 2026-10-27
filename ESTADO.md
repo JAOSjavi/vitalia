@@ -15,7 +15,7 @@ Lo que cubre el alcance: cuentas, calendario de disponibilidad, citas de ambos l
 
 | Fase | Estado | Detalle |
 |---|---|---|
-| **1. Planificación** | Hecha | Alcance, requisitos, marco normativo, 46 historias en 9 épicas con 205 criterios, 109 tareas y 200 puntos |
+| **1. Planificación** | Hecha | Alcance, requisitos, marco normativo, 46 historias en 9 épicas con 212 criterios, 110 tareas y 200 puntos |
 | **2. Diseño** | Cerrada en documentos | Arquitectura limpia, modelo de datos con permisos por fila, API, asistente, pantallas, diagramas, base visual, herramientas y entrega |
 | **3. Desarrollo** | **En curso** | Bloques 1 (registro e ingreso) y 2 (citas) construidos, probados contra PostgreSQL 18 en Docker y unidos a `master`. Sigue el bloque 3. Falta el paso 0: crear los servicios en la nube y correrlo contra Render. Ver la sección 4 y [estado_desarrollo.md](estado_desarrollo.md) |
 | **4. Pruebas** | Sin iniciar | — |
@@ -28,6 +28,7 @@ Planificación y Diseño están confirmados en git y son consistentes entre sí:
 | Tema | Cómo quedó |
 |---|---|
 | Tecnología | Python con FastAPI, PostgreSQL en Render, React con Vite y TypeScript, archivos en Cloudflare R2 y Qwen como modelo de IA detrás de un adaptador intercambiable |
+| Asistente | Búsqueda de fragmentos (RAG) en los documentos del paciente y en sus atenciones cerradas, siempre de un solo paciente, con `pgvector` en la misma base (D-30) |
 | Servicios | En la nube desde el primer día, sin instalar nada en el computador (D-27) |
 | Código | Arquitectura limpia: dominio, casos de uso, adaptadores y entrada. Rápido, midiendo antes de optimizar (D-19) |
 | Ingreso | Tipo y número de documento más contraseña. El documento identifica; nunca hace de contraseña (D-20) |
@@ -43,7 +44,7 @@ Planificación y Diseño están confirmados en git y son consistentes entre sí:
 | Alcance y flujo principal | [planificacion/01-alcance-y-flujo.md](planificacion/01-alcance-y-flujo.md) |
 | 46 requisitos funcionales y 15 no funcionales | [planificacion/02-requisitos.md](planificacion/02-requisitos.md) |
 | Leyes, contenido mínimo de la historia clínica y ocho preguntas para el abogado | [planificacion/03-marco-normativo.md](planificacion/03-marco-normativo.md) |
-| Decisiones (D-01 a D-28), supuestos (S-01 a S-23) y decisiones de diseño (A-01 a A-15) | [planificacion/04-decisiones-y-supuestos.md](planificacion/04-decisiones-y-supuestos.md) |
+| Decisiones (D-01 a D-30), supuestos (S-01 a S-23) y decisiones de diseño (A-01 a A-15) | [planificacion/04-decisiones-y-supuestos.md](planificacion/04-decisiones-y-supuestos.md) |
 | Reglas del tablero Kanban | [planificacion/05-kanban.md](planificacion/05-kanban.md) |
 | 46 historias en 9 épicas, con criterios y tareas | [historias-de-usuario/](historias-de-usuario/) |
 | Orden de construcción y dependencias | [historias-de-usuario/RELACIONES.md](historias-de-usuario/RELACIONES.md) |
@@ -108,7 +109,7 @@ Cada historia sigue las capas de la [arquitectura](diseno/01-arquitectura.md), c
 |---|---|---|
 | **1 · Registro e ingreso** | Roles, permisos por fila, bitácora, cuenta del médico, registro del paciente con sus autorizaciones, ingreso y cierre de sesión | HU-006, HU-036, HU-037, HU-001, HU-002, HU-003, HU-004, HU-007 y la casilla de IA de HU-032 |
 | **2 · Citas** | Horario, tipos de cita y espacios libres; el paciente agenda, consulta, mueve y cancela; el médico ve su día, busca pacientes y crea, mueve y cancela | HU-008, HU-010, HU-011, HU-012 a HU-017, HU-020, HU-021, HU-023 |
-| **3 · Documentos y resumen con IA** | Almacenamiento privado, subir y listar documentos, lectura por página, autorización de IA, aislamiento por paciente, ficha, resumen, preguntas y visor | HU-027 a HU-035, HU-025 |
+| **3 · Documentos y resumen con IA** | Almacenamiento privado, subir y listar documentos, lectura por página, indexación en fragmentos, autorización de IA, búsqueda aislada por paciente, ficha, resumen, preguntas y visor. Las atenciones entran a la búsqueda cuando exista E9 | HU-027 a HU-035, HU-025 |
 | **Después** | Recuperación de contraseña; bloqueos, asistencia, avisos por correo y calendario; registro y corrección de pacientes desde el panel; cobro; tratamientos; historia clínica del consultorio | HU-005, HU-009, HU-018, HU-019, HU-022, HU-024, HU-026, HU-040, HU-038, HU-039, HU-041 a HU-046 |
 
 **Bloque 1: hecho el 14 de octubre, en la rama `bloque-1-registro-e-ingreso`**
@@ -144,7 +145,7 @@ Cada historia sigue las capas de la [arquitectura](diseno/01-arquitectura.md), c
 
 | # | Duda | Dónde |
 |---|---|---|
-| 1 y 2 | ¿La lectura de fotos es suficientemente buena? ¿El asistente cita bien el documento y la página? | Al empezar el bloque 3, con documentos inventados. Criterio: cero inventos, origen correcto en al menos nueve de cada diez respuestas y lectura aceptable de la foto nítida |
+| 1 y 2 | ¿La lectura de fotos es suficientemente buena? ¿La búsqueda trae el fragmento correcto y el asistente lo cita bien? | Al empezar el bloque 3, con documentos inventados. Criterio: cero inventos, origen correcto en al menos nueve de cada diez respuestas y lectura aceptable de la foto nítida |
 | 3 | ¿Los permisos por fila funcionan con un usuario sin privilegios en Render? | En el paso 1, apenas exista la base |
 | 4 | ¿La cookie de sesión funciona entre el sitio y la API? | Al publicar en Render, cuando cierre el bloque 1 |
 
@@ -187,6 +188,8 @@ Todo lo anterior se construye y se prueba con datos inventados. Para atender pac
 | Pruebas automáticas de GitHub | Escritas, sin correr: no hay repositorio remoto |
 | Privilegios del usuario dueño en Render | Su documentación no los indica. Dice que se pueden crear usuarios con SQL; lo despeja el paso 1 |
 | Modelos `qwen3.7-plus` y `qwen3.5-ocr` | Tomados de la documentación del proveedor el 13 de octubre; sin probar. El diseño nombraba la generación anterior |
+| Búsqueda de fragmentos (D-30) | Diseñada el 26 de octubre, sin construir. `qwen3.7-text-embedding` y `pgvector` en Render se tomaron de la documentación de cada uno ese día; ninguno se ha probado. Los números de la búsqueda (fragmentos de 1.000 caracteres, 20 por método, 12 enviados) son el punto de partida y se ajustan con el conjunto de prueba |
+| Texto de la autorización de IA, versión 2 | Hace falta para que las atenciones entren a la búsqueda. Sin escribir; lo revisa el abogado junto con la versión 1 |
 | Medio de pago en Cloudflare y en Alibaba Cloud | Es lo usual para activar el servicio; su documentación no lo confirma |
 | Grosor de los iconos | Se usa el de dos tonos de Phosphor, fijado en un solo lugar de `pantallas/src/principal.tsx`. La base visual dice "un solo grosor" sin decir cuál. Los iconos que se usan están listados en `pantallas/src/comunes/iconos.ts` |
 | Cambios del 13 de octubre en el lienzo | Se revisó que el código esté bien formado; no se vieron dibujados |

@@ -1,7 +1,7 @@
 # Contrato de la API
 
 **Fase del ciclo de vida:** Diseño
-**Versión:** 1.1 · 13 de octubre de 2026
+**Versión:** 1.2 · 26 de octubre de 2026
 
 La API es el único punto de entrada al sistema. Este documento dice qué operaciones existen, quién puede usarlas y qué historia las pide. Los campos exactos de cada petición se fijan al diseñar cada historia.
 
@@ -128,13 +128,13 @@ El enlace temporal dura máximo 15 minutos. El visor pide uno nuevo cuando el an
 
 | Operación | Ruta | Rol | Historia |
 |---|---|---|---|
-| Hacer una pregunta sobre los documentos de un paciente | `POST /pacientes/{id}/asistente/preguntas` | M | HU-034, HU-042 |
+| Hacer una pregunta sobre los documentos y las atenciones de un paciente | `POST /pacientes/{id}/asistente/preguntas` | M | HU-034, HU-042 |
 | Generar el resumen del paciente | `POST /pacientes/{id}/resumen` | M | HU-035 |
 | Ver el último resumen y si está desactualizado | `GET /pacientes/{id}/resumen` | M | HU-035, HU-042 |
 
-Antes de llamar al proveedor de IA, estas operaciones verifican, en este orden: rol médico, autorización de IA vigente del paciente, que haya al menos un documento legible y el tope de consultas por hora. Si algo falla, responden 422 o 429 y **no** se llama al proveedor (HU-033, CA-3).
+Antes de llamar al proveedor de IA, estas operaciones verifican, en este orden: rol médico, autorización de IA vigente del paciente, que tenga al menos un fragmento indexado y el tope de consultas por hora. Si algo falla, responden 422 o 429 y **no** se llama al proveedor (HU-033, CA-3).
 
-La respuesta a una pregunta llega por partes, para que el texto aparezca mientras se escribe. Al final llega la lista de orígenes, cada uno con documento, página y el fragmento citado.
+La respuesta a una pregunta llega por partes, para que el texto aparezca mientras se escribe. Al final llegan dos listas: los orígenes citados, cada uno con documento y página o con la atención, y la frase citada; y lo consultado, es decir, los documentos, páginas y atenciones de los fragmentos que encontró la búsqueda (D-30).
 
 La pantalla de atención usa estas mismas operaciones. No hay ninguna que escriba en la historia clínica con lo que responde el asistente (HU-042, CA-4).
 

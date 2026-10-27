@@ -1,7 +1,7 @@
 # Alcance y flujo principal
 
 **Fase del ciclo de vida:** Planificación
-**Versión:** 2.1 · 13 de octubre de 2026
+**Versión:** 2.2 · 26 de octubre de 2026
 
 ---
 
@@ -95,6 +95,6 @@ flowchart LR
 El modelo de inteligencia artificial no guarda memoria entre consultas. Cada vez que el médico pregunta, el servidor arma la petición únicamente con los documentos del paciente que tiene abierto. Por eso cada paciente queda aislado y varias consultas pueden ocurrir al tiempo sin mezclarse.
 
 - **Volumen.** El servidor lee el texto de cada documento y al modelo le envía solo texto. Los documentos de un paciente, diez o veinte, caben completos en una consulta; el máximo es un tope configurable. Si un paciente sube mucho más, se envían resúmenes por documento más las páginas relacionadas con la pregunta, y el médico ve que la consulta fue parcial.
-- **Calidad.** El asistente indica el documento y la página de cada dato, y dice "no aparece en los documentos" cuando no lo encuentra. Las fotos borrosas y las notas a mano bajan la calidad.
+- **Calidad.** El asistente busca los fragmentos que responden en los documentos y en las atenciones del paciente (D-30), indica el documento y la página, o la atención, de cada dato, y dice "no lo encontré en los documentos ni en las atenciones" cuando no lo encuentra. Las fotos borrosas y las notas a mano bajan la calidad.
 - **Límite.** Solo resume lo que está escrito. No diagnostica ni recomienda tratamiento.
 - **Permiso.** Sin la autorización del paciente, el asistente no se puede usar sobre sus documentos.

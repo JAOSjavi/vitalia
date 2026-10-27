@@ -80,6 +80,25 @@ Datos que quedaron en la base de Docker (inventados, los mismos de las pruebas):
 
 Después sigue el **bloque 3**, documentos y resumen con IA, con el orden de la sección 4 de [ESTADO.md](ESTADO.md). Antes de empezarlo hace falta la clave de Qwen y las dos fotos (sección 3).
 
+## 4.1 Cambio de diseño: el asistente con RAG (D-30)
+
+El 26 de octubre, antes de empezar el bloque 3, se decidió que el asistente busque fragmentos (RAG) en lugar de enviar todos los documentos, y que busque también en las atenciones cerradas del consultorio. Rama `bloque-3-documentos-e-ia`. Solo cambió el diseño; no hay código todavía.
+
+| Documento | Qué cambió |
+|---|---|
+| [04-asistente-ia.md](diseno/04-asistente-ia.md) | Versión 2.0: fuentes, indexación, búsqueda por significado y por palabras, comprobación de orígenes contra lo enviado, lista de lo consultado, resumen sin búsqueda, costo y pruebas |
+| [07-como-se-construye-el-asistente.md](diseno/07-como-se-construye-el-asistente.md) | Seis piezas en vez de cinco; partir, vectorizar y buscar, con esquemas; medir la búsqueda aparte de la respuesta |
+| [02-modelo-de-datos.md](diseno/02-modelo-de-datos.md) | Tabla `fragmentos` con su permiso por fila e índices; tipos en `trabajos_lectura`; borrado al retirar la autorización |
+| [01](diseno/01-arquitectura.md), [03](diseno/03-api.md), [05](diseno/05-pantallas.md), [09](diseno/09-herramientas-y-entrega.md) | `pgvector`, respuesta con lo consultado, imagen `pgvector/pgvector:pg18`, variables `IA_MODELO_VECTORES` e `IA_DIMENSIONES` |
+| Requisitos y decisiones | RF-31, RF-32, RF-34 y RF-35; decisión D-30 |
+| Historias | HU-031 a HU-035, HU-042 y HU-044: 7 criterios nuevos y 14 ajustados |
+
+**Al construir, primero:** cambiar la imagen de `docker-compose.yml` y de `.github/workflows/pruebas.yml` a `pgvector/pgvector:pg18` (el volumen sirve igual), y agregar `IA_MODELO_VECTORES` e `IA_DIMENSIONES` a `servidor/.env.example`.
+
+**Sin clave de Qwen se puede construir:** guardar y subir documentos, leer PDF con texto, partir en fragmentos, la tabla y la búsqueda con un adaptador de mentira cuyos vectores salen de las palabras, el aislamiento por paciente y la comprobación de orígenes. Con la clave: leer fotos, vectorizar de verdad, preguntar y medir la búsqueda con el conjunto de prueba.
+
+**Las atenciones** entran a la búsqueda cuando se construya la épica E9, y solo para pacientes con la versión 2 del texto de autorización de IA, que falta escribir.
+
 ---
 
 ## 5. Cómo se trabaja con el código

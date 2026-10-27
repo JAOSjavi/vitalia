@@ -1,11 +1,11 @@
 # Modelo de datos
 
 **Fase del ciclo de vida:** Diseño
-**Versión:** 1.1 · 13 de octubre de 2026
+**Versión:** 1.2 · 26 de octubre de 2026
 
 Base de datos PostgreSQL. Los nombres van en español y en minúsculas. Todas las fechas con hora se guardan en hora universal y se muestran en hora de Colombia.
 
-La versión 1.1 incorpora las decisiones D-20 a D-24: ingreso con documento, corrección de datos e historia clínica del consultorio. También cierra los permisos por fila de todas las tablas.
+La versión 1.1 incorpora las decisiones D-20 a D-24: ingreso con documento, corrección de datos e historia clínica del consultorio. También cierra los permisos por fila de todas las tablas. La versión 1.2 agrega la tabla `fragmentos` para la búsqueda del asistente (D-30).
 
 ---
 
@@ -31,6 +31,9 @@ erDiagram
     documentos ||--o{ paginas_documento : "contiene"
     documentos ||--o| resumenes_documento : "resume"
     documentos ||--o{ trabajos_lectura : "encola"
+    documentos ||--o{ fragmentos : "se parte en"
+    atenciones ||--o{ fragmentos : "se parte en"
+    pacientes ||--o{ fragmentos : "tiene"
     pacientes ||--o{ resumenes_paciente : "tiene"
     pacientes ||--o{ atenciones : "recibe"
     medicos ||--o{ atenciones : "firma"
@@ -89,11 +92,16 @@ Tipos de documento: `CC` cédula de ciudadanía, `CE` cédula de extranjería, `
 |---|---|---|
 | `documentos` | id, paciente_id, nombre, fecha_documento, tipo, formato, tamano, huella, clave_archivo, estado_lectura, paginas, subido_en | Tipos: `historia_clinica`, `examen`, `formula`, `imagen`, `otro`. Estados de lectura: `sin_leer`, `en_proceso`, `legible`, `no_legible`. `huella` es el resumen del contenido: si el paciente sube dos veces el mismo archivo, se detecta |
 | `paginas_documento` | documento_id, numero, texto, origen, legibilidad | `origen` dice si el texto venía en el PDF o se reconoció de una imagen |
-| `resumenes_documento` | documento_id, resumen, generado_en | Se usa cuando los documentos de un paciente no caben completos en una consulta |
-| `trabajos_lectura` | id, documento_id, estado, intentos, error, creado_en | Cola del lector. Estados: `pendiente`, `en_curso`, `hecho`, `fallido` |
+| `resumenes_documento` | documento_id, resumen, generado_en | Se genera al indexar el documento. Con estos resúmenes se arma el resumen del paciente, que tiene que estar completo y por eso no usa la búsqueda (HU-035) |
+| `trabajos_lectura` | id, tipo, documento_id, atencion_id, estado, intentos, error, creado_en | Cola del lector. Tipos: `leer`, `indexar_documento` e `indexar_atencion`. Estados: `pendiente`, `en_curso`, `hecho`, `fallido`. Lleva `documento_id` o `atencion_id`, según el tipo |
+| `fragmentos` | id, paciente_id, documento_id, pagina, atencion_id, seccion, orden, texto, vector, lexico, modelo, creado_en | Lo que busca el asistente (D-30). Cada fila sale **de una sola página** de un documento o de **una sección** de una atención cerrada; lleva `documento_id` y `pagina`, o `atencion_id` y `seccion`. `texto` ya va sin identificadores del paciente. `vector` es de tipo `vector(1024)` de `pgvector`. `lexico` es el texto preparado para la búsqueda por palabras en español sin tildes; se calcula en la base. `modelo` es el modelo de vectores con que se hizo, para saber qué volver a indexar si cambia |
 | `resumenes_paciente` | id, paciente_id, contenido, generado_en, desactualizado | `contenido` guarda las secciones del resumen con el origen de cada punto |
 
-**Eliminación.** Cuando el paciente elimina un documento se borran el archivo, sus páginas, su resumen y sus trabajos pendientes, y el resumen del paciente queda marcado como desactualizado. En la bitácora queda el hecho, sin el contenido.
+**Eliminación.** Cuando el paciente elimina un documento se borran el archivo, sus páginas, sus fragmentos, su resumen y sus trabajos pendientes, y el resumen del paciente queda marcado como desactualizado. En la bitácora queda el hecho, sin el contenido.
+
+**Retiro de la autorización de IA.** En la misma transacción que registra el retiro se borran todos los fragmentos del paciente, de documentos y de atenciones. Las páginas leídas se conservan para el visor. Si vuelve a autorizar, se indexa de nuevo.
+
+**Fragmentos de atenciones.** Se crean al cerrar la atención y no cambian, igual que ella; una nota aclaratoria agrega los suyos. Solo se crean si la autorización de IA que aceptó el paciente incluye las atenciones (versión 2 del texto).
 
 Las preguntas y respuestas del asistente **no se guardan**. La conversación vive en la pantalla mientras el médico la tiene abierta; en la bitácora solo queda quién preguntó, sobre qué paciente y cuándo.
 
@@ -185,6 +193,7 @@ El ingreso, el registro, la recuperación, la activación, la puesta en marcha y
 | `avisos_correo` | Inserta los de sus propios cambios | Lee e inserta | Lee y actualiza el estado |
 | `franjas_horario`, `bloqueos`, `tipos_cita` | Solo lectura de lo necesario para agendar | Lee y edita | — |
 | `documentos`, `paginas_documento` | Lee, crea y elimina los suyos | Lee todos; no crea ni elimina | Lee, actualiza el estado de lectura e inserta páginas |
+| `fragmentos` | — (se borran con su documento o al retirar la autorización) | Lee todos. La API solo los consulta con la búsqueda, que siempre recibe un paciente | Inserta y borra |
 | `trabajos_lectura` | Inserta al subir un documento | Lee | Lee y actualiza |
 | `resumenes_documento`, `resumenes_paciente` | — | Lee y crea | Crea los resúmenes por documento |
 | `atenciones`, `antecedentes_atencion`, `diagnosticos_atencion` | — | Lee todas; crea; edita solo las abiertas | — |
@@ -215,6 +224,7 @@ El ingreso, el registro, la recuperación, la activación, la puesta en marcha y
 | `cie10` | por código y por nombre, sin tildes | Buscador de diagnósticos |
 | `bitacora` | por `paciente_id` y `fecha` | Consulta de la bitácora |
 | `trabajos_lectura`, `avisos_correo` | por `estado` | Colas en segundo plano |
+| `fragmentos` | por `paciente_id`; GIN sobre `lexico`; por `documento_id` y por `atencion_id` | Búsqueda de un paciente y borrado en cascada. Sin índice aproximado de vectores: la búsqueda compara todos los fragmentos de un paciente, que son cientos. Se agrega solo si una medición lo pide (D-19) |
 
 ## 5. Trazabilidad con las historias
 
@@ -229,8 +239,8 @@ El ingreso, el registro, la recuperación, la activación, la puesta en marcha y
 | HU-011 a HU-018, HU-020 a HU-022 | `citas`, `cambios_cita` |
 | HU-019 | `avisos_correo` |
 | HU-023, HU-025, HU-026 | `pacientes`, `citas`, `documentos`, `tratamientos`, `atenciones`. HU-026 no toca tablas |
-| HU-027 a HU-031 | `documentos`, `paginas_documento`, `trabajos_lectura` |
-| HU-033 a HU-035 | `paginas_documento`, `resumenes_documento`, `resumenes_paciente` |
+| HU-027 a HU-031 | `documentos`, `paginas_documento`, `trabajos_lectura`, `fragmentos` |
+| HU-033 a HU-035 | `fragmentos`, `paginas_documento`, `resumenes_documento`, `resumenes_paciente`, `atenciones` y sus tablas, solo lectura |
 | HU-036 | Políticas y funciones de la sección 3 |
 | HU-037 | `bitacora` |
 | HU-038, HU-039 | `tratamientos`, `medicamentos_tratamiento` |
