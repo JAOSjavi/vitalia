@@ -9,11 +9,10 @@
 
 | Qué | Estado |
 |---|---|
-| Rama de trabajo | `bloque-2-citas`. `master` tiene el bloque 1 completo |
+| Rama de trabajo | `master`, con los bloques 1 y 2 completos. El bloque 3 empieza en una rama nueva |
 | Repositorio remoto | No existe todavía. Todo está solo en este computador |
 | Bloque 1 · Registro e ingreso | **Hecho y unido a `master`**. Servidor y pantallas |
-| Bloque 2 · Citas, servidor | **Hecho y confirmado** en la rama: 104 pruebas en verde |
-| Bloque 2 · Citas, pantallas | **Escritas, sin terminar**: compilan sin errores de tipos, pero falta conectarlas al menú del médico, sus pruebas y verlas en el navegador (sección 4) |
+| Bloque 2 · Citas | **Hecho y unido a `master`**. Servidor (105 pruebas) y pantallas (13 pruebas), recorridas en el navegador contra la base de Docker (sección 4) |
 | Bloque 3 · Documentos y resumen con IA | Sin empezar |
 | Base de datos para programar | **PostgreSQL 18 en Docker**, funcionando: 105 pruebas en verde contra él. Ver la sección 2 |
 | Servicios en la nube (Render, R2, Qwen) | Sin crear. Ver la sección 3 |
@@ -28,7 +27,9 @@
 | `7640201` | Servidor del bloque 1: HU-001 a HU-004 y HU-007 |
 | `25643ea` | Pantallas del bloque 1 |
 | `94794fc` | Servidor del bloque 2: citas |
-| (pendiente) | Pantallas del bloque 2, a medio terminar |
+| `87d9433` | Pantallas del bloque 2, a medio terminar |
+| `f4553a8` | PostgreSQL 18 en Docker (D-29) |
+| `e3c0ab5` | Menú del médico y pruebas de las pantallas del bloque 2 |
 
 ---
 
@@ -64,34 +65,20 @@ Para publicar sigue Render (sección 3). El almacenamiento de documentos en loca
 
 ---
 
-## 4. Pantallas del bloque 2: lo que falta
+## 4. Pantallas del bloque 2: cómo quedaron
 
-Ya escritos en `pantallas/src/`:
+Hecho el 26 de octubre:
 
-| Archivo | Qué es |
-|---|---|
-| `api/citas.ts` | Todas las llamadas de citas, horario, tipos, disponibilidad, agenda y pacientes |
-| `comunes/fechas.ts` | Fechas y horas en hora de Colombia con `Intl` |
-| `comunes/estados.ts` | Nombre y color de cada estado de cita |
-| `comunes/SelectorDeEspacio.tsx` | Elegir día y hora; solo muestra lo disponible. Lo usan paciente y médico |
-| `paciente/ZonaPaciente.tsx` | Rutas del paciente y barra de abajo (Inicio, Citas) |
-| `paciente/Inicio.tsx` | P-04: próxima cita con mover y cancelar, o el acceso para agendar |
-| `paciente/MisCitas.tsx` | P-06: próximas y anteriores, mover, cancelar con confirmación, aviso de 24 horas |
-| `paciente/Agendar.tsx` | P-05: tipo, día y hora, confirmación. También mueve una cita |
-| `medico/Hoy.tsx` | M-01: agenda de hoy, pendientes de configuración, mover y cancelar con motivo |
-| `medico/Pacientes.tsx` | M-04: búsqueda y lista por páginas |
-| `medico/NuevaCita.tsx` | M-03: cita para un paciente o mover una; permite una hora por fuera del horario con confirmación |
-| `medico/Configuracion.tsx` | M-08 y M-10: horario semanal y tipos de cita |
+- `medico/ZonaMedico.tsx` tiene el menú Hoy, Pacientes, Configuración y Consultorio, y las rutas `hoy` (inicial), `pacientes`, `citas/nueva`, `citas/:cita/mover`, `configuracion` y `consultorio`. Calendario, Bitácora y Cobro del lienzo llegan con HU-022, HU-037 y HU-026.
+- Pruebas nuevas en `paciente/Agendar.test.tsx`, `paciente/MisCitas.test.tsx` y `medico/Hoy.test.tsx`: agendar solo con horas libres, espacio ocupado con alternativas, cancelar con confirmación, menos de 24 horas, motivo obligatorio al cancelar como médico y aviso de lo que falta configurar. 13 pruebas en verde; `npm run build` sin errores.
+- **Recorrido contra la API y la base de Docker**: puesta en marcha de la médica, horario de lunes a viernes, tipo de cita, datos del consultorio (desaparece el aviso de pendientes), cita por fuera del horario con confirmación, moverla a otro día, ingreso de la paciente, inicio con la cita de mañana y solo el teléfono por faltar menos de 24 horas, agendar con aviso de cita repetida y cancelar con confirmación. La hora ocupada deja de ofrecerse.
+- Corregido en el recorrido: el aviso de cita confirmada terminaba en "a. m.." y en celular la hora se partía en dos líneas.
 
-Falta, en este orden:
+Datos que quedaron en la base de Docker (inventados, los mismos de las pruebas): la médica con documento CC 52345678 y la paciente CC 41652318; las contraseñas están en `servidor/pruebas/conftest.py` y `pantallas/src/paciente/CrearCuenta.test.tsx`. Para empezar de cero: `docker compose down -v`.
 
-1. **Conectar `medico/ZonaMedico.tsx`**: menú con Hoy, Pacientes, Configuración y Consultorio, y las rutas `hoy`, `pacientes`, `citas/nueva`, `citas/:cita/mover`, `configuracion` y `consultorio`. La ruta inicial pasa a ser `hoy`.
-2. Pruebas de pantallas (Vitest), como las del bloque 1: agendar solo con espacios libres, espacio ocupado con alternativas, cancelar con confirmación, menos de 24 horas, cancelar como médico exige motivo.
-3. `npm run test` y `npm run build`.
-4. Recorrerlas en el navegador contra la API y la base de Docker, comparando con el lienzo (`diseno/lienzo/Paciente-Agendar`, `Paciente-Citas`, `Main` y `Medico-Hoy`).
-5. Confirmar, unir `bloque-2-citas` a `master` y actualizar [ESTADO.md](ESTADO.md).
+**Sin verificar a la vista:** las pantallas del médico se revisaron leyendo su texto, no con capturas, porque la ventana del navegador estuvo oculta. Las del paciente (Mis citas en celular y Agendar en computador) sí se vieron y coinciden con el lienzo.
 
-Después sigue el **bloque 3**, documentos y resumen con IA, con el orden de la sección 4 de [ESTADO.md](ESTADO.md).
+Después sigue el **bloque 3**, documentos y resumen con IA, con el orden de la sección 4 de [ESTADO.md](ESTADO.md). Antes de empezarlo hace falta la clave de Qwen y las dos fotos (sección 3).
 
 ---
 
@@ -116,7 +103,7 @@ Variables del servidor: ver `servidor/.env.example` (`BD_URL`, `BD_URL_MIGRACION
 - Las pruebas de base usan su propia base `vitalia_pruebas`, que crean y borran. Cada prueba de citas usa una semana distinta del futuro y pone el reloj con `reloj.poner(...)`. La médica ingresa con `ingresar_doctora()` **después** de poner el reloj, o su sesión vence.
 - Los iconos de Phosphor se importan uno por uno desde `pantallas/src/comunes/iconos.ts`. Importar el paquete completo hace que las pruebas tarden cuatro minutos.
 - En el shell de esta máquina, los textos largos con comillas triples o plantillas dentro de `cat <<EOF` fallan: es más seguro escribir los archivos con la herramienta de escritura.
-- El puerto 5173 lo ocupa otro proyecto de Javier (`Desktop\Multimedia`): Vite toma el 5174. No hay que cerrarlo.
+- El puerto 5173 lo ocupa otro proyecto de Javier (`Desktop\Multimedia`): las pantallas de Vitalia van en el 5174. El enlace de puesta en marcha sale con 5173; hay que cambiarlo a 5174 a mano.
 - El navegador del entorno, si la ventana está oculta, no entrega bien los clics ni las teclas; los recorridos a la vista se hacen con la ventana visible.
 
 ### Lo que el bloque 2 dejó para después

@@ -1,6 +1,6 @@
 # Estado del proyecto y etapas del Desarrollo
 
-**Fecha:** 14 de octubre de 2026
+**Fecha:** 26 de octubre de 2026
 **Para qué sirve este archivo:** retomar el trabajo sin releer toda la conversación. Léalo primero.
 
 ---
@@ -17,7 +17,7 @@ Lo que cubre el alcance: cuentas, calendario de disponibilidad, citas de ambos l
 |---|---|---|
 | **1. Planificación** | Hecha | Alcance, requisitos, marco normativo, 46 historias en 9 épicas con 205 criterios, 109 tareas y 200 puntos |
 | **2. Diseño** | Cerrada en documentos | Arquitectura limpia, modelo de datos con permisos por fila, API, asistente, pantallas, diagramas, base visual, herramientas y entrega |
-| **3. Desarrollo** | **En curso** | Bloque 1 (registro e ingreso) construido y probado contra un PostgreSQL 18 temporal. Falta el paso 0: crear los servicios en la nube y correrlo contra Render. Ver la sección 4 |
+| **3. Desarrollo** | **En curso** | Bloques 1 (registro e ingreso) y 2 (citas) construidos, probados contra PostgreSQL 18 en Docker y unidos a `master`. Sigue el bloque 3. Falta el paso 0: crear los servicios en la nube y correrlo contra Render. Ver la sección 4 y [estado_desarrollo.md](estado_desarrollo.md) |
 | **4. Pruebas** | Sin iniciar | — |
 | **5. Despliegue** | Sin iniciar | — |
 
@@ -121,6 +121,14 @@ Cada historia sigue las capas de la [arquitectura](diseno/01-arquitectura.md), c
 | Enlace de la cuenta del médico | `uv run python -m vitalia.principal puesta-en-marcha` en `servidor/`. Sirve una vez y vence en 24 horas |
 | Textos de autorización | Borradores de la versión 1 en `servidor/migraciones/textos/`, para que los revise el abogado |
 
+**Bloque 2: hecho el 26 de octubre, en la rama `bloque-2-citas`**
+
+| Qué | Cómo quedó |
+|---|---|
+| Servidor | Horario semanal, tipos de cita, espacios libres calculados en el dominio, citas de los dos lados y agenda de hoy con lo que falta configurar. Dos citas no pueden ocupar el mismo tiempo: lo impide la base. 105 pruebas en verde contra PostgreSQL 18 en Docker |
+| Pantallas | Paciente: inicio con la próxima cita (P-04), agendar (P-05) y mis citas (P-06). Médico: hoy (M-01), pacientes (M-04), nueva cita o mover (M-03) y configuración (M-08, M-10). 13 pruebas en verde |
+| Recorrido a la vista | De punta a punta contra la API y la base de Docker; el detalle está en la sección 4 de [estado_desarrollo.md](estado_desarrollo.md) |
+
 **Lo que cada bloque deja para después**
 
 | Bloque | Qué queda por fuera | Por qué |
@@ -173,7 +181,7 @@ Todo lo anterior se construye y se prueba con datos inventados. Para atender pac
 | Tema | Situación |
 |---|---|
 | Servicios en la nube | Sin crear. Nada del código ha corrido contra Render, R2 ni Qwen |
-| Pruebas de base de datos | Pasan contra un PostgreSQL 18.4 temporal en el computador, que no trae las extensiones `btree_gist` y `unaccent`: esas dos líneas de la primera migración no han corrido. El instalador oficial, Render y las pruebas de GitHub sí las traen |
+| Pruebas de base de datos | Desde el 26 de octubre pasan contra PostgreSQL 18 en Docker, incluidas las extensiones `btree_gist` y `unaccent` (D-29). Falta correrlas contra Render |
 | Permisos forzados para el dueño de las tablas | Con ellos, ni el usuario de las migraciones ve filas si se conecta directo. Para cargar datos en una migración futura hay que quitarlos un momento dentro de la misma transacción. Falta confirmar que el usuario por defecto de Render no sea superusuario, porque ese se salta los permisos |
 | Ingreso, a la vista | El navegador del entorno estaba oculto y no entregó bien las teclas en la pantalla de ingreso. El ingreso correcto, el fallido y el bloqueo están probados de punta a punta en las pruebas automáticas, no a la vista |
 | Pruebas automáticas de GitHub | Escritas, sin correr: no hay repositorio remoto |
