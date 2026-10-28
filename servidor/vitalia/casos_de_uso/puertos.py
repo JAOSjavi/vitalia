@@ -7,7 +7,14 @@ from datetime import date, datetime
 from typing import Literal, Protocol
 from uuid import UUID
 
-from vitalia.dominio.agenda import Asistencia, EstadoDeCita, Franja, Intervalo, TipoDeCita
+from vitalia.dominio.agenda import (
+    Asistencia,
+    Bloqueo,
+    EstadoDeCita,
+    Franja,
+    Intervalo,
+    TipoDeCita,
+)
 from vitalia.dominio.cuentas import DatosDelMedico, DatosDelPaciente, Documento
 from vitalia.dominio.documentos import (
     ArchivoValido,
@@ -200,8 +207,10 @@ class Agenda(Protocol):
 
     async def guardar_tipo(self, tipo: TipoDeCita) -> None: ...
 
-    async def ocupados(self, desde: datetime, hasta: datetime) -> list[tuple[UUID, Intervalo]]:
-        """Lo ocupado en el rango, sin decir de quién. Sirve también al paciente."""
+    async def ocupados(
+        self, desde: datetime, hasta: datetime
+    ) -> list[tuple[UUID | None, Intervalo]]:
+        """Lo ocupado en el rango, sin decir de quién; sin cita es un bloqueo. Sirve al paciente."""
         ...
 
     async def citas(
@@ -236,6 +245,16 @@ class Agenda(Protocol):
     async def cancelar_cita(self, cita_id: UUID) -> None: ...
 
     async def marcar_asistencia(self, cita_id: UUID, estado: Asistencia) -> None: ...
+
+    async def bloqueos(self, desde: datetime, hasta: datetime) -> list[Bloqueo]:
+        """Los bloqueos que tocan el rango, en orden. Solo los ve el médico."""
+        ...
+
+    async def bloqueo(self, bloqueo_id: UUID) -> Bloqueo | None: ...
+
+    async def crear_bloqueo(self, intervalo: Intervalo, motivo: str, creado_por: UUID) -> UUID: ...
+
+    async def eliminar_bloqueo(self, bloqueo_id: UUID) -> None: ...
 
     async def anotar_cambio(
         self,

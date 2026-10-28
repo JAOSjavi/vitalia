@@ -63,3 +63,17 @@ test("cambia a semana y a día, y agenda en el día elegido", async () => {
     `/medico/citas/nueva?dia=${hoy.getFullYear()}-${mes}-${dia}`,
   );
 });
+
+test("un bloqueo aparece en su día y en el panel", async () => {
+  apiDeMentira({
+    "GET /api/v1/citas": { cuerpo: [] },
+    "GET /api/v1/bloqueos": {
+      cuerpo: [{ id: "b1", inicio: aLas(14), fin: aLas(17), motivo: "Congreso médico" }],
+    },
+  });
+  mostrar("/medico/calendario", { "/medico/calendario": <Calendario /> });
+
+  const panel = await screen.findByRole("region", { name: "Día seleccionado" });
+  expect(await within(panel).findByText(/Bloqueo: Congreso médico/)).toBeVisible();
+  expect(screen.getAllByText("Bloqueo").length).toBeGreaterThanOrEqual(2);
+});

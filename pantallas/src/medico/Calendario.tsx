@@ -4,12 +4,13 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Link } from "react-router";
 
-import { citasEntre, type Cita } from "../api/citas";
+import { bloqueosEntre, citasEntre, type Bloqueo, type Cita } from "../api/citas";
 import { ESTADOS_DE_CITA } from "../comunes/estados";
 import { festivo } from "../comunes/festivos";
 import { diaIso, hora } from "../comunes/fechas";
-import { CaretLeftIcon, CaretRightIcon, PlusIcon } from "../comunes/iconos";
+import { CaretLeftIcon, CaretRightIcon, LockKeyIcon, PlusIcon } from "../comunes/iconos";
 import { Estado } from "../comunes/piezas/Estado";
+import { tramoDelDia } from "./Bloqueos";
 
 type Vista = "dia" | "semana" | "mes";
 
@@ -91,6 +92,23 @@ export function Calendario() {
     queryFn: () => citasEntre(desde, hasta),
     placeholderData: keepPreviousData,
   });
+
+  const bloqueos = useQuery({
+    queryKey: ["bloqueos", desde.toISOString(), hasta.toISOString()],
+    queryFn: () => bloqueosEntre(desde, hasta),
+    placeholderData: keepPreviousData,
+  });
+
+  // Un bloqueo de varios días aparece en cada día que toca (HU-009, CA-4).
+  const bloqueosPorDia = new Map<string, Bloqueo[]>();
+  for (const bloqueo of bloqueos.data ?? []) {
+    const ultimo = diaIso(new Date(Date.parse(bloqueo.fin) - 1));
+    for (let dia = diaIso(bloqueo.inicio); dia <= ultimo; ) {
+      bloqueosPorDia.set(dia, [...(bloqueosPorDia.get(dia) ?? []), bloqueo]);
+      const [a, m, d] = dia.split("-").map(Number);
+      dia = clave(new Date(a, m - 1, d + 1));
+    }
+  }
 
   // Las canceladas no ocupan el día: no se cuentan ni se muestran.
   const porDia = new Map<string, Cita[]>();
@@ -186,6 +204,10 @@ export function Calendario() {
             <span className="calendario__marca calendario__marca--festivo" aria-hidden="true" />
             Festivo
           </li>
+          <li>
+            <span className="calendario__marca calendario__marca--bloqueo" aria-hidden="true" />
+            Bloqueo
+          </li>
         </ul>
       </div>
 
@@ -234,6 +256,12 @@ export function Calendario() {
                         Festivo
                       </span>
                     )}
+                    {bloqueosPorDia.has(k) && (
+                      <span className="calendario__ficha">
+                        <span className="calendario__marca calendario__marca--bloqueo" aria-hidden="true" />
+                        Bloqueo
+                      </span>
+                    )}
                   </button>
                 );
               })}
@@ -273,6 +301,12 @@ export function Calendario() {
                         Festivo
                       </span>
                     )}
+                    {(bloqueosPorDia.get(k) ?? []).map((bloqueo) => (
+                      <span key={bloqueo.id} className="calendario__ficha calendario__ficha--bloqueo">
+                        <span className="calendario__marca calendario__marca--bloqueo" aria-hidden="true" />
+                        {bloqueo.motivo}
+                      </span>
+                    ))}
                     {lista.map((cita) => (
                       <Link
                         key={cita.id}
@@ -294,6 +328,7 @@ export function Calendario() {
         <DiaElegido
           dia={diaElegido}
           citas={porDia.get(elegido) ?? []}
+          bloqueos={bloqueosPorDia.get(elegido) ?? []}
           ancho={vista === "dia"}
         />
       </div>
@@ -301,7 +336,17 @@ export function Calendario() {
   );
 }
 
-function DiaElegido({ dia, citas, ancho }: { dia: Date; citas: Cita[]; ancho: boolean }) {
+function DiaElegido({
+  dia,
+  citas,
+  bloqueos,
+  ancho,
+}: {
+  dia: Date;
+  citas: Cita[];
+  bloqueos: Bloqueo[];
+  ancho: boolean;
+}) {
   const deFestivo = festivo(dia);
   return (
     <section
@@ -322,6 +367,14 @@ function DiaElegido({ dia, citas, ancho }: { dia: Date; citas: Cita[]; ancho: bo
           <span>Festivo: {deFestivo}.</span>
         </p>
       )}
+      {bloqueos.map((bloqueo) => (
+        <p key={bloqueo.id} className="calendario__aviso">
+          <span className="calendario__marca calendario__marca--bloqueo" aria-hidden="true" />
+          <span>
+            Bloqueo: {bloqueo.motivo}, {tramoDelDia(bloqueo, clave(dia))}
+          </span>
+        </p>
+      ))}
       {citas.length > 0 ? (
         <div className="calendario__citas">
           {citas.map((cita) => (
@@ -345,6 +398,10 @@ function DiaElegido({ dia, citas, ancho }: { dia: Date; citas: Cita[]; ancho: bo
       <Link to={`/medico/citas/nueva?dia=${clave(dia)}`} className="calendario__agendar">
         <PlusIcon aria-hidden="true" weight="bold" />
         Agendar en este día
+      </Link>
+      <Link to={`/medico/bloqueos?dia=${clave(dia)}`} className="calendario__bloquear">
+        <LockKeyIcon aria-hidden="true" />
+        Bloquear este día
       </Link>
     </section>
   );

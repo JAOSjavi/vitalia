@@ -15,6 +15,7 @@ import {
 } from "../comunes/iconos";
 import { Marca } from "../comunes/piezas/Marca";
 import { useCerrarSesion } from "../comunes/sesion";
+import { Bloqueos } from "./Bloqueos";
 import { Calendario } from "./Calendario";
 import { Configuracion } from "./Configuracion";
 import { DatosDelConsultorio } from "./DatosDelConsultorio";
@@ -74,6 +75,7 @@ export default function ZonaMedico() {
         <Route index element={<Navigate to="hoy" replace />} />
         <Route path="hoy" element={<Hoy />} />
         <Route path="calendario" element={<Calendario />} />
+        <Route path="bloqueos" element={<Bloqueos />} />
         <Route path="pacientes" element={<Pacientes />} />
         <Route path="pacientes/:paciente" element={<Ficha />} />
         <Route path="citas/nueva" element={<NuevaCita />} />

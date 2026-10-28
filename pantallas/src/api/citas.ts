@@ -45,12 +45,16 @@ export type QuienSigue = {
   ia_autorizada: boolean;
 };
 
+/** Tiempo en que el médico no atiende (HU-009). Varios días son un solo rango. */
+export type Bloqueo = { id: string; inicio: string; fin: string; motivo: string };
+
 export type AgendaDeHoy = {
   dia: string;
   citas: Cita[];
   proxima: Cita | null;
   pendientes: Pendiente[];
   sigue: QuienSigue | null;
+  bloqueos: Bloqueo[];
 };
 
 export type Franja = { dia_semana: number; hora_inicio: string; hora_fin: string };
@@ -127,6 +131,20 @@ export function cancelarCita(id: string, motivo?: string) {
 export function citasEntre(desde: Date, hasta: Date) {
   const parametros = new URLSearchParams({ desde: desde.toISOString(), hasta: hasta.toISOString() });
   return pedir<Cita[]>(`/api/v1/citas?${parametros}`);
+}
+
+export function bloqueosEntre(desde: Date, hasta: Date) {
+  const parametros = new URLSearchParams({ desde: desde.toISOString(), hasta: hasta.toISOString() });
+  return pedir<Bloqueo[]>(`/api/v1/bloqueos?${parametros}`);
+}
+
+/** Si tapa citas responde 409 "bloqueo_con_citas" con ellas en el detalle. */
+export function crearBloqueo(datos: { inicio: string; fin: string; motivo: string }) {
+  return enviar<{ id: string }>("/api/v1/bloqueos", "POST", datos);
+}
+
+export function eliminarBloqueo(id: string) {
+  return enviar<void>(`/api/v1/bloqueos/${id}`, "DELETE");
 }
 
 export function marcarAsistencia(id: string, estado: "atendida" | "no_asistio") {

@@ -25,7 +25,7 @@ const CITA = {
 test("cancelar como médico exige el motivo", async () => {
   const pedidos = apiDeMentira({
     "GET /api/v1/agenda/hoy": {
-      cuerpo: { dia: "2026-10-26", citas: [CITA], proxima: CITA, pendientes: [] },
+      cuerpo: { dia: "2026-10-26", citas: [CITA], proxima: CITA, pendientes: [], bloqueos: [] },
     },
     "POST /api/v1/citas/c1/cancelar": {
       estado: 400,
@@ -52,7 +52,13 @@ test("cancelar como médico exige el motivo", async () => {
 test("avisa lo que falta configurar con enlace a cada parte", async () => {
   apiDeMentira({
     "GET /api/v1/agenda/hoy": {
-      cuerpo: { dia: "2026-10-26", citas: [], proxima: null, pendientes: ["horario", "consultorio"] },
+      cuerpo: {
+        dia: "2026-10-26",
+        citas: [],
+        proxima: null,
+        pendientes: ["horario", "consultorio"],
+        bloqueos: [],
+      },
     },
   });
   mostrar("/medico/hoy", { "/medico/hoy": <Hoy /> });
@@ -77,6 +83,7 @@ test("la que sigue tiene su tarjeta y se marca como atendida", async () => {
         proxima: null,
         pendientes: [],
         sigue: { cita_id: "c1", edad: 68, documentos: 4, legibles: 3, ia_autorizada: true },
+        bloqueos: [],
       },
     },
     "POST /api/v1/citas/c1/asistencia": { estado: 204 },
@@ -100,4 +107,34 @@ test("la que sigue tiene su tarjeta y se marca como atendida", async () => {
   expect(pedidos.find((p) => p.clave === "POST /api/v1/citas/c1/asistencia")?.cuerpo).toEqual({
     estado: "atendida",
   });
+});
+
+test("los bloqueos de hoy van entre las citas y hay acceso para bloquear", async () => {
+  const despues = new Date(inicio + 2 * HORA);
+  apiDeMentira({
+    "GET /api/v1/agenda/hoy": {
+      cuerpo: {
+        dia: "2026-10-26",
+        citas: [CITA],
+        proxima: null,
+        pendientes: [],
+        sigue: null,
+        bloqueos: [
+          {
+            id: "b1",
+            inicio: despues.toISOString(),
+            fin: new Date(despues.getTime() + HORA).toISOString(),
+            motivo: "Congreso médico",
+          },
+        ],
+      },
+    },
+  });
+  mostrar("/medico/hoy", { "/medico/hoy": <Hoy /> });
+
+  expect(await screen.findByText(/Bloqueo: Congreso médico/)).toBeVisible();
+  expect(screen.getByRole("link", { name: "Bloquear horario" })).toHaveAttribute(
+    "href",
+    "/medico/bloqueos",
+  );
 });

@@ -7,7 +7,7 @@ from uuid import UUID
 
 from vitalia.casos_de_uso.autorizar import Autorizador
 from vitalia.casos_de_uso.puertos import Cita, Reloj, UnidadDeTrabajo
-from vitalia.dominio.agenda import dia_en_colombia
+from vitalia.dominio.agenda import Bloqueo, dia_en_colombia
 from vitalia.dominio.cuentas import COLOMBIA
 from vitalia.dominio.identidad import Identidad
 
@@ -33,6 +33,8 @@ class AgendaDeHoy:
     proxima: Cita | None
     pendientes: list[Pendiente]
     sigue: QuienSigue | None = None
+    # Los bloqueos de hoy, para mostrarlos entre las citas (HU-009).
+    bloqueos: tuple[Bloqueo, ...] = ()
 
 
 def edad(nacimiento: date, hoy: date) -> int:
@@ -78,4 +80,5 @@ class VerAgendaDeHoy:
                         legibles=sum(d.estado_lectura == "legible" for d in documentos),
                         ia_autorizada=await trabajo.documentos.ia_autorizada(cita.paciente_id),
                     )
-        return AgendaDeHoy(inicio_del_dia, citas, proxima, pendientes, sigue)
+            bloqueos = await trabajo.agenda.bloqueos(inicio_del_dia, fin_del_dia)
+        return AgendaDeHoy(inicio_del_dia, citas, proxima, pendientes, sigue, tuple(bloqueos))

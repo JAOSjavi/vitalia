@@ -23,6 +23,7 @@ from vitalia.adaptadores.reloj import RelojDelSistema
 from vitalia.casos_de_uso.abrir_y_eliminar_documento import AbrirDocumento, EliminarDocumento
 from vitalia.casos_de_uso.agendar_cita import AgendarCita
 from vitalia.casos_de_uso.autorizar import Autorizador
+from vitalia.casos_de_uso.bloqueos import Bloqueos
 from vitalia.casos_de_uso.buscar_fragmentos import BuscarFragmentos
 from vitalia.casos_de_uso.buscar_pacientes import BuscarPacientes
 from vitalia.casos_de_uso.cancelar_cita import CancelarCita
@@ -106,6 +107,7 @@ def armar(
         mover_cita=MoverCita(unidad, autorizador, reloj),
         cancelar_cita=CancelarCita(unidad, autorizador, reloj),
         registrar_asistencia=RegistrarAsistencia(unidad, autorizador, reloj),
+        bloqueos=Bloqueos(unidad, autorizador, reloj),
         ver_inicio_del_paciente=VerInicioDelPaciente(unidad, autorizador, reloj),
         ver_agenda_de_hoy=VerAgendaDeHoy(unidad, autorizador, reloj),
         buscar_pacientes=BuscarPacientes(unidad, autorizador),

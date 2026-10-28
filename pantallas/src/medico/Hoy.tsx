@@ -13,16 +13,18 @@ import {
   type Cita,
   type Franja,
   type Pendiente,
+  type Bloqueo,
   type QuienSigue,
 } from "../api/citas";
 import { ESTADOS_DE_CITA } from "../comunes/estados";
-import { conMayuscula, fechaLarga, hora } from "../comunes/fechas";
+import { conMayuscula, diaIso, fechaLarga, hora } from "../comunes/fechas";
 import {
   ArrowRightIcon,
   ArrowsLeftRightIcon,
   CheckIcon,
   ClockIcon,
   FileTextIcon,
+  LockKeyIcon,
   MagnifyingGlassIcon,
   PlusIcon,
   SparkleIcon,
@@ -33,6 +35,7 @@ import { Boton } from "../comunes/piezas/Boton";
 import { Campo, Entrada } from "../comunes/piezas/Campo";
 import { Estado } from "../comunes/piezas/Estado";
 import { Nota } from "../comunes/piezas/Nota";
+import { tramoDelDia } from "./Bloqueos";
 import { iniciales } from "./ZonaMedico";
 
 const PENDIENTES: Record<Pendiente, { texto: string; a: string }> = {
@@ -69,6 +72,10 @@ function horaEnColombia(momento: string) {
   }).format(new Date(momento));
 }
 
+function inicioDe(fila: { tipo: "cita"; cita: Cita } | { tipo: "bloqueo"; bloqueo: Bloqueo }) {
+  return fila.tipo === "cita" ? fila.cita.inicio : fila.bloqueo.inicio;
+}
+
 /** M-01, como el tablero "Médico · Hoy" del lienzo (HU-021, HU-017, HU-018, HU-001 CA-4). */
 export function Hoy() {
   const agenda = useQuery({ queryKey: ["agenda-hoy"], queryFn: agendaDeHoy });
@@ -88,16 +95,24 @@ export function Hoy() {
     navegar(`/medico/pacientes?buscar=${encodeURIComponent(buscado.trim())}`);
   }
 
-  // Cada pausa va antes de la primera cita que empieza después de ella.
-  const filas: ({ tipo: "cita"; cita: Cita } | { tipo: "pausa"; desde: string; hasta: string })[] =
-    [];
+  // Citas y bloqueos en orden de hora; cada pausa va antes de lo primero que empieza después.
+  type Fila =
+    | { tipo: "cita"; cita: Cita }
+    | { tipo: "bloqueo"; bloqueo: Bloqueo }
+    | { tipo: "pausa"; desde: string; hasta: string };
+  type Evento = Exclude<Fila, { tipo: "pausa" }>;
+  const eventos: Evento[] = [
+    ...citas.map((cita) => ({ tipo: "cita" as const, cita })),
+    ...(agenda.data?.bloqueos ?? []).map((bloqueo) => ({ tipo: "bloqueo" as const, bloqueo })),
+  ].sort((a, b) => inicioDe(a).localeCompare(inicioDe(b)));
+  const filas: Fila[] = [];
   const pendientesDePausa = [...pausas];
-  for (const cita of citas) {
-    while (pendientesDePausa.length && horaEnColombia(cita.inicio) >= pendientesDePausa[0].hasta) {
-      const pausa = pendientesDePausa.shift()!;
-      filas.push({ tipo: "pausa", ...pausa });
+  for (const evento of eventos) {
+    const empieza = horaEnColombia(inicioDe(evento));
+    while (pendientesDePausa.length && empieza >= pendientesDePausa[0].hasta) {
+      filas.push({ tipo: "pausa", ...pendientesDePausa.shift()! });
     }
-    filas.push({ tipo: "cita", cita });
+    filas.push(evento);
   }
 
   return (
@@ -147,7 +162,7 @@ export function Hoy() {
       )}
 
       <div className="hoy__cuerpo">
-        {agenda.data && !citas.length ? (
+        {agenda.data && !citas.length && !agenda.data.bloqueos.length ? (
           <div className="hoy__lista hoy__lista--vacia">
             <Nota>
               {agenda.data.proxima
@@ -156,7 +171,7 @@ export function Hoy() {
             </Nota>
           </div>
         ) : (
-          citas.length > 0 && (
+          filas.length > 0 && (
             <section aria-label="Citas de hoy" className="hoy__lista">
               <div className="hoy__cabecera">
                 <h2>
@@ -167,7 +182,13 @@ export function Hoy() {
                 </span>
               </div>
               {filas.map((fila) =>
-                fila.tipo === "pausa" ? (
+                fila.tipo === "bloqueo" ? (
+                  <div key={`bloqueo-${fila.bloqueo.id}`} className="hoy__pausa hoy__bloqueo">
+                    <span className="hoy__punto-bloqueo" aria-hidden="true" />
+                    {conMayuscula(tramoDelDia(fila.bloqueo, diaIso(ahora)))} · Bloqueo:{" "}
+                    {fila.bloqueo.motivo}
+                  </div>
+                ) : fila.tipo === "pausa" ? (
                   <div key={`pausa-${fila.desde}`} className="hoy__pausa">
                     <ClockIcon aria-hidden="true" />
                     {horaDeFranja(fila.desde)} a {horaDeFranja(fila.hasta)} · Sin atención
@@ -202,6 +223,12 @@ export function Hoy() {
                 </span>
               </div>
             </section>
+            <div className="hoy__rapidos">
+              <Link to="/medico/bloqueos" className="hoy__rapido">
+                <LockKeyIcon aria-hidden="true" />
+                Bloquear horario
+              </Link>
+            </div>
           </aside>
         )}
       </div>

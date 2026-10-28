@@ -4,6 +4,7 @@ from dataclasses import dataclass
 
 from vitalia.casos_de_uso.abrir_y_eliminar_documento import AbrirDocumento, EliminarDocumento
 from vitalia.casos_de_uso.agendar_cita import AgendarCita
+from vitalia.casos_de_uso.bloqueos import Bloqueos
 from vitalia.casos_de_uso.buscar_fragmentos import BuscarFragmentos
 from vitalia.casos_de_uso.buscar_pacientes import BuscarPacientes
 from vitalia.casos_de_uso.cancelar_cita import CancelarCita
@@ -53,6 +54,7 @@ class CasosDeUso:
     mover_cita: MoverCita
     cancelar_cita: CancelarCita
     registrar_asistencia: RegistrarAsistencia
+    bloqueos: Bloqueos
     ver_inicio_del_paciente: VerInicioDelPaciente
     ver_agenda_de_hoy: VerAgendaDeHoy
     buscar_pacientes: BuscarPacientes

@@ -1,0 +1,169 @@
+.bloqueos__encabezado {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bloqueos__encabezado h1 {
+  font-size: 34px;
+  line-height: 40px;
+}
+
+.bloqueos__encabezado .texto-suave {
+  max-width: 640px;
+  font-size: 15px;
+  line-height: 22px;
+}
+
+.bloqueos__formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+}
+
+.bloqueos__fila {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.bloqueos__botones {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.bloqueos__afectadas {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bloqueos__cita {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--linea);
+  border-radius: 14px;
+  background: var(--superficie);
+  box-shadow: var(--sombra-1);
+}
+
+.bloqueos__cita-datos {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  font-size: 15px;
+  line-height: 21px;
+}
+
+.bloqueos__cita-cuando {
+  font-family: var(--letra-dato);
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.bloqueos__cita-acciones,
+.bloqueos__confirmar {
+  display: flex;
+  gap: 8px;
+}
+
+.bloqueos__accion {
+  min-height: 44px;
+  padding: 0 14px;
+  font-size: 15px;
+}
+
+.bloqueos__accion svg {
+  width: 18px;
+  height: 18px;
+}
+
+.bloqueos__cancelar {
+  color: var(--alerta);
+}
+
+.bloqueos__lista {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 20px;
+}
+
+.bloqueos__lista h2 {
+  margin-bottom: 4px;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.bloqueos__lista > .texto-suave {
+  padding: 8px 0;
+}
+
+.bloqueos__bloqueo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid var(--linea-suave);
+}
+
+.bloqueos__lista h2 + .bloqueos__bloqueo {
+  border-top: 0;
+}
+
+/* Gris como en las convenciones del calendario del lienzo. */
+.bloqueos__punto {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: var(--radio-completo);
+  background: var(--punto-gris);
+}
+
+.bloqueos__bloqueo-datos {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.bloqueos__bloqueo-cuando {
+  font-size: 15.5px;
+  line-height: 22px;
+  font-weight: 700;
+}
+
+.bloqueos__fallo {
+  color: var(--alerta);
+}
+
+.bloqueos__eliminar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--linea);
+  border-radius: 10px;
+  background: var(--superficie);
+  box-shadow: var(--sombra-1);
+  color: var(--alerta);
+  cursor: pointer;
+}
+
+.bloqueos__eliminar svg {
+  width: 18px;
+  height: 18px;
+}
+
+.bloqueos__eliminar:hover {
+  border-color: var(--linea-campo);
+  background: #fdf1f0;
+}

@@ -142,7 +142,9 @@ Una sesión anterior armó pantallas a su manera. Se rehicieron siguiendo el lie
 
 Para que los botones de Hoy funcionen se construyó **HU-018 asistencia** en el servidor: `POST /citas/{id}/asistencia` (migración `0009`), y la agenda de hoy trae `sigue` con edad, documentos y autorización de IA de quien sigue, sin abrir su ficha ni dejar rastro en la bitácora.
 
-**Quedan fuera hasta que existan:** bloqueos (HU-009: no aparecen en el calendario ni el botón "Bloquear horario"), registrar paciente desde el panel (HU-024), tratamientos (E8: ni la pestaña del paciente ni la línea de la tarjeta de quien sigue), "Próximo espacio libre" del avance del día.
+**Bloqueos (HU-009), hechos el 27 de octubre:** tabla `bloqueos` (migración `0010`), `GET`, `POST` y `DELETE /bloqueos`. Lo bloqueado deja de ofrecerse porque `tiempos_ocupados` ahora devuelve también los bloqueos, sin motivo; el paciente no puede agendar encima y el médico tampoco (`espacio_bloqueado`). Un bloqueo que tapa citas no se guarda: responde 409 `bloqueo_con_citas` con ellas, y la pantalla **Bloquear horario** (`/medico/bloqueos`) las muestra con Mover y Cancelar. Varios días son un solo rango. Se ven en Hoy entre las citas, en el calendario con el punto gris y en el panel del día; Hoy y el calendario tienen el acceso para bloquear.
+
+**Quedan fuera hasta que existan:** registrar paciente desde el panel (HU-024), tratamientos (E8: ni la pestaña del paciente ni la línea de la tarjeta de quien sigue), "Próximo espacio libre" del avance del día.
 
 ## 5. Cómo se trabaja con el código
 
@@ -170,4 +172,4 @@ Variables del servidor: ver `servidor/.env.example` (`BD_URL`, `BD_URL_MIGRACION
 
 ### Lo que el bloque 2 dejó para después
 
-Bloqueos (HU-009), avisos por correo (HU-019), registrar paciente desde el panel (HU-024), cobro (HU-026) y, en el inicio del paciente, los tratamientos (HU-020). Asistencia (HU-018) y calendario (HU-022) se hicieron el 27 de octubre (sección 4.2).
+Avisos por correo (HU-019), registrar paciente desde el panel (HU-024), cobro (HU-026) y, en el inicio del paciente, los tratamientos (HU-020). Asistencia (HU-018), calendario (HU-022) y bloqueos (HU-009) se hicieron el 27 de octubre (sección 4.2).

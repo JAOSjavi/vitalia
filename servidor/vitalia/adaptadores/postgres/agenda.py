@@ -10,7 +10,14 @@ from sqlalchemy.ext.asyncio import AsyncConnection
 
 from vitalia.adaptadores.postgres.errores import traducir_errores
 from vitalia.casos_de_uso.puertos import Cita
-from vitalia.dominio.agenda import Asistencia, EstadoDeCita, Franja, Intervalo, TipoDeCita
+from vitalia.dominio.agenda import (
+    Asistencia,
+    Bloqueo,
+    EstadoDeCita,
+    Franja,
+    Intervalo,
+    TipoDeCita,
+)
 
 # El último motivo de cada cita sale de su historial de cambios.
 _CITAS = """
@@ -113,7 +120,9 @@ class AgendaPostgres:
             },
         )
 
-    async def ocupados(self, desde: datetime, hasta: datetime) -> list[tuple[UUID, Intervalo]]:
+    async def ocupados(
+        self, desde: datetime, hasta: datetime
+    ) -> list[tuple[UUID | None, Intervalo]]:
         filas = await self._conexion.execute(
             text("SELECT cita_id, inicio, fin FROM tiempos_ocupados(:desde, :hasta)"),
             {"desde": desde, "hasta": hasta},
@@ -201,6 +210,45 @@ class AgendaPostgres:
     async def cancelar_cita(self, cita_id: UUID) -> None:
         await self._conexion.execute(
             text("UPDATE citas SET estado = 'cancelada' WHERE id = :id"), {"id": cita_id}
+        )
+
+    async def bloqueos(self, desde: datetime, hasta: datetime) -> list[Bloqueo]:
+        filas = await self._conexion.execute(
+            text(
+                "SELECT id, inicio, fin, motivo FROM bloqueos "
+                "WHERE inicio < :hasta AND fin > :desde ORDER BY inicio"
+            ),
+            {"desde": desde, "hasta": hasta},
+        )
+        return [Bloqueo(f.id, Intervalo(f.inicio, f.fin), f.motivo) for f in filas]
+
+    async def bloqueo(self, bloqueo_id: UUID) -> Bloqueo | None:
+        fila = (
+            await self._conexion.execute(
+                text("SELECT id, inicio, fin, motivo FROM bloqueos WHERE id = :id"),
+                {"id": bloqueo_id},
+            )
+        ).one_or_none()
+        return Bloqueo(fila.id, Intervalo(fila.inicio, fila.fin), fila.motivo) if fila else None
+
+    async def crear_bloqueo(self, intervalo: Intervalo, motivo: str, creado_por: UUID) -> UUID:
+        bloqueo_id: UUID = await self._conexion.scalar(
+            text(
+                "INSERT INTO bloqueos (inicio, fin, motivo, creado_por) "
+                "VALUES (:inicio, :fin, :motivo, :creado_por) RETURNING id"
+            ),
+            {
+                "inicio": intervalo.inicio,
+                "fin": intervalo.fin,
+                "motivo": motivo,
+                "creado_por": creado_por,
+            },
+        )
+        return bloqueo_id
+
+    async def eliminar_bloqueo(self, bloqueo_id: UUID) -> None:
+        await self._conexion.execute(
+            text("DELETE FROM bloqueos WHERE id = :id"), {"id": bloqueo_id}
         )
 
     async def marcar_asistencia(self, cita_id: UUID, estado: Asistencia) -> None:

@@ -7,11 +7,13 @@ from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
+from vitalia.casos_de_uso.bloqueos import BloqueoConCitas
 from vitalia.casos_de_uso.puertos import ProveedorNoDisponible
 from vitalia.dominio.agenda import (
     AgendaNoDisponible,
     CitaNoModificable,
     CitaRepetida,
+    EspacioBloqueado,
     EspacioNoDisponible,
     EspacioOcupado,
     FaltaAnticipacion,
@@ -90,6 +92,11 @@ _FIJOS: dict[type[Exception], tuple[int, str, str]] = {
         "Ya tiene una cita futura de este tipo. Confirme si quiere agendar otra.",
     ),
     CitaNoModificable: (409, "cita_no_modificable", "Esta cita ya no se puede mover ni cancelar."),
+    EspacioBloqueado: (
+        409,
+        "espacio_bloqueado",
+        "Ese tiempo está bloqueado. Elimine el bloqueo si quiere dar la cita.",
+    ),
     IANoAutorizada: (
         422,
         "ia_no_autorizada",
@@ -154,6 +161,18 @@ def registrar_traducciones(api: FastAPI) -> None:
             {"alternativas": [inicio.isoformat() for inicio in error.alternativas]},
         )
 
+    async def bloqueo_con_citas(_: Request, error: Exception) -> JSONResponse:
+        assert isinstance(error, BloqueoConCitas)
+        # La respuesta trae las citas como las da la API, para moverlas o cancelarlas desde ahí.
+        from vitalia.entrada.rutas_citas import Cita
+
+        return respuesta_de_error(
+            409,
+            "bloqueo_con_citas",
+            "Ese tiempo tiene citas agendadas. Muévalas o cancélelas antes de bloquearlo.",
+            {"citas": [Cita.de(c).model_dump(mode="json") for c in error.citas]},
+        )
+
     async def falta_anticipacion(_: Request, error: Exception) -> JSONResponse:
         assert isinstance(error, FaltaAnticipacion)
         return respuesta_de_error(
@@ -186,6 +205,7 @@ def registrar_traducciones(api: FastAPI) -> None:
     api.add_exception_handler(DocumentoRepetido, documento_repetido)
     api.add_exception_handler(EspacioOcupado, espacio_ocupado)
     api.add_exception_handler(FaltaAnticipacion, falta_anticipacion)
+    api.add_exception_handler(BloqueoConCitas, bloqueo_con_citas)
     api.add_exception_handler(DatosInvalidos, datos_invalidos)
     api.add_exception_handler(RequestValidationError, formato_invalido)
     api.add_exception_handler(IngresoBloqueado, bloqueado)

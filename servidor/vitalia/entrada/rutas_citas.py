@@ -9,6 +9,7 @@ from pydantic import AwareDatetime, BaseModel, Field
 
 from vitalia.casos_de_uso.puertos import Cita as CitaDelDominio
 from vitalia.dominio.agenda import Asistencia, EstadoDeCita, Franja, TipoDeCita
+from vitalia.dominio.agenda import Bloqueo as BloqueoDelDominio
 from vitalia.dominio.cuentas import TipoDocumento
 from vitalia.entrada.sesion import Sesion, casos
 
@@ -136,12 +137,39 @@ class QuienSigue(BaseModel):
     ia_autorizada: bool
 
 
+class Bloqueo(BaseModel):
+    id: UUID
+    inicio: datetime
+    fin: datetime
+    motivo: str
+
+    @classmethod
+    def de(cls, bloqueo: BloqueoDelDominio) -> "Bloqueo":
+        return cls(
+            id=bloqueo.id,
+            inicio=bloqueo.intervalo.inicio,
+            fin=bloqueo.intervalo.fin,
+            motivo=bloqueo.motivo,
+        )
+
+
+class BloqueoNuevo(BaseModel):
+    inicio: AwareDatetime
+    fin: AwareDatetime
+    motivo: str = Field(max_length=300)
+
+
+class BloqueoCreado(BaseModel):
+    id: UUID
+
+
 class AgendaDeHoy(BaseModel):
     dia: datetime
     citas: list[Cita]
     proxima: Cita | None
     pendientes: list[Literal["horario", "tipos_cita", "consultorio"]]
     sigue: QuienSigue | None
+    bloqueos: list[Bloqueo]
 
 
 class Paciente(BaseModel):
@@ -302,7 +330,33 @@ async def agenda_de_hoy(identidad: Sesion, request: Request) -> AgendaDeHoy:
         proxima=Cita.de(agenda.proxima) if agenda.proxima else None,
         pendientes=agenda.pendientes,
         sigue=QuienSigue(**vars(agenda.sigue)) if agenda.sigue else None,
+        bloqueos=[Bloqueo.de(b) for b in agenda.bloqueos],
     )
+
+
+# --- Bloqueos del horario (HU-009)
+
+
+@rutas.get("/bloqueos")
+async def listar_bloqueos(
+    identidad: Sesion, request: Request, desde: AwareDatetime, hasta: AwareDatetime
+) -> list[Bloqueo]:
+    bloqueos = await casos(request).bloqueos.listar(identidad, desde, hasta)
+    return [Bloqueo.de(b) for b in bloqueos]
+
+
+@rutas.post("/bloqueos", status_code=status.HTTP_201_CREATED)
+async def crear_bloqueo(nuevo: BloqueoNuevo, identidad: Sesion, request: Request) -> BloqueoCreado:
+    """Si se cruza con citas responde 409 con ellas: primero se mueven o se cancelan."""
+    bloqueo_id = await casos(request).bloqueos.crear(
+        identidad, nuevo.inicio, nuevo.fin, nuevo.motivo
+    )
+    return BloqueoCreado(id=bloqueo_id)
+
+
+@rutas.delete("/bloqueos/{bloqueo_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def eliminar_bloqueo(bloqueo_id: UUID, identidad: Sesion, request: Request) -> None:
+    await casos(request).bloqueos.eliminar(identidad, bloqueo_id)
 
 
 @rutas.get("/pacientes")
