@@ -73,7 +73,7 @@ El lienzo usa 23 tamaños distintos. En el código se reducen a esta escala, que
 | Sombra de tarjeta, `--sombra-2` | `0 1px 2px rgba(18, 28, 51, 0.06), 0 8px 24px rgba(18, 28, 51, 0.08)`. Tarjetas |
 | Sombra de acento, `--sombra-acento` | `0 6px 16px rgba(31, 71, 184, 0.30)`. Botones principales y tarjetas azules |
 | Lo que no lleva sombra | Los campos de formulario, los paneles hundidos de fondo gris y los botones que son solo texto |
-| Iconos | Los del lienzo son provisionales. En la aplicación salen de Phosphor Icons: ver la sección 6 |
+| Iconos | Los del lienzo son provisionales. En la aplicación salen de Hugeicons (D-31): ver la sección 6 |
 
 ## 4. Piezas que ya existen en el lienzo
 
@@ -119,8 +119,10 @@ Correcciones del dueño del proyecto del 13 de octubre (D-25). Valen para todas 
 | Las tarjetas y los botones llevan sombra suave además del borde redondeado; los botones principales, sombra azul | Piezas planas con solo una línea de borde |
 | Las alergias van en una tarjeta neutra con un punto rojo | Una tarjeta amarilla con un triángulo |
 | Las cuentas y las etiquetas sueltas ("pronto", "6 citas") son texto; sobre una tarjeta azul van en caja blanca | Una píldora |
-| Los iconos salen de Phosphor Icons, en un solo grosor | Iconos de trazo fino dibujados a mano en cada pantalla |
+| Los iconos salen de Hugeicons, trazo redondeado, en un solo grosor | Iconos de trazo fino dibujados a mano en cada pantalla |
 
-**Por qué Phosphor Icons.** Tiene más de mil iconos en seis grosores, incluido uno de dos tonos que no se parece a los juegos de iconos más usados; su licencia es libre (MIT) y tiene paquete para React. Trae iconos médicos básicos; falta comprobar que estén todos los que usa Vitalia. El dueño del proyecto la confirmó el 13 de octubre (D-26). Se puede ver completa en https://phosphoricons.com.
+**Por qué Hugeicons.** El 27 de octubre el dueño del proyecto comparó siete bibliotecas con los iconos que usa Vitalia y eligió Hugeicons en trazo redondeado (D-31, reemplaza D-26): tiene más carácter que los juegos de iconos más usados y combina con la letra Atkinson. La versión gratuita trae más de cuatro mil iconos, con paquete para React (`@hugeicons/react` y `@hugeicons/core-free-icons`). Se puede ver en https://hugeicons.com.
+
+**Respuesta al pasar el cursor.** Igual en toda la aplicación y sutil, en `pantallas/src/comunes/estilos/hovers.css`: el color y la sombra cambian en 150 ms, los botones se elevan 1 px y al presionar vuelven a su sitio. Quien pide menos movimiento en su sistema no ve el desplazamiento.
 
 Los iconos que hoy se ven en el lienzo no se redibujan: son provisionales y se reemplazan al construir.

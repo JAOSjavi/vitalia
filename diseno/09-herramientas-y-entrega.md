@@ -39,7 +39,7 @@ Todo lo de este documento es **propuesta de diseño**: cada pieza está detrás 
 | Datos del servidor | TanStack Query | Guarda en memoria lo ya pedido y lo borra al salir. Nada queda en el disco del navegador |
 | Formularios | React Hook Form | El formulario de la historia clínica es largo; esta pieza evita redibujarlo completo en cada tecla |
 | Estilos | CSS con variables, un archivo por pieza. Sin biblioteca de estilos | Las variables son los colores y medidas de la [base visual](08-base-visual.md) |
-| Iconos | `@phosphor-icons/react` | El dueño del proyecto pidió iconos que no se vean genéricos y confirmó esta biblioteca (D-25, D-26). Los del lienzo son provisionales. Ver la sección 6 de la [base visual](08-base-visual.md) |
+| Iconos | `@hugeicons/react` y `@hugeicons/core-free-icons` | El dueño del proyecto pidió iconos que no se vean genéricos y eligió esta biblioteca (D-25, D-31). Los del lienzo son provisionales. Ver la sección 6 de la [base visual](08-base-visual.md) |
 | Calendario | Hecho a mano con las piezas del lienzo | El mes es una rejilla, y el día y la semana son listas. Una biblioteca de calendario pesa más que todo el resto y no se parece al diseño aprobado |
 | Visor de documentos | `react-pdf`, que usa pdf.js | Se descarga solo al abrir un documento |
 | Fechas y horas | Las funciones del propio navegador, con la zona de Colombia | No hace falta una biblioteca |

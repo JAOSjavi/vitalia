@@ -35,7 +35,7 @@ Planificación y Diseño están confirmados en git y son consistentes entre sí:
 | Cuentas | Solo adultos. Registro con nombres, apellidos, fecha de nacimiento, correo, documento y teléfono (D-21, D-22) |
 | Historia clínica | Dentro del sistema, con lo mínimo de la Resolución 1995 de 1999. Al atender, el asistente va a un lado y el formulario en el centro. Lo cerrado no se modifica (D-24) |
 | Aspecto | El lienzo es la base visual. Estados en caja blanca redondeada con sombra y un punto de color; tarjetas y botones con sombra; nada que se vea genérico (D-18, D-25) |
-| Iconos | Phosphor Icons (D-26). Los que se ven en el lienzo son provisionales |
+| Iconos | Hugeicons, trazo redondeado (D-31). Los que se ven en el lienzo son provisionales |
 
 ## 3. Dónde está cada cosa
 
@@ -191,13 +191,13 @@ Todo lo anterior se construye y se prueba con datos inventados. Para atender pac
 | Búsqueda de fragmentos (D-30) | Construida y medida el 27 de octubre con `qwen3.7-text-embedding` y las 12 historias inventadas: 16 de 16 datos entre los 12 fragmentos, 14 entre los 3 primeros. Falta medirla con documentos de otras fuentes y con más volumen, y probar `pgvector` en Render. Los números (1.000 caracteres, 20 por método, 12 enviados) siguen siendo el punto de partida |
 | Texto de la autorización de IA, versión 2 | Hace falta para que las atenciones entren a la búsqueda. Sin escribir; lo revisa el abogado junto con la versión 1 |
 | Medio de pago en Cloudflare y en Alibaba Cloud | Es lo usual para activar el servicio; su documentación no lo confirma |
-| Grosor de los iconos | Se usa el de dos tonos de Phosphor, fijado en un solo lugar de `pantallas/src/principal.tsx`. La base visual dice "un solo grosor" sin decir cuál. Los iconos que se usan están listados en `pantallas/src/comunes/iconos.ts` |
+| Grosor de los iconos | Trazo de 1,6 y de 2 en flechas, más y cerrar dentro de botones, fijado en `pantallas/src/comunes/iconos.tsx`, donde están listados los iconos que se usan |
 | Cambios del 13 de octubre en el lienzo | Se revisó que el código esté bien formado; no se vieron dibujados |
 | Resto del lienzo | Aprobado por el dueño del proyecto como base visual. El contraste del texto se midió y pasa el nivel AA |
 | Prototipo navegable | Probado con 143 comprobaciones automáticas. A la vista solo se revisó una pantalla. No refleja las decisiones del 13 de octubre: ver la sección 6 de [05-pantallas.md](diseno/05-pantallas.md) |
 | Permisos por fila sin sesión | El diseño con funciones de la base está escrito, no probado. Lo despeja el bloque 1 |
 | `pypdfium2` | Probado el 27 de octubre con las 12 historias inventadas en PDF: texto completo y en orden en todas. Falta probarlo con PDF de otras fuentes |
-| Phosphor Icons | Confirmada por el dueño del proyecto e instalada. Falta comprobar que tenga todos los iconos médicos que usa Vitalia |
+| Hugeicons | Elegida por el dueño del proyecto el 27 de octubre e instalada; tiene todos los iconos que usa Vitalia hoy |
 | Campos clínicos de la historia clínica | La lista la armó quien levantó los requisitos; falta que la revise un médico |
 | Proyecto de resolución que reemplazaría la 1995 de 1999 | Publicado el 22 de julio de 2026. Al 13 de octubre no se encontró expedido. Solo se leyó su memoria justificativa, no el articulado |
 | Lista vigente de tipo y finalidad de consulta | Está en un anexo de la Resolución 948 de 2026 que no se pudo consultar |
@@ -214,7 +214,7 @@ Todo lo anterior se construye y se prueba con datos inventados. Para atender pac
 - **MinIO:** dejó de publicarse. Su descarga responde "410 Gone" y su imagen de Docker fue retirada.
 - **Cloudflare R2:** 10 GB al mes sin costo y sin cobro por descarga; la clave se puede limitar a un solo espacio.
 
-Las herramientas de [09-herramientas-y-entrega.md](diseno/09-herramientas-y-entrega.md) que usa el esqueleto ya están instaladas y probadas juntas: FastAPI, SQLAlchemy con `asyncpg`, Alembic, `pytest`, `ruff`, `mypy`, `import-linter`, React con Vite, TanStack Query, Vitest y Phosphor. Las demás entran con la historia que las necesita.
+Las herramientas de [09-herramientas-y-entrega.md](diseno/09-herramientas-y-entrega.md) que usa el esqueleto ya están instaladas y probadas juntas: FastAPI, SQLAlchemy con `asyncpg`, Alembic, `pytest`, `ruff`, `mypy`, `import-linter`, React con Vite, TanStack Query, Vitest y Hugeicons. Las demás entran con la historia que las necesita.
 
 ## 7. Reglas que no se pueden olvidar
 

@@ -1,0 +1,135 @@
+/* Respuesta al pasar el cursor, igual en toda la aplicación y sutil: el color y la sombra
+   cambian en 150 ms, y los botones se elevan 1 px. Al presionar vuelven a su sitio.
+   Cada pantalla define su color de hover; aquí solo va el movimiento y la sombra. */
+
+:root {
+  --sombra-hover: 0 2px 4px rgba(18, 28, 51, 0.08), 0 8px 18px rgba(18, 28, 51, 0.1);
+  --sombra-acento-hover: 0 8px 20px rgba(31, 71, 184, 0.36);
+  --transicion: 150ms ease;
+}
+
+a,
+button,
+summary,
+.entrada,
+.calendario__celda {
+  transition:
+    background-color var(--transicion),
+    border-color var(--transicion),
+    color var(--transicion),
+    box-shadow var(--transicion),
+    transform var(--transicion);
+}
+
+@media (hover: hover) {
+  /* Botones principales: suben y su sombra azul se abre un poco. */
+  .boton--principal:hover:not(:disabled),
+  .hoy__nueva:hover,
+  .calendario__nueva:hover,
+  .mis-citas__agendar:hover,
+  .mis-documentos__subir:hover,
+  .asistente__enviar:hover:not(:disabled) {
+    box-shadow: var(--sombra-acento-hover);
+    transform: translateY(-1px);
+  }
+
+  /* Botones blancos y tarjetas que se tocan: suben con una sombra un poco más honda. */
+  .boton--borde:hover:not(:disabled),
+  .boton--neutro:hover:not(:disabled),
+  .hoy__atendida:hover,
+  .hoy__accion:hover:not(:disabled),
+  .hoy__sigue-ficha:hover,
+  .calendario__flecha:hover,
+  .calendario__hoy:hover,
+  .calendario__agendar:hover,
+  .calendario__bloque:hover,
+  .mis-citas__telefono:hover,
+  .inicio__documentos:hover,
+  .agendar__tipo:hover,
+  .ficha__agendar:hover,
+  .selector-de-espacio__dia:hover:not(:disabled),
+  .selector-de-espacio__hora:hover:not(:disabled),
+  .nueva-cita__tipos button:hover,
+  .nueva-cita__alternativas button:hover,
+  .agendar__alternativas button:hover {
+    box-shadow: var(--sombra-hover);
+    transform: translateY(-1px);
+  }
+
+  .boton--neutro:hover:not(:disabled),
+  .hoy__accion:hover:not(:disabled),
+  .calendario__flecha:hover,
+  .calendario__hoy:hover,
+  .mis-citas__telefono:hover,
+  .inicio__documentos:hover,
+  .selector-de-espacio__dia:hover:not(:disabled),
+  .selector-de-espacio__hora:hover:not(:disabled) {
+    border-color: var(--linea-campo);
+  }
+
+  .selector-de-espacio__dia:hover:not(:disabled),
+  .selector-de-espacio__hora:hover:not(:disabled),
+  .nueva-cita__tipos button:hover,
+  .nueva-cita__alternativas button:hover,
+  .agendar__alternativas button:hover {
+    background-color: var(--acento-suave);
+  }
+
+  /* Controles pequeños: solo un fondo suave, sin moverse. */
+  .calendario__vistas button:not([aria-pressed="true"]):hover {
+    background: rgba(255, 255, 255, 0.6);
+    color: var(--tinta);
+  }
+
+  .calendario__columna-cabecera:hover .calendario__numero:not(.calendario__numero--hoy) {
+    background: var(--acento-suave);
+  }
+
+  .agendar__atras:hover,
+  .crear-cuenta__atras:hover,
+  .entrada__boton:hover {
+    background: var(--acento-suave);
+    color: var(--acento-oscuro);
+  }
+
+  .inicio__avatar:hover,
+  .inicio__avatar[aria-expanded="true"] {
+    box-shadow: 0 0 0 3px var(--superficie), 0 0 0 5px var(--acento-suave);
+  }
+
+  .zona-paciente__seccion:not(.active):hover {
+    color: var(--tinta);
+  }
+
+  .zona-paciente__seccion:not(.active):hover .zona-paciente__icono-seccion {
+    background: var(--fondo);
+  }
+
+  .nueva-cita__otra summary:hover,
+  .enlace:hover {
+    color: var(--acento-oscuro);
+  }
+
+  .entrada:hover:not(:focus-within) {
+    border-color: var(--linea-campo);
+  }
+}
+
+/* Al presionar, el botón baja a su sitio: se siente el clic. */
+:is(a, button):active:not(:disabled) {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  a,
+  button,
+  summary,
+  .entrada,
+  .calendario__celda {
+    transition: none;
+  }
+
+  :is(a, button):hover {
+    transform: none !important;
+  }
+}

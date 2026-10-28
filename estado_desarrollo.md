@@ -163,7 +163,7 @@ Variables del servidor: ver `servidor/.env.example` (`BD_URL`, `BD_URL_MIGRACION
 - **Permisos por fila forzados**, también para el dueño de las tablas: conectado directo no ve filas. Para escribir datos en una migración se quitan un momento en la misma transacción (ver `_sin_forzar` en la migración `0004`).
 - Lo que ocurre sin sesión (ingreso, registro, puesta en marcha, sesión vigente, lo ocupado de la agenda) pasa por funciones de la base con permiso propio.
 - Las pruebas de base usan su propia base `vitalia_pruebas`, que crean y borran. Cada prueba de citas usa una semana distinta del futuro y pone el reloj con `reloj.poner(...)`. La médica ingresa con `ingresar_doctora()` **después** de poner el reloj, o su sesión vence.
-- Los iconos de Phosphor se importan uno por uno desde `pantallas/src/comunes/iconos.ts`. Importar el paquete completo hace que las pruebas tarden cuatro minutos.
+- Los iconos son de Hugeicons y las pantallas los toman de `pantallas/src/comunes/iconos.tsx`, con nombres propios: si se cambia otra vez de biblioteca, solo cambia ese archivo. Los hovers de toda la aplicación están en `comunes/estilos/hovers.css`.
 - En el shell de esta máquina, los textos largos con comillas triples o plantillas dentro de `cat <<EOF` fallan: es más seguro escribir los archivos con la herramienta de escritura.
 - El puerto 5173 lo ocupa otro proyecto de Javier (`Desktop\Multimedia`): las pantallas de Vitalia van en el 5174. El enlace de puesta en marcha sale con 5173; hay que cambiarlo a 5174 a mano.
 - El navegador del entorno, si la ventana está oculta, no entrega bien los clics ni las teclas; los recorridos a la vista se hacen con la ventana visible.
