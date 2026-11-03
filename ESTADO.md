@@ -49,7 +49,7 @@ Cubre: cuentas, horario y citas de los dos lados, panel del médico, historias c
 - **Servidor:** 191 pruebas en verde contra PostgreSQL 18 con `pgvector` en Docker, una o más por criterio de aceptación. Las 10 migraciones se aplican, se deshacen y se vuelven a aplicar.
 - **Pantallas:** 31 pruebas en verde y construcción sin errores.
 - **En el navegador**, contra la API y la base de Docker: registro e ingreso; agendar, mover y cancelar; Hoy con asistencia; calendario en sus tres vistas; bloquear un día con citas (las lista y no guarda) y sin citas (guarda y aparece); subir documentos y verlos; ficha del paciente.
-- **El asistente:** la búsqueda se midió con Qwen y 12 historias clínicas inventadas: trajo los 16 datos esperados entre los 12 fragmentos y 14 entre los 3 primeros. Las respuestas no se han probado con Qwen, porque el modelo de respuestas seguía bloqueado (sección 4).
+- **El asistente:** la búsqueda se midió con Qwen y 12 historias clínicas inventadas: trajo los 16 datos esperados entre los 12 fragmentos y 14 entre los 3 primeros. **Las respuestas se midieron el 3 de noviembre con NVIDIA (D-32)** con las 20 preguntas del README de las historias de prueba: 19 bien, cero inventos, abstención correcta en las 5 sin respuesta y en las 2 de diagnóstico, y aislamiento por paciente correcto. En la de la radiografía de rodilla citó la orden en el control 2 cuando está en el 3; la comprobación de citas la marcó como no verificada. 38 de 46 citas coinciden letra por letra; las demás juntan renglones de una lista. Unos 15 segundos por respuesta en el plan gratuito.
 
 ## 4. Lo que se necesita del dueño del proyecto
 
@@ -58,7 +58,7 @@ En orden de urgencia. Ninguna clave pasa por el chat ni entra al repositorio: to
 | # | Qué | Para qué | Cómo |
 |---|---|---|---|
 | 1 | **Poner `master` como rama principal en GitHub** | Que el repositorio abra en la rama estable | GitHub → `vitalia` → Settings → Default branch → `master` → Update |
-| 2 | **Confirmar que Alibaba aprobó la verificación de identidad** | Sin ella, `qwen3.7-plus` (respuestas) y `qwen-vl-ocr-2025-11-20` (lectura de fotos) responden `AccessDenied.Unpurchased`. Estaba en revisión desde el 27 de octubre | Consola de Alibaba Cloud Model Studio. Los vectores (`qwen3.7-text-embedding`) ya funcionan |
+| 2 | **Confirmar que Alibaba aprobó la verificación de identidad** | Al 3 de noviembre `qwen3.7-plus` y el modelo de lectura seguían en `AccessDenied.Unpurchased`. Mientras tanto las respuestas y la lectura van a NVIDIA (D-32); antes de datos reales hay que volver a Qwen o pagar un plan | Consola de Alibaba Cloud Model Studio. Los vectores ya funcionan con la clave nueva del 3 de noviembre |
 | 3 | **Dos fotos con datos inventados**: una hoja impresa y un texto corto escrito a mano | Medir la lectura de fotos con IA | Se le entregan los datos para copiar |
 | 4 | **Crear la base en Render** (PostgreSQL 18, región Virginia) | Publicar y correr las pruebas de la fase 4 | Paso a paso en la sección 3 de [herramientas y entrega](diseno/09-herramientas-y-entrega.md). El plan gratuito vence a los 30 días |
 | 5 | **Crear el espacio en Cloudflare R2** (`vitalia-dev`, con una clave limitada a ese espacio) | Guardar los documentos fuera del computador y abrirlos con enlace firmado | Misma sección 3 |
@@ -165,7 +165,7 @@ Todo se construye y se prueba con datos inventados. Para atender pacientes reale
 | Tema | Situación |
 |---|---|
 | Servicios en la nube | Nada ha corrido contra Render ni R2. De Qwen solo los vectores |
-| Respuestas del asistente con Qwen | Probadas con una IA de prueba y un servidor que imita el formato de Alibaba |
+| Respuestas del asistente con Qwen | Sin probar con Qwen; sí con NVIDIA (D-32), 19 de 20 bien |
 | Lectura de fotos | El adaptador existe; sin medir con fotos reales |
 | Pruebas automáticas de GitHub | Escritas; no han corrido porque ninguna rama ha pasado por una solicitud de cambio |
 | Permisos por fila en Render | Falta confirmar que el usuario por defecto no sea superusuario, porque ese se salta los permisos |

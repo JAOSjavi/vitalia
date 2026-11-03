@@ -144,10 +144,15 @@ def armar(
 
 
 def _ia(configuracion: Configuracion) -> ProveedorIA | None:
-    if configuracion.ia_direccion and configuracion.ia_clave:
+    # Con dirección propia, las respuestas van a ese proveedor (D-32); si no, a Qwen.
+    if configuracion.ia_respuestas_direccion and configuracion.ia_respuestas_clave:
+        direccion, clave = configuracion.ia_respuestas_direccion, configuracion.ia_respuestas_clave
+    else:
+        direccion, clave = configuracion.ia_direccion, configuracion.ia_clave
+    if direccion and clave:
         return IAQwen(
-            configuracion.ia_direccion,
-            configuracion.ia_clave,
+            direccion,
+            clave,
             configuracion.ia_modelo_respuestas,
             configuracion.ia_modelo_lectura,
         )

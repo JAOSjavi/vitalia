@@ -24,6 +24,10 @@ class Configuracion:
     ia_clave: str | None = None
     ia_modelo_vectores: str = "qwen3.7-text-embedding"
     ia_dimensiones: int = 1024
+    # Las respuestas y la lectura de fotos pueden ir a otro proveedor con el formato de OpenAI
+    # (D-32). Sin estos dos valores usan la dirección y la clave de los vectores.
+    ia_respuestas_direccion: str | None = None
+    ia_respuestas_clave: str | None = None
     ia_modelo_respuestas: str = "qwen3.7-plus"
     ia_modelo_lectura: str = "qwen-vl-ocr-2025-11-20"
     # Máximo de texto de los fragmentos en una pregunta, en caracteres.
@@ -43,6 +47,8 @@ def leer() -> Configuracion:
         ia_clave=os.environ.get("IA_CLAVE") or None,
         ia_modelo_vectores=os.environ.get("IA_MODELO_VECTORES") or Configuracion.ia_modelo_vectores,
         ia_dimensiones=int(os.environ.get("IA_DIMENSIONES") or Configuracion.ia_dimensiones),
+        ia_respuestas_direccion=os.environ.get("IA_RESPUESTAS_DIRECCION") or None,
+        ia_respuestas_clave=os.environ.get("IA_RESPUESTAS_CLAVE") or None,
         ia_modelo_respuestas=os.environ.get("IA_MODELO_RESPUESTAS")
         or Configuracion.ia_modelo_respuestas,
         ia_modelo_lectura=os.environ.get("IA_MODELO_LECTURA") or Configuracion.ia_modelo_lectura,
