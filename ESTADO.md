@@ -37,6 +37,7 @@ Cubre: cuentas, horario y citas de los dos lados, panel del médico, historias c
 | **IA con NVIDIA** (3 nov) | Las respuestas del asistente y la lectura de fotos pueden ir a otro proveedor con el formato de OpenAI; hoy van a NVIDIA mientras Alibaba no habilita Qwen (D-32). Los vectores siguen en Qwen | `bloque-3-documentos-e-ia` |
 | **Historia clínica del consultorio** (3 nov) | Campos de medicina general adaptados del modelo de oftalmología que entregó el dueño, con la norma de cada uno ([diseno/10](diseno/10-historia-clinica.md), D-33). El médico abre la atención desde Hoy o la ficha, escribe con el asistente al lado y el borrador se guarda solo, completa la identificación, cierra y firma con su contraseña; lo cerrado no cambia y se corrige con notas aclaratorias. La ficha muestra la historia. El paciente ve sus atenciones cerradas en la nueva sección Historia. La zona del paciente ahora también se adapta a computador | `bloque-3-documentos-e-ia` |
 | **Iconos y hovers** (27 oct) | Iconos de Hugeicons en trazo redondeado, elegidos entre siete bibliotecas (D-31). Respuesta sutil al pasar el cursor en todos los botones: color y sombra en 150 ms y elevación de 1 px | `bloque-3-documentos-e-ia` |
+| **Mundo visual nuevo** (3 nov) | Rediseño con Impeccable (D-34): el dueño eligió el "muro de títulos" en la página de decisión. Lo que sigue se presenta en un mosaico con borde ámbar (la próxima cita del paciente, quien sigue en Hoy); títulos en Antonio; tema claro y oscuro en la nueva pestaña Ajustes de los dos usuarios, que por defecto sigue al dispositivo. Movimiento: el mosaico de lo que sigue enciende su borde al aparecer, la fila señalada crece y las vecinas bajan, los botones se hunden al presionar y el cambio de tema se funde. Ninguna pantalla cambió de estructura. El contrato está en `.impeccable/surfaces/` y el sistema en `DESIGN.md` | `bloque-3-documentos-e-ia` |
 
 ### 3.2 Por historia
 
@@ -123,7 +124,7 @@ Si después de instalar un paquete las pantallas salen en blanco, hay que reinic
 | Ingreso | Tipo y número de documento más contraseña. El documento identifica; nunca hace de contraseña (D-20) |
 | Cuentas | Solo adultos (D-21, D-22) |
 | Historia clínica | Dentro del sistema, con lo mínimo de la Resolución 1995 de 1999 para medicina general. Lo cerrado no se modifica (D-24, D-33) |
-| Aspecto | Las pantallas copian el lienzo. El médico, en computador; el paciente, en celular y también en computador (D-33). Estados en caja blanca con sombra y punto de color; nada que se vea genérico (D-18, D-25) |
+| Aspecto | Muro de títulos con acento ámbar, tema claro y oscuro elegible en Ajustes (D-34, reemplaza en lo visual a D-18 y D-25). Cada pantalla conserva la estructura del lienzo. El médico, en computador; el paciente, en celular y también en computador (D-33). Sistema en [DESIGN.md](DESIGN.md) |
 | Iconos | Hugeicons, trazo redondeado (D-31, reemplaza D-26) |
 
 Todas las decisiones (D-01 a D-33) y supuestos están en [04-decisiones-y-supuestos.md](planificacion/04-decisiones-y-supuestos.md).
@@ -140,7 +141,7 @@ Todas las decisiones (D-01 a D-33) y supuestos están en [04-decisiones-y-supues
 | Campos de la historia clínica de medicina general y su norma | [diseno/10-historia-clinica.md](diseno/10-historia-clinica.md) |
 | Historias clínicas inventadas para probar el asistente, con sus preguntas | [documentos-de-prueba/historias-clinicas/](documentos-de-prueba/historias-clinicas/) |
 | Servidor: capas, migraciones (`0001` a `0010`) y pruebas | `servidor/` |
-| Pantallas | `pantallas/`. Iconos en `src/comunes/iconos.tsx`, hovers en `src/comunes/estilos/hovers.css` |
+| Pantallas | `pantallas/`. Colores y temas en `src/comunes/estilos/variables.css`, movimiento en `src/comunes/estilos/hovers.css`, tema en `src/comunes/tema.ts`, iconos en `src/comunes/iconos.tsx` |
 | Pruebas automáticas de GitHub | `.github/workflows/pruebas.yml` |
 | Detalle técnico de cada paso del desarrollo | [estado_desarrollo.md](estado_desarrollo.md) |
 

@@ -2,7 +2,8 @@ import "./ZonaPaciente.css";
 
 import { NavLink, Navigate, Route, Routes, useLocation } from "react-router";
 
-import { CalendarBlankIcon, ClipboardTextIcon, FileTextIcon, HouseIcon } from "../comunes/iconos";
+import { Ajustes } from "../comunes/Ajustes";
+import { CalendarBlankIcon, ClipboardTextIcon, FileTextIcon, GearIcon, HouseIcon } from "../comunes/iconos";
 import { Marca } from "../comunes/piezas/Marca";
 import { Agendar } from "./Agendar";
 import { Inicio } from "./Inicio";
@@ -24,6 +25,7 @@ export default function ZonaPaciente() {
         <Route path="documentos" element={<MisDocumentos />} />
         <Route path="historia" element={<MiHistoria />} />
         <Route path="historia/:atencion" element={<MiHistoria />} />
+        <Route path="ajustes" element={<Ajustes />} />
         <Route path="*" element={<Navigate to="/paciente" replace />} />
       </Routes>
       {!enUnFlujo && (
@@ -54,6 +56,12 @@ export default function ZonaPaciente() {
               <ClipboardTextIcon aria-hidden="true" />
             </span>
             Historia
+          </NavLink>
+          <NavLink to="/paciente/ajustes" className="zona-paciente__seccion">
+            <span className="zona-paciente__icono-seccion">
+              <GearIcon aria-hidden="true" />
+            </span>
+            Ajustes
           </NavLink>
         </nav>
       )}

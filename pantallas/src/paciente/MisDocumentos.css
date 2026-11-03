@@ -11,9 +11,9 @@
   min-height: 44px;
   padding: 0 16px;
   border: 0;
-  border-radius: var(--radio-completo);
+  border-radius: var(--radio-boton);
   background: var(--acento);
-  color: var(--superficie);
+  color: var(--sobre-acento);
   font: inherit;
   font-size: 15px;
   font-weight: 700;
@@ -22,7 +22,7 @@
 }
 
 .mis-documentos__subir:hover {
-  background: var(--acento-oscuro);
+  background: var(--acento-fuerte);
 }
 
 .mis-documentos__subir svg {
@@ -35,10 +35,10 @@
   align-items: center;
   gap: 12px;
   padding: 12px 16px;
-  border-radius: 16px;
-  background: var(--acento-oscuro);
-  color: var(--superficie);
-  box-shadow: 0 8px 20px rgba(22, 47, 122, 0.28);
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-tarjeta);
+  background: var(--superficie);
+  color: var(--tinta);
 }
 
 .mis-documentos__ia-icono {
@@ -48,8 +48,9 @@
   justify-content: center;
   width: 40px;
   height: 40px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.16);
+  border-radius: var(--radio-campo);
+  background: var(--acento-suave);
+  color: var(--acento-texto);
 }
 
 .mis-documentos__ia-icono svg {
@@ -70,7 +71,7 @@
 }
 
 .mis-documentos__ia-texto span {
-  color: #d9e3fa;
+  color: var(--tinta-suave);
   font-size: 14px;
   line-height: 19px;
 }
@@ -122,7 +123,7 @@
   height: 40px;
   border-radius: 12px;
   background: var(--acento-suave);
-  color: var(--acento);
+  color: var(--acento-texto);
 }
 
 .mis-documentos__icono svg {
@@ -175,7 +176,7 @@
   min-height: 44px;
   padding: 0 12px;
   border-radius: 10px;
-  color: var(--acento);
+  color: var(--acento-texto);
   font-size: 15px;
   font-weight: 700;
   text-decoration: none;

@@ -41,7 +41,7 @@
 
 .calendario__vistas button[aria-pressed="true"] {
   background: var(--superficie);
-  box-shadow: 0 1px 3px rgba(18, 28, 51, 0.16);
+  box-shadow: var(--sombra-1);
   color: var(--tinta);
   font-weight: 700;
 }
@@ -55,15 +55,15 @@
   border-radius: 12px;
   background: var(--acento);
   box-shadow: var(--sombra-acento);
-  color: var(--superficie);
+  color: var(--sobre-acento);
   font-size: 15.5px;
   font-weight: 700;
   text-decoration: none;
 }
 
 .calendario__nueva:hover {
-  background: var(--acento-oscuro);
-  color: var(--superficie);
+  background: var(--acento-fuerte);
+  color: var(--sobre-acento);
 }
 
 .calendario__nueva svg,
@@ -233,7 +233,7 @@
 }
 
 .calendario__celda:hover {
-  background: #f3f6fe;
+  background: var(--resalte);
 }
 
 .calendario__celda--elegida,
@@ -260,7 +260,7 @@
 
 .calendario__numero--hoy {
   background: var(--acento);
-  color: var(--superficie);
+  color: var(--sobre-acento);
 }
 
 .calendario__ficha {
@@ -271,7 +271,7 @@
   border: 1px solid var(--linea);
   border-radius: 8px;
   background: var(--superficie);
-  box-shadow: 0 1px 2px rgba(18, 28, 51, 0.1);
+  box-shadow: var(--sombra-1);
   color: var(--tinta);
   font-size: 13px;
   line-height: 18px;
@@ -310,7 +310,7 @@
 }
 
 .calendario__columna--elegida {
-  background: #f3f6fe;
+  background: var(--resalte);
 }
 
 .calendario__columna-cabecera {
@@ -487,7 +487,7 @@
 }
 
 .calendario__cita-nombre:hover {
-  color: var(--acento);
+  color: var(--acento-texto);
   text-decoration: underline;
 }
 
@@ -510,7 +510,7 @@
   border-radius: 12px;
   background: var(--superficie);
   box-shadow: var(--sombra-1);
-  color: var(--acento);
+  color: var(--acento-texto);
   font-size: 15px;
   font-weight: 700;
   text-decoration: none;

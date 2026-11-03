@@ -3,6 +3,8 @@
 **Fase del ciclo de vida:** Diseño
 **Versión:** 1.4 · 13 de octubre de 2026
 
+> **Reemplazado el 3 de noviembre de 2026 (D-34).** La app tiene un mundo visual nuevo con tema claro y oscuro. El sistema vigente está en [DESIGN.md](../DESIGN.md). Este documento queda como historia del lienzo.
+
 El dueño del proyecto aprobó el lienzo de pantallas como base del aspecto de Vitalia (decisión D-18). Este documento recoge lo que ese lienzo define, para que el desarrollo lo use sin copiar valores a ojo.
 
 | | |

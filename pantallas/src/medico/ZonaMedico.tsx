@@ -9,10 +9,12 @@ import {
   CalendarCheckIcon,
   ClipboardTextIcon,
   CreditCardIcon,
+  GearIcon,
   SignOutIcon,
   SlidersHorizontalIcon,
   UsersIcon,
 } from "../comunes/iconos";
+import { Ajustes } from "../comunes/Ajustes";
 import { Marca } from "../comunes/piezas/Marca";
 import { useCerrarSesion } from "../comunes/sesion";
 import { Atencion } from "./Atencion";
@@ -59,6 +61,10 @@ export default function ZonaMedico() {
             <SlidersHorizontalIcon aria-hidden="true" />
             Configuración
           </NavLink>
+          <NavLink to="/medico/ajustes" className="zona-medico__enlace">
+            <GearIcon aria-hidden="true" />
+            Ajustes
+          </NavLink>
           <span className="zona-medico__enlace zona-medico__enlace--pronto" aria-disabled="true">
             <ClipboardTextIcon aria-hidden="true" />
             <span className="zona-medico__texto">Bitácora</span>
@@ -84,6 +90,7 @@ export default function ZonaMedico() {
         <Route path="citas/:cita/mover" element={<NuevaCita />} />
         <Route path="configuracion" element={<Configuracion />} />
         <Route path="consultorio" element={<DatosDelConsultorio />} />
+        <Route path="ajustes" element={<Ajustes className="zona-medico__contenido zona-medico__contenido--angosto" />} />
         <Route path="*" element={<Navigate to="/medico" replace />} />
       </Routes>
     </div>

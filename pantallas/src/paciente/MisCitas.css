@@ -25,18 +25,18 @@
   gap: 8px;
   min-height: 44px;
   padding: 0 16px;
-  border-radius: var(--radio-completo);
+  border-radius: var(--radio-boton);
   background: var(--acento);
   box-shadow: var(--sombra-acento);
-  color: var(--superficie);
+  color: var(--sobre-acento);
   font-size: 15px;
   font-weight: 700;
   text-decoration: none;
 }
 
 .mis-citas__agendar:hover {
-  background: var(--acento-oscuro);
-  color: var(--superficie);
+  background: var(--acento-fuerte);
+  color: var(--sobre-acento);
 }
 
 .mis-citas__agendar svg {
@@ -86,7 +86,7 @@
 
 .mis-citas__fecha--hoy {
   background: var(--acento);
-  color: var(--superficie);
+  color: var(--sobre-acento);
 }
 
 .mis-citas__dia {
@@ -150,7 +150,7 @@
 .mis-citas__telefono svg {
   width: 18px;
   height: 18px;
-  color: var(--acento);
+  color: var(--acento-texto);
 }
 
 .mis-citas__acciones .boton {

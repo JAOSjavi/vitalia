@@ -1,11 +1,16 @@
-/* Respuesta al pasar el cursor, igual en toda la aplicación y sutil: el color y la sombra
-   cambian en 150 ms, y los botones se elevan 1 px. Al presionar vuelven a su sitio.
-   Cada pantalla define su color de hover; aquí solo va el movimiento y la sombra. */
+/* Movimiento del muro de títulos (D-34). Tesis:
+   - Momento focal: el mosaico de lo que sigue (próxima cita, quien sigue en Hoy) enciende su
+     borde ámbar una vez al aparecer.
+   - Gesto propio: en una fila de mosaicos, el que se señala crece un poco y los vecinos bajan.
+   - Respuesta: los botones cambian de color al pasar y se hunden al presionar; nada se eleva.
+   - Continuidad: el cambio de tema se funde con una transición de vista (tema.ts).
+   Cada pantalla define su color de hover; aquí van el movimiento y la sombra. */
 
 :root {
-  --sombra-hover: 0 2px 4px rgba(18, 28, 51, 0.08), 0 8px 18px rgba(18, 28, 51, 0.1);
-  --sombra-acento-hover: 0 8px 20px rgba(31, 71, 184, 0.36);
-  --transicion: 150ms ease;
+  --sombra-hover: inset 0 0 0 1px var(--linea-campo);
+  --sombra-acento-hover: inset 0 0 0 2px var(--acento-fuerte);
+  --salida: cubic-bezier(0.16, 1, 0.3, 1);
+  --transicion: 160ms var(--salida);
 }
 
 a,
@@ -18,11 +23,12 @@ summary,
     border-color var(--transicion),
     color var(--transicion),
     box-shadow var(--transicion),
-    transform var(--transicion);
+    opacity 220ms var(--salida),
+    transform 220ms var(--salida);
 }
 
 @media (hover: hover) {
-  /* Botones principales: suben y su sombra azul se abre un poco. */
+  /* Botones principales: su sombra ámbar se abre un poco. */
   .boton--principal:hover:not(:disabled),
   .hoy__nueva:hover,
   .calendario__nueva:hover,
@@ -30,10 +36,9 @@ summary,
   .mis-documentos__subir:hover,
   .asistente__enviar:hover:not(:disabled) {
     box-shadow: var(--sombra-acento-hover);
-    transform: translateY(-1px);
   }
 
-  /* Botones blancos y tarjetas que se tocan: suben con una sombra un poco más honda. */
+  /* Botones de superficie y tarjetas que se tocan: su borde se marca. */
   .boton--borde:hover:not(:disabled),
   .boton--neutro:hover:not(:disabled),
   .hoy__atendida:hover,
@@ -55,7 +60,6 @@ summary,
   .nueva-cita__alternativas button:hover,
   .agendar__alternativas button:hover {
     box-shadow: var(--sombra-hover);
-    transform: translateY(-1px);
   }
 
   .boton--neutro:hover:not(:disabled),
@@ -80,7 +84,7 @@ summary,
 
   /* Controles pequeños: solo un fondo suave, sin moverse. */
   .calendario__vistas button:not([aria-pressed="true"]):hover {
-    background: rgba(255, 255, 255, 0.6);
+    background: var(--superficie);
     color: var(--tinta);
   }
 
@@ -118,9 +122,57 @@ summary,
   }
 }
 
-/* Al presionar, el botón baja a su sitio: se siente el clic. */
-:is(a, button):active:not(:disabled) {
-  transform: translateY(0);
+/* Al presionar, el botón se hunde: se siente el clic. */
+:is(button, .boton, [class*="__agendar"], [class*="__subir"], [class*="__nueva"]):active:not(:disabled) {
+  transform: scale(0.97);
+  transition-duration: 90ms;
+}
+
+/* Gesto propio: en una fila, el mosaico señalado crece y los vecinos bajan. Solo con cursor. */
+@media (hover: hover) {
+  :is(.hoy__fila, .pacientes__fila, .ficha__fila, .mis-citas__fila, .mis-documentos__fila, .mi-historia__atencion, .calendario__cita) {
+    outline: 2px solid transparent;
+    outline-offset: -6px;
+    transition:
+      background-color var(--transicion),
+      opacity 220ms var(--salida),
+      outline-color 220ms var(--salida),
+      outline-offset 220ms var(--salida);
+  }
+
+  :is(.hoy__fila, .pacientes__fila, .ficha__fila, .mis-citas__fila, .mis-documentos__fila, .mi-historia__atencion):is(:hover, :focus-within) {
+    position: relative;
+    z-index: 1;
+    outline: 2px solid var(--acento);
+    outline-offset: -2px;
+    border-radius: var(--radio-campo);
+  }
+
+  :has(> :is(.hoy__fila, .pacientes__fila, .ficha__fila, .mis-citas__fila, .mis-documentos__fila, .mi-historia__atencion):hover)
+    > :is(.hoy__fila, .pacientes__fila, .ficha__fila, .mis-citas__fila, .mis-documentos__fila, .mi-historia__atencion):not(:hover) {
+    opacity: 0.62;
+  }
+}
+
+/* Momento focal: lo que sigue enciende su borde ámbar al aparecer. El contenido se ve desde
+   el primer cuadro; solo el brillo del borde se anima. */
+@keyframes encender {
+  from {
+    border-color: var(--linea);
+    box-shadow: 0 0 0 0 transparent;
+  }
+  55% {
+    box-shadow: 0 0 0 6px var(--acento-suave);
+  }
+  to {
+    border-color: var(--acento);
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+.inicio__proxima,
+.hoy__sigue {
+  animation: encender 700ms var(--salida) both;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -132,7 +184,26 @@ summary,
     transition: none;
   }
 
-  :is(a, button):hover {
+  :is(a, button):hover,
+  :is(a, button):active {
     transform: none !important;
   }
+
+  [class*="__fila"],
+  .mi-historia__atencion {
+    transition-property: background-color, opacity, outline-color !important;
+  }
+
+  /* Sin movimiento, pero el vecino que baja y el borde ámbar siguen diciendo qué se señala. */
+  .inicio__proxima,
+  .hoy__sigue {
+    animation: none;
+  }
+}
+
+/* Fundido del cambio de tema. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 320ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }

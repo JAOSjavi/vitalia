@@ -39,7 +39,7 @@
 }
 
 .pacientes__nombre:hover {
-  color: var(--acento);
+  color: var(--acento-texto);
   text-decoration: underline;
 }
 

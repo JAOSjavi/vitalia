@@ -83,16 +83,16 @@
   border-color: var(--acento);
   background: var(--acento);
   box-shadow: var(--sombra-acento);
-  color: var(--superficie);
+  color: var(--sobre-acento);
 }
 
 .nueva-cita__tipos button[aria-pressed="true"] .texto-suave {
-  color: var(--superficie);
+  color: var(--sobre-acento);
 }
 
 .nueva-cita__otra summary {
   min-height: 44px;
-  color: var(--acento);
+  color: var(--acento-texto);
   font-weight: 700;
   line-height: 44px;
   cursor: pointer;

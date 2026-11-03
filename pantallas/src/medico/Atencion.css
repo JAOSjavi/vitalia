@@ -21,7 +21,7 @@
 }
 
 .atencion__ruta a {
-  color: var(--acento);
+  color: var(--acento-texto);
   font-weight: 700;
   text-decoration: none;
 }
@@ -57,7 +57,7 @@
   height: 56px;
   border-radius: var(--radio-completo);
   background: var(--acento);
-  color: var(--superficie);
+  color: var(--sobre-acento);
   font-family: var(--letra-titulo);
   font-size: 22px;
   font-weight: 600;
@@ -119,7 +119,7 @@
   padding: 4px 0;
   border: 0;
   background: none;
-  color: var(--acento);
+  color: var(--acento-texto);
   font: inherit;
   font-size: var(--tamano-secundario);
   font-weight: 700;
@@ -223,7 +223,7 @@
 
 .atencion__salto:hover {
   border-color: var(--acento);
-  color: var(--acento);
+  color: var(--acento-texto);
 }
 
 .atencion__tarjeta {
@@ -364,7 +364,7 @@
   padding: 2px 0;
   border: 0;
   background: none;
-  color: var(--acento);
+  color: var(--acento-texto);
   font: inherit;
   font-size: var(--tamano-secundario);
   font-weight: 700;

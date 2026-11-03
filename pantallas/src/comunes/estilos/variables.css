@@ -1,24 +1,39 @@
-/* Base visual aprobada: diseno/08-base-visual.md. Ningún componente escribe un color a mano. */
+/* Mundo visual D-34 (muro de títulos): un acento ámbar para foco, selección y acción principal.
+   Tema claro en :root; el oscuro se aplica con data-tema="oscuro" o, si no se fijó ninguno,
+   cuando el dispositivo lo pide. Ningún componente escribe un color a mano. */
 :root {
+  color-scheme: light;
+
   /* Colores */
-  --fondo: #f1f4f9;
+  --fondo: #eceef2;
   --superficie: #ffffff;
-  --tinta: #121c33;
-  --tinta-suave: #4c5973;
-  --linea: #d5dce8;
-  --linea-suave: #e7ecf4;
-  --linea-campo: #7f8ba3;
-  --acento: #1f47b8;
-  --acento-oscuro: #162f7a;
-  --acento-suave: #e3eafb;
-  --punto-verde: #1f9d61;
-  --punto-rojo: #d0392e;
-  --punto-ambar: #d99a00;
-  --punto-gris: #8a94a9;
+  --superficie-2: #f5f6f8;
+  --tinta: #11141a;
+  --tinta-suave: #4a5160;
+  --linea: #d3d7df;
+  --linea-suave: #e6e8ed;
+  --linea-campo: #7a8293;
+  --acento: #e6a73c;
+  --acento-texto: #8a5a00;
+  --acento-oscuro: #6b4500;
+  --acento-fuerte: #d4942a;
+  --acento-suave: #fbefd8;
+  --sobre-acento: #17120a;
+  --sobre-acento-suave: #4a3608;
+  --linea-sobre-acento: rgba(23, 18, 10, 0.22);
+  --resalte: #fff7e6;
+  --foco: #8a5a00;
+  --velo: rgba(10, 12, 16, 0.55);
+  --punto-verde: #1a8c55;
+  --punto-rojo: #cc3a2e;
+  --punto-ambar: #c98a00;
+  --punto-gris: #7d8698;
+  --rojo-suave: #fbeeed;
+  --verde-fuerte: #0f6b43;
   --alerta: #a8211a;
 
   /* Letras */
-  --letra-titulo: "Zilla Slab", Rockwell, Georgia, serif;
+  --letra-titulo: "Antonio", "Arial Narrow", sans-serif;
   --letra-texto: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", Verdana, sans-serif;
   --letra-dato: "Atkinson Hyperlegible Mono", ui-monospace, Consolas, monospace;
 
@@ -27,18 +42,81 @@
   --tamano-secundario: 14.5px;
   --tamano-texto: 16px;
   --tamano-texto-medico: 15.5px;
-  --tamano-titulo-tarjeta: 20px;
-  --tamano-titulo-pantalla: 28px;
+  --tamano-titulo-tarjeta: 24px;
+  --tamano-titulo-pantalla: 34px;
 
-  /* Formas */
-  --radio-estado: 10px;
-  --radio-campo: 12px;
-  --radio-boton: 14px;
-  --radio-tarjeta: 18px;
+  /* Formas: mosaicos de esquina corta, como un muro de títulos. */
+  --radio-estado: 6px;
+  --radio-campo: 8px;
+  --radio-boton: 8px;
+  --radio-tarjeta: 10px;
   --radio-completo: 999px;
 
-  /* Sombras */
-  --sombra-1: 0 1px 2px rgba(18, 28, 51, 0.1), 0 2px 6px rgba(18, 28, 51, 0.06);
-  --sombra-2: 0 1px 2px rgba(18, 28, 51, 0.06), 0 8px 24px rgba(18, 28, 51, 0.08);
-  --sombra-acento: 0 6px 16px rgba(31, 71, 184, 0.3);
+  /* Sombras: solo para lo que flota (menús y hojas). Los módulos se separan por su filete y lo
+     enfocado por su borde ámbar. */
+  --sombra-1: none;
+  --sombra-2: none;
+  --sombra-flotante: 0 2px 4px rgba(12, 14, 18, 0.08), 0 12px 32px rgba(12, 14, 18, 0.14);
+  --sombra-acento: none;
+}
+
+/* Tema oscuro: igual en las dos reglas para que el elegido y el del dispositivo coincidan. */
+:root[data-tema="oscuro"] {
+  color-scheme: dark;
+  --fondo: #0d1015;
+  --superficie: #161a21;
+  --superficie-2: #1d222b;
+  --tinta: #f1efe9;
+  --tinta-suave: #b3b8c2;
+  --linea: #2d333e;
+  --linea-suave: #232831;
+  --linea-campo: #6e7687;
+  --acento: #e8b04a;
+  --acento-texto: #f0c063;
+  --acento-oscuro: #f5d58e;
+  --acento-fuerte: #f2c56a;
+  --acento-suave: #33290f;
+  --resalte: #211c11;
+  --foco: #e8b04a;
+  --velo: rgba(0, 0, 0, 0.68);
+  --punto-verde: #3fbf7f;
+  --punto-rojo: #ef6a5e;
+  --punto-ambar: #f0b429;
+  --punto-gris: #8a94a9;
+  --rojo-suave: #3a1815;
+  --verde-fuerte: #1d8a57;
+  --alerta: #ff8a7e;
+  --sombra-flotante: 0 2px 4px rgba(0, 0, 0, 0.5), 0 12px 32px rgba(0, 0, 0, 0.5);
+  --sombra-acento: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="claro"]) {
+    color-scheme: dark;
+    --fondo: #0d1015;
+    --superficie: #161a21;
+    --superficie-2: #1d222b;
+    --tinta: #f1efe9;
+    --tinta-suave: #b3b8c2;
+    --linea: #2d333e;
+    --linea-suave: #232831;
+    --linea-campo: #6e7687;
+    --acento: #e8b04a;
+    --acento-texto: #f0c063;
+    --acento-oscuro: #f5d58e;
+    --acento-fuerte: #f2c56a;
+    --acento-suave: #33290f;
+    --resalte: #211c11;
+    --foco: #e8b04a;
+    --velo: rgba(0, 0, 0, 0.68);
+    --punto-verde: #3fbf7f;
+    --punto-rojo: #ef6a5e;
+    --punto-ambar: #f0b429;
+    --punto-gris: #8a94a9;
+    --rojo-suave: #3a1815;
+    --verde-fuerte: #1d8a57;
+    --alerta: #ff8a7e;
+    --sombra-flotante: 0 2px 4px rgba(0, 0, 0, 0.5), 0 12px 32px rgba(0, 0, 0, 0.5);
+    --sombra-acento: none;
+  }
 }

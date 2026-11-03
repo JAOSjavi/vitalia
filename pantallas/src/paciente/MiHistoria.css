@@ -97,7 +97,7 @@
   display: none;
   align-items: center;
   gap: 6px;
-  color: var(--acento);
+  color: var(--acento-texto);
   font-size: var(--tamano-secundario);
   font-weight: 700;
   text-decoration: none;

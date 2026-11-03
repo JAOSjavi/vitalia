@@ -10,7 +10,7 @@
 .hoja__velo {
   position: absolute;
   inset: 0;
-  background: rgba(18, 28, 51, 0.58);
+  background: var(--velo);
 }
 
 .hoja__cuerpo {
@@ -25,7 +25,7 @@
   padding: 12px 20px 24px;
   border-radius: 26px 26px 0 0;
   background: var(--superficie);
-  box-shadow: 0 -12px 40px rgba(18, 28, 51, 0.28);
+  box-shadow: var(--sombra-flotante);
   outline: 0;
 }
 
@@ -57,7 +57,7 @@
   height: 40px;
   border-radius: var(--radio-campo);
   background: var(--acento-suave);
-  color: var(--acento);
+  color: var(--acento-texto);
 }
 
 .hoja__cuerpo--ancha {

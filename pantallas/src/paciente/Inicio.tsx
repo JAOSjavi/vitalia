@@ -114,7 +114,7 @@ export function Inicio() {
           </Tarjeta>
         ))}
 
-      <BotonEnlace a="/paciente/agendar" clase={proxima ? "borde" : "principal"}>
+      <BotonEnlace a="/paciente/agendar" clase="principal">
         {proxima ? <PlusIcon weight="bold" /> : <CalendarPlusIcon />}
         {proxima ? "Agendar otra cita" : "Agendar una cita"}
       </BotonEnlace>

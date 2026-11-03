@@ -19,7 +19,7 @@
 }
 
 .ficha__ruta a {
-  color: var(--acento);
+  color: var(--acento-texto);
   font-weight: 700;
   text-decoration: none;
 }
@@ -55,7 +55,7 @@
   height: 64px;
   border-radius: var(--radio-completo);
   background: var(--acento);
-  color: var(--superficie);
+  color: var(--sobre-acento);
   font-family: var(--letra-titulo);
   font-size: 26px;
   font-weight: 600;
@@ -112,14 +112,13 @@
   gap: 8px;
   min-height: 46px;
   padding: 0 16px;
-  border: 1.5px solid var(--acento);
-  border-radius: 12px;
+  border: 1.5px solid var(--tinta);
+  border-radius: var(--radio-boton);
   background: var(--superficie);
-  color: var(--acento);
+  color: var(--tinta);
   font-size: 15px;
   font-weight: 700;
   text-decoration: none;
-  box-shadow: var(--sombra-1);
 }
 
 .ficha__agendar:hover {
@@ -141,7 +140,7 @@
   border: 0;
   border-radius: 12px;
   background: var(--acento);
-  color: var(--superficie);
+  color: var(--sobre-acento);
   font: inherit;
   font-size: 15px;
   font-weight: 700;
@@ -150,7 +149,7 @@
 }
 
 .ficha__atender:hover {
-  background: var(--acento-oscuro);
+  background: var(--acento-fuerte);
 }
 
 .ficha__atender svg {
@@ -169,7 +168,7 @@
   border: 0;
   border-radius: 8px;
   background: none;
-  color: var(--acento);
+  color: var(--acento-texto);
   font: inherit;
   font-size: var(--tamano-secundario);
   font-weight: 700;
@@ -233,7 +232,7 @@
   flex: none;
   width: 20px;
   height: 20px;
-  color: var(--acento);
+  color: var(--acento-texto);
 }
 
 .ficha__vacio {
@@ -307,7 +306,7 @@
   width: 44px;
   height: 44px;
   border-radius: 10px;
-  color: var(--acento);
+  color: var(--acento-texto);
 }
 
 .ficha__ver:hover {

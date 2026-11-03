@@ -36,7 +36,7 @@
   gap: 12px;
   min-height: 44px;
   padding: 0 12px;
-  border-radius: 10px;
+  border-radius: var(--radio-campo);
   color: var(--tinta-suave);
   font-size: 15.5px;
   font-weight: 600;
@@ -54,8 +54,10 @@ a.zona-medico__enlace:hover {
   color: var(--tinta);
 }
 
+/* El activo se enmarca en ámbar, como el título enfocado de una fila. */
 .zona-medico__enlace.active {
   background: var(--acento-suave);
+  box-shadow: inset 0 0 0 1.5px var(--acento);
   color: var(--acento-oscuro);
   font-weight: 700;
 }
@@ -91,8 +93,8 @@ a.zona-medico__enlace:hover {
   width: 40px;
   height: 40px;
   border-radius: var(--radio-completo);
-  background: var(--acento-oscuro);
-  color: var(--superficie);
+  background: var(--acento-fuerte);
+  color: var(--sobre-acento);
   font-size: 14px;
   font-weight: 700;
 }

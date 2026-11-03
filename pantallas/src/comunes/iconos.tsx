@@ -15,6 +15,7 @@ import {
   Camera01Icon,
   Cancel01Icon,
   Clock01Icon,
+  ComputerIcon as ComputerIcon_,
   CreditCardIcon as TarjetaDeCredito,
   Delete02Icon,
   File02Icon,
@@ -25,13 +26,16 @@ import {
   Location01Icon,
   Logout01Icon,
   Mail01Icon,
+  Moon02Icon,
   Search01Icon,
   SecurityCheckIcon,
   SentIcon,
+  Settings02Icon,
   SlidersHorizontalIcon as Deslizadores,
   SparklesIcon,
   SquareLock02Icon,
   Stethoscope02Icon,
+  Sun03Icon,
   Task01Icon,
   Tick02Icon,
   Upload04Icon,
@@ -79,6 +83,7 @@ export const CaretRightIcon = icono(ArrowRight01Icon, "CaretRightIcon");
 export const CheckIcon = icono(Tick02Icon, "CheckIcon");
 export const ClipboardTextIcon = icono(Task01Icon, "ClipboardTextIcon");
 export const ClockIcon = icono(Clock01Icon, "ClockIcon");
+export const ComputerIcon = icono(ComputerIcon_, "ComputerIcon");
 export const CreditCardIcon = icono(TarjetaDeCredito, "CreditCardIcon");
 export const EnvelopeSimpleIcon = icono(Mail01Icon, "EnvelopeSimpleIcon");
 export const EyeIcon = icono(ViewIcon, "EyeIcon");
@@ -90,15 +95,18 @@ export const ImageIcon = icono(Image01Icon, "ImageIcon");
 export const InfoIcon = icono(InformationCircleIcon, "InfoIcon");
 export const LockKeyIcon = icono(SquareLock02Icon, "LockKeyIcon");
 export const MagnifyingGlassIcon = icono(Search01Icon, "MagnifyingGlassIcon");
+export const MoonIcon = icono(Moon02Icon, "MoonIcon");
 export const MapPinIcon = icono(Location01Icon, "MapPinIcon");
 export const PaperPlaneRightIcon = icono(SentIcon, "PaperPlaneRightIcon");
 export const PhoneIcon = icono(CallIcon, "PhoneIcon");
 export const PlusIcon = icono(Add01Icon, "PlusIcon");
+export const GearIcon = icono(Settings02Icon, "GearIcon");
 export const ShieldCheckIcon = icono(SecurityCheckIcon, "ShieldCheckIcon");
 export const SignOutIcon = icono(Logout01Icon, "SignOutIcon");
 export const SlidersHorizontalIcon = icono(Deslizadores, "SlidersHorizontalIcon");
 export const SparkleIcon = icono(SparklesIcon, "SparkleIcon");
 export const StethoscopeIcon = icono(Stethoscope02Icon, "StethoscopeIcon");
+export const SunIcon = icono(Sun03Icon, "SunIcon");
 export const TrashIcon = icono(Delete02Icon, "TrashIcon");
 export const UploadSimpleIcon = icono(Upload04Icon, "UploadSimpleIcon");
 export const UserIcon = icono(Persona, "UserIcon");

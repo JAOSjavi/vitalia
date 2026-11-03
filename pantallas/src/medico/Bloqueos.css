@@ -165,5 +165,5 @@
 
 .bloqueos__eliminar:hover {
   border-color: var(--linea-campo);
-  background: #fdf1f0;
+  background: var(--rojo-suave);
 }
