@@ -155,6 +155,19 @@ Para que los botones de Hoy funcionen se construyó **HU-018 asistencia** en el 
 
 **Quedan fuera hasta que existan:** registrar paciente desde el panel (HU-024), tratamientos (E8: ni la pestaña del paciente ni la línea de la tarjeta de quien sigue), "Próximo espacio libre" del avance del día.
 
+## 4.3 Historia clínica del consultorio (3 de noviembre)
+
+Campos y norma en [diseno/10-historia-clinica.md](diseno/10-historia-clinica.md) (D-33).
+
+| Capa | Qué quedó |
+|---|---|
+| Migración `0011` | Datos de identificación en `pacientes` (los edita el médico), `atenciones` con todos los campos y sus rangos, `notas_aclaratorias`, `cie10` con 110 frecuentes desde `migraciones/textos/cie10-frecuentes.csv`, disparadores que impiden cambiar lo cerrado, función `hash_del_medico_actual()` para firmar, y cuatro permisos nuevos |
+| Dominio | `dominio/historia_clinica.py`: cada campo descrito una vez (tipo, lista, rango, si es obligatorio); de ahí salen la revisión del borrador, lo que falta para cerrar y el formulario que pide la pantalla (`GET /historia-clinica/formulario`) |
+| Caso de uso | `casos_de_uso/historia_clinica.py` (`Atenciones`): abrir (o seguir la abierta, con los antecedentes de la anterior), guardar por partes, identificación, cerrar con contraseña (marca la cita como atendida), notas, historia del paciente, mi historia y CIE-10 |
+| API | `entrada/rutas_historia.py`, las rutas de E9 de [diseno/03](diseno/03-api.md) más `/mi-historia` |
+| Pantallas | `medico/Atencion.tsx` (M-15), `medico/Atender.tsx` (botón en Hoy y en la ficha), historia en `medico/Ficha.tsx`, `paciente/MiHistoria.tsx`, `comunes/VistaDeAtencion.tsx` (solo lectura, la usan los dos). La zona del paciente pasa a columna izquierda desde 900 px y la hoja se centra en computador |
+| Pruebas | 16 del servidor (`test_historia_clinica.py`, `test_api_de_historia.py`) y 5 de pantallas |
+
 ## 5. Cómo se trabaja con el código
 
 | Para | Orden, desde la carpeta indicada |

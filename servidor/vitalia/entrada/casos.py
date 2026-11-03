@@ -12,6 +12,7 @@ from vitalia.casos_de_uso.cerrar_sesion import CerrarSesion
 from vitalia.casos_de_uso.consultar_disponibilidad import ConsultarDisponibilidad
 from vitalia.casos_de_uso.editar_consultorio import EditarConsultorio
 from vitalia.casos_de_uso.guardar_horario import GuardarHorario
+from vitalia.casos_de_uso.historia_clinica import Atenciones
 from vitalia.casos_de_uso.ingresar import Ingresar
 from vitalia.casos_de_uso.listar_citas import ListarCitas
 from vitalia.casos_de_uso.mover_cita import MoverCita
@@ -65,6 +66,7 @@ class CasosDeUso:
     ver_ficha_del_paciente: VerFichaDelPaciente
     abrir_documento: AbrirDocumento
     eliminar_documento: EliminarDocumento
+    atenciones: Atenciones
 
 
 @dataclass(frozen=True)

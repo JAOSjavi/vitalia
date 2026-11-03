@@ -1,6 +1,7 @@
 import "./Ficha.css";
 
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { Link, useParams } from "react-router";
 
 import { ErrorDeApi } from "../api/cliente";
@@ -10,21 +11,25 @@ import {
   fichaDelPaciente,
   type Documento,
 } from "../api/documentos";
+import { historiaDelPaciente, type Atencion } from "../api/historia";
 import { ESTADOS_DE_CITA, ESTADOS_DE_LECTURA } from "../comunes/estados";
 import { cuandoCorto, diaCorto, diaIso, hora } from "../comunes/fechas";
 import {
   CalendarBlankIcon,
   CalendarPlusIcon,
   CaretRightIcon,
+  ClipboardTextIcon,
   EyeIcon,
   FileTextIcon,
   PhoneIcon,
 } from "../comunes/iconos";
 import { Estado } from "../comunes/piezas/Estado";
 import { Nota } from "../comunes/piezas/Nota";
+import { resumenDeAtencion, useFormulario, VistaDeAtencion } from "../comunes/VistaDeAtencion";
 import { Asistente } from "./Asistente";
+import { BotonAtender } from "./Atender";
 
-function edad(nacimiento: string, hoy = new Date()) {
+export function edad(nacimiento: string, hoy = new Date()) {
   const [anio, mes, dia] = nacimiento.split("-").map(Number);
   let anios = hoy.getFullYear() - anio;
   if (hoy.getMonth() + 1 < mes || (hoy.getMonth() + 1 === mes && hoy.getDate() < dia)) anios -= 1;
@@ -32,11 +37,11 @@ function edad(nacimiento: string, hoy = new Date()) {
 }
 
 /** "41652318" como "41 652 318": en grupos de tres desde la derecha, más fácil de leer. */
-function enGrupos(numero: string) {
+export function enGrupos(numero: string) {
   return /^\d+$/.test(numero) ? numero.replace(/\B(?=(\d{3})+(?!\d))/g, " ") : numero;
 }
 
-function iniciales(nombres: string, apellidos: string) {
+export function iniciales(nombres: string, apellidos: string) {
   return `${nombres.trim().charAt(0)}${apellidos.trim().charAt(0)}`.toUpperCase();
 }
 
@@ -106,6 +111,7 @@ export function Ficha() {
           </div>
         </div>
         <div className="ficha__acciones">
+          <BotonAtender paciente={datos.id} className="ficha__atender" />
           <Link
             to={`/medico/citas/nueva?paciente=${datos.id}&nombre=${encodeURIComponent(nombre)}`}
             className="ficha__agendar"
@@ -148,6 +154,8 @@ export function Ficha() {
             })}
           </section>
 
+          <HistoriaClinica paciente={datos.id} />
+
           <section className="ficha__tarjeta" aria-labelledby="ficha-documentos">
             <h2 id="ficha-documentos">
               <FileTextIcon aria-hidden="true" />
@@ -184,5 +192,70 @@ export function Ficha() {
         <Asistente paciente={datos.id} iaAutorizada={ia_autorizada} etiquetas={etiquetas} />
       </div>
     </main>
+  );
+}
+
+/** Las atenciones del consultorio, de la más reciente a la más antigua (HU-045). */
+function HistoriaClinica({ paciente }: { paciente: string }) {
+  const historia = useQuery({
+    queryKey: ["historia", paciente],
+    queryFn: () => historiaDelPaciente(paciente),
+  });
+  const f = useFormulario().data;
+  const [abierta, setAbierta] = useState<string | null>(null);
+  const atenciones = historia.data ?? [];
+
+  return (
+    <section className="ficha__tarjeta" aria-labelledby="ficha-historia">
+      <h2 id="ficha-historia">
+        <ClipboardTextIcon aria-hidden="true" />
+        Historia clínica
+      </h2>
+      {historia.isError && <Nota tono="rojo">No se pudo cargar la historia clínica.</Nota>}
+      {historia.isSuccess && !atenciones.length && (
+        <p className="ficha__vacio">Todavía no tiene atenciones en el consultorio.</p>
+      )}
+      {atenciones.map((atencion: Atencion) => (
+        <div key={atencion.id} className="ficha__atencion">
+          <div className="ficha__fila">
+            <div className="ficha__texto">
+              <span className="ficha__titulo">
+                {diaCorto(diaIso(atencion.inicio))} ·{" "}
+                <span className="ficha__dato">{hora(atencion.inicio)}</span>
+              </span>
+              <span className="ficha__detalle">{resumenDeAtencion(atencion, f)}</span>
+            </div>
+            {atencion.estado === "abierta" ? (
+              <>
+                <Estado tono="ambar">Abierta</Estado>
+                <Link to={`/medico/atenciones/${atencion.id}`} className="ficha__continuar">
+                  Continuar
+                </Link>
+              </>
+            ) : (
+              <>
+                <Estado tono="verde">Cerrada</Estado>
+                <button
+                  type="button"
+                  className="ficha__continuar"
+                  aria-expanded={abierta === atencion.id}
+                  onClick={() => setAbierta(abierta === atencion.id ? null : atencion.id)}
+                >
+                  {abierta === atencion.id ? "Ocultar" : "Ver"}
+                </button>
+              </>
+            )}
+          </div>
+          {abierta === atencion.id && (
+            <div className="ficha__vista">
+              <VistaDeAtencion atencion={atencion} />
+              <Link to={`/medico/atenciones/${atencion.id}`} className="ficha__continuar">
+                Abrir para agregar una nota aclaratoria
+              </Link>
+            </div>
+          )}
+        </div>
+      ))}
+    </section>
   );
 }

@@ -132,6 +132,68 @@
   height: 18px;
 }
 
+.ficha__atender {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--acento);
+  color: var(--superficie);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow: var(--sombra-acento);
+  cursor: pointer;
+}
+
+.ficha__atender:hover {
+  background: var(--acento-oscuro);
+}
+
+.ficha__atender svg {
+  width: 18px;
+  height: 18px;
+}
+
+.ficha__atencion {
+  display: flex;
+  flex-direction: column;
+}
+
+.ficha__continuar {
+  flex: none;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--acento);
+  font: inherit;
+  font-size: var(--tamano-secundario);
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.ficha__continuar:hover {
+  background: var(--acento-suave);
+  color: var(--acento-oscuro);
+}
+
+.ficha__vista {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 0 8px;
+}
+
+.ficha__vista > .vista-atencion {
+  align-self: stretch;
+}
+
 .ficha__columnas {
   display: flex;
   flex-wrap: wrap;

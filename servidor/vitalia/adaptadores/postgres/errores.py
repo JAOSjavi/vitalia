@@ -13,6 +13,7 @@ from vitalia.dominio.cuentas import (
     MenorDeEdad,
     YaHayMedico,
 )
+from vitalia.dominio.historia_clinica import AtencionCerrada, AtencionYaAbierta
 
 # Palabra que aparece en el mensaje de la base y error que le corresponde.
 _TRADUCCIONES: tuple[tuple[str, type[Exception]], ...] = (
@@ -23,6 +24,8 @@ _TRADUCCIONES: tuple[tuple[str, type[Exception]], ...] = (
     ("un_solo_medico", YaHayMedico),
     ("usuarios_tipo_documento_numero_documento_key", DocumentoYaRegistrado),
     ("sin_choques", EspacioOcupado),
+    ("una_abierta_por_paciente", AtencionYaAbierta),
+    ("atención cerrada no se modifica", AtencionCerrada),
 )
 
 

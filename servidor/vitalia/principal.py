@@ -32,6 +32,7 @@ from vitalia.casos_de_uso.consultar_disponibilidad import ConsultarDisponibilida
 from vitalia.casos_de_uso.crear_enlace_de_puesta_en_marcha import CrearEnlaceDePuestaEnMarcha
 from vitalia.casos_de_uso.editar_consultorio import EditarConsultorio
 from vitalia.casos_de_uso.guardar_horario import GuardarHorario
+from vitalia.casos_de_uso.historia_clinica import Atenciones
 from vitalia.casos_de_uso.indexar_documentos import IndexarDocumentos
 from vitalia.casos_de_uso.ingresar import Ingresar
 from vitalia.casos_de_uso.leer_documentos import LeerDocumentos
@@ -117,6 +118,7 @@ def armar(
         ver_ficha_del_paciente=VerFichaDelPaciente(unidad, autorizador),
         abrir_documento=AbrirDocumento(unidad, autorizador, archivos),
         eliminar_documento=EliminarDocumento(unidad, autorizador, archivos),
+        atenciones=Atenciones(unidad, autorizador, contrasenas, reloj),
         preguntar_al_asistente=PreguntarAlAsistente(
             unidad, autorizador, vectores, ia or IADeMentira(), reloj, limites
         ),
@@ -145,6 +147,8 @@ def armar(
 
 def _ia(configuracion: Configuracion) -> ProveedorIA | None:
     # Con dirección propia, las respuestas van a ese proveedor (D-32); si no, a Qwen.
+    direccion: str | None
+    clave: str | None
     if configuracion.ia_respuestas_direccion and configuracion.ia_respuestas_clave:
         direccion, clave = configuracion.ia_respuestas_direccion, configuracion.ia_respuestas_clave
     else:

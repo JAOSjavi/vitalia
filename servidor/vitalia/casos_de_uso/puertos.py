@@ -23,6 +23,7 @@ from vitalia.dominio.documentos import (
     TipoDeDocumento,
 )
 from vitalia.dominio.fragmentos import Identificadores
+from vitalia.dominio.historia_clinica import Diagnostico, Medicamento, Valor
 from vitalia.dominio.identidad import Identidad, Rol
 from vitalia.dominio.ingreso import Intentos
 from vitalia.dominio.permisos import MatrizDePermisos
@@ -303,6 +304,96 @@ class Pacientes(Protocol):
 
 
 @dataclass(frozen=True)
+class NotaAclaratoria:
+    atencion_id: UUID
+    texto: str
+    fecha: datetime
+    firma_nombre: str
+    firma_registro: str | None
+
+
+@dataclass(frozen=True)
+class AtencionGuardada:
+    """Una atención como está en la base. `datos` trae los campos de CAMPOS_DE_LA_ATENCION."""
+
+    id: UUID
+    paciente_id: UUID
+    cita_id: UUID | None
+    estado: Literal["abierta", "cerrada"]
+    inicio: datetime
+    fin: datetime | None
+    guardada_en: datetime
+    datos: Mapping[str, Valor]
+    diagnosticos: Sequence[Diagnostico]
+    medicamentos: Sequence[Medicamento]
+    firma_nombre: str | None
+    firma_registro: str | None
+    firma_documento: str | None
+
+
+@dataclass(frozen=True)
+class Firma:
+    """Copia del nombre, el registro y el documento del médico al momento de cerrar (HU-044)."""
+
+    nombre: str
+    registro: str | None
+    documento: str
+
+
+class HistoriaClinica(Protocol):
+    """Atenciones, notas aclaratorias, identificación del paciente y CIE-10 (E9)."""
+
+    async def abierta_de(self, paciente_id: UUID) -> UUID | None: ...
+
+    async def abrir(
+        self,
+        paciente_id: UUID,
+        medico_id: UUID,
+        cita_id: UUID | None,
+        antecedentes: Mapping[str, Valor],
+    ) -> UUID:
+        """Lanza AtencionYaAbierta si otra petición abrió una al mismo tiempo."""
+        ...
+
+    async def atencion(self, atencion_id: UUID) -> AtencionGuardada | None: ...
+
+    async def de_paciente(self, paciente_id: UUID) -> list[AtencionGuardada]:
+        """De la más reciente a la más antigua. Al paciente la base solo le entrega las cerradas."""
+        ...
+
+    async def guardar(
+        self,
+        atencion_id: UUID,
+        datos: Mapping[str, Valor],
+        diagnosticos: Sequence[Diagnostico] | None,
+        medicamentos: Sequence[Medicamento] | None,
+        ahora: datetime,
+    ) -> None: ...
+
+    async def cerrar(self, atencion_id: UUID, fin: datetime, firma: Firma) -> None: ...
+
+    async def agregar_nota(
+        self, atencion_id: UUID, medico_id: UUID, texto: str, firma: Firma
+    ) -> None: ...
+
+    async def notas(self, atenciones: Sequence[UUID]) -> list[NotaAclaratoria]: ...
+
+    async def identificacion(self, paciente_id: UUID) -> dict[str, Valor] | None: ...
+
+    async def guardar_identificacion(
+        self, paciente_id: UUID, datos: Mapping[str, Valor]
+    ) -> None: ...
+
+    async def nombres_cie10(self, codigos: Sequence[str]) -> dict[str, str]: ...
+
+    async def buscar_cie10(self, texto: str, limite: int) -> list[tuple[str, str]]: ...
+
+    async def firma_del_medico(self) -> tuple[Firma, str | None]:
+        """La firma del médico de la sesión y el hash de su contraseña, para confirmarla."""
+        ...
+
+
+@dataclass(frozen=True)
 class DocumentoSubido:
     id: UUID
     nombre: str
@@ -522,6 +613,9 @@ class Trabajo(Protocol):
 
     @property
     def fragmentos(self) -> Fragmentos: ...
+
+    @property
+    def historia(self) -> HistoriaClinica: ...
 
 
 class UnidadDeTrabajo(Protocol):

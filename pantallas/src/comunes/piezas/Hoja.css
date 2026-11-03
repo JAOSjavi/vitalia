@@ -59,3 +59,23 @@
   background: var(--acento-suave);
   color: var(--acento);
 }
+
+.hoja__cuerpo--ancha {
+  max-width: 760px;
+}
+
+/* En computador la hoja se ve como una ventana en el centro. */
+@media (min-width: 900px) {
+  .hoja {
+    align-items: center;
+  }
+
+  .hoja__cuerpo {
+    border-radius: 22px;
+    padding: 20px 24px 24px;
+  }
+
+  .hoja__asa {
+    display: none;
+  }
+}

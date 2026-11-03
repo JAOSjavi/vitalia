@@ -86,3 +86,72 @@
   background: var(--acento-suave);
   color: var(--acento-oscuro);
 }
+
+.zona-paciente__marca {
+  display: none;
+}
+
+/* Computador: las secciones pasan a una columna a la izquierda y el contenido se ensancha. */
+@media (min-width: 900px) {
+  .zona-paciente {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    align-items: start;
+    max-width: none;
+    margin: 0;
+  }
+
+  .zona-paciente > main {
+    grid-row: 1;
+    grid-column: 2;
+    width: 100%;
+    max-width: 1040px;
+    padding: 32px 40px 48px;
+  }
+
+  .zona-paciente__secciones {
+    position: sticky;
+    top: 0;
+    grid-row: 1;
+    grid-column: 1;
+    grid-auto-flow: row;
+    align-content: start;
+    gap: 4px;
+    height: 100vh;
+    padding: 24px 16px;
+    border-top: 0;
+    border-right: 1px solid var(--linea);
+  }
+
+  .zona-paciente__marca {
+    display: flex;
+    margin: 0 8px 20px;
+  }
+
+  .zona-paciente__seccion {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 10px;
+    min-height: 48px;
+    padding: 0 8px;
+    border-radius: 12px;
+    font-size: 16px;
+  }
+
+  .zona-paciente__icono-seccion {
+    padding: 4px;
+  }
+
+  .zona-paciente__seccion:hover {
+    background: var(--acento-suave);
+    color: var(--acento-oscuro);
+  }
+
+  .zona-paciente__seccion.active {
+    background: var(--acento-suave);
+  }
+
+  .zona-paciente__seccion.active .zona-paciente__icono-seccion {
+    background: none;
+  }
+}

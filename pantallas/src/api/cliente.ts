@@ -50,7 +50,11 @@ export async function llamar(ruta: string, opciones: RequestInit): Promise<Respo
   return respuesta;
 }
 
-export function enviar<T>(ruta: string, metodo: "POST" | "PUT" | "DELETE", cuerpo?: unknown) {
+export function enviar<T>(
+  ruta: string,
+  metodo: "POST" | "PUT" | "PATCH" | "DELETE",
+  cuerpo?: unknown,
+) {
   return pedir<T>(ruta, {
     method: metodo,
     body: cuerpo === undefined ? undefined : JSON.stringify(cuerpo),

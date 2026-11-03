@@ -1,0 +1,626 @@
+/* M-15 del lienzo (Médico · Atención con la historia clínica y el asistente).
+   Computador: formulario y asistente lado a lado. Menos de 1200 px: una pestaña para cada uno. */
+
+.atencion {
+  display: flex;
+  flex: 999 1 560px;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+  padding: 24px 32px 40px;
+}
+
+.atencion__ruta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  color: var(--tinta-suave);
+  font-size: var(--tamano-secundario);
+  line-height: 20px;
+}
+
+.atencion__ruta a {
+  color: var(--acento);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.atencion__ruta a:hover {
+  color: var(--acento-oscuro);
+  text-decoration: underline;
+}
+
+.atencion__ruta svg {
+  width: 16px;
+  height: 16px;
+}
+
+.atencion__encabezado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 20px;
+  padding: 20px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-tarjeta);
+  background: var(--superficie);
+  box-shadow: var(--sombra-2);
+}
+
+.atencion__avatar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radio-completo);
+  background: var(--acento);
+  color: var(--superficie);
+  font-family: var(--letra-titulo);
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.atencion__identidad {
+  display: flex;
+  flex: 1 1 320px;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.atencion__identidad h1 {
+  font-size: 26px;
+  line-height: 32px;
+  font-weight: 600;
+}
+
+.atencion__datos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 16px;
+  color: var(--tinta-suave);
+  font-size: var(--tamano-secundario);
+  line-height: 20px;
+}
+
+.atencion__dato {
+  font-family: var(--letra-dato);
+}
+
+.atencion__cerrar {
+  min-height: 48px;
+  padding: 0 18px;
+  border-radius: 12px;
+  font-size: 16px;
+}
+
+.atencion__pendientes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.atencion__pendientes > .nota {
+  flex: 1 1 420px;
+}
+
+.atencion__pendientes .boton {
+  min-height: 44px;
+  border-radius: 12px;
+}
+
+.atencion__enlace-identificacion {
+  align-self: flex-start;
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  color: var(--acento);
+  font: inherit;
+  font-size: var(--tamano-secundario);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.atencion__enlace-identificacion:hover {
+  color: var(--acento-oscuro);
+  text-decoration: underline;
+}
+
+/* Pestañas: solo cuando el formulario y el asistente no caben juntos. */
+.atencion__pestanas {
+  display: none;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-boton);
+  background: var(--superficie);
+}
+
+.atencion__pestana {
+  flex: 1;
+  min-height: 44px;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  color: var(--tinta-suave);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.atencion__pestana[aria-selected="true"] {
+  background: var(--acento-suave);
+  color: var(--acento-oscuro);
+}
+
+.atencion__columnas {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(340px, 466px);
+  align-items: start;
+  gap: 24px;
+}
+
+.atencion__centro {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.atencion__lado {
+  position: sticky;
+  top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.atencion__aviso-ia {
+  color: var(--tinta-suave);
+  font-size: var(--tamano-etiqueta);
+  line-height: 19px;
+}
+
+.atencion__formulario,
+.atencion__cerrada {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.atencion__indice {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 0;
+  background: var(--fondo);
+}
+
+.atencion__salto {
+  display: flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-completo);
+  background: var(--superficie);
+  color: var(--tinta);
+  font-size: var(--tamano-secundario);
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.atencion__salto:hover {
+  border-color: var(--acento);
+  color: var(--acento);
+}
+
+.atencion__tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-tarjeta);
+  background: var(--superficie);
+  box-shadow: var(--sombra-1);
+  scroll-margin-top: 72px;
+}
+
+.atencion__tarjeta h2 {
+  font-size: var(--tamano-titulo-tarjeta);
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.atencion__rejilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+  gap: 14px;
+}
+
+.atencion__signos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(130px, 100%), 1fr));
+  gap: 12px;
+}
+
+.atencion__campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.atencion__etiqueta {
+  font-size: var(--tamano-secundario);
+  line-height: 20px;
+  font-weight: 700;
+}
+
+.atencion__suave {
+  color: var(--tinta-suave);
+  font-weight: 400;
+}
+
+.atencion__ayuda {
+  color: var(--tinta-suave);
+  font-size: var(--tamano-secundario);
+  line-height: 21px;
+}
+
+.atencion__control {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 12px;
+  border: 1px solid var(--linea-campo);
+  border-radius: var(--radio-campo);
+  background: var(--superficie);
+  color: var(--tinta);
+  font: inherit;
+  font-size: var(--tamano-texto-medico);
+}
+
+.atencion__control--area {
+  min-height: 0;
+  padding: 10px 12px;
+  line-height: 23px;
+  resize: vertical;
+}
+
+.atencion__control--dato {
+  font-family: var(--letra-dato);
+  font-size: 15px;
+}
+
+.atencion__control:focus {
+  border-color: var(--acento);
+  box-shadow: 0 0 0 3px var(--acento-suave);
+  outline: 0;
+}
+
+.atencion__control[aria-invalid="true"] {
+  border-color: var(--punto-rojo);
+}
+
+.atencion__numero {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.atencion__numero .atencion__control {
+  padding-right: 64px;
+}
+
+.atencion__unidad {
+  position: absolute;
+  right: 12px;
+  color: var(--tinta-suave);
+  font-size: var(--tamano-etiqueta);
+  pointer-events: none;
+}
+
+.atencion__imc {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-height: 48px;
+  padding: 12px;
+  border-radius: var(--radio-campo);
+  background: var(--fondo);
+}
+
+.atencion__error {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: var(--tamano-secundario);
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.atencion__punto {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radio-completo);
+  background: var(--punto-rojo);
+}
+
+.atencion__atajo {
+  align-self: flex-start;
+  padding: 2px 0;
+  border: 0;
+  background: none;
+  color: var(--acento);
+  font: inherit;
+  font-size: var(--tamano-secundario);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.atencion__atajo:hover {
+  text-decoration: underline;
+}
+
+.atencion__radios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.atencion__radios legend {
+  width: 100%;
+  margin-bottom: 6px;
+}
+
+.atencion__radio {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  font-size: var(--tamano-texto-medico);
+  cursor: pointer;
+}
+
+.atencion__radio input {
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  accent-color: var(--acento);
+}
+
+.atencion__diagnosticos {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.atencion__resultados {
+  display: flex;
+  flex-direction: column;
+  max-height: 280px;
+  margin: 0;
+  padding: 6px;
+  overflow-y: auto;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-campo);
+  background: var(--superficie);
+  box-shadow: var(--sombra-2);
+  list-style: none;
+}
+
+.atencion__resultados li > button {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  color: var(--tinta);
+  font: inherit;
+  font-size: var(--tamano-texto-medico);
+  text-align: left;
+  cursor: pointer;
+}
+
+.atencion__resultados li > button:hover {
+  background: var(--acento-suave);
+}
+
+.atencion__codigo {
+  flex: none;
+  min-width: 48px;
+  font-family: var(--letra-dato);
+  font-weight: 700;
+}
+
+.atencion__diagnostico {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-campo);
+}
+
+.atencion__diagnostico-nombre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 12px;
+  font-size: var(--tamano-texto-medico);
+  line-height: 22px;
+}
+
+.atencion__diagnostico-nombre > span:nth-child(2) {
+  flex: 1 1 200px;
+}
+
+.atencion__diagnostico-opciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.atencion__diagnostico-opciones select {
+  flex: 1 1 220px;
+  width: auto;
+}
+
+.atencion__diagnostico-opciones .boton {
+  min-height: 44px;
+  border-radius: 12px;
+  font-size: 15px;
+}
+
+.atencion__quitar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--linea);
+  border-radius: 12px;
+  background: var(--superficie);
+  color: var(--tinta-suave);
+  cursor: pointer;
+}
+
+.atencion__quitar:hover {
+  border-color: var(--punto-rojo);
+  color: var(--alerta);
+}
+
+.atencion__formula {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.atencion__formula > .boton {
+  align-self: flex-start;
+  min-height: 44px;
+  border-radius: 12px;
+  font-size: 15px;
+}
+
+.atencion__medicamento {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-campo);
+}
+
+.atencion__medicamento > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  line-height: 22px;
+}
+
+.atencion__nuevo-medicamento {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(170px, 100%), 1fr));
+  gap: 12px;
+  padding: 14px;
+  border: 1px dashed var(--linea-campo);
+  border-radius: var(--radio-campo);
+}
+
+.atencion__firma {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.atencion__acciones-hoja {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  grid-column: 1 / -1;
+  margin-top: 6px;
+}
+
+.atencion__cerrada textarea {
+  width: 100%;
+}
+
+.atencion__cerrada form .boton {
+  align-self: flex-start;
+}
+
+@media (max-width: 1199px) {
+  .atencion__pestanas {
+    display: flex;
+  }
+
+  .atencion__columnas {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .atencion__columnas--formulario .atencion__lado,
+  .atencion__columnas--asistente .atencion__centro {
+    display: none;
+  }
+
+  .atencion__lado {
+    position: static;
+  }
+}
+
+@media (max-width: 820px) {
+  .atencion {
+    padding: 20px 16px 32px;
+  }
+
+  .atencion__encabezado {
+    padding: 16px;
+  }
+
+  .atencion__cerrar {
+    width: 100%;
+  }
+
+  .atencion__tarjeta {
+    padding: 16px;
+  }
+
+  /* En celular el índice se desliza de lado en vez de ocupar varias líneas. */
+  .atencion__indice {
+    flex-wrap: nowrap;
+    margin: 0 -16px;
+    padding: 8px 16px;
+    overflow-x: auto;
+  }
+}

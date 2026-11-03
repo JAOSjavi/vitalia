@@ -21,7 +21,6 @@ import { conMayuscula, diaIso, fechaLarga, hora } from "../comunes/fechas";
 import {
   ArrowRightIcon,
   ArrowsLeftRightIcon,
-  CheckIcon,
   ClockIcon,
   FileTextIcon,
   LockKeyIcon,
@@ -35,6 +34,7 @@ import { Boton } from "../comunes/piezas/Boton";
 import { Campo, Entrada } from "../comunes/piezas/Campo";
 import { Estado } from "../comunes/piezas/Estado";
 import { Nota } from "../comunes/piezas/Nota";
+import { BotonAtender } from "./Atender";
 import { tramoDelDia } from "./Bloqueos";
 import { iniciales } from "./ZonaMedico";
 
@@ -333,15 +333,19 @@ function FilaDeCita({ cita, sigue }: { cita: Cita; sigue: boolean }) {
           )}
           {marcable && !cancelando && (
             <>
+              <BotonAtender
+                paciente={cita.paciente_id}
+                cita={cita.id}
+                className={`hoy__atendida ${sigue ? "hoy__atendida--sigue" : ""}`}
+              />
               <button
                 type="button"
-                className={`hoy__atendida ${sigue ? "hoy__atendida--sigue" : ""}`}
+                className="hoy__corregir"
                 onClick={() =>
                   hacer(() => marcarAsistencia(cita.id, "atendida"), "No se pudo marcar.")
                 }
               >
-                <CheckIcon aria-hidden="true" weight="bold" />
-                Atendida
+                Marcar atendida
               </button>
               <button
                 type="button"

@@ -102,7 +102,7 @@ test("la que sigue tiene su tarjeta y se marca como atendida", async () => {
     screen.getByRole("button", { name: "Marcar que Rosa Elena Duarte no asistió" }),
   ).toBeDisabled();
 
-  await userEvent.click(screen.getByRole("button", { name: "Atendida" }));
+  await userEvent.click(screen.getByRole("button", { name: "Marcar atendida" }));
 
   expect(pedidos.find((p) => p.clave === "POST /api/v1/citas/c1/asistencia")?.cuerpo).toEqual({
     estado: "atendida",

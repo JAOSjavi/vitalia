@@ -46,6 +46,14 @@ function ficha(iaAutorizada: boolean) {
   };
 }
 
+// La ficha también pide la historia clínica: estas pruebas son del asistente.
+const SIN_HISTORIA = {
+  "GET /api/v1/pacientes/p1/atenciones": { cuerpo: [] },
+  "GET /api/v1/historia-clinica/formulario": {
+    cuerpo: { atencion: {}, identificacion: {}, listas: {} },
+  },
+};
+
 function lineas(...eventos: object[]) {
   return eventos.map((e) => JSON.stringify(e)).join("\n") + "\n";
 }
@@ -87,7 +95,8 @@ function pantalla() {
 }
 
 test("la ficha muestra los datos y los documentos con su etiqueta en orden de subida", async () => {
-  apiDeMentira({ "GET /api/v1/pacientes/p1": { cuerpo: ficha(true) } });
+  apiDeMentira({ "GET /api/v1/pacientes/p1": { cuerpo: ficha(true) },
+    ...SIN_HISTORIA });
   pantalla();
 
   expect(await screen.findByRole("heading", { name: "Hernando Castaño Ríos" })).toBeInTheDocument();
@@ -114,6 +123,7 @@ test("la ficha muestra los datos y los documentos con su etiqueta en orden de su
 test("el asistente responde con cada cita como un botón que abre el documento en esa página", async () => {
   const pedidos = apiDeMentira({
     "GET /api/v1/pacientes/p1": { cuerpo: ficha(true) },
+    ...SIN_HISTORIA,
     "POST /api/v1/pacientes/p1/asistente/preguntas": { texto: RESPUESTA },
   });
   pantalla();
@@ -136,6 +146,7 @@ test("el asistente responde con cada cita como un botón que abre el documento e
 test("la segunda pregunta lleva la conversación anterior", async () => {
   const pedidos = apiDeMentira({
     "GET /api/v1/pacientes/p1": { cuerpo: ficha(true) },
+    ...SIN_HISTORIA,
     "POST /api/v1/pacientes/p1/asistente/preguntas": { texto: RESPUESTA },
   });
   pantalla();
@@ -158,6 +169,7 @@ test("la segunda pregunta lleva la conversación anterior", async () => {
 test("si el proveedor falla, avisa sin perder la ficha", async () => {
   apiDeMentira({
     "GET /api/v1/pacientes/p1": { cuerpo: ficha(true) },
+    ...SIN_HISTORIA,
     "POST /api/v1/pacientes/p1/asistente/preguntas": {
       texto: lineas({
         tipo: "error",
@@ -177,7 +189,8 @@ test("si el proveedor falla, avisa sin perder la ficha", async () => {
 });
 
 test("sin autorización de IA el asistente queda deshabilitado con la explicación", async () => {
-  apiDeMentira({ "GET /api/v1/pacientes/p1": { cuerpo: ficha(false) } });
+  apiDeMentira({ "GET /api/v1/pacientes/p1": { cuerpo: ficha(false) },
+    ...SIN_HISTORIA });
   pantalla();
 
   expect(await screen.findByText("Sin autorización")).toBeInTheDocument();
