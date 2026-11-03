@@ -14,6 +14,7 @@ import {
 import { InfoIcon, PaperPlaneRightIcon, SparkleIcon } from "../comunes/iconos";
 import { Estado } from "../comunes/piezas/Estado";
 import { Nota } from "../comunes/piezas/Nota";
+import { conEnfasis, Markdown } from "./Markdown";
 
 type Mensaje = Turno & { fin?: FinDeRespuesta; error?: string };
 
@@ -172,9 +173,10 @@ function Respuesta({ mensaje, documentoDe }: PropiedadesDeRespuesta) {
   const consultado = mensaje.fin?.consultado ?? [];
   return (
     <div className="asistente__respuesta">
-      {mensaje.texto.split(/\n{2,}/).map((parrafo, i) => (
-        <p key={i}>{conCitas(parrafo, documentoDe, mensaje.fin)}</p>
-      ))}
+      <Markdown
+        texto={mensaje.texto}
+        enLinea={(texto, clave) => conCitas(texto, documentoDe, mensaje.fin, clave)}
+      />
       {consultado.length > 0 && (
         <p className="asistente__consultado">
           Consultó:{" "}
@@ -192,18 +194,26 @@ function Respuesta({ mensaje, documentoDe }: PropiedadesDeRespuesta) {
   );
 }
 
-/** El texto con cada cita convertida en un botón "D2 · pág. 1" que abre el documento ahí. */
-function conCitas(texto: string, documentoDe: Map<string, string>, fin?: FinDeRespuesta) {
+/**
+ * El texto con cada cita convertida en un botón "D2 · pág. 1" que abre el documento ahí. Lo que
+ * queda entre citas recibe negrita y cursiva; dentro de una cita no se busca formato.
+ */
+function conCitas(
+  texto: string,
+  documentoDe: Map<string, string>,
+  fin: FinDeRespuesta | undefined,
+  clave: string,
+) {
   const partes: ReactNode[] = [];
   let desde = 0;
   for (const cita of texto.matchAll(CITA)) {
     const etiqueta = cita[1].toUpperCase();
     const pagina = Number(cita[2]);
     const frase = (cita[3] ?? "").trim();
-    partes.push(texto.slice(desde, cita.index));
+    partes.push(...conEnfasis(texto.slice(desde, cita.index), `${clave}-${desde}`));
     partes.push(
       <Cita
-        key={cita.index}
+        key={`${clave}-c${cita.index}`}
         etiqueta={etiqueta}
         pagina={pagina}
         documento={documentoDe.get(etiqueta)}
@@ -215,7 +225,7 @@ function conCitas(texto: string, documentoDe: Map<string, string>, fin?: FinDeRe
     );
     desde = (cita.index ?? 0) + cita[0].length;
   }
-  partes.push(texto.slice(desde));
+  partes.push(...conEnfasis(texto.slice(desde), `${clave}-${desde}`));
   return partes;
 }
 

@@ -23,7 +23,11 @@ registrado.
 5. Si dos fragmentos se contradicen, muestra ambos datos con su origen.
 6. Responde en español, de forma breve y en orden de fecha.
 7. Los datos del paciente aparecen como [PACIENTE], [DOCUMENTO], [TELÉFONO] o [CORREO]; \
-no intentes adivinarlos."""
+no intentes adivinarlos.
+8. Da formato con Markdown sencillo: una lista con guiones cuando hay varios datos, **negrita** \
+para el dato principal (un medicamento, un valor, una fecha) y un título corto con ### solo si \
+la respuesta junta temas distintos. No uses tablas, enlaces ni HTML. Cada cita va al final del \
+dato que respalda, dentro del mismo punto de la lista."""
 
 AVISO = (
     "El asistente es un apoyo: resume lo que está escrito y puede equivocarse. "

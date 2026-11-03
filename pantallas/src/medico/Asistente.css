@@ -82,7 +82,46 @@
   background: var(--fondo);
   font-size: 15px;
   line-height: 21px;
-  white-space: pre-wrap;
+}
+
+/* Formato Markdown de la respuesta: títulos cortos, listas y negrita. */
+.asistente__respuesta h4 {
+  margin: 6px 0 0;
+  font-family: var(--letra-titulo);
+  font-size: 17px;
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.asistente__respuesta h4:first-child {
+  margin-top: 0;
+}
+
+.asistente__respuesta :is(ul, ol) {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.asistente__respuesta li::marker {
+  color: var(--acento-texto);
+  font-weight: 700;
+}
+
+.asistente__respuesta strong {
+  font-weight: 700;
+}
+
+.asistente__respuesta code {
+  padding: 1px 5px;
+  border-radius: var(--radio-estado);
+  background: var(--superficie);
+  font-family: var(--letra-dato);
+  font-size: 0.92em;
 }
 
 .asistente__buscando,
