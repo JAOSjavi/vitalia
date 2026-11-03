@@ -1,239 +1,197 @@
-# Estado del proyecto y etapas del Desarrollo
+# Estado del proyecto
 
-**Fecha:** 26 de octubre de 2026
-**Para qué sirve este archivo:** retomar el trabajo sin releer toda la conversación. Léalo primero.
+**Fecha:** 3 de noviembre de 2026
+**Para qué sirve este archivo:** retomar el trabajo sin releer las conversaciones. Léalo primero. El detalle técnico de cada paso del desarrollo está en [estado_desarrollo.md](estado_desarrollo.md).
 
 ---
 
 ## 1. Qué es Vitalia
 
-Sistema a la medida para **un consultorio médico general privado en Colombia**. Dos usuarios: el **médico**, que hace todo lo del consultorio, y el **paciente**. No se vende a otros consultorios.
+Sistema a la medida para **un consultorio médico general privado en Colombia**. Dos usuarios: el **médico**, que hace todo lo del consultorio desde el computador, y el **paciente**, que usa el celular. No se vende a otros consultorios.
 
-Lo que cubre el alcance: cuentas, calendario de disponibilidad, citas de ambos lados, panel del médico, historias clínicas que sube el paciente, asistente de IA sobre esos documentos, tratamientos y la historia clínica que el consultorio lleva de cada atención.
+Cubre: cuentas, horario y citas de los dos lados, panel del médico, historias clínicas que sube el paciente, un asistente de IA que busca en esos documentos, tratamientos y la historia clínica que el consultorio lleva de cada atención.
 
 ## 2. En qué va
 
 | Fase | Estado | Detalle |
 |---|---|---|
-| **1. Planificación** | Hecha | Alcance, requisitos, marco normativo, 46 historias en 9 épicas con 212 criterios, 110 tareas y 200 puntos |
-| **2. Diseño** | Cerrada en documentos | Arquitectura limpia, modelo de datos con permisos por fila, API, asistente, pantallas, diagramas, base visual, herramientas y entrega |
-| **3. Desarrollo** | **En curso** | Bloques 1 (registro e ingreso) y 2 (citas) construidos, probados contra PostgreSQL 18 en Docker y unidos a `master`. Bloque 3 en curso: subir, leer, indexar con Qwen, buscar y preguntar al asistente ya funcionan en el servidor; las respuestas con Qwen esperan la verificación de la cuenta en Alibaba. Ya tienen pantalla, según el lienzo: Mis documentos del paciente (subir, ver y eliminar) y la ficha del médico con el asistente. Siguen el resumen, los tratamientos y el enlace firmado con R2. Falta crear los servicios en la nube y correrlo contra Render. Ver la sección 4 y [estado_desarrollo.md](estado_desarrollo.md) |
-| **4. Pruebas** | Sin iniciar | — |
+| **1. Planificación** | Hecha | Alcance, requisitos, marco normativo, 46 historias en 9 épicas, 212 criterios, 110 tareas, 200 puntos |
+| **2. Diseño** | Hecha | Arquitectura limpia, modelo de datos con permisos por fila, API, asistente con RAG, pantallas, diagramas, base visual y herramientas |
+| **3. Desarrollo** | **En curso** | 28 de 46 historias hechas o casi; 191 pruebas del servidor y 31 de pantallas en verde. Todo corre en el computador con PostgreSQL en Docker; nada se ha publicado. Sección 3 |
+| **4. Pruebas** | Sin iniciar | Se hace en Render contra los criterios de aceptación |
 | **5. Despliegue** | Sin iniciar | — |
 
-Planificación y Diseño están confirmados en git y son consistentes entre sí: el 13 de octubre se cruzaron las 46 historias contra requisitos, mapa de relaciones, modelo de datos, API y pantallas, y las 33 tablas contra sus permisos. Si se cambia una historia, una tabla o una operación, hay que volver a cruzar.
+**Código en GitHub:** https://github.com/JAOSjavi/vitalia (privado). Ramas `master` (hasta el bloque 2) y `bloque-3-documentos-e-ia` (todo lo de después). Ver la sección 5.
 
-**Decisiones que definen el producto**
+## 3. Lo que está hecho
+
+### 3.1 Por bloques
+
+| Bloque | Qué quedó | Rama |
+|---|---|---|
+| **1 · Registro e ingreso** (14 oct) | Roles y matriz de permisos, permisos por fila forzados en todas las tablas, bitácora, cuenta del médico con enlace de un solo uso, registro del paciente en tres pasos con la autorización de datos y la casilla de IA, ingreso con documento y contraseña con bloqueo por intentos, cierre de sesión | `master` |
+| **2 · Citas** (26 oct) | Horario semanal, tipos de cita, cálculo de espacios libres, agendar, consultar, mover y cancelar de los dos lados, agenda de hoy con lo que falta configurar, lista y búsqueda de pacientes. Dos citas nunca ocupan el mismo tiempo: lo impide la base | `master` |
+| **3 · Documentos y asistente de IA** (27 oct) | Subir PDF, JPG o PNG; leerlos por página; partirlos en fragmentos sin datos de identificación; vectores con Qwen; búsqueda por significado y por palabras dentro de un solo paciente (RAG, D-30); preguntar al asistente con cada cita comprobada contra lo enviado; ficha del paciente; ver y eliminar documentos | `bloque-3-documentos-e-ia` |
+| **Interfaz según el lienzo** (27 oct) | Las pantallas se rehicieron copiando la estructura y las medidas del [lienzo](https://claude.ai/artifact/R6WLHr5eAt7FQztseugqQY): el paciente en celular y el médico en computador. Menú del médico, Hoy con la tarjeta de quien sigue y el avance del día, Calendario con día, semana y mes y los festivos de Colombia, inicio y citas del paciente | `bloque-3-documentos-e-ia` |
+| **Asistencia y bloqueos** (27 oct) | Marcar atendida o no asistió y corregirlo el mismo día (HU-018). Bloquear horas o días: lo bloqueado deja de ofrecerse y un bloqueo que tapa citas pide moverlas o cancelarlas antes (HU-009) | `bloque-3-documentos-e-ia` |
+| **Iconos y hovers** (27 oct) | Iconos de Hugeicons en trazo redondeado, elegidos entre siete bibliotecas (D-31). Respuesta sutil al pasar el cursor en todos los botones: color y sombra en 150 ms y elevación de 1 px | `bloque-3-documentos-e-ia` |
+
+### 3.2 Por historia
+
+| Estado | Historias |
+|---|---|
+| **Hechas** | HU-001, HU-002, HU-004, HU-006, HU-007, HU-036 · HU-008, HU-009, HU-010, HU-011, HU-012, HU-013, HU-014, HU-015, HU-016, HU-017, HU-018, HU-021, HU-023 · HU-028, HU-029, HU-031, HU-033 |
+| **Hechas con algo pendiente** | HU-003 (falta aceptar una versión nueva del texto y verla en el perfil) · HU-020 (falta la tarjeta de tratamiento) · HU-022 (falta mostrar el tiempo libre y crear la cita tocando un espacio) · HU-025 (faltan los tratamientos en la ficha) · HU-027 (los archivos van a una carpeta local; falta R2 con enlace firmado de 15 minutos) · HU-030 (el documento abre en otra pestaña en su página; falta el visor propio con la frase resaltada) · HU-032 (la casilla está en el registro; falta cambiarla después y que al autorizar se lean los documentos pendientes) · HU-034 (construida y probada con una IA de prueba; falta probarla con Qwen) · HU-037 (falta la pantalla de consulta de la bitácora) |
+| **Sin empezar** | HU-005 recuperar contraseña · HU-019 avisos por correo · HU-024 registrar paciente desde el panel · HU-026 botón de cobro · HU-035 resumen del paciente · HU-038 y HU-039 tratamientos · HU-040 corregir datos del paciente · HU-041 a HU-046 historia clínica del consultorio |
+
+### 3.3 Lo que se probó
+
+- **Servidor:** 191 pruebas en verde contra PostgreSQL 18 con `pgvector` en Docker, una o más por criterio de aceptación. Las 10 migraciones se aplican, se deshacen y se vuelven a aplicar.
+- **Pantallas:** 31 pruebas en verde y construcción sin errores.
+- **En el navegador**, contra la API y la base de Docker: registro e ingreso; agendar, mover y cancelar; Hoy con asistencia; calendario en sus tres vistas; bloquear un día con citas (las lista y no guarda) y sin citas (guarda y aparece); subir documentos y verlos; ficha del paciente.
+- **El asistente:** la búsqueda se midió con Qwen y 12 historias clínicas inventadas: trajo los 16 datos esperados entre los 12 fragmentos y 14 entre los 3 primeros. Las respuestas no se han probado con Qwen, porque el modelo de respuestas seguía bloqueado (sección 4).
+
+## 4. Lo que se necesita del dueño del proyecto
+
+En orden de urgencia. Ninguna clave pasa por el chat ni entra al repositorio: todas van en `servidor/.env`.
+
+| # | Qué | Para qué | Cómo |
+|---|---|---|---|
+| 1 | **Poner `master` como rama principal en GitHub** | Que el repositorio abra en la rama estable | GitHub → `vitalia` → Settings → Default branch → `master` → Update |
+| 2 | **Confirmar que Alibaba aprobó la verificación de identidad** | Sin ella, `qwen3.7-plus` (respuestas) y `qwen-vl-ocr-2025-11-20` (lectura de fotos) responden `AccessDenied.Unpurchased`. Estaba en revisión desde el 27 de octubre | Consola de Alibaba Cloud Model Studio. Los vectores (`qwen3.7-text-embedding`) ya funcionan |
+| 3 | **Dos fotos con datos inventados**: una hoja impresa y un texto corto escrito a mano | Medir la lectura de fotos con IA | Se le entregan los datos para copiar |
+| 4 | **Crear la base en Render** (PostgreSQL 18, región Virginia) | Publicar y correr las pruebas de la fase 4 | Paso a paso en la sección 3 de [herramientas y entrega](diseno/09-herramientas-y-entrega.md). El plan gratuito vence a los 30 días |
+| 5 | **Crear el espacio en Cloudflare R2** (`vitalia-dev`, con una clave limitada a ese espacio) | Guardar los documentos fuera del computador y abrirlos con enlace firmado | Misma sección 3 |
+| 6 | **Tablero Kanban en Jira** | Seguir las historias. El proyecto que existe es de tipo Scrum | No frena el código |
+| 7 | **Un abogado y un médico** | Antes de usar datos reales (sección 9) | No frenan el desarrollo |
+| 8 | **Revisar el lienzo** | El tablero "Paciente · Inicio" del artefacto quedó borrado salvo la barra de abajo. La copia completa está en `diseno/lienzo/Main.dc.html`. Decir si se borró a propósito | — |
+
+## 5. Lo que sigue
+
+### 5.1 Inmediato, sin depender de nadie
+
+1. **Unir el bloque 3 a `master`.** Abrir en GitHub una solicitud de cambio de `bloque-3-documentos-e-ia` hacia `master`, revisarla y unirla. Las pruebas automáticas de `.github/workflows/pruebas.yml` deberían correr ahí por primera vez.
+2. **Terminar lo que el bloque 3 dejó a medias:**
+   - Cambiar la autorización de IA desde el perfil o desde Mis documentos, y que al autorizar entren a la cola los documentos sin leer y los legibles (HU-032).
+   - Resumen del paciente en la ficha (HU-035): un resumen por documento al indexarlo y uno del paciente hecho con esos resúmenes.
+   - Visor propio de documentos con la frase citada resaltada (HU-030).
+3. **Completar el calendario:** mostrar el tiempo libre y crear una cita tocando un espacio (HU-022, CA-1 y CA-2).
+
+### 5.2 Cuando Qwen esté aprobado
+
+4. Correr las preguntas del [README de las historias de prueba](documentos-de-prueba/historias-clinicas/README.md) contra el asistente y medir: cero inventos, origen correcto en al menos nueve de cada diez respuestas y abstención en las preguntas de diagnóstico.
+5. Medir la lectura de las dos fotos.
+
+### 5.3 Cuando existan Render y R2
+
+6. Adaptador de R2 con enlace firmado de 15 minutos (HU-027). Hoy los archivos van a `servidor/.archivos/` con un adaptador que cumple el mismo puerto.
+7. Conectar a Render, crear `vitalia_api` sin privilegios, activar `pgvector` y correr las pruebas contra esa base. Despeja si los permisos por fila funcionan allá.
+8. Publicar API y pantallas en Render y comprobar que la cookie de sesión funciona entre los dos.
+
+### 5.4 Historias que faltan, en este orden
+
+| Orden | Historias | Necesita |
+|---|---|---|
+| 1 | Tratamientos: registrarlos y que el paciente los vea (HU-038, HU-039) | — |
+| 2 | Registrar un paciente desde el panel y corregir sus datos (HU-024, HU-040) | HU-024 manda un correo de activación |
+| 3 | Recuperar contraseña y avisos por correo de cambios en la cita (HU-005, HU-019) | Un servicio de correo |
+| 4 | Historia clínica del consultorio: identificación, pantalla de atención con el asistente al lado, registrar, cerrar y firmar, consultar y copia para el paciente (HU-041 a HU-046) | El médico que revise los campos. Al cerrar una atención, se indexa para el asistente si el paciente aceptó la versión 2 del texto de IA, que falta escribir |
+| 5 | Pantalla de la bitácora y botón de cobro (HU-037 CA-4, HU-026) | — |
+
+## 6. Cómo levantar todo en el computador
+
+1. Abrir Docker Desktop.
+2. En la raíz del proyecto: `docker compose up -d` (PostgreSQL 18 con `pgvector`).
+3. En `servidor/`: `uv run alembic upgrade head` y luego `uv run uvicorn --factory vitalia.principal:crear --port 8000`.
+4. En `pantallas/`: `npm run dev -- --port 5174 --strictPort`. Abrir http://localhost:5174.
+
+Cuentas de prueba en la base de Docker, con datos inventados: la médica con cédula 52345678 y la paciente Rosa Elena Duarte con cédula 41652318. Las contraseñas están en `servidor/pruebas/conftest.py` y `pantallas/src/paciente/CrearCuenta.test.tsx`. Hay además cuatro pacientes con las 12 historias de prueba ya subidas e indexadas. Para empezar de cero: `docker compose down -v`.
+
+Si después de instalar un paquete las pantallas salen en blanco, hay que reiniciar `npm run dev`. Los demás comandos están en la sección 5 de [estado_desarrollo.md](estado_desarrollo.md).
+
+## 7. Decisiones que definen el producto
 
 | Tema | Cómo quedó |
 |---|---|
-| Tecnología | Python con FastAPI, PostgreSQL en Render, React con Vite y TypeScript, archivos en Cloudflare R2 y Qwen como modelo de IA detrás de un adaptador intercambiable |
-| Asistente | Búsqueda de fragmentos (RAG) en los documentos del paciente y en sus atenciones cerradas, siempre de un solo paciente, con `pgvector` en la misma base (D-30) |
-| Servicios | En la nube desde el primer día, sin instalar nada en el computador (D-27) |
+| Tecnología | Python con FastAPI, PostgreSQL, React con Vite y TypeScript, archivos en Cloudflare R2 y Qwen (Alibaba, Singapur) detrás de un adaptador intercambiable |
+| Base para programar | PostgreSQL 18 en Docker con la imagen `pgvector/pgvector:pg18-trixie` (D-29) |
+| Asistente | Busca fragmentos (RAG) en los documentos del paciente y, cuando exista E9, en sus atenciones cerradas; siempre de un solo paciente, con `pgvector` en la misma base. Cada cita se comprueba contra lo enviado (D-30) |
 | Código | Arquitectura limpia: dominio, casos de uso, adaptadores y entrada. Rápido, midiendo antes de optimizar (D-19) |
 | Ingreso | Tipo y número de documento más contraseña. El documento identifica; nunca hace de contraseña (D-20) |
-| Cuentas | Solo adultos. Registro con nombres, apellidos, fecha de nacimiento, correo, documento y teléfono (D-21, D-22) |
-| Historia clínica | Dentro del sistema, con lo mínimo de la Resolución 1995 de 1999. Al atender, el asistente va a un lado y el formulario en el centro. Lo cerrado no se modifica (D-24) |
-| Aspecto | El lienzo es la base visual. Estados en caja blanca redondeada con sombra y un punto de color; tarjetas y botones con sombra; nada que se vea genérico (D-18, D-25) |
-| Iconos | Hugeicons, trazo redondeado (D-31). Los que se ven en el lienzo son provisionales |
+| Cuentas | Solo adultos (D-21, D-22) |
+| Historia clínica | Dentro del sistema, con lo mínimo de la Resolución 1995 de 1999. Lo cerrado no se modifica (D-24) |
+| Aspecto | Las pantallas copian el lienzo: el paciente en celular, el médico en computador. Estados en caja blanca con sombra y punto de color; nada que se vea genérico (D-18, D-25) |
+| Iconos | Hugeicons, trazo redondeado (D-31, reemplaza D-26) |
 
-## 3. Dónde está cada cosa
+Todas las decisiones (D-01 a D-31) y supuestos están en [04-decisiones-y-supuestos.md](planificacion/04-decisiones-y-supuestos.md).
+
+## 8. Dónde está cada cosa
 
 | Qué | Dónde |
 |---|---|
-| Alcance y flujo principal | [planificacion/01-alcance-y-flujo.md](planificacion/01-alcance-y-flujo.md) |
-| 46 requisitos funcionales y 15 no funcionales | [planificacion/02-requisitos.md](planificacion/02-requisitos.md) |
-| Leyes, contenido mínimo de la historia clínica y ocho preguntas para el abogado | [planificacion/03-marco-normativo.md](planificacion/03-marco-normativo.md) |
-| Decisiones (D-01 a D-30), supuestos (S-01 a S-23) y decisiones de diseño (A-01 a A-15) | [planificacion/04-decisiones-y-supuestos.md](planificacion/04-decisiones-y-supuestos.md) |
-| Reglas del tablero Kanban | [planificacion/05-kanban.md](planificacion/05-kanban.md) |
-| 46 historias en 9 épicas, con criterios y tareas | [historias-de-usuario/](historias-de-usuario/) |
-| Orden de construcción y dependencias | [historias-de-usuario/RELACIONES.md](historias-de-usuario/RELACIONES.md) |
-| Tecnología, capas del código y reglas de rendimiento | [diseno/01-arquitectura.md](diseno/01-arquitectura.md) |
-| Tablas, diagrama entidad-relación y permisos por fila | [diseno/02-modelo-de-datos.md](diseno/02-modelo-de-datos.md) |
-| Operaciones de la API | [diseno/03-api.md](diseno/03-api.md) |
-| Decisiones del asistente de IA | [diseno/04-asistente-ia.md](diseno/04-asistente-ia.md) |
-| Inventario de pantallas | [diseno/05-pantallas.md](diseno/05-pantallas.md) |
-| Diagramas de contexto, contenedores, componentes, despliegue, secuencias y estados | [diseno/06-diagramas-de-arquitectura.md](diseno/06-diagramas-de-arquitectura.md) |
+| Alcance, requisitos, marco normativo, decisiones y Kanban | [planificacion/](planificacion/) |
+| 46 historias con criterios y tareas, y su orden | [historias-de-usuario/](historias-de-usuario/) y [RELACIONES.md](historias-de-usuario/RELACIONES.md) |
+| Arquitectura, modelo de datos, API, asistente, pantallas, diagramas, base visual y herramientas | [diseno/01](diseno/01-arquitectura.md) a [diseno/09](diseno/09-herramientas-y-entrega.md) |
 | Cómo se construye el asistente, paso a paso | [diseno/07-como-se-construye-el-asistente.md](diseno/07-como-se-construye-el-asistente.md) |
-| Colores, letra, sombras y piezas aprobados | [diseno/08-base-visual.md](diseno/08-base-visual.md) |
-| Herramientas, servicios, ramas, pruebas y despliegue | [diseno/09-herramientas-y-entrega.md](diseno/09-herramientas-y-entrega.md) |
-| Código del servidor: capas, migraciones y pruebas | `servidor/` |
-| Código de las pantallas | `pantallas/` |
+| Copia de los tableros del lienzo | [diseno/lienzo/](diseno/lienzo/) |
+| Historias clínicas inventadas para probar el asistente, con sus preguntas | [documentos-de-prueba/historias-clinicas/](documentos-de-prueba/historias-clinicas/) |
+| Servidor: capas, migraciones (`0001` a `0010`) y pruebas | `servidor/` |
+| Pantallas | `pantallas/`. Iconos en `src/comunes/iconos.tsx`, hovers en `src/comunes/estilos/hovers.css` |
 | Pruebas automáticas de GitHub | `.github/workflows/pruebas.yml` |
-| Versión anterior del proyecto (solo consulta) | `archivo/v1/` |
+| Detalle técnico de cada paso del desarrollo | [estado_desarrollo.md](estado_desarrollo.md) |
 
 **Fuera del repositorio**
 
 | Qué | Enlace |
 |---|---|
-| Lienzo de diseño (aspecto, base visual aprobada) | https://claude.ai/artifact/R6WLHr5eAt7FQztseugqQY |
-| Prototipo navegable (comportamiento) | https://claude.ai/artifact/4MN2vq99tcrQBzUWDJ4pEy |
+| Código | https://github.com/JAOSjavi/vitalia |
+| Lienzo de diseño, la referencia de las pantallas | https://claude.ai/artifact/R6WLHr5eAt7FQztseugqQY |
+| Prototipo navegable (comportamiento, versión del 13 de octubre) | https://claude.ai/artifact/4MN2vq99tcrQBzUWDJ4pEy |
 
-El código del prototipo está en [diseno/prototipo/index.html](diseno/prototipo/index.html) y la fuente de las once pantallas del lienzo en [diseno/lienzo/](diseno/lienzo/). El lienzo solo se ve dibujado en el artefacto. Si el dueño del proyecto lo edita a mano, la copia del repositorio queda atrás: hay que volver a traerla.
+El artefacto "Vitalia Salud", de agosto, es el demo de la versión anterior y no es referencia.
 
-Existe un tercer artefacto, "Vitalia Salud", de agosto: es el demo comercial de la versión anterior, con otra paleta y otro alcance, y no es referencia.
+## 9. Antes de usar datos reales
 
-## 4. Etapas del Desarrollo
+Todo se construye y se prueba con datos inventados. Para atender pacientes reales hace falta:
 
-El 13 de octubre el dueño del proyecto cambió el arranque (D-27 y D-28): los servicios se montan en la nube desde el primer día y se construye por historias, sin pantalla de verificación del sistema. Las pruebas de concepto de la arquitectura ya no son una etapa aparte: cada duda se despeja dentro del paso o del bloque que la toca.
+1. **La respuesta del abogado** a las preguntas 2 (datos fuera de Colombia), 5 (envío del Resumen Digital de Atención) y 7 (firma de la historia clínica) del [marco normativo](planificacion/03-marco-normativo.md), y su revisión de los textos de autorización (versión 1 en `servidor/migraciones/textos/`; la versión 2, que incluye las atenciones, falta escribirla).
+2. **Contrato de tratamiento de datos** con Alibaba, Render y Cloudflare.
+3. **Un médico que revise los campos** de la historia clínica.
+4. **Respaldo de largo plazo:** la historia clínica se conserva 15 años y Render restaura pocos días.
+5. **Cerrar el acceso a la base** a las direcciones que la necesitan y pasarla al plan pago.
 
-### Paso 0 · Servicios y clave
-
-Lo hace el dueño del proyecto. Ninguna clave pasa por el chat ni entra al repositorio: todas van a `servidor/.env`, cuyas variables están en `servidor/.env.example`.
-
-| Qué | Dónde | Estado |
-|---|---|---|
-| Repositorio privado | GitHub. Al crearlo, la rama `master` pasa a llamarse `main` | Pendiente |
-| PostgreSQL 18 | Render, región Virginia, plan gratuito. Base `vitalia_dev`, usuario `vitalia_migraciones` | Pendiente |
-| Archivos | Cloudflare R2, espacio `vitalia-dev`, con una clave limitada a ese espacio | Pendiente |
-| Clave de la IA | Alibaba Cloud Model Studio, región Singapur | Pendiente |
-
-El paso a paso de cada uno está en la sección 3 de [herramientas y entrega](diseno/09-herramientas-y-entrega.md). El plan gratuito de la base **vence a los 30 días de creada**: antes de esa fecha hay que pasarla al plan pago.
-
-### Paso 1 · Esqueleto y conexión
-
-| Qué | Estado |
-|---|---|
-| `servidor/` con las cuatro capas, migraciones, regla de dependencia entre capas y pruebas | Hecho |
-| `pantallas/` con las variables de la base visual, sus piezas y la carga separada por zona | Hecho |
-| Pruebas automáticas en cada cambio | Escritas. Corren cuando exista el repositorio remoto |
-| Conectar a Render, leer los privilegios del usuario dueño y crear `vitalia_api` sin privilegios | Pendiente del paso 0. **Despeja la duda 3 de la arquitectura** |
-| Guardar, leer y borrar un archivo en R2; abrirlo con enlace firmado y comprobar que sin firma se rechaza | Pendiente del paso 0 |
-| Una llamada mínima a cada modelo de Qwen | Pendiente del paso 0 |
-
-### Bloques de construcción
-
-Cada historia sigue las capas de la [arquitectura](diseno/01-arquitectura.md), con una rama por historia. Toda tabla nace con su permiso por fila en la misma migración.
-
-| Bloque | Qué se construye | Historias |
-|---|---|---|
-| **1 · Registro e ingreso** | Roles, permisos por fila, bitácora, cuenta del médico, registro del paciente con sus autorizaciones, ingreso y cierre de sesión | HU-006, HU-036, HU-037, HU-001, HU-002, HU-003, HU-004, HU-007 y la casilla de IA de HU-032 |
-| **2 · Citas** | Horario, tipos de cita y espacios libres; el paciente agenda, consulta, mueve y cancela; el médico ve su día, busca pacientes y crea, mueve y cancela | HU-008, HU-010, HU-011, HU-012 a HU-017, HU-020, HU-021, HU-023 |
-| **3 · Documentos y resumen con IA** | Almacenamiento privado, subir y listar documentos, lectura por página, indexación en fragmentos, autorización de IA, búsqueda aislada por paciente, ficha, resumen, preguntas y visor. Las atenciones entran a la búsqueda cuando exista E9 | HU-027 a HU-035, HU-025 |
-| **Después** | Recuperación de contraseña; bloqueos, asistencia, avisos por correo y calendario; registro y corrección de pacientes desde el panel; cobro; tratamientos; historia clínica del consultorio | HU-005, HU-009, HU-018, HU-019, HU-022, HU-024, HU-026, HU-040, HU-038, HU-039, HU-041 a HU-046 |
-
-**Bloque 1: hecho el 14 de octubre, en la rama `bloque-1-registro-e-ingreso`**
-
-| Qué | Cómo quedó |
-|---|---|
-| Servidor | Tres migraciones: cuentas, roles, matriz de permisos, bitácora, sesiones, intentos, enlaces y autorizaciones, todas con permisos por fila forzados. Lo que pasa sin sesión va por funciones de la base. 65 pruebas en verde contra PostgreSQL 18.4, una por criterio de aceptación; las migraciones se aplican, se deshacen y se vuelven a aplicar |
-| Pantallas | Ingresar (P-01), Crear mi cuenta en tres pasos con la hoja del tratamiento de datos (P-02), cuenta del médico con el enlace de puesta en marcha (P-13), datos del consultorio (M-11), inicio mínimo del paciente y el marco de cada zona. 7 pruebas en verde; carga inicial de 95 KB comprimida |
-| Recorrido a la vista | Puesta en marcha, datos del consultorio, registro de un paciente con la hoja de datos, inicio del paciente con los datos del consultorio, un paciente que intenta entrar al panel del médico vuelve a su zona, y al salir el botón de atrás no muestra información |
-| Enlace de la cuenta del médico | `uv run python -m vitalia.principal puesta-en-marcha` en `servidor/`. Sirve una vez y vence en 24 horas |
-| Textos de autorización | Borradores de la versión 1 en `servidor/migraciones/textos/`, para que los revise el abogado |
-
-**Bloque 2: hecho el 26 de octubre, en la rama `bloque-2-citas`**
-
-| Qué | Cómo quedó |
-|---|---|
-| Servidor | Horario semanal, tipos de cita, espacios libres calculados en el dominio, citas de los dos lados y agenda de hoy con lo que falta configurar. Dos citas no pueden ocupar el mismo tiempo: lo impide la base. 105 pruebas en verde contra PostgreSQL 18 en Docker |
-| Pantallas | Paciente: inicio con la próxima cita (P-04), agendar (P-05) y mis citas (P-06). Médico: hoy (M-01), pacientes (M-04), nueva cita o mover (M-03) y configuración (M-08, M-10). 13 pruebas en verde |
-| Recorrido a la vista | De punta a punta contra la API y la base de Docker; el detalle está en la sección 4 de [estado_desarrollo.md](estado_desarrollo.md) |
-
-**Lo que cada bloque deja para después**
-
-| Bloque | Qué queda por fuera | Por qué |
-|---|---|---|
-| 1 | Consulta filtrada de la bitácora (HU-037, CA-4) | Su pantalla no hace falta para ingresar |
-| 1 | Activación de una cuenta creada por el médico (HU-002, CA-4) | Depende de HU-024 |
-| 1 | Aceptar una versión nueva del texto y verlo en el perfil (HU-003, CA-3 y CA-4) | Van con la pantalla de perfil |
-| 1 | Lista de lo que falta por configurar (HU-001, CA-4) | Va con el horario y los tipos de cita, en el bloque 2 |
-| 1 | Enlace "Olvidé mi contraseña" en la pantalla de ingreso | Llega con HU-005, que necesita el servicio de correo. No se dejó un enlace sin destino |
-| 2 | Bloqueos en el cálculo de espacios | HU-009 llega después; el cálculo ya los recibe como dato |
-
-**Dónde se despeja cada duda de la arquitectura**
-
-| # | Duda | Dónde |
-|---|---|---|
-| 1 y 2 | ¿La lectura de fotos es suficientemente buena? ¿La búsqueda trae el fragmento correcto y el asistente lo cita bien? | Al empezar el bloque 3, con documentos inventados. Criterio: cero inventos, origen correcto en al menos nueve de cada diez respuestas y lectura aceptable de la foto nítida |
-| 3 | ¿Los permisos por fila funcionan con un usuario sin privilegios en Render? | En el paso 1, apenas exista la base |
-| 4 | ¿La cookie de sesión funciona entre el sitio y la API? | Al publicar en Render, cuando cierre el bloque 1 |
-
-**Cómo avanza cada historia.** Pasa por las columnas del [tablero](planificacion/05-kanban.md). En la columna Diseño se fija lo que a propósito no se definió antes:
-
-- Campos exactos de cada operación, códigos de error, permisos y tipo de cada columna.
-- La pantalla, si no está en el lienzo: se arma con las piezas de la [base visual](diseno/08-base-visual.md), siguiendo el prototipo.
-- Textos: borrador de la política de datos y de la autorización de IA (HU-003, HU-032) y plantillas de los correos (HU-005, HU-019, HU-024, HU-040).
-
-En Desarrollo se escribe con sus pruebas; en Pruebas se revisa contra los criterios de aceptación en el ambiente de pruebas de Render; en Despliegue pasa a producción.
-
-**Pruebas rápidas y pruebas de base.** Como la base está en Estados Unidos, las pruebas que la tocan tardan más. Las del dominio y los casos de uso no la necesitan y son las que se corren a cada cambio (`uv run pytest -m "not bd"`); las de base se corren antes de unir cada historia. Las de GitHub traen su propio PostgreSQL.
-
-### Antes de usar datos reales
-
-Todo lo anterior se construye y se prueba con datos inventados. Para atender pacientes reales hace falta:
-
-1. **La respuesta del abogado** a tres de las ocho preguntas del [marco normativo](planificacion/03-marco-normativo.md): la 2 (datos fuera de Colombia), la 5 (envío del Resumen Digital de Atención) y la 7 (firma de la historia clínica).
-2. **Contrato de tratamiento de datos** con el proveedor de IA, con el de alojamiento y con el de archivos.
-3. **Un médico que revise los campos de la historia clínica** (sección 4.2 del marco normativo). La norma deja ese detalle a la práctica médica.
-4. **Respaldo de largo plazo.** Render restaura hasta 3 días atrás, 7 en el plan Pro, y la historia clínica se conserva 15 años: hay que programar una exportación periódica.
-5. **Cerrar el acceso a la base.** Hoy admite conexiones desde cualquier dirección, con contraseña y cifrado. Antes de datos reales se limita a las direcciones que la necesitan y pasa al plan pago, que sí tiene respaldos.
-
-## 5. Lo que el dueño del proyecto tiene pendiente
-
-1. **Las cuatro cosas del paso 0.**
-2. **Ver el lienzo.** Los cambios del 13 de octubre nadie los ha visto dibujados: estados en caja con sombra, sombra en botones y tarjetas, notas sin caja amarilla, la pantalla de atención del médico y la de ingreso con documento.
-3. **Dos fotos para el bloque 3**, con datos inventados que se le entregan: una de una hoja impresa y otra de un texto corto copiado a mano.
-4. **Tablero Kanban en Jira.** El proyecto que existe es de tipo Scrum. No frena el código.
-5. **Buscar el abogado y el médico** de la lista anterior. No frenan el desarrollo, pero sí el uso real.
-
-## 6. Lo que no está verificado
+## 10. Lo que no está verificado
 
 | Tema | Situación |
 |---|---|
-| Servicios en la nube | Sin crear. Nada del código ha corrido contra Render, R2 ni Qwen |
-| Pruebas de base de datos | Desde el 26 de octubre pasan contra PostgreSQL 18 en Docker, incluidas las extensiones `btree_gist` y `unaccent` (D-29). Falta correrlas contra Render |
-| Permisos forzados para el dueño de las tablas | Con ellos, ni el usuario de las migraciones ve filas si se conecta directo. Para cargar datos en una migración futura hay que quitarlos un momento dentro de la misma transacción. Falta confirmar que el usuario por defecto de Render no sea superusuario, porque ese se salta los permisos |
-| Ingreso, a la vista | El navegador del entorno estaba oculto y no entregó bien las teclas en la pantalla de ingreso. El ingreso correcto, el fallido y el bloqueo están probados de punta a punta en las pruebas automáticas, no a la vista |
-| Pruebas automáticas de GitHub | Escritas, sin correr: no hay repositorio remoto |
-| Privilegios del usuario dueño en Render | Su documentación no los indica. Dice que se pueden crear usuarios con SQL; lo despeja el paso 1 |
-| Modelos `qwen3.7-plus` y `qwen-vl-ocr-2025-11-20` | Existen en la región Singapur; responden `AccessDenied.Unpurchased` hasta que Alibaba apruebe la verificación de identidad de la cuenta (en revisión desde el 27 de octubre). `qwen3.7-text-embedding` ya funciona |
-| Búsqueda de fragmentos (D-30) | Construida y medida el 27 de octubre con `qwen3.7-text-embedding` y las 12 historias inventadas: 16 de 16 datos entre los 12 fragmentos, 14 entre los 3 primeros. Falta medirla con documentos de otras fuentes y con más volumen, y probar `pgvector` en Render. Los números (1.000 caracteres, 20 por método, 12 enviados) siguen siendo el punto de partida |
-| Texto de la autorización de IA, versión 2 | Hace falta para que las atenciones entren a la búsqueda. Sin escribir; lo revisa el abogado junto con la versión 1 |
-| Medio de pago en Cloudflare y en Alibaba Cloud | Es lo usual para activar el servicio; su documentación no lo confirma |
-| Grosor de los iconos | Trazo de 1,6 y de 2 en flechas, más y cerrar dentro de botones, fijado en `pantallas/src/comunes/iconos.tsx`, donde están listados los iconos que se usan |
-| Cambios del 13 de octubre en el lienzo | Se revisó que el código esté bien formado; no se vieron dibujados |
-| Resto del lienzo | Aprobado por el dueño del proyecto como base visual. El contraste del texto se midió y pasa el nivel AA |
-| Prototipo navegable | Probado con 143 comprobaciones automáticas. A la vista solo se revisó una pantalla. No refleja las decisiones del 13 de octubre: ver la sección 6 de [05-pantallas.md](diseno/05-pantallas.md) |
-| Permisos por fila sin sesión | El diseño con funciones de la base está escrito, no probado. Lo despeja el bloque 1 |
-| `pypdfium2` | Probado el 27 de octubre con las 12 historias inventadas en PDF: texto completo y en orden en todas. Falta probarlo con PDF de otras fuentes |
-| Hugeicons | Elegida por el dueño del proyecto el 27 de octubre e instalada; tiene todos los iconos que usa Vitalia hoy |
-| Campos clínicos de la historia clínica | La lista la armó quien levantó los requisitos; falta que la revise un médico |
-| Proyecto de resolución que reemplazaría la 1995 de 1999 | Publicado el 22 de julio de 2026. Al 13 de octubre no se encontró expedido. Solo se leyó su memoria justificativa, no el articulado |
-| Lista vigente de tipo y finalidad de consulta | Está en un anexo de la Resolución 948 de 2026 que no se pudo consultar |
-| Precios de Render y de los modelos de IA | Vienen de artículos de terceros |
+| Servicios en la nube | Nada ha corrido contra Render ni R2. De Qwen solo los vectores |
+| Respuestas del asistente con Qwen | Probadas con una IA de prueba y un servidor que imita el formato de Alibaba |
+| Lectura de fotos | El adaptador existe; sin medir con fotos reales |
+| Pruebas automáticas de GitHub | Escritas; no han corrido porque ninguna rama ha pasado por una solicitud de cambio |
+| Permisos por fila en Render | Falta confirmar que el usuario por defecto no sea superusuario, porque ese se salta los permisos |
+| `pgvector` en Render | Su documentación dice que se activa; sin probar |
+| `pypdfium2` | Lee bien las 12 historias de prueba; falta probarlo con PDF de otras fuentes |
+| Búsqueda del asistente | Medida con 12 historias; falta con más volumen y documentos de otras fuentes |
+| Campos clínicos de la historia clínica | Falta que los revise un médico |
 | Memoria del servicio más pequeño de Render (512 MB) para leer escaneados | Sin medir |
-| Uso de datos por Qwen | Su política de no entrenar con datos de clientes se conoce por fuentes de terceros |
-| Fragmentos de código de la guía del asistente | Son esquemas sin ejecutar |
-| Supuestos S-01 a S-23 | Se ajustan cuando haya un médico real |
+| Proyecto de resolución que reemplazaría la 1995 de 1999 | Publicado el 22 de julio de 2026; al 13 de octubre no estaba expedido |
 
-**Confirmado el 13 de octubre de 2026 en la documentación oficial**
+## 11. Reglas que no se pueden olvidar
 
-- **Render:** no hay región en Latinoamérica (Oregon, Ohio, Virginia, Fráncfort y Singapur); el plan gratuito se duerme a los 15 minutos y su base vence a los 30 días, sin respaldos; la base admite conexiones cifradas desde afuera y crear más bases en la misma instancia; la versión más reciente de PostgreSQL que admite es la 18; se puede desplegar solo después de que pasan las pruebas, y correr las migraciones antes de cada despliegue.
-- **Almacenamiento de objetos de Render:** en alfa con lista de espera, sin documentación ni precios. Por eso los archivos van a Cloudflare R2.
-- **MinIO:** dejó de publicarse. Su descarga responde "410 Gone" y su imagen de Docker fue retirada.
-- **Cloudflare R2:** 10 GB al mes sin costo y sin cobro por descarga; la clave se puede limitar a un solo espacio.
-
-Las herramientas de [09-herramientas-y-entrega.md](diseno/09-herramientas-y-entrega.md) que usa el esqueleto ya están instaladas y probadas juntas: FastAPI, SQLAlchemy con `asyncpg`, Alembic, `pytest`, `ruff`, `mypy`, `import-linter`, React con Vite, TanStack Query, Vitest y Hugeicons. Las demás entran con la historia que las necesita.
-
-## 7. Reglas que no se pueden olvidar
-
-- **Solo datos inventados o anonimizados** hasta cumplir la lista de "Antes de usar datos reales".
+- **Solo datos inventados o anonimizados** hasta cumplir la sección 9.
 - Lo que sube el paciente son antecedentes. La historia clínica de las atenciones del consultorio va aparte, en la épica E9.
 - Una atención cerrada y un tratamiento guardado no se modifican ni se borran.
-- El asistente ayuda a leer los antecedentes, pero no escribe la historia clínica.
-- El documento identifica a la persona al ingresar; nunca hace de contraseña.
-- Sin autorización del paciente no hay asistente, y las fotos no se envían al proveedor de IA.
-- Ninguna clave entra al repositorio ni pasa por el chat: van solo en `servidor/.env`.
+- El asistente ayuda a leer, no diagnostica ni escribe la historia clínica.
+- Sin autorización del paciente no hay asistente, no se indexa nada y las fotos no se envían al proveedor. Al retirarla se borran sus fragmentos.
+- Ninguna clave entra al repositorio ni pasa por el chat.
 - Toda tabla nace con su permiso por fila en la misma migración.
-- Lo que quedó para después: envío del Resumen Digital de Atención, cuentas de menores de edad, recordatorios de medicamento, factura con Factus, agente de voz y RIPS.
+- Cada pantalla copia la estructura y las medidas de su tablero del lienzo; lo que todavía no existe se omite y se dice, no se inventa.
 
-## 8. Forma de trabajo acordada
+## 12. Forma de trabajo acordada
 
 - Kanban sobre las cinco fases del ciclo de vida; primero las bases, después el código.
-- Solo lo útil: sin generadores, sin funciones "por si acaso" y sin pantallas de verificación. Se construye por historias.
-- Lo ya hecho y aprobado no se toca; se completa lo que falte.
-- El diseño no debe verse genérico: reglas en la sección 6 de la [base visual](diseno/08-base-visual.md).
-- Arquitectura limpia y código rápido: las reglas del consultorio no dependen de la tecnología, y la rapidez se mide antes de optimizar.
-- Pocas preguntas: se decide, se escribe el supuesto y se corrige sobre el documento.
+- Solo lo útil: sin funciones "por si acaso" ni pantallas de verificación. Se construye por historias.
+- Pocas preguntas: se decide, se escribe el supuesto y se corrige sobre el documento. Los gustos visuales se deciden viendo opciones lado a lado.
+- Al construir el asistente, cada paso se explica con su código real, de forma sencilla.
 - Los commits van solo a nombre del dueño del proyecto, sin coautor, y en español.
+- Al terminar una sesión se actualiza este archivo.

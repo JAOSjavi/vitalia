@@ -1,7 +1,7 @@
 # Estado del desarrollo
 
-**Fecha:** 26 de octubre de 2026
-**Para qué sirve:** retomar el Desarrollo en una sesión nueva. Complementa a [ESTADO.md](ESTADO.md), que tiene el panorama de todo el proyecto (fases, decisiones, documentos y reglas).
+**Fecha:** 3 de noviembre de 2026
+**Para qué sirve:** retomar el Desarrollo en una sesión nueva. Complementa a [ESTADO.md](ESTADO.md), que tiene el panorama de todo el proyecto: lo hecho, lo que falta y lo que sigue.
 
 ---
 
@@ -9,13 +9,15 @@
 
 | Qué | Estado |
 |---|---|
-| Rama de trabajo | `master`, con los bloques 1 y 2 completos. El bloque 3 empieza en una rama nueva |
-| Repositorio remoto | No existe todavía. Todo está solo en este computador |
-| Bloque 1 · Registro e ingreso | **Hecho y unido a `master`**. Servidor y pantallas |
-| Bloque 2 · Citas | **Hecho y unido a `master`**. Servidor (105 pruebas) y pantallas (13 pruebas), recorridas en el navegador contra la base de Docker (sección 4) |
-| Bloque 3 · Documentos y resumen con IA | Sin empezar |
-| Base de datos para programar | **PostgreSQL 18 en Docker**, funcionando: 105 pruebas en verde contra él. Ver la sección 2 |
-| Servicios en la nube (Render, R2, Qwen) | Sin crear. Ver la sección 3 |
+| Rama de trabajo | `bloque-3-documentos-e-ia`, con todo lo hecho después del bloque 2. Falta unirla a `master` |
+| Repositorio remoto | https://github.com/JAOSjavi/vitalia (privado), con `master` y `bloque-3-documentos-e-ia`. La dirección del remoto lleva el usuario (`https://JAOSjavi@github.com/...`) para que Git no use la cuenta Apricolt guardada en Windows |
+| Bloque 1 · Registro e ingreso | Hecho y unido a `master` |
+| Bloque 2 · Citas | Hecho y unido a `master` |
+| Bloque 3 · Documentos y asistente | Hecho en su mayor parte (sección 4.1); falta el resumen, cambiar la autorización de IA después del registro, el visor propio y R2 |
+| Interfaz, asistencia y bloqueos | Hechos el 27 de octubre (sección 4.2) |
+| Pruebas | 191 del servidor y 31 de pantallas en verde |
+| Base de datos para programar | PostgreSQL 18 con `pgvector` en Docker (sección 2) |
+| Servicios en la nube | Qwen: solo los vectores funcionan. Render y R2: sin crear |
 
 ### Commits
 
@@ -30,6 +32,16 @@
 | `87d9433` | Pantallas del bloque 2, a medio terminar |
 | `f4553a8` | PostgreSQL 18 en Docker (D-29) |
 | `e3c0ab5` | Menú del médico y pruebas de las pantallas del bloque 2 |
+| `11ea34f` | Bloque 2 terminado en los documentos de relevo (aquí está `master`) |
+| `aa23301` | Diseño del asistente con RAG (D-30) |
+| `80cd2d3` | Paso 0 del RAG: `pgvector` y tablas de documentos y fragmentos |
+| `808fbf2` | Paso 1: subir documentos y leerlos por página |
+| `b7b3d59` | Paso 2: fragmentos, vectores con Qwen y búsqueda por paciente |
+| `90c4e5d` | Paso 3: preguntar al asistente con citas comprobadas |
+| `6b17f1a` | Pantallas de Mis documentos y de la ficha con el asistente |
+| `ce404ce` | Interfaz según el lienzo: Hoy, Calendario, menú del médico, inicio del paciente; asistencia (HU-018) |
+| `14b0f10` | Iconos de Hugeicons y hovers sutiles (D-31) |
+| `cd576c5` | Bloqueos del horario (HU-009) |
 
 ---
 
@@ -39,7 +51,7 @@ Desde el 26 de octubre la base para programar es **PostgreSQL 18 en Docker** (de
 
 | Qué | Dónde |
 |---|---|
-| Servicio | `docker-compose.yml` en la raíz: imagen `postgres:18`, solo en `127.0.0.1:5432`, datos en el volumen `vitalia_datos` |
+| Servicio | `docker-compose.yml` en la raíz: imagen `pgvector/pgvector:pg18-trixie` (PostgreSQL 18 con `pgvector`), solo en `127.0.0.1:5432`, datos en el volumen `vitalia_datos` |
 | Usuarios y base | `servidor/guiones/bd/01-usuarios.sh` crea `vitalia_migraciones` (dueño de las tablas), `vitalia_api` (sin privilegios) y `vitalia_dev` la primera vez que arranca |
 | Contraseñas | Generadas al azar en `.env` (raíz, para Docker) y `servidor/.env` (para la aplicación). Git ignora los dos |
 | Pruebas | Crean y borran `vitalia_pruebas` en el mismo contenedor |
@@ -54,14 +66,11 @@ En las direcciones de conexión va `127.0.0.1`, no `localhost`: en Windows `loca
 
 Comprobado el 26 de octubre: migraciones aplicadas, deshechas y vueltas a aplicar, y las 105 pruebas del servidor en verde, incluida la de las extensiones `btree_gist` y `unaccent`.
 
-Para publicar sigue Render (sección 3). El almacenamiento de documentos en local se agrega a este mismo archivo al empezar el bloque 3 (propuesta: `rustfs/rustfs`, porque MinIO dejó de publicarse).
+Para publicar sigue Render (sección 3). Los documentos, mientras no exista R2, se guardan en `servidor/.archivos/`, fuera del repositorio.
 
 ## 3. Lo que sigue pendiente de Javier
 
-1. **Repositorio privado en GitHub**, vacío. Al conectarlo, `master` pasa a llamarse `main`.
-2. **Clave de Qwen** (Alibaba Cloud Model Studio, región Singapur): hace falta para el bloque 3. Paso a paso en la sección 3.3 de [diseno/09-herramientas-y-entrega.md](diseno/09-herramientas-y-entrega.md). Modelos: `qwen3.7-plus` y `qwen-vl-ocr-2025-11-20`. La clave va solo en `servidor/.env`, nunca en el chat.
-3. **Render y Cloudflare R2**: para publicar, no para programar. Paso a paso en la misma sección 3.
-4. **Dos fotos con datos inventados** para medir la lectura de la IA al empezar el bloque 3.
+Está en la sección 4 de [ESTADO.md](ESTADO.md): poner `master` como rama principal en GitHub, confirmar la aprobación de Alibaba para `qwen3.7-plus` y `qwen-vl-ocr-2025-11-20`, las dos fotos de prueba, y crear Render y R2.
 
 ---
 
