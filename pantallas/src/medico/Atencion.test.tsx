@@ -86,6 +86,32 @@ test("al firmar con datos pendientes dice cuáles faltan y no cierra", async () 
   expect(within(ventana).getByText("Motivo de consulta.", { exact: false })).toBeInTheDocument();
 });
 
+test("la incapacidad se pregunta primero y, si se da, pide los días antes de cerrar", async () => {
+  const pedidos = apiDeMentira({
+    "GET /api/v1/atenciones/a1": { cuerpo: abierta() },
+    "GET /api/v1/pacientes/p1": { cuerpo: FICHA },
+    "GET /api/v1/historia-clinica/formulario": { cuerpo: FORMULARIO },
+    "PATCH /api/v1/atenciones/a1": { cuerpo: { guardada_en: "2026-11-03T15:00:00Z" } },
+  });
+  pantalla();
+
+  const pregunta = await screen.findByRole("radiogroup", { name: "¿El paciente requiere incapacidad?" });
+  expect(screen.queryByRole("textbox", { name: /Días de incapacidad/ })).not.toBeInTheDocument();
+  const listo = screen.getByRole("status", { name: "Lo que falta para cerrar" });
+  expect(within(listo).queryByText("Días de incapacidad")).not.toBeInTheDocument();
+
+  await userEvent.click(within(pregunta).getByRole("radio", { name: "Sí" }));
+  expect(screen.getByRole("textbox", { name: /Días de incapacidad/ })).toBeInTheDocument();
+  expect(within(listo).getByRole("link", { name: "Días de incapacidad" })).toHaveAttribute(
+    "href",
+    "#campo-incapacidad_dias",
+  );
+
+  await userEvent.click(within(pregunta).getByRole("radio", { name: "No" }));
+  const guardado = pedidos.filter((p) => p.clave === "PATCH /api/v1/atenciones/a1").pop();
+  expect(guardado?.cuerpo).toEqual({ datos: { incapacidad_dias: 0 } });
+});
+
 test("una atención cerrada se ve de solo lectura con la nota aclaratoria", async () => {
   apiDeMentira({
     "GET /api/v1/atenciones/a1": {

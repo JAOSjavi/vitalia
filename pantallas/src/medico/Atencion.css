@@ -624,3 +624,172 @@
     overflow-x: auto;
   }
 }
+
+/* --- Partes a criterio del médico: la pregunta primero y, si dice que sí, el formulario. --- */
+.atencion__requiere {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-tarjeta);
+  background: var(--superficie);
+}
+
+.atencion__requiere--abierto {
+  border-color: var(--acento);
+}
+
+.atencion__requiere-pregunta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  padding: 10px 12px 10px 16px;
+}
+
+.atencion__requiere-texto {
+  font-size: var(--tamano-texto-medico);
+  line-height: 22px;
+  font-weight: 700;
+}
+
+.atencion__si-no {
+  display: flex;
+  gap: 4px;
+  padding: 3px;
+  border-radius: var(--radio-boton);
+  background: var(--superficie-2);
+}
+
+.atencion__si-no-boton {
+  min-width: 64px;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: var(--radio-campo);
+  background: none;
+  color: var(--tinta-suave);
+  font: inherit;
+  font-size: var(--tamano-secundario);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.atencion__si-no-boton:hover {
+  color: var(--tinta);
+}
+
+.atencion__si-no-boton[aria-checked="true"] {
+  background: var(--acento);
+  color: var(--sobre-acento);
+}
+
+.atencion__si-no-boton[aria-checked="true"]:last-child {
+  background: var(--tinta);
+  color: var(--superficie);
+}
+
+.atencion__requiere-cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 4px 16px 16px;
+  animation: desplegar 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes desplegar {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+.atencion__por {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  font-size: var(--tamano-texto-medico);
+}
+
+/* El índice cuenta lo que falta en cada sección. */
+.atencion__salto {
+  gap: 8px;
+}
+
+.atencion__cuantos {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border: 1.5px solid var(--punto-ambar);
+  border-radius: var(--radio-completo);
+  color: var(--tinta);
+  font-size: 12.5px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Lo que falta para cerrar, con enlace a cada dato. */
+.atencion__listo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-tarjeta);
+  background: var(--superficie-2);
+}
+
+.atencion__listo--completo {
+  border-color: var(--acento);
+  background: var(--acento-suave);
+}
+
+.atencion__listo-titulo {
+  font-weight: 700;
+}
+
+.atencion__faltan {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.atencion__faltan :is(a, button) {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--linea-campo);
+  border-radius: var(--radio-campo);
+  background: var(--superficie);
+  color: var(--tinta);
+  font: inherit;
+  font-size: var(--tamano-secundario);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.atencion__faltan :is(a, button):hover {
+  border-color: var(--acento);
+  color: var(--acento-texto);
+}
+
+.atencion__campo,
+.atencion__diagnosticos,
+.atencion__radios {
+  scroll-margin-top: 80px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .atencion__requiere-cuerpo {
+    animation: none;
+  }
+}

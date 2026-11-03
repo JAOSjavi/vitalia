@@ -43,6 +43,59 @@ const SECCIONES = [
   "Cierre",
 ] as const;
 
+// Qué campos obligatorios van en cada sección, para que el índice diga cuántos faltan.
+const SECCION_DE: Record<string, number> = {
+  tipo_consulta: 1,
+  finalidad: 1,
+  causa: 1,
+  motivo: 2,
+  enfermedad_actual: 2,
+  antecedentes_personales: 3,
+  antecedentes_familiares: 3,
+  alergias: 3,
+  factores_riesgo: 3,
+  revision_sistemas: 4,
+  tension_sistolica: 5,
+  tension_diastolica: 5,
+  frecuencia_cardiaca: 5,
+  frecuencia_respiratoria: 5,
+  temperatura: 5,
+  peso: 5,
+  talla: 5,
+  examen_fisico: 5,
+  diagnosticos: 6,
+  plan: 7,
+  incapacidad_dias: 7,
+  destino: 8,
+  remitido_a: 8,
+};
+
+type Falta = { campo: string; nombre: string };
+
+const vacio = (valor: Valor | undefined) => valor === null || valor === undefined || valor === "";
+
+/** Lo que falta para cerrar, con lo que está escrito ahora mismo (HU-044, CA-2). */
+function queFalta(
+  f: Formulario,
+  datos: Record<string, Valor>,
+  diagnosticos: Diagnostico[],
+  incapacidad: boolean | undefined,
+): Falta[] {
+  const faltan: Falta[] = Object.entries(f.atencion)
+    .filter(([campo, c]) => c.obligatorio && vacio(datos[campo]))
+    .map(([campo, c]) => ({ campo, nombre: c.nombre }));
+  if (!diagnosticos.some((d) => d.principal)) {
+    faltan.push({ campo: "diagnosticos", nombre: "Diagnóstico principal" });
+  }
+  if (incapacidad && !(Number(datos.incapacidad_dias) >= 1)) {
+    faltan.push({ campo: "incapacidad_dias", nombre: "Días de incapacidad" });
+  }
+  if (datos.destino === "remitido" && vacio(datos.remitido_a)) {
+    faltan.push({ campo: "remitido_a", nombre: "Remitido a" });
+  }
+  return faltan.sort((a, b) => (SECCION_DE[a.campo] ?? 9) - (SECCION_DE[b.campo] ?? 9));
+}
+
 /** M-15, como en el lienzo: el formulario en el centro y el asistente al lado (HU-042 a HU-044). */
 export function Atencion() {
   const { atencion: id = "" } = useParams();
@@ -194,6 +247,19 @@ function Editor({ consulta, f }: { consulta: AtencionParaEscribir; f: Formulario
   const [diagnosticos, setDiagnosticos] = useState<Diagnostico[]>(atencion.diagnosticos);
   const [medicamentos, setMedicamentos] = useState<Medicamento[]>(atencion.medicamentos);
   const [identificando, setIdentificando] = useState(false);
+  // Lo que es a criterio del médico se pregunta primero; queda abierto si ya tiene algo escrito.
+  const [requiere, setRequiere] = useState<Record<string, boolean | undefined>>(() => {
+    const d = atencion.datos;
+    const algo = (...campos: string[]) => (campos.some((c) => !vacio(d[c])) ? true : undefined);
+    return {
+      acompanante: algo("acompanante_nombre", "acompanante_parentesco", "acompanante_telefono"),
+      analisis: algo("analisis"),
+      recomendaciones: algo("recomendaciones"),
+      formula: atencion.medicamentos.length ? true : undefined,
+      ordenes: algo("ordenes"),
+      incapacidad: d.incapacidad_dias === 0 ? false : algo("incapacidad_dias"),
+    };
+  });
 
   const guardar = useMutation({
     mutationFn: (cambios: Parameters<typeof guardarBorrador>[1]) =>
@@ -264,6 +330,27 @@ function Editor({ consulta, f }: { consulta: AtencionParaEscribir; f: Formulario
     guardar.mutate({ medicamentos: lista });
   }
 
+  /**
+   * Responder "No" borra lo escrito en esa parte, para que la atención cerrada no guarde datos que
+   * el médico ya no ve. Si había algo escrito, pregunta antes.
+   */
+  function responder(clave: string, si: boolean, campos: string[], nombre: string) {
+    if (!si) {
+      const escritos = campos.filter((c) => !vacio(estado.datos[c]) && estado.datos[c] !== 0);
+      const conFormula = clave === "formula" && medicamentos.length > 0;
+      if ((escritos.length || conFormula) && !window.confirm(`Se borrará lo escrito en ${nombre}. ¿Continuar?`)) {
+        return;
+      }
+      if (conFormula) guardarMedicamentos([]);
+      // La incapacidad en 0 queda como "no se da", que es lo que la atención cerrada muestra.
+      if (clave === "incapacidad") elegir("incapacidad_dias", 0);
+      else for (const c of escritos) elegir(c, null);
+    } else if (clave === "incapacidad" && estado.datos.incapacidad_dias === 0) {
+      elegir("incapacidad_dias", null);
+    }
+    setRequiere((r) => ({ ...r, [clave]: si }));
+  }
+
   // Al cerrar la pestaña se guarda lo que estuviera escribiendo.
   useEffect(() => {
     const antesDeSalir = () => {
@@ -283,6 +370,9 @@ function Editor({ consulta, f }: { consulta: AtencionParaEscribir; f: Formulario
     elegir,
   };
   const pendientes = consulta.faltantes.identificacion;
+  const faltan = queFalta(f, estado.datos, diagnosticos, requiere.incapacidad);
+  const total = faltan.length + pendientes.length;
+  const principal = diagnosticos.find((d) => d.principal);
 
   return (
     <>
@@ -316,11 +406,24 @@ function Editor({ consulta, f }: { consulta: AtencionParaEscribir; f: Formulario
 
       <form className="atencion__formulario" onSubmit={(e) => e.preventDefault()} noValidate>
         <nav className="atencion__indice" aria-label="Secciones de la historia clínica">
-          {SECCIONES.map((nombre, i) => (
-            <a key={nombre} href={`#seccion-${i + 1}`} className="atencion__salto">
-              {i + 1} · {nombre}
-            </a>
-          ))}
+          {SECCIONES.map((nombre, i) => {
+            const cuantos = faltan.filter((x) => SECCION_DE[x.campo] === i + 1).length;
+            return (
+              <a
+                key={nombre}
+                href={`#seccion-${i + 1}`}
+                className={`atencion__salto ${cuantos ? "atencion__salto--falta" : ""}`}
+                aria-label={cuantos ? `${i + 1} · ${nombre}, faltan ${cuantos}` : undefined}
+              >
+                {i + 1} · {nombre}
+                {cuantos > 0 && (
+                  <span className="atencion__cuantos" aria-hidden="true">
+                    {cuantos}
+                  </span>
+                )}
+              </a>
+            );
+          })}
         </nav>
 
         <Tarjeta numero={1} titulo="Datos de la consulta">
@@ -329,11 +432,24 @@ function Editor({ consulta, f }: { consulta: AtencionParaEscribir; f: Formulario
             <Opcion {...p} campo="finalidad" />
             <Opcion {...p} campo="causa" />
           </div>
-          <div className="atencion__rejilla">
-            <Texto {...p} campo="acompanante_nombre" ayuda="si vino con alguien" />
-            <Texto {...p} campo="acompanante_parentesco" />
-            <Texto {...p} campo="acompanante_telefono" modo="tel" />
-          </div>
+          <Requiere
+            pregunta="¿Vino con un acompañante?"
+            valor={requiere.acompanante}
+            alResponder={(si) =>
+              responder(
+                "acompanante",
+                si,
+                ["acompanante_nombre", "acompanante_parentesco", "acompanante_telefono"],
+                "el acompañante",
+              )
+            }
+          >
+            <div className="atencion__rejilla">
+              <Texto {...p} campo="acompanante_nombre" etiqueta="Nombre" />
+              <Texto {...p} campo="acompanante_parentesco" etiqueta="Parentesco" />
+              <Texto {...p} campo="acompanante_telefono" etiqueta="Teléfono" modo="tel" />
+            </div>
+          </Requiere>
         </Tarjeta>
 
         <Tarjeta numero={2} titulo="Motivo de consulta y enfermedad actual">
@@ -384,22 +500,66 @@ function Editor({ consulta, f }: { consulta: AtencionParaEscribir; f: Formulario
             error={estado.errores.diagnosticos}
             alCambiar={guardarDiagnosticos}
           />
-          <Area {...p} campo="analisis" filas={3} ayuda="concepto o impresión del médico" />
+          <Requiere
+            pregunta="¿Agrega un análisis o impresión?"
+            valor={requiere.analisis}
+            alResponder={(si) => responder("analisis", si, ["analisis"], "el análisis")}
+          >
+            <Area {...p} campo="analisis" filas={3} ayuda="concepto o impresión del médico" />
+          </Requiere>
         </Tarjeta>
 
         <Tarjeta numero={7} titulo="Plan, fórmula, órdenes e incapacidad">
           <Area {...p} campo="plan" filas={3} />
-          <Area {...p} campo="recomendaciones" filas={2} />
-          <Formula
-            lista={medicamentos}
-            f={f}
-            error={estado.errores.medicamentos}
-            alCambiar={guardarMedicamentos}
-          />
-          <Area {...p} campo="ordenes" filas={2} />
-          <div className="atencion__rejilla">
-            <Numero {...p} campo="incapacidad_dias" etiqueta="Incapacidad" ayuda="en días; 0 si no se da" />
-          </div>
+          <Requiere
+            pregunta="¿Formula medicamentos?"
+            valor={requiere.formula}
+            alResponder={(si) => responder("formula", si, [], "la fórmula")}
+          >
+            <Formula
+              lista={medicamentos}
+              f={f}
+              error={estado.errores.medicamentos}
+              alCambiar={guardarMedicamentos}
+            />
+          </Requiere>
+          <Requiere
+            pregunta="¿Ordena exámenes o procedimientos?"
+            valor={requiere.ordenes}
+            alResponder={(si) => responder("ordenes", si, ["ordenes"], "las órdenes")}
+          >
+            <Area {...p} campo="ordenes" filas={2} etiqueta="Exámenes o procedimientos" />
+          </Requiere>
+          <Requiere
+            pregunta="¿El paciente requiere incapacidad?"
+            valor={requiere.incapacidad}
+            alResponder={(si) => responder("incapacidad", si, ["incapacidad_dias"], "la incapacidad")}
+          >
+            <div className="atencion__rejilla">
+              <Numero {...p} campo="incapacidad_dias" etiqueta="Días de incapacidad" ayuda="de 1 a 180" />
+              <div className="atencion__campo">
+                <span className="atencion__etiqueta">Por la enfermedad</span>
+                <p className="atencion__por">
+                  {principal ? (
+                    <>
+                      <span className="atencion__codigo">{principal.codigo}</span> {principal.nombre}
+                    </>
+                  ) : (
+                    <span className="atencion__suave">Elija el diagnóstico principal en la sección 6.</span>
+                  )}
+                </p>
+              </div>
+            </div>
+          </Requiere>
+          <Requiere
+            pregunta="¿Deja recomendaciones o signos de alarma?"
+            valor={requiere.recomendaciones}
+            alResponder={(si) =>
+              responder("recomendaciones", si, ["recomendaciones"], "las recomendaciones")
+            }
+          >
+            <Area {...p} campo="recomendaciones" filas={2} etiqueta="Recomendaciones y signos de alarma" />
+          </Requiere>
         </Tarjeta>
 
         <Tarjeta numero={8} titulo="Cómo termina la atención">
@@ -407,6 +567,35 @@ function Editor({ consulta, f }: { consulta: AtencionParaEscribir; f: Formulario
           {estado.datos.destino === "remitido" && (
             <Texto {...p} campo="remitido_a" ayuda="prestador o servicio" />
           )}
+          <div
+            className={`atencion__listo ${total ? "" : "atencion__listo--completo"}`}
+            role="status"
+            aria-label="Lo que falta para cerrar"
+          >
+            {total === 0 ? (
+              <p className="atencion__listo-titulo">Todo listo para cerrar y firmar.</p>
+            ) : (
+              <>
+                <p className="atencion__listo-titulo">
+                  Para cerrar {total === 1 ? "falta 1 dato" : `faltan ${total} datos`}:
+                </p>
+                <ul className="atencion__faltan">
+                  {faltan.map((x) => (
+                    <li key={x.campo}>
+                      <a href={`#campo-${x.campo}`}>{x.nombre}</a>
+                    </li>
+                  ))}
+                  {pendientes.map((nombre) => (
+                    <li key={nombre}>
+                      <button type="button" onClick={() => setIdentificando(true)}>
+                        {nombre}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </div>
           <p className="atencion__ayuda">
             Al cerrar, la atención queda con su nombre, su registro, la fecha y la hora, y ya no se
             puede cambiar. Si después hay que corregir algo, se agrega una nota aclaratoria.
@@ -414,6 +603,45 @@ function Editor({ consulta, f }: { consulta: AtencionParaEscribir; f: Formulario
         </Tarjeta>
       </form>
     </>
+  );
+}
+
+/** Una parte a criterio del médico: primero la pregunta y, si responde que sí, el formulario. */
+function Requiere({
+  pregunta,
+  valor,
+  alResponder,
+  children,
+}: {
+  pregunta: string;
+  valor: boolean | undefined;
+  alResponder: (si: boolean) => void;
+  children: ReactNode;
+}) {
+  const id = useId();
+  return (
+    <div className={`atencion__requiere ${valor ? "atencion__requiere--abierto" : ""}`}>
+      <div className="atencion__requiere-pregunta">
+        <span id={id} className="atencion__requiere-texto">
+          {pregunta}
+        </span>
+        <div className="atencion__si-no" role="radiogroup" aria-labelledby={id}>
+          {([true, false] as const).map((si) => (
+            <button
+              key={String(si)}
+              type="button"
+              role="radio"
+              aria-checked={valor === si}
+              className="atencion__si-no-boton"
+              onClick={() => valor !== si && alResponder(si)}
+            >
+              {si ? "Sí" : "No"}
+            </button>
+          ))}
+        </div>
+      </div>
+      {valor && <div className="atencion__requiere-cuerpo">{children}</div>}
+    </div>
   );
 }
 
@@ -474,7 +702,7 @@ function Envoltura({
 }
 
 function Texto({ f, datos, errores, campo, etiqueta, ayuda, cambiar, soltar, modo }: PropiedadesDeCampo & { modo?: "tel" }) {
-  const id = useId();
+  const id = `campo-${campo}`;
   const descripcion = f.atencion[campo];
   return (
     <Envoltura id={id} descripcion={descripcion} etiqueta={etiqueta} ayuda={ayuda} error={errores[campo]}>
@@ -505,7 +733,7 @@ function Area({
   filas,
   atajo,
 }: PropiedadesDeCampo & { filas: number; atajo?: string }) {
-  const id = useId();
+  const id = `campo-${campo}`;
   const descripcion = f.atencion[campo];
   return (
     <Envoltura id={id} descripcion={descripcion} etiqueta={etiqueta} ayuda={ayuda} error={errores[campo]}>
@@ -529,7 +757,7 @@ function Area({
 }
 
 function Numero({ f, datos, errores, campo, etiqueta, ayuda, cambiar, soltar }: PropiedadesDeCampo) {
-  const id = useId();
+  const id = `campo-${campo}`;
   const descripcion = f.atencion[campo];
   return (
     <Envoltura id={id} descripcion={descripcion} etiqueta={etiqueta} ayuda={ayuda} error={errores[campo]}>
@@ -552,7 +780,7 @@ function Numero({ f, datos, errores, campo, etiqueta, ayuda, cambiar, soltar }: 
 }
 
 function Opcion({ f, datos, errores, campo, etiqueta, elegir }: PropiedadesDeCampo) {
-  const id = useId();
+  const id = `campo-${campo}`;
   const descripcion = f.atencion[campo];
   const opciones = f.listas[descripcion.lista ?? ""] ?? {};
   return (
@@ -579,7 +807,7 @@ function Radios({ f, datos, errores, campo, elegir }: PropiedadesDeCampo) {
   const opciones = f.listas[descripcion.lista ?? ""] ?? {};
   const nombre = useId();
   return (
-    <fieldset className="atencion__radios">
+    <fieldset id={`campo-${campo}`} className="atencion__radios">
       <legend className="atencion__etiqueta">{descripcion.nombre}</legend>
       {Object.entries(opciones).map(([codigo, texto]) => (
         <label key={codigo} className="atencion__radio">
@@ -682,7 +910,7 @@ function Diagnosticos({
   }
 
   return (
-    <div className="atencion__diagnosticos">
+    <div id="campo-diagnosticos" className="atencion__diagnosticos">
       <div className="atencion__campo">
         <label htmlFor={id} className="atencion__etiqueta">
           Buscar un diagnóstico <span className="atencion__suave">(por nombre o código CIE-10)</span>
