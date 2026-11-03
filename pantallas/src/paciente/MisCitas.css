@@ -51,7 +51,7 @@
   gap: 12px;
   padding: 16px;
   border: 1px solid var(--linea);
-  border-radius: 18px;
+  border-radius: var(--radio-tarjeta);
   background: var(--superficie);
   box-shadow: var(--sombra-2);
 }
@@ -137,7 +137,7 @@
   gap: 10px;
   min-height: 46px;
   border: 1.5px solid var(--linea);
-  border-radius: 12px;
+  border-radius: var(--radio-boton);
   background: var(--superficie);
   box-shadow: var(--sombra-1);
   color: var(--tinta);

@@ -23,7 +23,7 @@
   gap: 2px;
   padding: 14px 44px 14px 16px;
   border: 1px solid var(--linea);
-  border-radius: 18px;
+  border-radius: var(--radio-tarjeta);
   background: var(--superficie);
   box-shadow: var(--sombra-2);
   color: var(--tinta);

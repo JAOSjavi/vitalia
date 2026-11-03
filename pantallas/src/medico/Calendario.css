@@ -22,7 +22,7 @@
 .calendario__vistas {
   display: flex;
   padding: 3px;
-  border-radius: 12px;
+  border-radius: var(--radio-boton);
   background: var(--linea-suave);
 }
 
@@ -30,7 +30,7 @@
   min-height: 40px;
   padding: 0 16px;
   border: 0;
-  border-radius: 9px;
+  border-radius: var(--radio-campo);
   background: transparent;
   color: var(--tinta-suave);
   font: inherit;
@@ -52,7 +52,7 @@
   gap: 8px;
   min-height: 46px;
   padding: 0 18px;
-  border-radius: 12px;
+  border-radius: var(--radio-boton);
   background: var(--acento);
   box-shadow: var(--sombra-acento);
   color: var(--sobre-acento);
@@ -94,7 +94,7 @@
   min-width: 44px;
   height: 44px;
   border: 1px solid var(--linea);
-  border-radius: 12px;
+  border-radius: var(--radio-boton);
   background: var(--superficie);
   box-shadow: var(--sombra-1);
   color: var(--tinta);
@@ -269,7 +269,7 @@
   gap: 6px;
   padding: 2px 8px 2px 6px;
   border: 1px solid var(--linea);
-  border-radius: 8px;
+  border-radius: var(--radio-campo);
   background: var(--superficie);
   box-shadow: var(--sombra-1);
   color: var(--tinta);
@@ -341,7 +341,7 @@
   flex-direction: column;
   padding: 8px 10px;
   border: 1px solid var(--linea);
-  border-radius: 10px;
+  border-radius: var(--radio-boton);
   background: var(--superficie);
   box-shadow: var(--sombra-1);
   color: var(--tinta);
@@ -432,7 +432,7 @@
   margin: 0;
   padding: 10px 12px;
   border: 1px solid var(--linea);
-  border-radius: 12px;
+  border-radius: var(--radio-boton);
   background: var(--superficie);
   box-shadow: var(--sombra-1);
   font-size: 14.5px;
@@ -507,7 +507,7 @@
   gap: 8px;
   min-height: 46px;
   border: 1.5px solid var(--acento);
-  border-radius: 12px;
+  border-radius: var(--radio-boton);
   background: var(--superficie);
   box-shadow: var(--sombra-1);
   color: var(--acento-texto);
@@ -526,7 +526,7 @@
   justify-content: center;
   gap: 8px;
   min-height: 40px;
-  border-radius: 12px;
+  border-radius: var(--radio-boton);
   color: var(--tinta-suave);
   font-size: 14.5px;
   font-weight: 700;

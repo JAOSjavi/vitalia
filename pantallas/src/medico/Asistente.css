@@ -37,7 +37,7 @@
   justify-content: center;
   width: 40px;
   height: 40px;
-  border-radius: 12px;
+  border-radius: var(--radio-boton);
   background: var(--acento-fuerte);
   color: var(--sobre-acento);
 }
@@ -64,7 +64,7 @@
   align-self: flex-end;
   max-width: 80%;
   padding: 10px 14px;
-  border-radius: 16px 16px 4px 16px;
+  border-radius: var(--radio-tarjeta) var(--radio-tarjeta) 4px var(--radio-tarjeta);
   background: var(--acento);
   color: var(--sobre-acento);
   font-size: 15px;
@@ -78,7 +78,7 @@
   gap: 6px;
   max-width: 92%;
   padding: 12px 14px;
-  border-radius: 16px 16px 16px 4px;
+  border-radius: var(--radio-tarjeta) var(--radio-tarjeta) var(--radio-tarjeta) 4px;
   background: var(--fondo);
   font-size: 15px;
   line-height: 21px;
@@ -104,7 +104,7 @@
   margin-left: 2px;
   padding: 0 8px;
   border: 1px solid var(--acento);
-  border-radius: 8px;
+  border-radius: var(--radio-campo);
   background: var(--superficie);
   color: var(--acento-texto);
   font-family: var(--letra-dato);
@@ -177,7 +177,7 @@ a.asistente__cita:hover {
   height: 52px;
   padding: 0 4px 0 16px;
   border: 1.5px solid var(--linea);
-  border-radius: 14px;
+  border-radius: var(--radio-tarjeta);
   background: var(--superficie);
 }
 
@@ -206,7 +206,7 @@ a.asistente__cita:hover {
   width: 44px;
   height: 44px;
   border: 0;
-  border-radius: 11px;
+  border-radius: var(--radio-boton);
   background: var(--acento);
   color: var(--sobre-acento);
   box-shadow: var(--sombra-acento);

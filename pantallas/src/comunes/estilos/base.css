@@ -85,7 +85,7 @@ a:hover {
   gap: 16px;
   padding: 20px;
   border: 1px solid var(--linea);
-  border-radius: 20px;
+  border-radius: var(--radio-tarjeta);
   background: var(--superficie);
   box-shadow: var(--sombra-2);
 }

@@ -92,7 +92,7 @@
   flex-direction: column;
   padding: 4px 16px;
   border: 1px solid var(--linea);
-  border-radius: 16px;
+  border-radius: var(--radio-tarjeta);
   background: var(--superficie);
   box-shadow: var(--sombra-2);
 }
@@ -121,7 +121,7 @@
   justify-content: center;
   width: 40px;
   height: 40px;
-  border-radius: 12px;
+  border-radius: var(--radio-boton);
   background: var(--acento-suave);
   color: var(--acento-texto);
 }
@@ -175,7 +175,7 @@
   gap: 6px;
   min-height: 44px;
   padding: 0 12px;
-  border-radius: 10px;
+  border-radius: var(--radio-boton);
   color: var(--acento-texto);
   font-size: 15px;
   font-weight: 700;
@@ -200,7 +200,7 @@
   width: 44px;
   height: 44px;
   border: 0;
-  border-radius: 10px;
+  border-radius: var(--radio-boton);
   background: transparent;
   color: var(--alerta);
   cursor: pointer;
@@ -259,7 +259,7 @@
   width: 44px;
   height: 44px;
   border: 0;
-  border-radius: 10px;
+  border-radius: var(--radio-boton);
   background: none;
   color: var(--tinta-suave);
   cursor: pointer;

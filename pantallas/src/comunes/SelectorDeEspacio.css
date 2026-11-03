@@ -48,7 +48,7 @@
   justify-content: center;
   gap: 2px;
   min-height: 72px;
-  border-radius: 14px;
+  border-radius: var(--radio-tarjeta);
   font-size: 13px;
   line-height: 18px;
   color: var(--tinta-suave);

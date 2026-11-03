@@ -126,7 +126,7 @@ a.zona-medico__enlace:hover {
   width: 44px;
   height: 44px;
   border: 0;
-  border-radius: 10px;
+  border-radius: var(--radio-boton);
   background: transparent;
   color: var(--tinta-suave);
   cursor: pointer;

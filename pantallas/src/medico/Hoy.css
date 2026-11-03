@@ -40,7 +40,7 @@
   height: 46px;
   padding: 0 14px;
   border: 1px solid var(--linea);
-  border-radius: 12px;
+  border-radius: var(--radio-boton);
   background: var(--superficie);
   color: var(--tinta-suave);
 }
@@ -74,7 +74,7 @@
   gap: 8px;
   min-height: 46px;
   padding: 0 18px;
-  border-radius: 12px;
+  border-radius: var(--radio-boton);
   background: var(--acento);
   box-shadow: var(--sombra-acento);
   color: var(--sobre-acento);
@@ -249,7 +249,7 @@
   min-height: 44px;
   padding: 0 12px;
   border: 0;
-  border-radius: 10px;
+  border-radius: var(--radio-boton);
   background: transparent;
   color: var(--acento-texto);
   font: inherit;
@@ -269,7 +269,7 @@
   min-height: 44px;
   padding: 0 14px;
   border: 1px solid var(--linea);
-  border-radius: 10px;
+  border-radius: var(--radio-boton);
   background: var(--superficie);
   box-shadow: var(--sombra-1);
   color: var(--tinta);
@@ -300,7 +300,7 @@
   width: 44px;
   height: 44px;
   border: 1px solid var(--linea);
-  border-radius: 10px;
+  border-radius: var(--radio-boton);
   background: var(--superficie);
   box-shadow: var(--sombra-1);
   color: var(--tinta-suave);

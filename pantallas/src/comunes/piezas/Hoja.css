@@ -71,7 +71,7 @@
   }
 
   .hoja__cuerpo {
-    border-radius: 22px;
+    border-radius: var(--radio-tarjeta);
     padding: 20px 24px 24px;
   }
 
