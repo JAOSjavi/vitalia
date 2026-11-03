@@ -54,7 +54,7 @@ a.zona-medico__enlace:hover {
   color: var(--tinta);
 }
 
-/* El activo se enmarca en ámbar, como el título enfocado de una fila. */
+/* El activo se enmarca con el acento, como el título enfocado de una fila. */
 .zona-medico__enlace.active {
   background: var(--acento-suave);
   box-shadow: inset 0 0 0 1.5px var(--acento);

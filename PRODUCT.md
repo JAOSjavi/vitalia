@@ -42,7 +42,7 @@ No se vende a otros consultorios: está hecho para uno solo. El asistente respon
 ## Brand Commitments
 
 - Nombre: **Vitalia Salud**.
-- Mundo visual elegido el 3 de noviembre de 2026 (D-34): muro de títulos, donde lo que sigue crece, con un acento ámbar; reemplaza al lienzo y a `diseno/08-base-visual.md`. Cada pantalla conserva su estructura. Nada que se vea genérico ni hecho por IA.
+- Mundo visual elegido el 3 de noviembre de 2026 (D-34): muro de títulos, donde lo que sigue crece, con un acento verde azulado; reemplaza al lienzo y a `diseno/08-base-visual.md`. Cada pantalla conserva su estructura. Nada que se vea genérico ni hecho por IA.
 - Tema claro y oscuro para paciente y médico, elegido en Ajustes.
 - Iconos de Hugeicons en trazo redondeado.
 - Voz: trato de usted, español de Colombia, cercano y claro, sin tecnicismos para el paciente.

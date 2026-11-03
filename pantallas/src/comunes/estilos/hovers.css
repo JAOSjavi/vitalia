@@ -1,6 +1,6 @@
 /* Movimiento del muro de títulos (D-34). Tesis:
    - Momento focal: el mosaico de lo que sigue (próxima cita, quien sigue en Hoy) enciende su
-     borde ámbar una vez al aparecer.
+     borde de acento una vez al aparecer.
    - Gesto propio: en una fila de mosaicos, el que se señala crece un poco y los vecinos bajan.
    - Respuesta: los botones cambian de color al pasar y se hunden al presionar; nada se eleva.
    - Continuidad: el cambio de tema se funde con una transición de vista (tema.ts).
@@ -28,7 +28,7 @@ summary,
 }
 
 @media (hover: hover) {
-  /* Botones principales: su sombra ámbar se abre un poco. */
+  /* Botones principales: su anillo de acento se marca. */
   .boton--principal:hover:not(:disabled),
   .hoy__nueva:hover,
   .calendario__nueva:hover,
@@ -154,7 +154,7 @@ summary,
   }
 }
 
-/* Momento focal: lo que sigue enciende su borde ámbar al aparecer. El contenido se ve desde
+/* Momento focal: lo que sigue enciende su borde de acento al aparecer. El contenido se ve desde
    el primer cuadro; solo el brillo del borde se anima. */
 @keyframes encender {
   from {
@@ -194,7 +194,7 @@ summary,
     transition-property: background-color, opacity, outline-color !important;
   }
 
-  /* Sin movimiento, pero el vecino que baja y el borde ámbar siguen diciendo qué se señala. */
+  /* Sin movimiento, pero el vecino que baja y el borde de acento siguen diciendo qué se señala. */
   .inicio__proxima,
   .hoy__sigue {
     animation: none;

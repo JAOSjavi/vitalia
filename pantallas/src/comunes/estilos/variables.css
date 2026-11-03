@@ -1,4 +1,4 @@
-/* Mundo visual D-34 (muro de títulos): un acento ámbar para foco, selección y acción principal.
+/* Mundo visual D-34 (muro de títulos): un acento verde azulado para foco, selección y acción principal.
    Tema claro en :root; el oscuro se aplica con data-tema="oscuro" o, si no se fijó ninguno,
    cuando el dispositivo lo pide. Ningún componente escribe un color a mano. */
 :root {
@@ -13,16 +13,16 @@
   --linea: #d3d7df;
   --linea-suave: #e6e8ed;
   --linea-campo: #7a8293;
-  --acento: #e6a73c;
-  --acento-texto: #8a5a00;
-  --acento-oscuro: #6b4500;
-  --acento-fuerte: #d4942a;
-  --acento-suave: #fbefd8;
-  --sobre-acento: #17120a;
-  --sobre-acento-suave: #4a3608;
-  --linea-sobre-acento: rgba(23, 18, 10, 0.22);
-  --resalte: #fff7e6;
-  --foco: #8a5a00;
+  --acento: #0a7d72;
+  --acento-texto: #087068;
+  --acento-oscuro: #075f57;
+  --acento-fuerte: #087068;
+  --acento-suave: #e6f6f4;
+  --sobre-acento: #ffffff;
+  --sobre-acento-suave: #e6f6f4;
+  --linea-sobre-acento: rgba(255, 255, 255, 0.28);
+  --resalte: #f1faf9;
+  --foco: #087068;
   --velo: rgba(10, 12, 16, 0.55);
   --punto-verde: #1a8c55;
   --punto-rojo: #cc3a2e;
@@ -53,7 +53,7 @@
   --radio-completo: 999px;
 
   /* Sombras: solo para lo que flota (menús y hojas). Los módulos se separan por su filete y lo
-     enfocado por su borde ámbar. */
+     enfocado por su borde de acento. */
   --sombra-1: none;
   --sombra-2: none;
   --sombra-flotante: 0 2px 4px rgba(12, 14, 18, 0.08), 0 12px 32px rgba(12, 14, 18, 0.14);
@@ -71,13 +71,16 @@
   --linea: #2d333e;
   --linea-suave: #232831;
   --linea-campo: #6e7687;
-  --acento: #e8b04a;
-  --acento-texto: #f0c063;
-  --acento-oscuro: #f5d58e;
-  --acento-fuerte: #f2c56a;
-  --acento-suave: #33290f;
-  --resalte: #211c11;
-  --foco: #e8b04a;
+  --acento: #1fb8a6;
+  --acento-texto: #5fdccd;
+  --acento-oscuro: #a6efe6;
+  --acento-fuerte: #3fd0bf;
+  --acento-suave: #103430;
+  --resalte: #0f201e;
+  --sobre-acento: #04241f;
+  --sobre-acento-suave: #0b3f39;
+  --linea-sobre-acento: rgba(4, 36, 31, 0.22);
+  --foco: #5fdccd;
   --velo: rgba(0, 0, 0, 0.68);
   --punto-verde: #3fbf7f;
   --punto-rojo: #ef6a5e;
@@ -101,13 +104,16 @@
     --linea: #2d333e;
     --linea-suave: #232831;
     --linea-campo: #6e7687;
-    --acento: #e8b04a;
-    --acento-texto: #f0c063;
-    --acento-oscuro: #f5d58e;
-    --acento-fuerte: #f2c56a;
-    --acento-suave: #33290f;
-    --resalte: #211c11;
-    --foco: #e8b04a;
+    --acento: #1fb8a6;
+    --acento-texto: #5fdccd;
+    --acento-oscuro: #a6efe6;
+    --acento-fuerte: #3fd0bf;
+    --acento-suave: #103430;
+    --resalte: #0f201e;
+    --sobre-acento: #04241f;
+    --sobre-acento-suave: #0b3f39;
+    --linea-sobre-acento: rgba(4, 36, 31, 0.22);
+    --foco: #5fdccd;
     --velo: rgba(0, 0, 0, 0.68);
     --punto-verde: #3fbf7f;
     --punto-rojo: #ef6a5e;

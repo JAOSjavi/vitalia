@@ -32,7 +32,7 @@
   margin-top: 10px;
 }
 
-/* Cada opción es un mosaico entero que se toca; la elegida se enmarca en ámbar. */
+/* Cada opción es un mosaico entero que se toca; la elegida se enmarca con el acento. */
 .ajustes__opcion {
   display: flex;
   align-items: center;

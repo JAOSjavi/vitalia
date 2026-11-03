@@ -3,7 +3,7 @@
   line-height: 22px;
 }
 
-/* La próxima cita es el título enfocado del muro: borde ámbar, hora monumental (D-34). */
+/* La próxima cita es el título enfocado del muro: borde de acento, hora monumental (D-34). */
 .inicio__proxima {
   display: flex;
   flex-direction: column;

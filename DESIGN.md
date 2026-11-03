@@ -1,6 +1,6 @@
 ---
 name: Vitalia Salud
-description: Muro de títulos para un consultorio médico general; lo que sigue crece y se enmarca en ámbar.
+description: Muro de títulos para un consultorio médico general; lo que sigue crece y se enmarca en verde azulado.
 colors:
   fondo: "#eceef2"
   superficie: "#ffffff"
@@ -10,14 +10,14 @@ colors:
   linea: "#d3d7df"
   linea-suave: "#e6e8ed"
   linea-campo: "#7a8293"
-  acento: "#e6a73c"
-  acento-fuerte: "#d4942a"
-  acento-texto: "#8a5a00"
-  acento-oscuro: "#6b4500"
-  acento-suave: "#fbefd8"
-  sobre-acento: "#17120a"
-  resalte: "#fff7e6"
-  foco: "#8a5a00"
+  acento: "#0a7d72"
+  acento-fuerte: "#087068"
+  acento-texto: "#087068"
+  acento-oscuro: "#075f57"
+  acento-suave: "#e6f6f4"
+  sobre-acento: "#ffffff"
+  resalte: "#f1faf9"
+  foco: "#087068"
   velo: "rgba(10, 12, 16, 0.55)"
   punto-verde: "#1a8c55"
   punto-rojo: "#cc3a2e"
@@ -157,14 +157,14 @@ components:
 
 **Creative North Star: "El muro de títulos"**
 
-Vitalia se lee como el muro de una plataforma de streaming: una fila de mosaicos quietos y, entre ellos, uno solo que se presenta. Para el paciente es su próxima cita, con la hora enorme. Para el médico es quien sigue en la agenda. Todo lo demás se queda bajo, en filas de mosaicos de esquina corta separados por un filete de 1 px. El ámbar es la única luz del sistema: marca lo enfocado, lo elegido y la acción principal.
+Vitalia se lee como el muro de una plataforma de streaming: una fila de mosaicos quietos y, entre ellos, uno solo que se presenta. Para el paciente es su próxima cita, con la hora enorme. Para el médico es quien sigue en la agenda. Todo lo demás se queda bajo, en filas de mosaicos de esquina corta separados por un filete de 1 px. El verde azulado de la página de Vitalia es la única luz del sistema: marca lo enfocado, lo elegido y la acción principal.
 
 Hay un solo mundo para los dos usuarios, con dos densidades. El paciente lo ve en el celular, en una columna de 440 px, con letra grande y áreas táctiles de 52 a 72 px. El médico lo ve en el computador, con menú lateral y texto de 15.5 px. El tema claro es gris frío sin crema y el oscuro es neutro profundo. Los dos comparten cada rol de color, y el tema se elige en Ajustes o sigue al dispositivo.
 
 Se rechaza el panel médico gris azulado de tarjetas blancas con sombra suave. Tampoco se usan píldoras con chulo, cajas amarillas de aviso ni iconos de relleno genérico: un estado es un punto de color más texto.
 
 **Key Characteristics:**
-- Un mosaico enfocado por pantalla, con borde ámbar de 2 px y cifras monumentales en Antonio.
+- Un mosaico enfocado por pantalla, con borde de acento de 2 px y cifras monumentales en Antonio.
 - Títulos de pantalla y de mosaico en mayúsculas condensadas; el texto corrido nunca.
 - Módulos planos con filete de 1 px; la sombra queda solo para lo que flota.
 - Movimiento sobrio: los botones se hunden y no se elevan, y en una fila los vecinos del mosaico señalado bajan su brillo.
@@ -172,15 +172,16 @@ Se rechaza el panel médico gris azulado de tarjetas blancas con sombra suave. T
 
 ## Colors
 
-Neutros fríos sin tinte cálido, más un único ámbar que se reparte en cinco escalones según dónde va: relleno, texto, presión, fondo tenue y tinta encima.
+Neutros fríos sin tinte cálido, más un único verde azulado que se reparte en escalones según dónde va: relleno, texto, presión, fondo tenue y tinta encima. Sale de la marca de la página de Vitalia (#0f9d8f, oscuro #0a7d72, tenue #e6f6f4); en la app el relleno toma el tono oscuro de la marca para que el texto blanco encima pase 4.5:1.
 
 ### Primary
-- **Ámbar de marquesina** (acento): relleno del botón principal, borde del mosaico enfocado, marco del mosaico señalado en una fila, día y hora elegidos en el selector de turnos, barra de pasos hecha, sello de la marca y color de selección de texto.
-- **Ámbar encendido** (acento-fuerte): hover del botón principal, anillo interior del hover principal y avatar del médico.
-- **Ámbar de lectura** (acento-texto): enlaces, iconos de acento y el anillo de foco en el tema claro, donde el ámbar de relleno no alcanza contraste como texto.
-- **Ámbar profundo** (acento-oscuro): texto sobre fondo ámbar tenue (enlace activo del menú, etiqueta "Mañana") y hover de enlaces.
-- **Ámbar tenue** (acento-suave): fondo del enlace activo, de los pozos de icono y del hover de opciones elegibles, y halo del campo enfocado.
-- **Tinta sobre ámbar** (sobre-acento): texto e iconos encima de cualquier relleno ámbar.
+- **Verde azulado de Vitalia** (acento): relleno del botón principal, borde del mosaico enfocado, marco del mosaico señalado en una fila, día y hora elegidos en el selector de turnos, barra de pasos hecha, sello de la marca y color de selección de texto.
+- **Verde azulado de presión** (acento-fuerte): hover del botón principal, anillo interior del hover principal y avatar del médico. En claro es más oscuro que el relleno; en oscuro, más claro.
+- **Verde azulado de lectura** (acento-texto): enlaces, iconos de acento y texto de acento sobre superficie. En el tema claro coincide con el relleno; en el oscuro sube a un tono claro para leerse sobre el neutro profundo.
+- **Verde azulado profundo** (acento-oscuro): texto sobre fondo tenue (enlace activo del menú, etiqueta "Mañana") y hover de enlaces.
+- **Verde azulado tenue** (acento-suave): fondo del enlace activo, de los pozos de icono y del hover de opciones elegibles, y halo del campo enfocado.
+- **Blanco sobre acento** (sobre-acento): texto e iconos encima de cualquier relleno de acento. En el tema oscuro se invierte a tinta verde muy oscura, porque el relleno se aclara.
+- **Foco** (foco): contorno de foco de teclado, en el mismo verde azulado de lectura.
 
 ### Neutral
 - **Gris de muro** (fondo): fondo de la página y hover de enlaces de menú.
@@ -191,22 +192,24 @@ Neutros fríos sin tinte cálido, más un único ámbar que se reparte en cinco 
 - **Filete** (linea): borde de 1 px de mosaicos y listas, divisores internos y pasos pendientes.
 - **Filete suave** (linea-suave): divisores dentro del menú.
 - **Borde de campo** (linea-campo): borde de 1.5 px de campos y botones neutros, que es el borde visible de lo que se escribe o se toca.
-- **Resalte** (resalte): fondo de la fila de quien sigue y hover del acceso a documentos.
+- **Resalte** (resalte): fondo apenas verdoso de la fila de quien sigue y hover del acceso a documentos.
 - **Velo** (velo): fondo detrás de las hojas.
 
 ### Estado
-- **Puntos** (punto-verde, punto-rojo, punto-ambar, punto-gris): el punto de 8 a 9 px que acompaña cada estado, nota o error. Siempre van con texto.
+- **Puntos** (punto-verde, punto-rojo, punto-ambar, punto-gris): el punto de 8 a 9 px que acompaña cada estado, nota o error. Siempre van con texto. El punto ámbar es solo de estado (pendiente o aviso) y no tiene relación con el acento.
 - **Rojo tenue y alerta** (rojo-suave, alerta): fondo y texto de acciones destructivas y avisos graves.
 - **Verde fuerte** (verde-fuerte): confirmaciones de lo atendido.
 
-El tema oscuro redefine cada rol con el mismo nombre (fondo #0d1015, superficie #161a21, acento #e8b04a, acento-texto #f0c063). Los valores están en el sidecar. El que se elige con `data-tema="oscuro"` y el del dispositivo son idénticos.
+El tema oscuro redefine cada rol con el mismo nombre (fondo #0d1015, superficie #161a21, acento #1fb8a6 con tinta #04241f encima, acento-texto y foco #5fdccd). Los valores están en el sidecar. El que se elige con `data-tema="oscuro"` y el del dispositivo son idénticos.
 
 ### Named Rules
-**The Una Sola Luz Rule.** El ámbar lleno marca solo tres cosas: el foco, la selección y la acción principal. El ámbar tenue puede servir de fondo a iconos y hovers, pero nunca hay dos ámbares llenos compitiendo en un mismo mosaico.
+**The Una Sola Luz Rule.** El acento lleno marca solo tres cosas: el foco, la selección y la acción principal. El acento tenue puede servir de fondo a iconos y hovers, pero nunca hay dos rellenos de acento compitiendo en un mismo mosaico.
 
 **The Rol, No Valor Rule.** Todo color sale de `variables.css` por su nombre de rol. Un color escrito a mano en una pantalla rompe el tema oscuro.
 
 **The Punto Y Texto Rule.** Un estado es un punto de color más su palabra, sobre fondo gris de reposo y esquina de 6 px. No lleva píldora redonda con chulo ni caja de color.
+
+**The Vecinos De Tono Rule.** El punto verde (matiz 156) y el verde azulado del acento (matiz 184) son vecinos y se confunden de reojo. Un estado (confirmada, atendida, activa, guardado) nunca se dice con el acento: va con su punto de estado y su palabra. El acento en un estado solo nombra lo que sigue o lo principal, nunca un resultado.
 
 ## Typography
 
@@ -240,10 +243,10 @@ El ritmo usa pasos de 4 px: 4, 8, 10, 12, 16, 20, 24 y 28. Lo que se toca mide a
 
 ## Elevation & Depth
 
-El sistema es plano. Los mosaicos y las listas se separan del fondo por el cambio de superficie y por su filete de 1 px. Lo enfocado se distingue por un borde ámbar, no por altura. Las sombras de módulo (`--sombra-1`, `--sombra-2`, `--sombra-acento`) existen como tokens pero valen `none`, y se mantienen así.
+El sistema es plano. Los mosaicos y las listas se separan del fondo por el cambio de superficie y por su filete de 1 px. Lo enfocado se distingue por un borde de acento, no por altura. Las sombras de módulo (`--sombra-1`, `--sombra-2`, `--sombra-acento`) existen como tokens pero valen `none`, y se mantienen así.
 
 ### Shadow Vocabulary
-- **Flotante** (`box-shadow: 0 2px 4px rgba(12,14,18,.08), 0 12px 32px rgba(12,14,18,.14)`; en oscuro con opacidad .5): menús desplegables, como el menú del avatar.
+- **Flotante** (`--sombra-flotante`: `0 2px 4px rgba(12,14,18,.08), 0 12px 32px rgba(12,14,18,.14)`; en oscuro con opacidad .5): menús desplegables, como el menú del avatar, y la hoja inferior.
 - **Halo de campo** (`box-shadow: 0 0 0 3px var(--acento-suave)`): campo o buscador con foco.
 - **Borde de hover** (`box-shadow: inset 0 0 0 1px var(--linea-campo)`): botones de superficie y mosaicos que se tocan.
 - **Borde de hover principal** (`box-shadow: inset 0 0 0 2px var(--acento-fuerte)`): botón principal al pasar el cursor.
@@ -256,7 +259,7 @@ El sistema es plano. Los mosaicos y las listas se separan del fondo por el cambi
 
 ## Shapes
 
-Las esquinas son cortas, como mosaicos de un muro: 6 px para estados, 8 px para campos, botones y pozos de icono, y 10 px para mosaicos y listas. La única forma redonda completa es la del avatar y los puntos de estado. La hoja inferior es la excepción blanda (26 px arriba en celular y 22 px como ventana en computador), porque es una superficie que sube desde el borde.
+Las esquinas son cortas, como mosaicos de un muro: 6 px para estados, 8 px para campos, botones y pozos de icono, y 10 px para mosaicos y listas. La única forma redonda completa es la del avatar y los puntos de estado. La hoja inferior es la excepción blanda en celular (26 px arriba), porque es una superficie que sube desde el borde; en computador se centra como ventana con la esquina de mosaico (10 px). Las barras finas (asa de la hoja, barra de pasos, barra de progreso) redondean a la mitad de su alto.
 
 Los bordes tienen tres grosores con significado: 1 px es filete de módulo, 1.5 px es borde de campo o de botón que se toca, y 2 px es lo enfocado o el foco de teclado.
 
@@ -265,14 +268,14 @@ Los bordes tienen tres grosores con significado: 1 px es filete de módulo, 1.5 
 ### Buttons
 Firmes y grandes; llenan el ancho cuando son la acción de la pantalla.
 - **Shape:** esquina corta (8 px), alto mínimo de 52 px (54 px el principal), texto Atkinson 700 de 16 a 17 px con icono a 10 px.
-- **Primary:** relleno ámbar de marquesina con tinta sobre ámbar y sin borde. Es la única acción principal de la vista ("Agendar otra cita", "Abrir la ficha", "Nueva cita").
-- **Hover / Focus:** al pasar el cursor pasa a ámbar encendido con un anillo interior de 2 px. El foco es un contorno de 2 px en color de foco con 2 px de separación. Al presionar se hunde (0.97).
-- **Borde:** superficie con borde de 1.5 px en tinta. Al pasar el cursor toma fondo ámbar tenue.
-- **Neutro:** superficie con borde de 1.5 px en borde de campo. Al pasar el cursor el borde se marca y el fondo pasa a ámbar tenue.
-- **Enlace:** texto ámbar de lectura en 700 y 15 px, sin subrayado, con 44 px de área.
+- **Primary:** relleno verde azulado de Vitalia con blanco sobre acento y sin borde. Es la única acción principal de la vista ("Agendar otra cita", "Abrir la ficha", "Nueva cita").
+- **Hover / Focus:** al pasar el cursor pasa a verde azulado de presión con un anillo interior de 2 px. El foco es un contorno de 2 px en color de foco con 2 px de separación. Al presionar se hunde (0.97).
+- **Borde:** superficie con borde de 1.5 px en tinta. Al pasar el cursor toma fondo verde azulado tenue.
+- **Neutro:** superficie con borde de 1.5 px en borde de campo. Al pasar el cursor el borde se marca y el fondo pasa a verde azulado tenue.
+- **Enlace:** texto verde azulado de lectura en 700 y 15 px, sin subrayado, con 44 px de área.
 
 ### Chips (estado)
-- **Style:** fondo gris de reposo, esquina de 6 px, punto de 9 px y palabra en 13 px 700. La variante de acento usa texto ámbar de lectura y punto ámbar o en aro.
+- **Style:** fondo gris de reposo, esquina de 6 px, punto de 9 px y palabra en 13 px 700. La variante de acento usa texto de lectura y punto de acento o en aro; solo dice "Sigue" o "Principal", nunca un estado (ver The Vecinos De Tono Rule).
 - **State:** no se tocan; solo informan.
 
 ### Cards / Containers
@@ -284,30 +287,30 @@ Firmes y grandes; llenan el ancho cuando son la acción de la pantalla.
 
 ### Inputs / Fields
 - **Style:** 52 px de alto, borde de 1.5 px en borde de campo, esquina de 8 px y fondo de superficie. Etiqueta en 14.5 px 700 arriba y ayuda en tinta suave debajo. Los números de documento van en Mono.
-- **Focus:** borde ámbar más halo ámbar tenue de 3 px.
+- **Focus:** borde de acento más halo verde azulado tenue de 3 px.
 - **Error / Disabled:** borde en punto rojo y mensaje con punto rojo de 8 px más texto. El botón deshabilitado baja a 0.7 de opacidad con cursor de espera.
 
 ### Navigation
-- **Paciente, celular:** barra fija abajo sobre superficie, con filete superior y cinco secciones de icono más palabra de 12.5 px. La activa pinta su icono sobre un pozo ámbar tenue y su texto en ámbar de lectura.
-- **Paciente desde 900 px y médico:** menú lateral de 240 px con la marca arriba y enlaces de 44 a 48 px con esquina de 8 px. El activo lleva fondo ámbar tenue, marco interior ámbar de 1.5 px y texto ámbar profundo en 700. Lo que aún no existe se marca "Pronto" y no navega.
+- **Paciente, celular:** barra fija abajo sobre superficie, con filete superior y cinco secciones de icono más palabra de 12.5 px. La activa pinta su icono sobre un pozo verde azulado tenue y su texto en verde azulado de lectura.
+- **Paciente desde 900 px y médico:** menú lateral de 240 px con la marca arriba y enlaces de 44 a 48 px con esquina de 8 px. El activo lleva fondo verde azulado tenue, marco interior de acento de 1.5 px y texto verde azulado profundo en 700. Lo que aún no existe se marca "Pronto" y no navega.
 
 ### Mosaico enfocado (signature)
-La próxima cita del paciente y quien sigue para el médico. Es un mosaico con borde ámbar de 2 px, título de mosaico en mayúsculas con icono ámbar, etiqueta de cuándo sobre ámbar tenue y la cifra en Display. Debajo, los datos separados por un filete y las acciones. Al aparecer "enciende" su borde una sola vez: un halo ámbar tenue de 6 px se abre y se cierra en 700 ms. Con movimiento reducido aparece ya encendido. Hay uno por pantalla.
+La próxima cita del paciente y quien sigue para el médico. Es un mosaico con borde de acento de 2 px, título de mosaico en mayúsculas con icono de acento, etiqueta de cuándo sobre verde azulado tenue y la cifra en Display. Debajo, los datos separados por un filete y las acciones. Al aparecer "enciende" su borde una sola vez: un halo verde azulado tenue de 6 px se abre y se cierra en 700 ms. Con movimiento reducido aparece ya encendido. Hay uno por pantalla.
 
 ### Fila de mosaicos (signature)
-En las listas de citas, pacientes, documentos, atenciones y en la agenda, la fila señalada con cursor o foco toma un contorno ámbar de 2 px que se cierra desde adentro (offset de −6 a −2 px, 220 ms), y sus vecinos bajan a 0.62 de opacidad. El texto no se escala. Solo ocurre con cursor (`hover: hover`). Con movimiento reducido el contorno y el atenuado se mantienen, sin transición de posición.
+En las listas de citas, pacientes, documentos, atenciones y en la agenda, la fila señalada con cursor o foco toma un contorno de acento de 2 px que se cierra desde adentro (offset de −6 a −2 px, 220 ms), y sus vecinos bajan a 0.62 de opacidad. El texto no se escala. Solo ocurre con cursor (`hover: hover`). Con movimiento reducido el contorno y el atenuado se mantienen, sin transición de posición.
 
 ### Selector de tema (Ajustes)
-Tres opciones (Sistema, Claro, Oscuro) como mosaicos enteros de 72 px que se tocan, con pozo de icono, nombre y explicación. La elegida se enmarca en ámbar y su pozo pasa a ámbar tenue. El cambio de tema se funde con una transición de vista de 320 ms, salvo con movimiento reducido.
+Tres opciones (Sistema, Claro, Oscuro) como mosaicos enteros de 72 px que se tocan, con pozo de icono, nombre y explicación. La elegida se enmarca en el acento y su pozo pasa a verde azulado tenue. El cambio de tema se funde con una transición de vista de 320 ms, salvo con movimiento reducido.
 
 ## Do's and Don'ts
 
 ### Do:
 - **Do** tomar todo color de su rol en `variables.css` y comprobar la pantalla en los dos temas.
-- **Do** dejar un solo mosaico enfocado por pantalla, con borde ámbar de 2 px, y la cifra que importa en Antonio Display.
+- **Do** dejar un solo mosaico enfocado por pantalla, con borde de acento de 2 px, y la cifra que importa en Antonio Display.
 - **Do** separar módulos con filete de 1 px y esquina de 10 px; campos y botones con 8 px.
 - **Do** poner los títulos de pantalla y de mosaico en Antonio mayúscula con 0.02em de espaciado, y todo lo demás en Atkinson.
-- **Do** mostrar cada estado como punto de color más palabra.
+- **Do** mostrar cada estado como punto de color más palabra, con el punto de estado y no con el acento.
 - **Do** usar iconos de Hugeicons en trazo redondeado a través de `comunes/iconos.tsx`, a 18–20 px.
 - **Do** usar `cubic-bezier(0.16, 1, 0.3, 1)` a 160 ms para color y borde, y a 220 ms para opacidad y contorno.
 - **Do** mantener 44 px como área táctil mínima y 52 px para botones y campos del paciente.
@@ -315,7 +318,8 @@ Tres opciones (Sistema, Claro, Oscuro) como mosaicos enteros de 72 px que se toc
 ### Don't:
 - **Don't** poner sombras difusas en mosaicos, listas o botones: la sombra es solo para menús y hojas.
 - **Don't** usar fondos crema ni el gris azulado de panel médico con tarjetas blancas sombreadas.
-- **Don't** usar el ámbar lleno para decorar: no va en titulares, fondos de sección ni más de una acción principal.
+- **Don't** usar el acento lleno para decorar: no va en titulares, fondos de sección ni más de una acción principal.
+- **Don't** usar el verde azulado del acento para decir que algo está bien o confirmado: eso es del punto verde con su palabra.
 - **Don't** escalar el texto de un mosaico al señalarlo ni elevar botones con `translateY`.
 - **Don't** poner un rótulo pequeño en mayúsculas encima de un título como antetítulo: el rótulo de 13 px nombra listas y columnas, no anuncia titulares.
 - **Don't** usar píldoras con chulo, cajas amarillas de aviso ni iconos de otra biblioteca.

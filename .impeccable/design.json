@@ -142,139 +142,140 @@
       },
       "acento": {
         "role": "primary",
-        "displayName": "Ámbar de marquesina",
-        "canonical": "#e6a73c",
-        "oklch": "oklch(77.0% 0.140 77)",
+        "displayName": "Verde azulado de Vitalia",
+        "canonical": "#0a7d72",
+        "oklch": "oklch(53.1% 0.092 184)",
         "tonalRamp": [
-          "#180600",
-          "#391c00",
-          "#5d3600",
-          "#845100",
-          "#a97000",
-          "#c59549",
-          "#e4bd85",
-          "#ffeac3"
+          "#00110e",
+          "#002d27",
+          "#004c44",
+          "#006d63",
+          "#318e83",
+          "#63aea4",
+          "#94d2c9",
+          "#c9fbf2"
         ],
-        "dark": "#e8b04a"
+        "dark": "#1fb8a6",
+        "brandSource": "#0f9d8f (página de Vitalia); la app rellena con su tono oscuro #0a7d72 para que el blanco encima pase 4.5:1"
       },
       "acento-fuerte": {
         "role": "primary",
-        "displayName": "Ámbar encendido",
-        "canonical": "#d4942a",
-        "oklch": "oklch(71.3% 0.137 75)",
+        "displayName": "Verde azulado de presión",
+        "canonical": "#087068",
+        "oklch": "oklch(49.1% 0.084 186)",
         "tonalRamp": [
-          "#180600",
-          "#3a1c00",
-          "#5e3500",
-          "#855000",
-          "#a97000",
-          "#c6944c",
-          "#e4bd87",
-          "#ffeac5"
+          "#00110e",
+          "#002d28",
+          "#004b45",
+          "#166c64",
+          "#3b8d84",
+          "#69ada5",
+          "#98d1ca",
+          "#ccfaf3"
         ],
-        "dark": "#f2c56a"
+        "dark": "#3fd0bf"
       },
       "acento-texto": {
         "role": "primary",
-        "displayName": "Ámbar de lectura",
-        "canonical": "#8a5a00",
-        "oklch": "oklch(50.8% 0.108 73)",
+        "displayName": "Verde azulado de lectura",
+        "canonical": "#087068",
+        "oklch": "oklch(49.1% 0.084 186)",
         "tonalRamp": [
-          "#160700",
-          "#361e00",
-          "#593800",
-          "#7e540d",
-          "#a27330",
-          "#be9662",
-          "#debe95",
-          "#ffebce"
+          "#00110e",
+          "#002d27",
+          "#004c44",
+          "#006d63",
+          "#318e83",
+          "#63aea4",
+          "#94d2c9",
+          "#c9fbf2"
         ],
-        "dark": "#f0c063"
+        "dark": "#5fdccd"
       },
       "acento-oscuro": {
         "role": "primary",
-        "displayName": "Ámbar profundo",
-        "canonical": "#6b4500",
-        "oklch": "oklch(42.4% 0.090 74)",
+        "displayName": "Verde azulado profundo",
+        "canonical": "#075f57",
+        "oklch": "oklch(43.7% 0.075 185)",
         "tonalRamp": [
-          "#140800",
-          "#331f02",
-          "#553a11",
-          "#795624",
-          "#9c7541",
-          "#b9986d",
-          "#dabf9e",
-          "#feebd3"
+          "#00100d",
+          "#002c27",
+          "#0c4a44",
+          "#266a62",
+          "#468b83",
+          "#70aca3",
+          "#9ed0c8",
+          "#d0f8f2"
         ],
-        "dark": "#f5d58e"
+        "dark": "#a6efe6"
       },
       "acento-suave": {
         "role": "primary",
-        "displayName": "Ámbar tenue",
-        "canonical": "#fbefd8",
-        "oklch": "oklch(95.6% 0.033 84)",
+        "displayName": "Verde azulado tenue",
+        "canonical": "#e6f6f4",
+        "oklch": "oklch(96.1% 0.017 188)",
         "tonalRamp": [
-          "#0e0b05",
-          "#28231a",
-          "#463f31",
-          "#665c4b",
-          "#867c69",
-          "#a69d8d",
-          "#cac3b6",
-          "#f3eee4"
+          "#070c0c",
+          "#1e2625",
+          "#384241",
+          "#54615f",
+          "#73817f",
+          "#95a1a0",
+          "#bcc7c5",
+          "#e8f1ef"
         ],
-        "dark": "#33290f"
+        "dark": "#103430"
       },
       "sobre-acento": {
         "role": "primary",
-        "displayName": "Tinta sobre ámbar",
-        "canonical": "#17120a",
-        "oklch": "oklch(18.6% 0.017 79)",
+        "displayName": "Blanco sobre acento",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 90)",
         "tonalRamp": [
-          "#0d0b08",
-          "#27241f",
-          "#433f38",
-          "#625d54",
-          "#837c73",
-          "#a39e95",
-          "#c8c3bd",
-          "#f1eee9"
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#7d7d7d",
+          "#9e9e9e",
+          "#c4c4c4",
+          "#eeeeee"
         ],
-        "dark": "#17120a"
+        "dark": "#04241f"
       },
       "resalte": {
         "role": "neutral",
         "displayName": "Resalte",
-        "canonical": "#fff7e6",
-        "oklch": "oklch(97.8% 0.024 86)",
+        "canonical": "#f1faf9",
+        "oklch": "oklch(97.8% 0.010 189)",
         "tonalRamp": [
-          "#0d0b07",
-          "#27241c",
-          "#443f35",
-          "#635d50",
-          "#837d6e",
-          "#a49e92",
-          "#c8c4ba",
-          "#f1eee7"
+          "#090c0c",
+          "#212525",
+          "#3b4140",
+          "#585f5e",
+          "#777f7e",
+          "#99a09f",
+          "#bfc5c5",
+          "#ebf0ef"
         ],
-        "dark": "#211c11"
+        "dark": "#0f201e"
       },
       "foco": {
         "role": "primary",
         "displayName": "Foco",
-        "canonical": "#8a5a00",
-        "oklch": "oklch(50.8% 0.108 73)",
+        "canonical": "#087068",
+        "oklch": "oklch(49.1% 0.084 186)",
         "tonalRamp": [
-          "#160700",
-          "#361e00",
-          "#593800",
-          "#7e540d",
-          "#a27330",
-          "#be9662",
-          "#debe95",
-          "#ffebce"
+          "#00110e",
+          "#002d27",
+          "#004c44",
+          "#006d63",
+          "#318e83",
+          "#63aea4",
+          "#94d2c9",
+          "#c9fbf2"
         ],
-        "dark": "#e8b04a"
+        "dark": "#5fdccd"
       },
       "velo": {
         "role": "neutral",
@@ -441,7 +442,7 @@
         "name": "sombra-flotante",
         "value": "0 2px 4px rgba(12, 14, 18, 0.08), 0 12px 32px rgba(12, 14, 18, 0.14)",
         "dark": "0 2px 4px rgba(0, 0, 0, 0.5), 0 12px 32px rgba(0, 0, 0, 0.5)",
-        "purpose": "Menús desplegables que se superponen."
+        "purpose": "Menús desplegables y la hoja inferior: lo que se superpone al contenido."
       },
       {
         "name": "halo-campo",
@@ -461,7 +462,7 @@
       {
         "name": "marco-activo",
         "value": "inset 0 0 0 1.5px var(--acento)",
-        "purpose": "Enlace activo del menú."
+        "purpose": "Enlace activo del menú (1.5 px) y opción elegida en Ajustes (1 px)."
       },
       {
         "name": "sombra-1, sombra-2, sombra-acento",
@@ -483,7 +484,7 @@
       {
         "name": "contorno-y-opacidad",
         "value": "220ms cubic-bezier(0.16, 1, 0.3, 1)",
-        "purpose": "Contorno ámbar y atenuado de vecinos en una fila; transform del botón."
+        "purpose": "Contorno de acento y atenuado de vecinos en una fila; transform del botón."
       },
       {
         "name": "presionar",
@@ -493,7 +494,7 @@
       {
         "name": "encender",
         "value": "700ms cubic-bezier(0.16, 1, 0.3, 1), una vez",
-        "purpose": "El mosaico enfocado enciende su borde ámbar al aparecer; sin animación con movimiento reducido."
+        "purpose": "El mosaico enfocado enciende su borde de acento al aparecer; sin animación con movimiento reducido."
       },
       {
         "name": "cambio-de-tema",
@@ -522,9 +523,9 @@
       "name": "Botón principal",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "La única acción principal de la vista: relleno ámbar, se hunde al presionar.",
+      "description": "La única acción principal de la vista: relleno verde azulado, se hunde al presionar.",
       "html": "<button class=\"ds-boton ds-boton--principal\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"><path d=\"M12 4v16M4 12h16\"/></svg>Agendar otra cita</button>",
-      "css": ".ds-boton{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 20px;border-radius:var(--radio-boton,8px);font-family:var(--letra-texto);font-size:16px;font-weight:700;cursor:pointer;transition:background-color 160ms cubic-bezier(0.16, 1, 0.3, 1),border-color 160ms cubic-bezier(0.16, 1, 0.3, 1),box-shadow 160ms cubic-bezier(0.16, 1, 0.3, 1),transform 220ms cubic-bezier(0.16, 1, 0.3, 1)}.ds-boton:focus-visible{outline:2px solid var(--foco,#8a5a00);outline-offset:2px}.ds-boton:active{transform:scale(.97);transition-duration:90ms}.ds-boton--principal{min-height:54px;border:0;background:var(--acento,#e6a73c);color:var(--sobre-acento,#17120a);font-size:17px}.ds-boton--principal:hover{background:var(--acento-fuerte,#d4942a);box-shadow:inset 0 0 0 2px var(--acento-fuerte,#d4942a)}"
+      "css": ".ds-boton{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 20px;border-radius:var(--radio-boton,8px);font-family:var(--letra-texto);font-size:16px;font-weight:700;cursor:pointer;transition:background-color 160ms cubic-bezier(0.16, 1, 0.3, 1),border-color 160ms cubic-bezier(0.16, 1, 0.3, 1),box-shadow 160ms cubic-bezier(0.16, 1, 0.3, 1),transform 220ms cubic-bezier(0.16, 1, 0.3, 1)}.ds-boton:focus-visible{outline:2px solid var(--foco,#087068);outline-offset:2px}.ds-boton:active{transform:scale(.97);transition-duration:90ms}.ds-boton--principal{min-height:54px;border:0;background:var(--acento,#0a7d72);color:var(--sobre-acento,#ffffff);font-size:17px}.ds-boton--principal:hover{background:var(--acento-fuerte,#087068);box-shadow:inset 0 0 0 2px var(--acento-fuerte,#087068)}"
     },
     {
       "name": "Botón de borde",
@@ -532,7 +533,7 @@
       "refersTo": "button-borde",
       "description": "Acción secundaria con borde de tinta de 1.5 px.",
       "html": "<button class=\"ds-boton ds-boton--borde\">Mover</button>",
-      "css": ".ds-boton{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 20px;border-radius:var(--radio-boton,8px);font-family:var(--letra-texto);font-size:16px;font-weight:700;cursor:pointer;transition:background-color 160ms cubic-bezier(0.16, 1, 0.3, 1),border-color 160ms cubic-bezier(0.16, 1, 0.3, 1),box-shadow 160ms cubic-bezier(0.16, 1, 0.3, 1),transform 220ms cubic-bezier(0.16, 1, 0.3, 1)}.ds-boton:focus-visible{outline:2px solid var(--foco,#8a5a00);outline-offset:2px}.ds-boton:active{transform:scale(.97);transition-duration:90ms}.ds-boton--borde{border:1.5px solid var(--tinta,#11141a);background:var(--superficie,#fff);color:var(--tinta,#11141a)}.ds-boton--borde:hover{background:var(--acento-suave,#fbefd8);box-shadow:inset 0 0 0 1px var(--linea-campo,#7a8293)}"
+      "css": ".ds-boton{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 20px;border-radius:var(--radio-boton,8px);font-family:var(--letra-texto);font-size:16px;font-weight:700;cursor:pointer;transition:background-color 160ms cubic-bezier(0.16, 1, 0.3, 1),border-color 160ms cubic-bezier(0.16, 1, 0.3, 1),box-shadow 160ms cubic-bezier(0.16, 1, 0.3, 1),transform 220ms cubic-bezier(0.16, 1, 0.3, 1)}.ds-boton:focus-visible{outline:2px solid var(--foco,#087068);outline-offset:2px}.ds-boton:active{transform:scale(.97);transition-duration:90ms}.ds-boton--borde{border:1.5px solid var(--tinta,#11141a);background:var(--superficie,#fff);color:var(--tinta,#11141a)}.ds-boton--borde:hover{background:var(--acento-suave,#e6f6f4);box-shadow:inset 0 0 0 1px var(--linea-campo,#7a8293)}"
     },
     {
       "name": "Botón neutro",
@@ -540,62 +541,62 @@
       "refersTo": "button-neutro",
       "description": "Acción de bajo peso con borde de campo.",
       "html": "<button class=\"ds-boton ds-boton--neutro\">Cancelar</button>",
-      "css": ".ds-boton{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 20px;border-radius:var(--radio-boton,8px);font-family:var(--letra-texto);font-size:16px;font-weight:700;cursor:pointer;transition:background-color 160ms cubic-bezier(0.16, 1, 0.3, 1),border-color 160ms cubic-bezier(0.16, 1, 0.3, 1),box-shadow 160ms cubic-bezier(0.16, 1, 0.3, 1),transform 220ms cubic-bezier(0.16, 1, 0.3, 1)}.ds-boton:focus-visible{outline:2px solid var(--foco,#8a5a00);outline-offset:2px}.ds-boton:active{transform:scale(.97);transition-duration:90ms}.ds-boton--neutro{border:1.5px solid var(--linea-campo,#7a8293);background:var(--superficie,#fff);color:var(--tinta,#11141a)}.ds-boton--neutro:hover{background:var(--acento-suave,#fbefd8);box-shadow:inset 0 0 0 1px var(--linea-campo,#7a8293)}"
+      "css": ".ds-boton{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 20px;border-radius:var(--radio-boton,8px);font-family:var(--letra-texto);font-size:16px;font-weight:700;cursor:pointer;transition:background-color 160ms cubic-bezier(0.16, 1, 0.3, 1),border-color 160ms cubic-bezier(0.16, 1, 0.3, 1),box-shadow 160ms cubic-bezier(0.16, 1, 0.3, 1),transform 220ms cubic-bezier(0.16, 1, 0.3, 1)}.ds-boton:focus-visible{outline:2px solid var(--foco,#087068);outline-offset:2px}.ds-boton:active{transform:scale(.97);transition-duration:90ms}.ds-boton--neutro{border:1.5px solid var(--linea-campo,#7a8293);background:var(--superficie,#fff);color:var(--tinta,#11141a)}.ds-boton--neutro:hover{background:var(--acento-suave,#e6f6f4);box-shadow:inset 0 0 0 1px var(--linea-campo,#7a8293)}"
     },
     {
       "name": "Campo",
       "kind": "input",
       "refersTo": "input",
-      "description": "Campo de 52 px con etiqueta arriba; foco en borde ámbar y halo tenue.",
+      "description": "Campo de 52 px con etiqueta arriba; foco en borde de acento y halo tenue.",
       "html": "<label class=\"ds-campo\"><span class=\"ds-campo__etiqueta\">Número de documento</span><span class=\"ds-entrada\"><input class=\"ds-entrada__control\" value=\"1020304050\"></span><span class=\"ds-campo__ayuda\">Sin puntos ni espacios.</span></label>",
-      "css": ".ds-campo{display:flex;flex-direction:column;gap:6px;max-width:360px;font-family:var(--letra-texto);color:var(--tinta,#11141a)}.ds-campo__etiqueta{font-size:14.5px;line-height:20px;font-weight:700}.ds-campo__ayuda{color:var(--tinta-suave,#4a5160);font-size:14.5px;line-height:20px}.ds-entrada{display:flex;align-items:center;height:52px;padding:0 14px;border:1.5px solid var(--linea-campo,#7a8293);border-radius:var(--radio-campo,8px);background:var(--superficie,#fff);transition:border-color 160ms cubic-bezier(0.16, 1, 0.3, 1),box-shadow 160ms cubic-bezier(0.16, 1, 0.3, 1)}.ds-entrada:focus-within{border-color:var(--acento,#e6a73c);box-shadow:0 0 0 3px var(--acento-suave,#fbefd8)}.ds-entrada__control{flex:1;min-width:0;height:100%;border:0;outline:0;background:transparent;color:var(--tinta,#11141a);font-family:var(--letra-dato);font-size:15.5px}"
+      "css": ".ds-campo{display:flex;flex-direction:column;gap:6px;max-width:360px;font-family:var(--letra-texto);color:var(--tinta,#11141a)}.ds-campo__etiqueta{font-size:14.5px;line-height:20px;font-weight:700}.ds-campo__ayuda{color:var(--tinta-suave,#4a5160);font-size:14.5px;line-height:20px}.ds-entrada{display:flex;align-items:center;height:52px;padding:0 14px;border:1.5px solid var(--linea-campo,#7a8293);border-radius:var(--radio-campo,8px);background:var(--superficie,#fff);transition:border-color 160ms cubic-bezier(0.16, 1, 0.3, 1),box-shadow 160ms cubic-bezier(0.16, 1, 0.3, 1)}.ds-entrada:focus-within{border-color:var(--acento,#0a7d72);box-shadow:0 0 0 3px var(--acento-suave,#e6f6f4)}.ds-entrada__control{flex:1;min-width:0;height:100%;border:0;outline:0;background:transparent;color:var(--tinta,#11141a);font-family:var(--letra-dato);font-size:15.5px}"
     },
     {
       "name": "Estado",
       "kind": "chip",
       "refersTo": "estado",
-      "description": "Punto de color más palabra; informa, no se toca.",
-      "html": "<span class=\"ds-estado\"><span class=\"ds-estado__punto\"></span>Confirmada</span> <span class=\"ds-estado ds-estado--acento\"><span class=\"ds-estado__punto ds-estado__punto--ambar\"></span>Sigue</span>",
-      "css": ".ds-estado{display:inline-flex;align-items:center;gap:8px;padding:4px 10px 4px 8px;border-radius:var(--radio-estado,6px);background:var(--superficie-2,#f5f6f8);color:var(--tinta,#11141a);font-family:var(--letra-texto);font-size:13px;line-height:20px;font-weight:700;white-space:nowrap}.ds-estado__punto{width:9px;height:9px;border-radius:999px;background:var(--punto-verde,#1a8c55)}.ds-estado__punto--ambar{background:var(--acento,#e6a73c)}.ds-estado--acento{color:var(--acento-texto,#8a5a00)}"
+      "description": "Punto de color más palabra; informa, no se toca. La variante de acento solo dice \"Sigue\" o \"Principal\", nunca un estado.",
+      "html": "<span class=\"ds-estado\"><span class=\"ds-estado__punto\"></span>Confirmada</span> <span class=\"ds-estado ds-estado--acento\"><span class=\"ds-estado__punto ds-estado__punto--acento\"></span>Sigue</span>",
+      "css": ".ds-estado{display:inline-flex;align-items:center;gap:8px;padding:4px 10px 4px 8px;border-radius:var(--radio-estado,6px);background:var(--superficie-2,#f5f6f8);color:var(--tinta,#11141a);font-family:var(--letra-texto);font-size:13px;line-height:20px;font-weight:700;white-space:nowrap}.ds-estado__punto{width:9px;height:9px;border-radius:999px;background:var(--punto-verde,#1a8c55)}.ds-estado__punto--acento{background:var(--acento,#0a7d72)}.ds-estado--acento{color:var(--acento-texto,#087068)}"
     },
     {
       "name": "Mosaico enfocado",
       "kind": "card",
       "refersTo": "mosaico-enfocado",
-      "description": "Lo que sigue: borde ámbar de 2 px, título en mayúsculas condensadas y la hora monumental; enciende su borde al aparecer.",
+      "description": "Lo que sigue: borde de acento de 2 px, título en mayúsculas condensadas y la hora monumental; enciende su borde al aparecer.",
       "html": "<article class=\"ds-proxima\"><div class=\"ds-proxima__cabeza\"><span class=\"ds-proxima__rotulo\">Su próxima cita</span><span class=\"ds-proxima__cuando\"><span class=\"ds-proxima__punto\"></span>Mañana</span></div><div class=\"ds-proxima__hora\">9:30 a. m.</div><div class=\"ds-proxima__detalle\">Miércoles 4 de noviembre · Consulta general</div><div class=\"ds-proxima__datos\">Calle 93 # 14-20, consultorio 302</div></article>",
-      "css": "@keyframes ds-encender{from{border-color:var(--linea,#d3d7df);box-shadow:0 0 0 0 transparent}55%{box-shadow:0 0 0 6px var(--acento-suave,#fbefd8)}to{border-color:var(--acento,#e6a73c);box-shadow:0 0 0 0 transparent}}.ds-proxima{display:flex;flex-direction:column;gap:14px;max-width:400px;padding:18px 18px 16px;border:2px solid var(--acento,#e6a73c);border-radius:var(--radio-tarjeta,10px);background:var(--superficie,#fff);color:var(--tinta,#11141a);font-family:var(--letra-texto);animation:ds-encender 700ms cubic-bezier(0.16, 1, 0.3, 1) both}.ds-proxima__cabeza{display:flex;align-items:center;justify-content:space-between;gap:12px}.ds-proxima__rotulo{font-family:var(--letra-titulo);font-size:24px;line-height:1.1;font-weight:600;letter-spacing:.02em;text-transform:uppercase}.ds-proxima__cuando{display:flex;align-items:center;gap:8px;padding:4px 10px;border-radius:var(--radio-estado,6px);background:var(--acento-suave,#fbefd8);color:var(--acento-oscuro,#6b4500);font-size:14px;font-weight:700}.ds-proxima__punto{width:9px;height:9px;border-radius:999px;background:var(--acento,#e6a73c)}.ds-proxima__hora{font-family:var(--letra-titulo);font-size:64px;line-height:.95;font-weight:700;letter-spacing:-.01em;font-variant-numeric:tabular-nums}.ds-proxima__detalle{font-size:18px;line-height:24px;font-weight:700}.ds-proxima__datos{padding-top:14px;border-top:1px solid var(--linea,#d3d7df);color:var(--tinta-suave,#4a5160)}@media (prefers-reduced-motion:reduce){.ds-proxima{animation:none}}"
+      "css": "@keyframes ds-encender{from{border-color:var(--linea,#d3d7df);box-shadow:0 0 0 0 transparent}55%{box-shadow:0 0 0 6px var(--acento-suave,#e6f6f4)}to{border-color:var(--acento,#0a7d72);box-shadow:0 0 0 0 transparent}}.ds-proxima{display:flex;flex-direction:column;gap:14px;max-width:400px;padding:18px 18px 16px;border:2px solid var(--acento,#0a7d72);border-radius:var(--radio-tarjeta,10px);background:var(--superficie,#fff);color:var(--tinta,#11141a);font-family:var(--letra-texto);animation:ds-encender 700ms cubic-bezier(0.16, 1, 0.3, 1) both}.ds-proxima__cabeza{display:flex;align-items:center;justify-content:space-between;gap:12px}.ds-proxima__rotulo{font-family:var(--letra-titulo);font-size:24px;line-height:1.1;font-weight:600;letter-spacing:.02em;text-transform:uppercase}.ds-proxima__cuando{display:flex;align-items:center;gap:8px;padding:4px 10px;border-radius:var(--radio-estado,6px);background:var(--acento-suave,#e6f6f4);color:var(--acento-oscuro,#075f57);font-size:14px;font-weight:700}.ds-proxima__punto{width:9px;height:9px;border-radius:999px;background:var(--acento,#0a7d72)}.ds-proxima__hora{font-family:var(--letra-titulo);font-size:64px;line-height:.95;font-weight:700;letter-spacing:-.01em;font-variant-numeric:tabular-nums}.ds-proxima__detalle{font-size:18px;line-height:24px;font-weight:700}.ds-proxima__datos{padding-top:14px;border-top:1px solid var(--linea,#d3d7df);color:var(--tinta-suave,#4a5160)}@media (prefers-reduced-motion:reduce){.ds-proxima{animation:none}}"
     },
     {
       "name": "Fila de mosaicos",
       "kind": "custom",
       "refersTo": "tarjeta",
-      "description": "Lista con filete; la fila señalada se enmarca en ámbar y las vecinas bajan su brillo.",
+      "description": "Lista con filete; la fila señalada se enmarca en el acento y las vecinas bajan su brillo.",
       "html": "<section class=\"ds-lista\"><div class=\"ds-fila\" tabindex=\"0\"><time>4:47 p. m.</time><strong>Javier Ordoñez</strong></div><div class=\"ds-fila\" tabindex=\"0\"><time>5:27 p. m.</time><strong>Hernando Castaño Ríos</strong></div><div class=\"ds-fila\" tabindex=\"0\"><time>6:00 p. m.</time><strong>Rosa Elena Díaz</strong></div></section>",
-      "css": ".ds-lista{display:flex;flex-direction:column;max-width:520px;border:1px solid var(--linea,#d3d7df);border-radius:var(--radio-tarjeta,10px);background:var(--superficie,#fff);overflow:hidden;font-family:var(--letra-texto);color:var(--tinta,#11141a)}.ds-fila{display:flex;align-items:center;gap:16px;padding:14px 20px;border-top:1px solid var(--linea,#d3d7df);outline:2px solid transparent;outline-offset:-6px;transition:opacity 220ms cubic-bezier(0.16, 1, 0.3, 1),outline-color 220ms cubic-bezier(0.16, 1, 0.3, 1),outline-offset 220ms cubic-bezier(0.16, 1, 0.3, 1)}.ds-fila:first-child{border-top:0}.ds-fila time{width:96px;color:var(--tinta-suave,#4a5160);font-family:var(--letra-dato);font-size:15px;font-variant-numeric:tabular-nums}.ds-fila:hover,.ds-fila:focus-visible{position:relative;z-index:1;outline:2px solid var(--acento,#e6a73c);outline-offset:-2px;border-radius:var(--radio-campo,8px)}.ds-lista:has(>.ds-fila:hover)>.ds-fila:not(:hover){opacity:.62}"
+      "css": ".ds-lista{display:flex;flex-direction:column;max-width:520px;border:1px solid var(--linea,#d3d7df);border-radius:var(--radio-tarjeta,10px);background:var(--superficie,#fff);overflow:hidden;font-family:var(--letra-texto);color:var(--tinta,#11141a)}.ds-fila{display:flex;align-items:center;gap:16px;padding:14px 20px;border-top:1px solid var(--linea,#d3d7df);outline:2px solid transparent;outline-offset:-6px;transition:opacity 220ms cubic-bezier(0.16, 1, 0.3, 1),outline-color 220ms cubic-bezier(0.16, 1, 0.3, 1),outline-offset 220ms cubic-bezier(0.16, 1, 0.3, 1)}.ds-fila:first-child{border-top:0}.ds-fila time{width:96px;color:var(--tinta-suave,#4a5160);font-family:var(--letra-dato);font-size:15px;font-variant-numeric:tabular-nums}.ds-fila:hover,.ds-fila:focus-visible{position:relative;z-index:1;outline:2px solid var(--acento,#0a7d72);outline-offset:-2px;border-radius:var(--radio-campo,8px)}.ds-lista:has(>.ds-fila:hover)>.ds-fila:not(:hover){opacity:.62}"
     },
     {
       "name": "Menú lateral",
       "kind": "nav",
       "refersTo": "nav-enlace-activo",
-      "description": "Enlaces de 44 px; el activo con fondo ámbar tenue y marco interior ámbar.",
+      "description": "Enlaces de 44 px; el activo con fondo verde azulado tenue y marco interior de acento.",
       "html": "<nav class=\"ds-menu\"><a class=\"ds-menu__enlace ds-menu__enlace--activo\" href=\"#\">Hoy</a><a class=\"ds-menu__enlace\" href=\"#\">Calendario</a><a class=\"ds-menu__enlace\" href=\"#\">Pacientes</a><span class=\"ds-menu__enlace ds-menu__enlace--pronto\">Bitácora <small>Pronto</small></span></nav>",
-      "css": ".ds-menu{display:flex;flex-direction:column;gap:4px;width:240px;padding:24px 16px;border-right:1px solid var(--linea,#d3d7df);background:var(--superficie,#fff);font-family:var(--letra-texto)}.ds-menu__enlace{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;padding:0 12px;border-radius:var(--radio-campo,8px);color:var(--tinta-suave,#4a5160);font-size:15.5px;font-weight:600;text-decoration:none;transition:background-color 160ms cubic-bezier(0.16, 1, 0.3, 1),color 160ms cubic-bezier(0.16, 1, 0.3, 1)}a.ds-menu__enlace:hover{background:var(--fondo,#eceef2);color:var(--tinta,#11141a)}.ds-menu__enlace:focus-visible{outline:2px solid var(--foco,#8a5a00);outline-offset:2px}.ds-menu__enlace--activo,a.ds-menu__enlace--activo:hover{background:var(--acento-suave,#fbefd8);box-shadow:inset 0 0 0 1.5px var(--acento,#e6a73c);color:var(--acento-oscuro,#6b4500);font-weight:700}.ds-menu__enlace--pronto small{font-size:12.5px;font-weight:600}"
+      "css": ".ds-menu{display:flex;flex-direction:column;gap:4px;width:240px;padding:24px 16px;border-right:1px solid var(--linea,#d3d7df);background:var(--superficie,#fff);font-family:var(--letra-texto)}.ds-menu__enlace{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;padding:0 12px;border-radius:var(--radio-campo,8px);color:var(--tinta-suave,#4a5160);font-size:15.5px;font-weight:600;text-decoration:none;transition:background-color 160ms cubic-bezier(0.16, 1, 0.3, 1),color 160ms cubic-bezier(0.16, 1, 0.3, 1)}a.ds-menu__enlace:hover{background:var(--fondo,#eceef2);color:var(--tinta,#11141a)}.ds-menu__enlace:focus-visible{outline:2px solid var(--foco,#087068);outline-offset:2px}.ds-menu__enlace--activo,a.ds-menu__enlace--activo:hover{background:var(--acento-suave,#e6f6f4);box-shadow:inset 0 0 0 1.5px var(--acento,#0a7d72);color:var(--acento-oscuro,#075f57);font-weight:700}.ds-menu__enlace--pronto small{font-size:12.5px;font-weight:600}"
     },
     {
       "name": "Opción de tema",
       "kind": "custom",
       "refersTo": "tarjeta",
-      "description": "Mosaico entero que se toca en Ajustes; el elegido se enmarca en ámbar.",
+      "description": "Mosaico entero que se toca en Ajustes; el elegido se enmarca en el acento.",
       "html": "<label class=\"ds-opcion\"><input type=\"radio\" name=\"ds-tema\" checked><span class=\"ds-opcion__texto\"><strong>Oscuro</strong><span>Fondo oscuro siempre</span></span></label><label class=\"ds-opcion\"><input type=\"radio\" name=\"ds-tema\"><span class=\"ds-opcion__texto\"><strong>Claro</strong><span>Fondo claro siempre</span></span></label>",
-      "css": ".ds-opcion{display:flex;align-items:center;gap:14px;max-width:420px;min-height:72px;margin-bottom:10px;padding:14px 16px;border:1px solid var(--linea,#d3d7df);border-radius:var(--radio-tarjeta,10px);background:var(--superficie,#fff);color:var(--tinta,#11141a);font-family:var(--letra-texto);cursor:pointer}.ds-opcion:has(input:checked){border-color:var(--acento,#e6a73c);box-shadow:inset 0 0 0 1px var(--acento,#e6a73c)}.ds-opcion:has(input:focus-visible){outline:2px solid var(--foco,#8a5a00);outline-offset:2px}.ds-opcion input{width:22px;height:22px;margin:0;accent-color:var(--acento-texto,#8a5a00)}.ds-opcion__texto{display:flex;flex-direction:column;gap:2px}.ds-opcion__texto strong{font-size:17px;line-height:22px}.ds-opcion__texto span{color:var(--tinta-suave,#4a5160);font-size:14.5px;line-height:20px}"
+      "css": ".ds-opcion{display:flex;align-items:center;gap:14px;max-width:420px;min-height:72px;margin-bottom:10px;padding:14px 16px;border:1px solid var(--linea,#d3d7df);border-radius:var(--radio-tarjeta,10px);background:var(--superficie,#fff);color:var(--tinta,#11141a);font-family:var(--letra-texto);cursor:pointer}.ds-opcion:has(input:checked){border-color:var(--acento,#0a7d72);box-shadow:inset 0 0 0 1px var(--acento,#0a7d72)}.ds-opcion:has(input:focus-visible){outline:2px solid var(--foco,#087068);outline-offset:2px}.ds-opcion input{width:22px;height:22px;margin:0;accent-color:var(--acento-texto,#087068)}.ds-opcion__texto{display:flex;flex-direction:column;gap:2px}.ds-opcion__texto strong{font-size:17px;line-height:22px}.ds-opcion__texto span{color:var(--tinta-suave,#4a5160);font-size:14.5px;line-height:20px}"
     }
   ],
   "narrative": {
     "northStar": "El muro de títulos",
-    "overview": "Vitalia se lee como el muro de una plataforma de streaming: una fila de mosaicos quietos y, entre ellos, uno solo que se presenta. Para el paciente es su próxima cita, con la hora enorme. Para el médico es quien sigue en la agenda. Todo lo demás se queda bajo, en filas de mosaicos de esquina corta separados por un filete de 1 px. El ámbar es la única luz del sistema: marca lo enfocado, lo elegido y la acción principal.\n\nHay un solo mundo para los dos usuarios, con dos densidades. El paciente lo ve en el celular, en una columna de 440 px, con letra grande y áreas táctiles de 52 a 72 px. El médico lo ve en el computador, con menú lateral y texto de 15.5 px. El tema claro es gris frío sin crema y el oscuro es neutro profundo. Los dos comparten cada rol de color, y el tema se elige en Ajustes o sigue al dispositivo.\n\nSe rechaza el panel médico gris azulado de tarjetas blancas con sombra suave. Tampoco se usan píldoras con chulo, cajas amarillas de aviso ni iconos de relleno genérico: un estado es un punto de color más texto.",
+    "overview": "**Creative North Star: \"El muro de títulos\"**\n\nVitalia se lee como el muro de una plataforma de streaming: una fila de mosaicos quietos y, entre ellos, uno solo que se presenta. Para el paciente es su próxima cita, con la hora enorme. Para el médico es quien sigue en la agenda. Todo lo demás se queda bajo, en filas de mosaicos de esquina corta separados por un filete de 1 px. El verde azulado de la página de Vitalia es la única luz del sistema: marca lo enfocado, lo elegido y la acción principal.\n\nHay un solo mundo para los dos usuarios, con dos densidades. El paciente lo ve en el celular, en una columna de 440 px, con letra grande y áreas táctiles de 52 a 72 px. El médico lo ve en el computador, con menú lateral y texto de 15.5 px. El tema claro es gris frío sin crema y el oscuro es neutro profundo. Los dos comparten cada rol de color, y el tema se elige en Ajustes o sigue al dispositivo.\n\nSe rechaza el panel médico gris azulado de tarjetas blancas con sombra suave. Tampoco se usan píldoras con chulo, cajas amarillas de aviso ni iconos de relleno genérico: un estado es un punto de color más texto.",
     "keyCharacteristics": [
-      "Un mosaico enfocado por pantalla, con borde ámbar de 2 px y cifras monumentales en Antonio.",
+      "Un mosaico enfocado por pantalla, con borde de acento de 2 px y cifras monumentales en Antonio.",
       "Títulos de pantalla y de mosaico en mayúsculas condensadas; el texto corrido nunca.",
       "Módulos planos con filete de 1 px; la sombra queda solo para lo que flota.",
       "Movimiento sobrio: los botones se hunden y no se elevan, y en una fila los vecinos del mosaico señalado bajan su brillo.",
@@ -604,7 +605,7 @@
     "rules": [
       {
         "name": "The Una Sola Luz Rule",
-        "body": "El ámbar lleno marca solo tres cosas: el foco, la selección y la acción principal. El ámbar tenue puede servir de fondo a iconos y hovers, pero nunca hay dos ámbares llenos compitiendo en un mismo mosaico.",
+        "body": "El acento lleno marca solo tres cosas: el foco, la selección y la acción principal. El acento tenue puede servir de fondo a iconos y hovers, pero nunca hay dos rellenos de acento compitiendo en un mismo mosaico.",
         "section": "colors"
       },
       {
@@ -615,6 +616,11 @@
       {
         "name": "The Punto Y Texto Rule",
         "body": "Un estado es un punto de color más su palabra, sobre fondo gris de reposo y esquina de 6 px. No lleva píldora redonda con chulo ni caja de color.",
+        "section": "colors"
+      },
+      {
+        "name": "The Vecinos De Tono Rule",
+        "body": "El punto verde (matiz 156) y el verde azulado del acento (matiz 184) son vecinos y se confunden de reojo. Un estado (confirmada, atendida, activa, guardado) nunca se dice con el acento: va con su punto de estado y su palabra. El acento en un estado solo nombra lo que sigue o lo principal, nunca un resultado.",
         "section": "colors"
       },
       {
@@ -640,10 +646,10 @@
     ],
     "dos": [
       "**Do** tomar todo color de su rol en `variables.css` y comprobar la pantalla en los dos temas.",
-      "**Do** dejar un solo mosaico enfocado por pantalla, con borde ámbar de 2 px, y la cifra que importa en Antonio Display.",
+      "**Do** dejar un solo mosaico enfocado por pantalla, con borde de acento de 2 px, y la cifra que importa en Antonio Display.",
       "**Do** separar módulos con filete de 1 px y esquina de 10 px; campos y botones con 8 px.",
       "**Do** poner los títulos de pantalla y de mosaico en Antonio mayúscula con 0.02em de espaciado, y todo lo demás en Atkinson.",
-      "**Do** mostrar cada estado como punto de color más palabra.",
+      "**Do** mostrar cada estado como punto de color más palabra, con el punto de estado y no con el acento.",
       "**Do** usar iconos de Hugeicons en trazo redondeado a través de `comunes/iconos.tsx`, a 18–20 px.",
       "**Do** usar `cubic-bezier(0.16, 1, 0.3, 1)` a 160 ms para color y borde, y a 220 ms para opacidad y contorno.",
       "**Do** mantener 44 px como área táctil mínima y 52 px para botones y campos del paciente."
@@ -651,7 +657,8 @@
     "donts": [
       "**Don't** poner sombras difusas en mosaicos, listas o botones: la sombra es solo para menús y hojas.",
       "**Don't** usar fondos crema ni el gris azulado de panel médico con tarjetas blancas sombreadas.",
-      "**Don't** usar el ámbar lleno para decorar: no va en titulares, fondos de sección ni más de una acción principal.",
+      "**Don't** usar el acento lleno para decorar: no va en titulares, fondos de sección ni más de una acción principal.",
+      "**Don't** usar el verde azulado del acento para decir que algo está bien o confirmado: eso es del punto verde con su palabra.",
       "**Don't** escalar el texto de un mosaico al señalarlo ni elevar botones con `translateY`.",
       "**Don't** poner un rótulo pequeño en mayúsculas encima de un título como antetítulo: el rótulo de 13 px nombra listas y columnas, no anuncia titulares.",
       "**Don't** usar píldoras con chulo, cajas amarillas de aviso ni iconos de otra biblioteca.",
