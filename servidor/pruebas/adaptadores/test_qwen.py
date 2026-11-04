@@ -62,6 +62,7 @@ async def test_responde_por_partes_con_las_instrucciones_y_la_conversacion() -> 
     assert partes == ["El LDL ", "fue 168."]
     assert recibido["stream"] is True
     assert recibido["temperature"] == 0
+    assert recibido["enable_thinking"] is False
     assert recibido["messages"] == [
         {"role": "system", "content": "Instrucciones fijas"},
         {"role": "user", "content": "¿LDL?"},

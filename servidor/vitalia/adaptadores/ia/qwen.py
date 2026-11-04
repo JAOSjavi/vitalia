@@ -35,6 +35,10 @@ class _Conexion:
     def __init__(self, direccion: str, clave: str) -> None:
         self.direccion = direccion.rstrip("/")
         self.encabezados = {"Authorization": f"Bearer {clave}"}
+        # Qwen razona antes de responder si no se le pide lo contrario: 14 s contra 2,5 s hasta
+        # el primer texto. Para resumir documentos no hace falta. Otros proveedores no conocen
+        # el parámetro, así que solo va a Alibaba.
+        self.sin_razonar = {"enable_thinking": False} if "aliyuncs.com" in self.direccion else {}
 
     def cliente(self, transporte: httpx.AsyncBaseTransport | None) -> httpx.AsyncClient:
         return httpx.AsyncClient(timeout=_SEGUNDOS, transport=transporte)
@@ -145,6 +149,7 @@ class IAQwen:
                         "stream": True,
                         # Lo más repetible posible: resume, no inventa.
                         "temperature": 0,
+                        **self._conexion.sin_razonar,
                     },
                 ) as respuesta,
             ):
