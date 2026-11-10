@@ -1,0 +1,195 @@
+<title>Factura electrónica en Vitalia</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Antonio:wght@600;700&family=Atkinson+Hyperlegible+Next:wght@400;600;700&display=swap">
+<style>
+/* Muro de títulos de Vitalia: una columna de lectura, el veredicto enmarcado en verde azulado, tablas con punto de color */
+:root {
+  --fondo: #eceef2; --superficie: #ffffff; --superficie-2: #f5f6f8;
+  --tinta: #11141a; --tinta-suave: #4a5160; --linea: #d3d7df; --linea-suave: #e6e8ed;
+  --acento: #0a7d72; --acento-texto: #087068; --acento-suave: #e6f6f4;
+  --verde: #1a8c55; --ambar: #c98a00; --rojo: #cc3a2e; --gris: #7d8698;
+  --letra-titulo: "Antonio", "Arial Narrow", sans-serif;
+  --letra-texto: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", Verdana, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --fondo: #0f1216; --superficie: #171b21; --superficie-2: #1d222a;
+  --tinta: #eef0f3; --tinta-suave: #a9b0bd; --linea: #2c333d; --linea-suave: #232932;
+  --acento: #2bb3a5; --acento-texto: #5cccbf; --acento-suave: #12302d;
+  --verde: #3fb67a; --ambar: #e0a72a; --rojo: #e8665b; --gris: #8b94a5; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --fondo: #0f1216; --superficie: #171b21; --superficie-2: #1d222a;
+  --tinta: #eef0f3; --tinta-suave: #a9b0bd; --linea: #2c333d; --linea-suave: #232932;
+  --acento: #2bb3a5; --acento-texto: #5cccbf; --acento-suave: #12302d;
+  --verde: #3fb67a; --ambar: #e0a72a; --rojo: #e8665b; --gris: #8b94a5; color-scheme: dark }
+
+body { background: var(--fondo); color: var(--tinta); font-family: var(--letra-texto); font-size: 16px; line-height: 1.55; }
+.pagina { max-width: 980px; margin: 0 auto; padding-block: 40px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 40px; }
+h1, h2, h3 { font-family: var(--letra-titulo); text-wrap: balance; margin: 0; letter-spacing: .02em; }
+h1 { font-size: clamp(40px, 7vw, 64px); line-height: .95; font-weight: 700; }
+h2 { font-size: 30px; line-height: 1.05; font-weight: 700; }
+h3 { font-size: 21px; font-weight: 600; }
+p { margin: 0; max-width: 68ch; }
+.etiqueta { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--tinta-suave); font-weight: 600; }
+.cabeza { display: grid; gap: 14px; }
+.cabeza p { color: var(--tinta-suave); }
+section { display: grid; gap: 16px; }
+
+.veredicto { background: var(--superficie); border: 2px solid var(--acento); border-radius: 10px; padding: 28px; display: grid; gap: 20px; }
+.veredicto .frase { font-family: var(--letra-titulo); font-size: clamp(28px, 4.4vw, 40px); line-height: 1.05; font-weight: 700; }
+.veredicto .frase em { font-style: normal; color: var(--acento-texto); }
+.cifras { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; border-top: 1px solid var(--linea-suave); padding-top: 20px; }
+.cifra { display: grid; gap: 4px; }
+.cifra b { font-family: var(--letra-titulo); font-size: 34px; line-height: 1; font-variant-numeric: tabular-nums; }
+.cifra span { color: var(--tinta-suave); font-size: 14.5px; }
+
+.marco { background: var(--superficie); border: 1px solid var(--linea); border-radius: 10px; overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; min-width: 720px; font-size: 15px; }
+th, td { text-align: left; vertical-align: top; padding: 12px 16px; border-bottom: 1px solid var(--linea-suave); }
+th { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--tinta-suave); background: var(--superficie-2); font-weight: 600; }
+tr:last-child td { border-bottom: 0; }
+td:first-child { font-weight: 600; width: 26%; }
+code { font-size: 13.5px; background: var(--superficie-2); border: 1px solid var(--linea-suave); border-radius: 4px; padding: 0 4px; overflow-wrap: anywhere; }
+.estado { display: inline-flex; gap: 8px; align-items: baseline; white-space: nowrap; }
+.estado::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--gris); flex: none; transform: translateY(-1px); }
+.v::before { background: var(--verde); } .a::before { background: var(--ambar); } .r::before { background: var(--rojo); } .g::before { background: var(--gris); }
+.leyenda { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 14px; color: var(--tinta-suave); }
+
+.flujo { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0; background: var(--superficie); border: 1px solid var(--linea); border-radius: 10px; overflow: hidden; }
+.paso { padding: 16px; display: grid; gap: 6px; border-right: 1px solid var(--linea-suave); align-content: start; }
+.paso:last-child { border-right: 0; }
+.paso .quien { font-size: 12.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--acento-texto); font-weight: 700; }
+.paso p { font-size: 14.5px; color: var(--tinta-suave); }
+.paso b { font-size: 15.5px; }
+
+.dos { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.bloque { background: var(--superficie); border: 1px solid var(--linea); border-radius: 10px; padding: 20px 22px; display: grid; gap: 12px; align-content: start; min-width: 0; }
+ul, ol { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+li { max-width: 68ch; }
+.puntos { font-family: var(--letra-titulo); font-weight: 700; color: var(--acento-texto); font-variant-numeric: tabular-nums; }
+.pie { font-size: 14px; color: var(--tinta-suave); display: grid; gap: 6px; border-top: 1px solid var(--linea); padding-top: 20px; }
+a { color: var(--acento-texto); }
+a:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+</style>
+
+<main class="pagina">
+  <header class="cabeza">
+    <span class="etiqueta">Vitalia · Análisis de viabilidad · 10 de noviembre de 2026</span>
+    <h1>Factura electrónica con Factus</h1>
+    <p>¿Qué tan posible es construir hoy el módulo de facturación electrónica sobre lo que ya tiene Vitalia? Se revisó el código del servidor, el modelo de datos, las decisiones del proyecto y la documentación oficial de la API de Factus (v2).</p>
+  </header>
+
+  <div class="veredicto">
+    <p class="frase">Técnicamente <em>es viable</em> y el proyecto está bien preparado. Lo que frena no es el código: son tres cosas externas.</p>
+    <div class="cifras">
+      <div class="cifra"><b>~12 pts</b><span>Demo funcionando en el ambiente de pruebas de Factus (unos 5 días de trabajo)</span></div>
+      <div class="cifra"><b>~20 pts</b><span>Módulo completo: PDF al paciente, anulación con nota crédito y municipios</span></div>
+      <div class="cifra"><b>3</b><span>Bloqueos externos: credenciales de Factus, datos fiscales del médico y la pregunta legal del sector salud</span></div>
+    </div>
+  </div>
+
+  <section>
+    <h2>Por qué el proyecto está listo</h2>
+    <div class="dos">
+      <div class="bloque">
+        <h3>La arquitectura ya tiene el hueco</h3>
+        <ul>
+          <li>Arquitectura limpia con puertos y adaptadores: Factus entra como un adaptador más, igual que Qwen o el correo, sin tocar el dominio.</li>
+          <li>El servidor ya usa <code>httpx</code> para llamar APIs externas y guarda las claves en <code>servidor/.env</code>.</li>
+          <li>Hay bitácora de solo inserción y permisos por fila: cada factura queda registrada con quién la emitió.</li>
+        </ul>
+      </div>
+      <div class="bloque">
+        <h3>El momento de facturar ya existe</h3>
+        <ul>
+          <li>La cita se marca como <b>atendida</b> (HU-018). Ese es el punto natural para cobrar.</li>
+          <li>El id de la cita sirve como <code>reference_code</code> de Factus, que impide facturar dos veces la misma consulta.</li>
+          <li>El botón “Cobro” ya está previsto en el menú del médico (HU-026, hoy sin función).</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Cómo funcionaría</h2>
+    <div class="flujo">
+      <div class="paso"><span class="quien">Médico</span><b>Marca la cita atendida</b><p>Desde Hoy, como ya lo hace.</p></div>
+      <div class="paso"><span class="quien">Médico</span><b>Toca Cobro</b><p>Ve el precio de la consulta y elige la forma de pago.</p></div>
+      <div class="paso"><span class="quien">Vitalia</span><b>Arma la factura</b><p>Datos del paciente y la consulta. Nunca el diagnóstico.</p></div>
+      <div class="paso"><span class="quien">Factus</span><b>Valida con la DIAN</b><p><code>POST /v2/bills/validate</code> con token de 1 hora.</p></div>
+      <div class="paso"><span class="quien">Paciente</span><b>Recibe el PDF</b><p>Vitalia guarda número, CUFE y estado.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Lo que pide Factus frente a lo que tiene Vitalia</h2>
+    <div class="leyenda">
+      <span class="estado v">Ya existe</span><span class="estado a">Falta, es trabajo interno</span><span class="estado r">Depende de una decisión legal</span><span class="estado g">Se configura fuera de Vitalia</span>
+    </div>
+    <div class="marco">
+      <table>
+        <thead><tr><th>Factus pide</th><th>Qué hay en Vitalia</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr><td>Autenticación OAuth2, token que vence cada hora</td><td>Patrón de adaptador con <code>httpx</code> y claves en <code>.env</code>. Falta guardar el token y renovarlo</td><td><span class="estado v">Ya existe</span></td></tr>
+          <tr><td>Código único por factura (<code>reference_code</code>)</td><td>Id de la cita (uuid v7). Si Factus responde 409, se elimina la pendiente y se reintenta</td><td><span class="estado v">Ya existe</span></td></tr>
+          <tr><td>Nombre, correo y teléfono del cliente</td><td>Nombres, apellidos, correo y teléfono del registro del paciente</td><td><span class="estado v">Ya existe</span></td></tr>
+          <tr><td>Tipo y número de documento</td><td>CC, CE, PA y PT. Falta una tabla que los traduzca a los códigos de Factus</td><td><span class="estado a">Falta</span></td></tr>
+          <tr><td>Precio del servicio (<code>items.price</code>)</td><td>Los tipos de cita no tienen precio. Falta el campo y dónde editarlo</td><td><span class="estado a">Falta</span></td></tr>
+          <tr><td>Forma y medio de pago</td><td>No se registra el pago. Basta efectivo, transferencia o tarjeta</td><td><span class="estado a">Falta</span></td></tr>
+          <tr><td>Dirección y código de municipio (opcionales)</td><td>Dirección y municipio en texto libre en la historia clínica. La lista oficial de municipios está pendiente en HU-041</td><td><span class="estado a">Falta</span></td></tr>
+          <tr><td>Impuestos del ítem</td><td>La consulta médica está excluida de IVA (art. 476 del Estatuto Tributario). Confirmarlo con el contador</td><td><span class="estado a">Falta</span></td></tr>
+          <tr><td>Factura del sector salud (<code>SS-CUFE</code>, <code>SS-Recaudo</code>, paciente beneficiario, código de prestador)</td><td>No existe. Es la pregunta 6 del marco normativo: si un consultorio que solo atiende particulares debe usarla y reportar RIPS (Resolución 948 de 2026)</td><td><span class="estado r">Decisión legal</span></td></tr>
+          <tr><td>Emisor: NIT, habilitación como facturador y rango de numeración</td><td>Se configuran en la cuenta de Factus, no en Vitalia. Solo se necesitan para producción</td><td><span class="estado g">Externo</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Lo que hay que conseguir</h2>
+    <div class="dos">
+      <div class="bloque">
+        <h3>Bloqueos externos</h3>
+        <ol>
+          <li><b>Credenciales de pruebas de Factus</b> (client id, secret, usuario y contraseña). Se piden al administrador de Factus; el ambiente de pruebas es gratuito. Sin esto no se puede construir nada contra la API.</li>
+          <li><b>Datos fiscales del médico</b>: RUT, habilitación como facturador ante la DIAN y resolución de numeración. Solo para producción.</li>
+          <li><b>Respuesta legal</b> sobre la factura del sector salud para particulares. Define si basta la factura estándar o se agregan los campos de salud. El adaptador puede quedar listo para ambas.</li>
+        </ol>
+      </div>
+      <div class="bloque">
+        <h3>Riesgos a cuidar</h3>
+        <ul>
+          <li><b>Datos personales</b>: la autorización de datos que acepta el paciente debe nombrar a Factus como encargado del tratamiento para facturar (Ley 1581 de 2012).</li>
+          <li><b>Reserva de la historia clínica</b>: la factura dice “Consulta de medicina general”, nunca el diagnóstico.</li>
+          <li><b>Alcance</b>: las decisiones D-04 y D-09 dejaron la factura para después. Incluirla es un cambio de alcance que hay que aprobar y que compite con las 13 historias que faltan.</li>
+          <li>En el ambiente de pruebas Factus no envía el correo al paciente; eso solo se ve en producción.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Historias propuestas</h2>
+    <div class="marco">
+      <table>
+        <thead><tr><th>Historia</th><th>Qué entrega</th><th>Puntos</th></tr></thead>
+        <tbody>
+          <tr><td>Precio por tipo de cita</td><td>El médico pone el valor de cada tipo de consulta en su configuración</td><td><span class="puntos">2</span></td></tr>
+          <tr><td>Conexión con Factus</td><td>Puerto <code>Facturador</code>, adaptador con token renovado solo y un doble de mentira para las pruebas automáticas</td><td><span class="puntos">5</span></td></tr>
+          <tr><td>Facturar una cita atendida</td><td>El botón Cobro (reemplaza HU-026): forma de pago, emisión, número, CUFE y estado guardados</td><td><span class="puntos">5</span></td></tr>
+          <tr><td>Ver y enviar la factura</td><td>Descargar el PDF y el XML; el paciente la ve en su zona</td><td><span class="puntos">3</span></td></tr>
+          <tr><td>Anular con nota crédito</td><td>Corregir una factura emitida por error</td><td><span class="puntos">3</span></td></tr>
+          <tr><td>Municipios oficiales</td><td>Lista DANE para dirección y municipio (cierra lo pendiente de HU-041)</td><td><span class="puntos">2</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Las tres primeras forman la demo en el ambiente de pruebas (12 puntos). Las seis, el módulo completo (20 puntos), cerca del 10 % de lo planeado para todo el proyecto (200 puntos).</p>
+  </section>
+
+  <footer class="pie">
+    <span>Estado de hoy: no hay código de facturación. Fase 3 en curso, 33 de 46 historias hechas o casi.</span>
+    <span>Fuentes: <a href="https://developers.factus.com.co/facturas/crear-y-validar/">Crear y validar factura</a> · <a href="https://developers.factus.com.co/facturas/descripcion-de-campos/">Campos de la factura y sector salud</a> · <a href="https://developers.factus.com.co/autenticacion/auth/">Autenticación</a> · <a href="https://developers.factus.com.co/tablas-de-referencia/tablas/">Tablas de referencia</a> · <a href="https://developers.factus.com.co/limite-de-request/">Límite de 80 peticiones por minuto</a></span>
+  </footer>
+</main>

@@ -1,6 +1,6 @@
 # Estado del proyecto
 
-**Fecha:** 3 de noviembre de 2026
+**Fecha:** 10 de noviembre de 2026
 **Para qué sirve este archivo:** retomar el trabajo sin releer las conversaciones. Léalo primero. El detalle técnico de cada paso del desarrollo está en [estado_desarrollo.md](estado_desarrollo.md).
 
 ---
@@ -17,7 +17,7 @@ Cubre: cuentas, horario y citas de los dos lados, panel del médico, historias c
 |---|---|---|
 | **1. Planificación** | Hecha | Alcance, requisitos, marco normativo, 46 historias en 9 épicas, 212 criterios, 110 tareas, 200 puntos |
 | **2. Diseño** | Hecha | Arquitectura limpia, modelo de datos con permisos por fila, API, asistente con RAG, pantallas, diagramas, base visual y herramientas |
-| **3. Desarrollo** | **En curso** | 33 de 46 historias hechas o casi; 207 pruebas del servidor y 36 de pantallas en verde. Todo corre en el computador con PostgreSQL en Docker; nada se ha publicado. Sección 3 |
+| **3. Desarrollo** | **En curso** | 34 de 46 historias hechas o casi; 216 pruebas del servidor y 39 de pantallas en verde. Todo corre en el computador con PostgreSQL en Docker; nada se ha publicado. Sección 3 |
 | **4. Pruebas** | Sin iniciar | Se hace en Render contra los criterios de aceptación |
 | **5. Despliegue** | Sin iniciar | — |
 
@@ -37,6 +37,7 @@ Cubre: cuentas, horario y citas de los dos lados, panel del médico, historias c
 | **IA con NVIDIA** (3 nov) | Las respuestas del asistente y la lectura de fotos pueden ir a otro proveedor con el formato de OpenAI; hoy van a NVIDIA mientras Alibaba no habilita Qwen (D-32). Los vectores siguen en Qwen | `bloque-3-documentos-e-ia` |
 | **De vuelta a Qwen** (3 nov) | NVIDIA dejó de responder (su modelo grande no contesta en 2 minutos) y Alibaba ya habilitó `qwen3.7-plus` y `qwen-vl-ocr-2025-11-20`. Las respuestas y la lectura volvieron a Qwen con solo la configuración de `servidor/.env`; la de NVIDIA queda comentada. Se le pide a Qwen que no razone antes de responder: el primer texto llega en unos 4 s en vez de 14 | `bloque-3-documentos-e-ia` |
 | **Historia clínica del consultorio** (3 nov) | Campos de medicina general adaptados del modelo de oftalmología que entregó el dueño, con la norma de cada uno ([diseno/10](diseno/10-historia-clinica.md), D-33). El médico abre la atención desde Hoy o la ficha, escribe con el asistente al lado y el borrador se guarda solo, completa la identificación, cierra y firma con su contraseña; lo cerrado no cambia y se corrige con notas aclaratorias. La ficha muestra la historia. El paciente ve sus atenciones cerradas en la nueva sección Historia. La zona del paciente ahora también se adapta a computador | `bloque-3-documentos-e-ia` |
+| **Factura electrónica con Factus** (10 nov) | El botón Cobro emite la factura de una cita atendida con Factus, en su ambiente de pruebas (D-35). El médico escribe el valor y cómo pagó; Vitalia arma la factura estándar sin IVA, la DIAN la valida y queda guardado el número, el CUFE y el enlace de consulta. Una sola factura por cita, que no cambia; el PDF se abre desde la lista. Sin credenciales en `servidor/.env` las facturas son de mentira y la pantalla lo avisa. `uv run python -m vitalia.principal probar-factus` revisa las credenciales. Análisis en [planificacion/factura-electronica-viabilidad.html](planificacion/factura-electronica-viabilidad.html) | `bloque-3-documentos-e-ia` |
 | **Iconos y hovers** (27 oct) | Iconos de Hugeicons en trazo redondeado, elegidos entre siete bibliotecas (D-31). Respuesta sutil al pasar el cursor en todos los botones: color y sombra en 150 ms y elevación de 1 px | `bloque-3-documentos-e-ia` |
 | **Mundo visual nuevo** (3 nov) | Rediseño con Impeccable (D-34): el dueño eligió el "muro de títulos" en la página de decisión. Lo que sigue se presenta en un mosaico con borde verde azulado (la próxima cita del paciente, quien sigue en Hoy); títulos en Antonio; tema claro y oscuro en la nueva pestaña Ajustes de los dos usuarios, que por defecto sigue al dispositivo. Movimiento: el mosaico de lo que sigue enciende su borde al aparecer, la fila señalada crece y las vecinas bajan, los botones se hunden al presionar y el cambio de tema se funde. Ninguna pantalla cambió de estructura. El contrato está en `.impeccable/surfaces/` y el sistema en `DESIGN.md` | `bloque-3-documentos-e-ia` |
 
@@ -45,12 +46,12 @@ Cubre: cuentas, horario y citas de los dos lados, panel del médico, historias c
 | Estado | Historias |
 |---|---|
 | **Hechas** | HU-001, HU-002, HU-004, HU-006, HU-007, HU-036 · HU-008, HU-009, HU-010, HU-011, HU-012, HU-013, HU-014, HU-015, HU-016, HU-017, HU-018, HU-021, HU-023 · HU-028, HU-029, HU-031, HU-033, HU-034 · HU-042, HU-044, HU-045 |
-| **Hechas con algo pendiente** | HU-003 (falta aceptar una versión nueva del texto y verla en el perfil) · HU-020 (falta la tarjeta de tratamiento) · HU-022 (falta mostrar el tiempo libre y crear la cita tocando un espacio) · HU-025 (faltan los tratamientos en la ficha) · HU-027 (los archivos van a una carpeta local; falta R2 con enlace firmado de 15 minutos) · HU-030 (el documento abre en otra pestaña en su página; falta el visor propio con la frase resaltada) · HU-032 (la casilla está en el registro; falta cambiarla después y que al autorizar se lean los documentos pendientes) · HU-037 (falta la pantalla de consulta de la bitácora) · HU-041 (falta la lista de municipios y que el paciente complete sus datos desde el perfil) · HU-043 (falta cargar el CIE-10 oficial completo; hay 110 frecuentes) |
-| **Sin empezar** | HU-005 recuperar contraseña · HU-019 avisos por correo · HU-024 registrar paciente desde el panel · HU-026 botón de cobro · HU-035 resumen del paciente · HU-038 y HU-039 tratamientos · HU-040 corregir datos del paciente · HU-046 copia de la historia clínica en PDF |
+| **Hechas con algo pendiente** | HU-026 (reemplazada por D-35: factura con Factus en el ambiente de pruebas; faltan la nota crédito para anular, el precio por tipo de cita y la factura del sector salud) · HU-003 (falta aceptar una versión nueva del texto y verla en el perfil) · HU-020 (falta la tarjeta de tratamiento) · HU-022 (falta mostrar el tiempo libre y crear la cita tocando un espacio) · HU-025 (faltan los tratamientos en la ficha) · HU-027 (los archivos van a una carpeta local; falta R2 con enlace firmado de 15 minutos) · HU-030 (el documento abre en otra pestaña en su página; falta el visor propio con la frase resaltada) · HU-032 (la casilla está en el registro; falta cambiarla después y que al autorizar se lean los documentos pendientes) · HU-037 (falta la pantalla de consulta de la bitácora) · HU-041 (falta la lista de municipios y que el paciente complete sus datos desde el perfil) · HU-043 (falta cargar el CIE-10 oficial completo; hay 110 frecuentes) |
+| **Sin empezar** | HU-005 recuperar contraseña · HU-019 avisos por correo · HU-024 registrar paciente desde el panel · HU-035 resumen del paciente · HU-038 y HU-039 tratamientos · HU-040 corregir datos del paciente · HU-046 copia de la historia clínica en PDF |
 
 ### 3.3 Lo que se probó
 
-- **Servidor:** 191 pruebas en verde contra PostgreSQL 18 con `pgvector` en Docker, una o más por criterio de aceptación. Las 10 migraciones se aplican, se deshacen y se vuelven a aplicar.
+- **Servidor:** 216 pruebas en verde contra PostgreSQL 18 con `pgvector` en Docker, una o más por criterio de aceptación. Las 12 migraciones se aplican, se deshacen y se vuelven a aplicar.
 - **Pantallas:** 31 pruebas en verde y construcción sin errores.
 - **En el navegador**, contra la API y la base de Docker: registro e ingreso; agendar, mover y cancelar; Hoy con asistencia; calendario en sus tres vistas; bloquear un día con citas (las lista y no guarda) y sin citas (guarda y aparece); subir documentos y verlos; ficha del paciente.
 - **Historia clínica, en el navegador** contra la API y la base de Docker (3 nov): abrir la atención desde la ficha, guardado del borrador al salir de cada campo, temperatura imposible marcada en rojo, búsqueda CIE-10 y diagnóstico principal, cierre rechazado con la lista de lo que faltaba, identificación completada, cierre y firma con contraseña, vista de solo lectura y nota aclaratoria; el paciente la ve en celular (lista y detalle) y en computador (lado a lado). La pantalla de atención en celular, con pestañas Atención y Asistente, sin desplazamiento lateral.
@@ -62,6 +63,7 @@ En orden de urgencia. Ninguna clave pasa por el chat ni entra al repositorio: to
 
 | # | Qué | Para qué | Cómo |
 |---|---|---|---|
+| 0 | **Credenciales del sandbox de Factus en `servidor/.env`** (`FACTUS_CLIENT_ID`, `FACTUS_CLIENT_SECRET`, `FACTUS_USUARIO`, `FACTUS_CONTRASENA`) | Emitir facturas reales de prueba ante la DIAN (D-35) | Se piden gratis a Factus. Después: `uv run python -m vitalia.principal probar-factus` y reiniciar la API |
 | 1 | **Poner `master` como rama principal en GitHub** | Que el repositorio abra en la rama estable | GitHub → `vitalia` → Settings → Default branch → `master` → Update |
 | 2 | **Volver a medir el asistente con Qwen** | Alibaba ya habilitó `qwen3.7-plus` y el modelo de lectura (3 nov). Falta correr las 20 preguntas de prueba con Qwen y las dos fotos | [README de las historias de prueba](documentos-de-prueba/historias-clinicas/README.md) |
 | 3 | **Dos fotos con datos inventados**: una hoja impresa y un texto corto escrito a mano | Medir la lectura de fotos con IA | Se le entregan los datos para copiar |
@@ -101,7 +103,7 @@ En orden de urgencia. Ninguna clave pasa por el chat ni entra al repositorio: to
 | 2 | Registrar un paciente desde el panel y corregir sus datos (HU-024, HU-040) | HU-024 manda un correo de activación |
 | 3 | Recuperar contraseña y avisos por correo de cambios en la cita (HU-005, HU-019) | Un servicio de correo |
 | 4 | Lo que falta de la historia clínica: copia en PDF para el paciente (HU-046), CIE-10 oficial completo, lista de municipios, y que las atenciones cerradas entren al asistente | El médico que revise los campos ([diseno/10](diseno/10-historia-clinica.md)). Las atenciones entran al asistente solo si el paciente aceptó la versión 2 del texto de IA, que falta escribir |
-| 5 | Pantalla de la bitácora y botón de cobro (HU-037 CA-4, HU-026) | — |
+| 5 | Pantalla de la bitácora (HU-037 CA-4) y lo que falta de la factura: nota crédito, precio por tipo de cita, municipios | La factura del sector salud espera la pregunta 6 del marco normativo |
 
 ## 6. Cómo levantar todo en el computador
 

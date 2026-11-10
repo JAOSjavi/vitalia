@@ -2,6 +2,7 @@
 
 Arrancar la API:            uv run uvicorn --factory vitalia.principal:crear
 Enlace de puesta en marcha: uv run python -m vitalia.principal puesta-en-marcha
+Revisar Factus:             uv run python -m vitalia.principal probar-factus
 """
 
 import argparse
@@ -14,6 +15,8 @@ from fastapi import FastAPI
 
 from vitalia.adaptadores.archivos_en_disco import ArchivosEnDisco
 from vitalia.adaptadores.contrasenas import ContrasenasArgon2
+from vitalia.adaptadores.factura_de_mentira import FacturadorDeMentira
+from vitalia.adaptadores.factus import FacturadorFactus
 from vitalia.adaptadores.ia.de_mentira import IADeMentira, VectoresDeMentira
 from vitalia.adaptadores.ia.qwen import IAQwen, VectoresQwen
 from vitalia.adaptadores.pdf import LectorPdfium
@@ -28,6 +31,7 @@ from vitalia.casos_de_uso.buscar_fragmentos import BuscarFragmentos
 from vitalia.casos_de_uso.buscar_pacientes import BuscarPacientes
 from vitalia.casos_de_uso.cancelar_cita import CancelarCita
 from vitalia.casos_de_uso.cerrar_sesion import CerrarSesion
+from vitalia.casos_de_uso.cobros import Cobros
 from vitalia.casos_de_uso.consultar_disponibilidad import ConsultarDisponibilidad
 from vitalia.casos_de_uso.crear_enlace_de_puesta_en_marcha import CrearEnlaceDePuestaEnMarcha
 from vitalia.casos_de_uso.editar_consultorio import EditarConsultorio
@@ -40,7 +44,7 @@ from vitalia.casos_de_uso.listar_citas import ListarCitas
 from vitalia.casos_de_uso.mover_cita import MoverCita
 from vitalia.casos_de_uso.poner_en_marcha import PonerEnMarcha
 from vitalia.casos_de_uso.preguntar_al_asistente import Limites, PreguntarAlAsistente
-from vitalia.casos_de_uso.puertos import ProveedorIA, Reloj, Vectorizador
+from vitalia.casos_de_uso.puertos import Facturador, ProveedorIA, Reloj, Vectorizador
 from vitalia.casos_de_uso.registrar_asistencia import RegistrarAsistencia
 from vitalia.casos_de_uso.registrar_paciente import RegistrarPaciente
 from vitalia.casos_de_uso.revisar_salud import RevisarSalud
@@ -56,6 +60,7 @@ from vitalia.casos_de_uso.ver_mi_cuenta import VerMiCuenta
 from vitalia.casos_de_uso.ver_mis_documentos import VerMisDocumentos
 from vitalia.casos_de_uso.ver_texto_de_autorizacion import VerTextoDeAutorizacion
 from vitalia.configuracion import Configuracion, leer
+from vitalia.dominio.facturas import FacturadorNoDisponible
 from vitalia.entrada.api import crear_api
 from vitalia.entrada.casos import Ajustes, CasosDeUso
 from vitalia.entrada.lector import leer_en_segundo_plano
@@ -67,8 +72,9 @@ def armar(
     configuracion: Configuracion,
     reloj: Reloj | None = None,
     ia: ProveedorIA | None = None,
+    facturador: Facturador | None = None,
 ) -> FastAPI:
-    """El reloj y la IA solo se cambian en las pruebas.
+    """El reloj, la IA y el facturador solo se cambian en las pruebas.
 
     Sin clave de IA, el lector lee los PDF con texto y deja sin leer los escaneados; los vectores
     salen de las palabras y el asistente responde con un texto fijo.
@@ -119,6 +125,7 @@ def armar(
         abrir_documento=AbrirDocumento(unidad, autorizador, archivos),
         eliminar_documento=EliminarDocumento(unidad, autorizador, archivos),
         atenciones=Atenciones(unidad, autorizador, contrasenas, reloj),
+        cobros=Cobros(unidad, autorizador, facturador or _facturador(configuracion), reloj),
         preguntar_al_asistente=PreguntarAlAsistente(
             unidad, autorizador, vectores, ia or IADeMentira(), reloj, limites
         ),
@@ -163,6 +170,21 @@ def _ia(configuracion: Configuracion) -> ProveedorIA | None:
     return None
 
 
+def _facturador(configuracion: Configuracion) -> Facturador:
+    c = configuracion
+    if c.factus_client_id and c.factus_client_secret and c.factus_usuario and c.factus_contrasena:
+        return FacturadorFactus(
+            c.factus_direccion,
+            c.factus_client_id,
+            c.factus_client_secret,
+            c.factus_usuario,
+            c.factus_contrasena,
+            c.factus_rango_id,
+        )
+    _registro.warning("Sin credenciales de Factus: las facturas son de mentira, sin validez")
+    return FacturadorDeMentira()
+
+
 def _vectores(configuracion: Configuracion) -> Vectorizador:
     if configuracion.ia_direccion and configuracion.ia_clave:
         return VectoresQwen(
@@ -191,14 +213,30 @@ async def crear_enlace_de_puesta_en_marcha(configuracion: Configuracion) -> str:
     return f"{configuracion.sitio_url}/puesta-en-marcha?enlace={ficha}"
 
 
+async def probar_factus(configuracion: Configuracion) -> str:
+    facturador = _facturador(configuracion)
+    if not isinstance(facturador, FacturadorFactus):
+        return "Faltan credenciales de Factus en servidor/.env: las facturas serían de mentira."
+    try:
+        rango = await facturador.probar()
+    except FacturadorNoDisponible as error:
+        return f"Factus no respondió bien: {error}"
+    if rango is None:
+        return f"Factus aceptó las credenciales ({facturador.ambiente}), sin rango de facturas."
+    return f"Factus aceptó las credenciales ({facturador.ambiente}). Rango de facturas: {rango}."
+
+
 def main() -> None:
     ordenes = argparse.ArgumentParser(prog="vitalia")
     ordenes.add_argument(
         "orden",
-        choices=["puesta-en-marcha"],
-        help="puesta-en-marcha: crea el enlace de un solo uso para la cuenta del médico",
+        choices=["puesta-en-marcha", "probar-factus"],
+        help="puesta-en-marcha: crea el enlace de un solo uso para la cuenta del médico. "
+        "probar-factus: revisa las credenciales de Factus",
     )
-    ordenes.parse_args()
+    if ordenes.parse_args().orden == "probar-factus":
+        print(asyncio.run(probar_factus(leer())))
+        return
     enlace = asyncio.run(crear_enlace_de_puesta_en_marcha(leer()))
     print("Enlace para crear la cuenta del médico. Sirve una sola vez y vence en 24 horas:")
     print(enlace)

@@ -4,6 +4,7 @@ from collections.abc import AsyncIterator, Mapping, Sequence
 from contextlib import AbstractAsyncContextManager
 from dataclasses import dataclass
 from datetime import date, datetime
+from decimal import Decimal
 from typing import Literal, Protocol
 from uuid import UUID
 
@@ -22,6 +23,7 @@ from vitalia.dominio.documentos import (
     Formato,
     TipoDeDocumento,
 )
+from vitalia.dominio.facturas import Ambiente, Emitida, Factura, MedioDePago, Pedido
 from vitalia.dominio.fragmentos import Identificadores
 from vitalia.dominio.historia_clinica import Diagnostico, Medicamento, Valor
 from vitalia.dominio.identidad import Identidad, Rol
@@ -587,6 +589,45 @@ class LectorDePDF(Protocol):
         ...
 
 
+@dataclass(frozen=True)
+class FacturaNueva:
+    cita_id: UUID
+    paciente_id: UUID
+    emitida_por: UUID
+    concepto: str
+    valor: Decimal
+    medio: MedioDePago
+    emitida: Emitida
+    ambiente: Ambiente
+
+
+class Facturas(Protocol):
+    async def de_la_cita(self, cita_id: UUID) -> Factura | None: ...
+
+    async def de_las_citas(self, citas: Sequence[UUID]) -> dict[UUID, Factura]: ...
+
+    async def guardar(self, nueva: FacturaNueva) -> Factura:
+        """Si otra petición ya guardó la de esa cita, devuelve esa."""
+        ...
+
+    async def direccion_del_paciente(self, paciente_id: UUID) -> str | None: ...
+
+
+class Facturador(Protocol):
+    """Quien emite la factura ante la DIAN: Factus, o uno de mentira sin credenciales."""
+
+    @property
+    def ambiente(self) -> Ambiente: ...
+
+    async def emitir(self, pedido: Pedido) -> Emitida:
+        """FacturaRechazada si la DIAN no la valida; FacturadorNoDisponible si no responde."""
+        ...
+
+    async def pdf(self, numero: str) -> tuple[str, bytes]:
+        """Nombre del archivo y su contenido."""
+        ...
+
+
 class Trabajo(Protocol):
     """Una transacción abierta a nombre de alguien. Sus repositorios la comparten."""
 
@@ -616,6 +657,9 @@ class Trabajo(Protocol):
 
     @property
     def historia(self) -> HistoriaClinica: ...
+
+    @property
+    def facturas(self) -> Facturas: ...
 
 
 class UnidadDeTrabajo(Protocol):

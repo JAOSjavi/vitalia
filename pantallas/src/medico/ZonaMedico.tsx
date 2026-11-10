@@ -20,6 +20,7 @@ import { useCerrarSesion } from "../comunes/sesion";
 import { Atencion } from "./Atencion";
 import { Bloqueos } from "./Bloqueos";
 import { Calendario } from "./Calendario";
+import { Cobro } from "./Cobro";
 import { Configuracion } from "./Configuracion";
 import { DatosDelConsultorio } from "./DatosDelConsultorio";
 import { Ficha } from "./Ficha";
@@ -38,7 +39,8 @@ export function iniciales(nombre: string) {
 }
 
 // Panel del médico, como en el lienzo (Médico · Hoy): menú a la izquierda y, abajo, quién
-// está conectado. Bitácora y Cobro aparecen como "Pronto" hasta que existan (HU-037, HU-026).
+// está conectado. Bitácora aparece como "Pronto" hasta que exista (HU-037). Cobro emite la
+// factura electrónica con Factus (D-35).
 export default function ZonaMedico() {
   return (
     <div className="zona-medico">
@@ -57,6 +59,10 @@ export default function ZonaMedico() {
             <UsersIcon aria-hidden="true" />
             Pacientes
           </NavLink>
+          <NavLink to="/medico/cobro" className="zona-medico__enlace">
+            <CreditCardIcon aria-hidden="true" />
+            Cobro
+          </NavLink>
           <NavLink to="/medico/configuracion" className="zona-medico__enlace">
             <SlidersHorizontalIcon aria-hidden="true" />
             Configuración
@@ -68,11 +74,6 @@ export default function ZonaMedico() {
           <span className="zona-medico__enlace zona-medico__enlace--pronto" aria-disabled="true">
             <ClipboardTextIcon aria-hidden="true" />
             <span className="zona-medico__texto">Bitácora</span>
-            <span className="zona-medico__pronto">Pronto</span>
-          </span>
-          <span className="zona-medico__enlace zona-medico__enlace--pronto" aria-disabled="true">
-            <CreditCardIcon aria-hidden="true" />
-            <span className="zona-medico__texto">Cobro</span>
             <span className="zona-medico__pronto">Pronto</span>
           </span>
         </nav>
@@ -88,6 +89,7 @@ export default function ZonaMedico() {
         <Route path="atenciones/:atencion" element={<Atencion />} />
         <Route path="citas/nueva" element={<NuevaCita />} />
         <Route path="citas/:cita/mover" element={<NuevaCita />} />
+        <Route path="cobro" element={<Cobro />} />
         <Route path="configuracion" element={<Configuracion />} />
         <Route path="consultorio" element={<DatosDelConsultorio />} />
         <Route path="ajustes" element={<Ajustes className="zona-medico__contenido zona-medico__contenido--angosto" />} />

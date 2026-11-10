@@ -9,6 +9,7 @@ from vitalia.casos_de_uso.buscar_fragmentos import BuscarFragmentos
 from vitalia.casos_de_uso.buscar_pacientes import BuscarPacientes
 from vitalia.casos_de_uso.cancelar_cita import CancelarCita
 from vitalia.casos_de_uso.cerrar_sesion import CerrarSesion
+from vitalia.casos_de_uso.cobros import Cobros
 from vitalia.casos_de_uso.consultar_disponibilidad import ConsultarDisponibilidad
 from vitalia.casos_de_uso.editar_consultorio import EditarConsultorio
 from vitalia.casos_de_uso.guardar_horario import GuardarHorario
@@ -67,6 +68,7 @@ class CasosDeUso:
     abrir_documento: AbrirDocumento
     eliminar_documento: EliminarDocumento
     atenciones: Atenciones
+    cobros: Cobros
 
 
 @dataclass(frozen=True)

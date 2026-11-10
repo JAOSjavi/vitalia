@@ -30,6 +30,7 @@ from vitalia.dominio.cuentas import (
 )
 from vitalia.dominio.documentos import DocumentoRepetido
 from vitalia.dominio.errores import NoEncontrado
+from vitalia.dominio.facturas import CitaNoFacturable, FacturadorNoDisponible, FacturaRechazada
 from vitalia.dominio.fragmentos import IANoAutorizada
 from vitalia.dominio.historia_clinica import AtencionCerrada, ContrasenaIncorrecta, FaltanDatos
 from vitalia.dominio.ingreso import CredencialesInvalidas, IngresoBloqueado
@@ -117,6 +118,16 @@ _FIJOS: dict[type[Exception], tuple[int, str, str]] = {
         422,
         "contrasena_incorrecta",
         "La contraseña no coincide. La atención sigue abierta.",
+    ),
+    CitaNoFacturable: (
+        409,
+        "cita_no_facturable",
+        "Solo se factura una cita marcada como atendida.",
+    ),
+    FacturadorNoDisponible: (
+        503,
+        "facturador_no_disponible",
+        "Factus no respondió. La factura no se emitió; intente de nuevo en un momento.",
     ),
     ProveedorNoDisponible: (
         503,
@@ -224,6 +235,16 @@ def registrar_traducciones(api: FastAPI) -> None:
             {"tope": error.tope},
         )
 
+    async def factura_rechazada(_: Request, error: Exception) -> JSONResponse:
+        assert isinstance(error, FacturaRechazada)
+        return respuesta_de_error(
+            422,
+            "factura_rechazada",
+            "La DIAN no validó la factura. Revise los motivos.",
+            {"motivos": error.motivos},
+        )
+
+    api.add_exception_handler(FacturaRechazada, factura_rechazada)
     api.add_exception_handler(FaltanDatos, faltan_datos)
     api.add_exception_handler(TopeDeConsultas, tope_de_consultas)
     api.add_exception_handler(DocumentoRepetido, documento_repetido)

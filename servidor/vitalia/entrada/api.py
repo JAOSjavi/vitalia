@@ -13,6 +13,7 @@ from vitalia.entrada import (
     rutas_consultorio,
     rutas_cuentas,
     rutas_documentos,
+    rutas_facturas,
     rutas_historia,
 )
 from vitalia.entrada.casos import Ajustes, CasosDeUso
@@ -42,6 +43,7 @@ def crear_api(
     api.include_router(rutas_documentos.rutas)
     api.include_router(rutas_asistente.rutas)
     api.include_router(rutas_historia.rutas)
+    api.include_router(rutas_facturas.rutas)
 
     @api.middleware("http")
     async def reglas_comunes(

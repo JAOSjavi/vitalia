@@ -33,6 +33,13 @@ class Configuracion:
     # Máximo de texto de los fragmentos en una pregunta, en caracteres.
     ia_tope_contexto: int = 16000
     ia_tope_consultas_hora: int = 30
+    # Factura electrónica con Factus (D-35). Sin credenciales, las facturas son de mentira.
+    factus_direccion: str = "https://api-sandbox.factus.com.co"
+    factus_client_id: str | None = None
+    factus_client_secret: str | None = None
+    factus_usuario: str | None = None
+    factus_contrasena: str | None = None
+    factus_rango_id: int | None = None
 
 
 def leer() -> Configuracion:
@@ -56,6 +63,12 @@ def leer() -> Configuracion:
         ia_tope_consultas_hora=int(
             os.environ.get("IA_TOPE_CONSULTAS_HORA") or Configuracion.ia_tope_consultas_hora
         ),
+        factus_direccion=os.environ.get("FACTUS_DIRECCION") or Configuracion.factus_direccion,
+        factus_client_id=os.environ.get("FACTUS_CLIENT_ID") or None,
+        factus_client_secret=os.environ.get("FACTUS_CLIENT_SECRET") or None,
+        factus_usuario=os.environ.get("FACTUS_USUARIO") or None,
+        factus_contrasena=os.environ.get("FACTUS_CONTRASENA") or None,
+        factus_rango_id=int(rango) if (rango := os.environ.get("FACTUS_RANGO_ID")) else None,
     )
 
 

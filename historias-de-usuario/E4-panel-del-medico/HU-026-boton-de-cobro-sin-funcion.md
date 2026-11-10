@@ -28,7 +28,7 @@
 
 ## Nota de alcance
 
-No se construye ningún cobro, pago ni factura. La factura electrónica con Factus quedó para después; ver [decisiones y supuestos](../../planificacion/04-decisiones-y-supuestos.md).
+**Reemplazada el 10 de noviembre de 2026 por D-35.** El botón Cobro ya no es un aviso: lista las citas atendidas de los últimos 30 días y emite la factura electrónica con Factus en su ambiente de pruebas. Ver [decisiones y supuestos](../../planificacion/04-decisiones-y-supuestos.md). Los criterios CA-1 y CA-3 se mantienen; CA-2 cambia: al cobrar se emite la factura y se guarda su número y su CUFE.
 
 ## Relación con otras historias
 
