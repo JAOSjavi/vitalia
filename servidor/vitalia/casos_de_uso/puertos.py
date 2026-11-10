@@ -705,6 +705,10 @@ class ProveedorIA(Protocol):
         """Entrega la respuesta por partes, a medida que el proveedor la escribe."""
         ...
 
+    async def responder_en_json(self, instrucciones: str, texto: str) -> str:
+        """Una sola respuesta, completa, que el proveedor promete en JSON (HU-047)."""
+        ...
+
 
 class Reloj(Protocol):
     def ahora(self) -> datetime: ...

@@ -94,6 +94,7 @@ async def test_emite_una_factura_estandar_a_persona_natural_sin_iva() -> None:
     assert cliente["legal_organization_code"] == "2"  # type: ignore[index]
     assert cliente["names"] == "Rosa Elena Duarte"  # type: ignore[index]
     assert "address" not in cliente  # type: ignore[operator]
+    assert cliente["municipality_code"] == "11001"  # type: ignore[index]
     item = cuerpo["items"][0]  # type: ignore[index]
     assert item["price"] == "80000.00"
     assert item["taxes"] == [{"code": "01", "rate": "0.00", "is_excluded": True}]

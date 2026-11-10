@@ -48,6 +48,7 @@ class FacturadorFactus:
         usuario: str,
         contrasena: str,
         rango_id: int | None = None,
+        municipio: str = "11001",
         transporte: httpx.AsyncBaseTransport | None = None,
     ) -> None:
         self._direccion = direccion.rstrip("/")
@@ -59,6 +60,9 @@ class FacturadorFactus:
             "password": contrasena,
         }
         self._rango_id = rango_id
+        # Factus exige el municipio del cliente, y Vitalia lo guarda como texto libre: va el del
+        # consultorio (código DANE) hasta que exista la lista oficial de municipios (HU-041).
+        self._municipio = municipio
         self._transporte = transporte
         self._token: str | None = None
         self._vence = 0.0
@@ -70,7 +74,7 @@ class FacturadorFactus:
 
     async def emitir(self, pedido: Pedido) -> Emitida:
         async with self._cliente() as cliente:
-            cuerpo = _cuerpo(pedido, await self._rango(cliente))
+            cuerpo = _cuerpo(pedido, await self._rango(cliente), self._municipio)
             respuesta = await self._pedir(cliente, "POST", "/v2/bills/validate", json=cuerpo)
             if respuesta.status_code == 409:
                 # Quedó una pendiente con esta referencia sin validar: se borra y se repite.
@@ -197,7 +201,7 @@ def _motivos(cuerpo: Any) -> list[str]:
     return motivos or ["Factus rechazó la factura sin decir por qué"]
 
 
-def _cuerpo(pedido: Pedido, rango_id: int | None) -> dict[str, Any]:
+def _cuerpo(pedido: Pedido, rango_id: int | None, municipio: str) -> dict[str, Any]:
     cliente = pedido.cliente
     valor = f"{pedido.valor:.2f}"
     datos_cliente: dict[str, Any] = {
@@ -208,6 +212,7 @@ def _cuerpo(pedido: Pedido, rango_id: int | None) -> dict[str, Any]:
         "tribute_code": "ZZ",
         "responsibilities": ["R-99-PN"],
         "country_code": "CO",
+        "municipality_code": municipio,
     }
     for campo, dato in (
         ("email", cliente.correo),

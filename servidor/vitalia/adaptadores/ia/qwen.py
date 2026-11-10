@@ -163,6 +163,31 @@ class IAQwen:
         except httpx.HTTPError as error:
             raise ProveedorNoDisponible(type(error).__name__) from error
 
+    async def responder_en_json(self, instrucciones: str, texto: str) -> str:
+        try:
+            async with self._conexion.cliente(self._transporte) as cliente:
+                respuesta = await cliente.post(
+                    f"{self._conexion.direccion}/chat/completions",
+                    headers=self._conexion.encabezados,
+                    json={
+                        "model": self._modelo_respuestas,
+                        "messages": [
+                            {"role": "system", "content": instrucciones},
+                            {"role": "user", "content": texto},
+                        ],
+                        # Modo JSON del formato de OpenAI: Qwen y Gemini lo aceptan. Pide que la
+                        # palabra "JSON" esté en las instrucciones.
+                        "response_format": {"type": "json_object"},
+                        "temperature": 0,
+                        **self._conexion.sin_razonar,
+                    },
+                )
+        except httpx.HTTPError as error:
+            raise ProveedorNoDisponible(type(error).__name__) from error
+        _revisar(respuesta)
+        contenido: str = respuesta.json()["choices"][0]["message"]["content"] or ""
+        return contenido
+
 
 def _parte(linea: str) -> str | None:
     """Una línea de eventos del servidor: "data: {...}" con un pedazo del texto."""

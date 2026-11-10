@@ -44,9 +44,11 @@ class IADeMentira:
         self,
         texto_de_pagina: str = "Texto de prueba de una página.",
         partes_de_respuesta: Sequence[str] = ("No aparece ", "en los documentos."),
+        respuesta_en_json: str = '{"campos": []}',
     ) -> None:
         self._texto_de_pagina = texto_de_pagina
         self._partes_de_respuesta = partes_de_respuesta
+        self._respuesta_en_json = respuesta_en_json
 
     async def leer_pagina(self, imagen: bytes) -> str:
         return self._texto_de_pagina
@@ -54,3 +56,6 @@ class IADeMentira:
     async def responder(self, instrucciones: str, turnos: Sequence[Turno]) -> AsyncIterator[str]:
         for parte in self._partes_de_respuesta:
             yield parte
+
+    async def responder_en_json(self, instrucciones: str, texto: str) -> str:
+        return self._respuesta_en_json

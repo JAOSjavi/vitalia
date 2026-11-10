@@ -40,6 +40,8 @@ class Configuracion:
     factus_usuario: str | None = None
     factus_contrasena: str | None = None
     factus_rango_id: int | None = None
+    # Código DANE del municipio del consultorio. Por defecto Bogotá.
+    factus_municipio: str = "11001"
 
 
 def leer() -> Configuracion:
@@ -68,6 +70,7 @@ def leer() -> Configuracion:
         factus_client_secret=os.environ.get("FACTUS_CLIENT_SECRET") or None,
         factus_usuario=os.environ.get("FACTUS_USUARIO") or None,
         factus_contrasena=os.environ.get("FACTUS_CONTRASENA") or None,
+        factus_municipio=os.environ.get("FACTUS_MUNICIPIO") or Configuracion.factus_municipio,
         factus_rango_id=int(rango) if (rango := os.environ.get("FACTUS_RANGO_ID")) else None,
     )
 

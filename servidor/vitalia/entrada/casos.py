@@ -23,6 +23,7 @@ from vitalia.casos_de_uso.registrar_asistencia import RegistrarAsistencia
 from vitalia.casos_de_uso.registrar_paciente import RegistrarPaciente
 from vitalia.casos_de_uso.revisar_salud import RevisarSalud
 from vitalia.casos_de_uso.subir_documento import SubirDocumento
+from vitalia.casos_de_uso.sugerir_campos import SugerirCampos
 from vitalia.casos_de_uso.tipos_de_cita import TiposDeCita
 from vitalia.casos_de_uso.validar_sesion import ValidarSesion
 from vitalia.casos_de_uso.ver_agenda_de_hoy import VerAgendaDeHoy
@@ -68,6 +69,7 @@ class CasosDeUso:
     abrir_documento: AbrirDocumento
     eliminar_documento: EliminarDocumento
     atenciones: Atenciones
+    sugerir_campos: SugerirCampos
     cobros: Cobros
 
 

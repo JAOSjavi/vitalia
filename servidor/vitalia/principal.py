@@ -49,6 +49,7 @@ from vitalia.casos_de_uso.registrar_asistencia import RegistrarAsistencia
 from vitalia.casos_de_uso.registrar_paciente import RegistrarPaciente
 from vitalia.casos_de_uso.revisar_salud import RevisarSalud
 from vitalia.casos_de_uso.subir_documento import SubirDocumento
+from vitalia.casos_de_uso.sugerir_campos import SugerirCampos
 from vitalia.casos_de_uso.tipos_de_cita import TiposDeCita
 from vitalia.casos_de_uso.validar_sesion import ValidarSesion
 from vitalia.casos_de_uso.ver_agenda_de_hoy import VerAgendaDeHoy
@@ -129,6 +130,9 @@ def armar(
         preguntar_al_asistente=PreguntarAlAsistente(
             unidad, autorizador, vectores, ia or IADeMentira(), reloj, limites
         ),
+        sugerir_campos=SugerirCampos(
+            unidad, autorizador, vectores, ia or IADeMentira(), reloj, limites
+        ),
     )
 
     @asynccontextmanager
@@ -180,6 +184,7 @@ def _facturador(configuracion: Configuracion) -> Facturador:
             c.factus_usuario,
             c.factus_contrasena,
             c.factus_rango_id,
+            c.factus_municipio,
         )
     _registro.warning("Sin credenciales de Factus: las facturas son de mentira, sin validez")
     return FacturadorDeMentira()

@@ -1,7 +1,7 @@
 """Historia clínica del consultorio (diseno/03-api.md, E9)."""
 
 from dataclasses import asdict
-from datetime import datetime
+from datetime import date, datetime
 from decimal import Decimal
 from typing import Any
 from uuid import UUID
@@ -10,6 +10,7 @@ from fastapi import APIRouter, Request, status
 from pydantic import BaseModel, Field
 
 from vitalia.casos_de_uso.historia_clinica import AtencionParaEscribir, VistaDeAtencion
+from vitalia.casos_de_uso.sugerir_campos import Sugerencias
 from vitalia.dominio.historia_clinica import (
     CAMPOS_DE_IDENTIFICACION,
     CAMPOS_DE_LA_ATENCION,
@@ -142,6 +143,65 @@ class Diagnostico(BaseModel):
     nombre: str
 
 
+class Origen(BaseModel):
+    etiqueta: str
+    documento_id: UUID
+    documento: str
+    pagina: int
+    frase: str
+
+
+class SugerenciaRespuesta(BaseModel):
+    campo: str
+    valor: str
+    origenes: list[Origen]
+
+
+class Consultado(BaseModel):
+    documento_id: UUID
+    documento: str
+    fecha_documento: date
+    paginas: list[int]
+
+
+class SugerenciasRespuesta(BaseModel):
+    sugerencias: list[SugerenciaRespuesta]
+    consultado: list[Consultado]
+    aviso: str
+
+    @classmethod
+    def de(cls, resultado: Sugerencias) -> "SugerenciasRespuesta":
+        return cls(
+            sugerencias=[
+                SugerenciaRespuesta(
+                    campo=s.campo,
+                    valor=s.valor,
+                    origenes=[
+                        Origen(
+                            etiqueta=o.etiqueta,
+                            documento_id=o.documento_id,
+                            documento=o.documento,
+                            pagina=o.pagina,
+                            frase=o.frase,
+                        )
+                        for o in s.origenes
+                    ],
+                )
+                for s in resultado.sugerencias
+            ],
+            consultado=[
+                Consultado(
+                    documento_id=c.documento_id,
+                    documento=c.documento,
+                    fecha_documento=c.fecha_documento,
+                    paginas=list(c.paginas),
+                )
+                for c in resultado.consultado
+            ],
+            aviso=resultado.aviso,
+        )
+
+
 def _campo(campo: Campo) -> dict[str, Any]:
     return {
         "nombre": campo.nombre,
@@ -205,6 +265,15 @@ async def guardar_borrador(
         identidad, atencion_id, datos.datos, datos.diagnosticos, datos.medicamentos
     )
     return Guardado(guardada_en=guardada_en)
+
+
+@rutas.post("/atenciones/{atencion_id}/sugerencias")
+async def sugerir_campos(
+    atencion_id: UUID, identidad: Sesion, request: Request
+) -> SugerenciasRespuesta:
+    """Lo que dicen los documentos del paciente para algunos campos (HU-047). No guarda nada."""
+    resultado = await casos(request).sugerir_campos.ejecutar(identidad, atencion_id)
+    return SugerenciasRespuesta.de(resultado)
 
 
 @rutas.post("/atenciones/{atencion_id}/cierre")
