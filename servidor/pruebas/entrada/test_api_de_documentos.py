@@ -193,6 +193,9 @@ class IAEspia:
     async def responder(self, instrucciones: str, turnos: Sequence[Turno]) -> AsyncIterator[str]:
         yield ""
 
+    async def responder_en_json(self, instrucciones: str, texto: str) -> str:
+        return '{"campos": []}'
+
 
 @pytest.fixture
 def espia() -> IAEspia:

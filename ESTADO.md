@@ -15,9 +15,9 @@ Cubre: cuentas, horario y citas de los dos lados, panel del médico, historias c
 
 | Fase | Estado | Detalle |
 |---|---|---|
-| **1. Planificación** | Hecha | Alcance, requisitos, marco normativo, 46 historias en 9 épicas, 212 criterios, 110 tareas, 200 puntos |
+| **1. Planificación** | Hecha | Alcance, requisitos, marco normativo, 47 historias en 9 épicas, 219 criterios, 113 tareas, 205 puntos |
 | **2. Diseño** | Hecha | Arquitectura limpia, modelo de datos con permisos por fila, API, asistente con RAG, pantallas, diagramas, base visual y herramientas |
-| **3. Desarrollo** | **En curso** | 34 de 46 historias hechas o casi; 216 pruebas del servidor y 39 de pantallas en verde. Todo corre en el computador con PostgreSQL en Docker; nada se ha publicado. Sección 3 |
+| **3. Desarrollo** | **En curso** | 35 de 47 historias hechas o casi; 231 pruebas del servidor y 40 de pantallas en verde. Todo corre en el computador con PostgreSQL en Docker; nada se ha publicado. Sección 3 |
 | **4. Pruebas** | Sin iniciar | Se hace en Render contra los criterios de aceptación |
 | **5. Despliegue** | Sin iniciar | — |
 
@@ -38,6 +38,7 @@ Cubre: cuentas, horario y citas de los dos lados, panel del médico, historias c
 | **De vuelta a Qwen** (3 nov) | NVIDIA dejó de responder (su modelo grande no contesta en 2 minutos) y Alibaba ya habilitó `qwen3.7-plus` y `qwen-vl-ocr-2025-11-20`. Las respuestas y la lectura volvieron a Qwen con solo la configuración de `servidor/.env`; la de NVIDIA queda comentada. Se le pide a Qwen que no razone antes de responder: el primer texto llega en unos 4 s en vez de 14 | `bloque-3-documentos-e-ia` |
 | **Historia clínica del consultorio** (3 nov) | Campos de medicina general adaptados del modelo de oftalmología que entregó el dueño, con la norma de cada uno ([diseno/10](diseno/10-historia-clinica.md), D-33). El médico abre la atención desde Hoy o la ficha, escribe con el asistente al lado y el borrador se guarda solo, completa la identificación, cierra y firma con su contraseña; lo cerrado no cambia y se corrige con notas aclaratorias. La ficha muestra la historia. El paciente ve sus atenciones cerradas en la nueva sección Historia. La zona del paciente ahora también se adapta a computador | `bloque-3-documentos-e-ia` |
 | **Factura electrónica con Factus** (10 nov) | El botón Cobro emite la factura de una cita atendida con Factus, en su ambiente de pruebas (D-35). El médico escribe el valor y cómo pagó; Vitalia arma la factura estándar sin IVA, la DIAN la valida y queda guardado el número, el CUFE y el enlace de consulta. Una sola factura por cita, que no cambia; el PDF se abre desde la lista. Sin credenciales en `servidor/.env` las facturas son de mentira y la pantalla lo avisa. `uv run python -m vitalia.principal probar-factus` revisa las credenciales. Probado contra el sandbox el 10 de noviembre: la DIAN validó la factura SETP990035461 de un paciente inventado, con CUFE, enlace público y PDF. Análisis en [planificacion/factura-electronica-viabilidad.html](planificacion/factura-electronica-viabilidad.html) | `bloque-3-documentos-e-ia` |
+| **Sugerencias para la historia** (10 nov) | En la atención, "Completar con los documentos" propone antecedentes personales y familiares, alergias, factores de riesgo y enfermedad actual con lo que dicen los documentos del paciente (HU-047, D-36). Usa `qwen3.7-plus` en modo JSON y la misma búsqueda del asistente; cada dato llega con su documento, página y frase, y solo se muestra si la frase está tal cual en lo enviado. Nada se guarda hasta que el médico pulsa Usar, Agregar al texto o Reemplazar. No sugiere diagnóstico, plan, fórmula, órdenes ni identificación. Con Hernando (paciente 1): los cinco campos correctos, con el dato más reciente, en unos 20 s | `bloque-3-documentos-e-ia` |
 | **Iconos y hovers** (27 oct) | Iconos de Hugeicons en trazo redondeado, elegidos entre siete bibliotecas (D-31). Respuesta sutil al pasar el cursor en todos los botones: color y sombra en 150 ms y elevación de 1 px | `bloque-3-documentos-e-ia` |
 | **Mundo visual nuevo** (3 nov) | Rediseño con Impeccable (D-34): el dueño eligió el "muro de títulos" en la página de decisión. Lo que sigue se presenta en un mosaico con borde verde azulado (la próxima cita del paciente, quien sigue en Hoy); títulos en Antonio; tema claro y oscuro en la nueva pestaña Ajustes de los dos usuarios, que por defecto sigue al dispositivo. Movimiento: el mosaico de lo que sigue enciende su borde al aparecer, la fila señalada crece y las vecinas bajan, los botones se hunden al presionar y el cambio de tema se funde. Ninguna pantalla cambió de estructura. El contrato está en `.impeccable/surfaces/` y el sistema en `DESIGN.md` | `bloque-3-documentos-e-ia` |
 
@@ -45,16 +46,17 @@ Cubre: cuentas, horario y citas de los dos lados, panel del médico, historias c
 
 | Estado | Historias |
 |---|---|
-| **Hechas** | HU-001, HU-002, HU-004, HU-006, HU-007, HU-036 · HU-008, HU-009, HU-010, HU-011, HU-012, HU-013, HU-014, HU-015, HU-016, HU-017, HU-018, HU-021, HU-023 · HU-028, HU-029, HU-031, HU-033, HU-034 · HU-042, HU-044, HU-045 |
+| **Hechas** | HU-001, HU-002, HU-004, HU-006, HU-007, HU-036 · HU-008, HU-009, HU-010, HU-011, HU-012, HU-013, HU-014, HU-015, HU-016, HU-017, HU-018, HU-021, HU-023 · HU-028, HU-029, HU-031, HU-033, HU-034 · HU-042, HU-044, HU-045, HU-047 |
 | **Hechas con algo pendiente** | HU-026 (reemplazada por D-35: factura con Factus en el ambiente de pruebas; faltan la nota crédito para anular, el precio por tipo de cita y la factura del sector salud) · HU-003 (falta aceptar una versión nueva del texto y verla en el perfil) · HU-020 (falta la tarjeta de tratamiento) · HU-022 (falta mostrar el tiempo libre y crear la cita tocando un espacio) · HU-025 (faltan los tratamientos en la ficha) · HU-027 (los archivos van a una carpeta local; falta R2 con enlace firmado de 15 minutos) · HU-030 (el documento abre en otra pestaña en su página; falta el visor propio con la frase resaltada) · HU-032 (la casilla está en el registro; falta cambiarla después y que al autorizar se lean los documentos pendientes) · HU-037 (falta la pantalla de consulta de la bitácora) · HU-041 (falta la lista de municipios y que el paciente complete sus datos desde el perfil) · HU-043 (falta cargar el CIE-10 oficial completo; hay 110 frecuentes) |
 | **Sin empezar** | HU-005 recuperar contraseña · HU-019 avisos por correo · HU-024 registrar paciente desde el panel · HU-035 resumen del paciente · HU-038 y HU-039 tratamientos · HU-040 corregir datos del paciente · HU-046 copia de la historia clínica en PDF |
 
 ### 3.3 Lo que se probó
 
-- **Servidor:** 216 pruebas en verde contra PostgreSQL 18 con `pgvector` en Docker, una o más por criterio de aceptación. Las 12 migraciones se aplican, se deshacen y se vuelven a aplicar.
-- **Pantallas:** 31 pruebas en verde y construcción sin errores.
+- **Servidor:** 231 pruebas en verde contra PostgreSQL 18 con `pgvector` en Docker, una o más por criterio de aceptación. Las 12 migraciones se aplican, se deshacen y se vuelven a aplicar.
+- **Pantallas:** 40 pruebas en verde y construcción sin errores.
 - **En el navegador**, contra la API y la base de Docker: registro e ingreso; agendar, mover y cancelar; Hoy con asistencia; calendario en sus tres vistas; bloquear un día con citas (las lista y no guarda) y sin citas (guarda y aparece); subir documentos y verlos; ficha del paciente.
 - **Historia clínica, en el navegador** contra la API y la base de Docker (3 nov): abrir la atención desde la ficha, guardado del borrador al salir de cada campo, temperatura imposible marcada en rojo, búsqueda CIE-10 y diagnóstico principal, cierre rechazado con la lista de lo que faltaba, identificación completada, cierre y firma con contraseña, vista de solo lectura y nota aclaratoria; el paciente la ve en celular (lista y detalle) y en computador (lado a lado). La pantalla de atención en celular, con pestañas Atención y Asistente, sin desplazamiento lateral.
+- **Sugerencias para la historia, con Qwen** (10 nov), en la atención abierta de Hernando: los cinco campos coinciden con su tercer control (losartán, amlodipino y atorvastatina; ibuprofeno con angioedema; exfumador desde el 05/07/2026), sin traer datos de otros pacientes. La primera versión de las instrucciones tardaba casi 60 s porque el modelo copiaba párrafos enteros como frase; con frases cortas baja a unos 20 s. Si el modelo recorta una frase con "...", cada pedazo se comprueba aparte. En el navegador: pedir, usar en un campo vacío, reemplazar en uno con texto y descartar; el borrador se guarda solo al usar. Sin desplazamiento lateral en celular.
 - **El asistente:** la búsqueda se midió con Qwen y 12 historias clínicas inventadas: trajo los 16 datos esperados entre los 12 fragmentos y 14 entre los 3 primeros. **Las respuestas se midieron el 3 de noviembre con NVIDIA (D-32)** con las 20 preguntas del README de las historias de prueba: 19 bien, cero inventos, abstención correcta en las 5 sin respuesta y en las 2 de diagnóstico, y aislamiento por paciente correcto. En la de la radiografía de rodilla citó la orden en el control 2 cuando está en el 3; la comprobación de citas la marcó como no verificada. 38 de 46 citas coinciden letra por letra; las demás juntan renglones de una lista. Unos 15 segundos por respuesta en el plan gratuito.
 
 ## 4. Lo que se necesita del dueño del proyecto
@@ -130,14 +132,14 @@ Si después de instalar un paquete las pantallas salen en blanco, hay que reinic
 | Aspecto | Muro de títulos con acento verde azulado, tema claro y oscuro elegible en Ajustes (D-34, reemplaza en lo visual a D-18 y D-25). Cada pantalla conserva la estructura del lienzo. El médico, en computador; el paciente, en celular y también en computador (D-33). Sistema en [DESIGN.md](DESIGN.md) |
 | Iconos | Hugeicons, trazo redondeado (D-31, reemplaza D-26) |
 
-Todas las decisiones (D-01 a D-33) y supuestos están en [04-decisiones-y-supuestos.md](planificacion/04-decisiones-y-supuestos.md).
+Todas las decisiones (D-01 a D-36) y supuestos están en [04-decisiones-y-supuestos.md](planificacion/04-decisiones-y-supuestos.md).
 
 ## 8. Dónde está cada cosa
 
 | Qué | Dónde |
 |---|---|
 | Alcance, requisitos, marco normativo, decisiones y Kanban | [planificacion/](planificacion/) |
-| 46 historias con criterios y tareas, y su orden | [historias-de-usuario/](historias-de-usuario/) y [RELACIONES.md](historias-de-usuario/RELACIONES.md) |
+| 47 historias con criterios y tareas, y su orden | [historias-de-usuario/](historias-de-usuario/) y [RELACIONES.md](historias-de-usuario/RELACIONES.md) |
 | Arquitectura, modelo de datos, API, asistente, pantallas, diagramas, base visual y herramientas | [diseno/01](diseno/01-arquitectura.md) a [diseno/09](diseno/09-herramientas-y-entrega.md) |
 | Cómo se construye el asistente, paso a paso | [diseno/07-como-se-construye-el-asistente.md](diseno/07-como-se-construye-el-asistente.md) |
 | Copia de los tableros del lienzo | [diseno/lienzo/](diseno/lienzo/) |

@@ -6,6 +6,7 @@ descarta: un campo solo queda si al menos una de sus frases está tal cual en lo
 """
 
 import json
+import re
 from dataclasses import dataclass
 
 from vitalia.dominio.asistente import Contexto, OrigenComprobado, comprobar_origenes
@@ -34,15 +35,18 @@ que dicen los documentos que entregó el paciente.
    - antecedentes_familiares: enfermedades de sus familiares, diciendo el parentesco.
    - alergias: a qué y qué reacción produjo.
    - factores_riesgo: tabaco, alcohol, actividad física, exposiciones.
-   - enfermedad_actual: cómo han evolucionado sus problemas de salud según los últimos \
-documentos, con fechas.
+   - enfermedad_actual: cómo estaban sus problemas de salud en el documento más reciente, en \
+dos o tres frases con la fecha de ese documento.
 3. Si los fragmentos no dicen nada de un campo, no lo incluyas. No escribas "No refiere": que \
 un documento no lo mencione no significa que el paciente no lo tenga.
-4. No des diagnósticos nuevos ni recomiendes tratamientos.
-5. Escribe cada valor en español, breve, como lo anotaría un médico, en orden de fecha.
-6. Cada campo lleva las frases en que se basa, copiadas exactas de los fragmentos, con la \
-etiqueta del documento (D1, D2...) y la página.
-7. Los datos del paciente aparecen como [PACIENTE], [DOCUMENTO], [TELÉFONO] o [CORREO]; no \
+4. Si un dato cambió con el tiempo (medicamentos, tabaco, dosis), escribe solo el más reciente \
+con su fecha.
+5. No des diagnósticos nuevos ni recomiendes tratamientos. No comentes sobre los fragmentos.
+6. Escribe cada valor en español, breve, como lo anotaría un médico.
+7. Cada campo lleva una o dos citas: la etiqueta del documento (D1, D2...), la página y una \
+frase corta, de menos de 15 palabras, copiada exacta y seguida de los fragmentos, sin \
+puntos suspensivos.
+8. Los datos del paciente aparecen como [PACIENTE], [DOCUMENTO], [TELÉFONO] o [CORREO]; no \
 intentes adivinarlos.
 Responde solo con un objeto JSON con esta forma:
 {"campos": [{"campo": "alergias", "valor": "texto", "citas": [{"documento": "D1", \
@@ -86,20 +90,25 @@ def leer_sugerencias(respuesta: str, contexto: Contexto) -> list[Sugerencia]:
         if not valor or not isinstance(citas, list):
             continue
         # Se pasa al formato de cita del asistente para comprobarlas con la misma regla.
-        texto = " ".join(_como_cita(c) for c in citas if isinstance(c, dict))
+        texto = " ".join(t for c in citas if isinstance(c, dict) for t in _como_citas(c))
         comprobados = tuple(o for o in comprobar_origenes(texto, contexto) if o.verificado)
         if comprobados:
             sugerencias[campo] = Sugerencia(campo, valor, comprobados)
     return [sugerencias[c] for c in CONSULTAS if c in sugerencias]
 
 
-def _como_cita(cita: dict[str, object]) -> str:
+def _como_citas(cita: dict[str, object]) -> list[str]:
+    """Una cita del JSON en el formato del asistente: [D1, pág. 1: "frase"].
+
+    Si el modelo recortó la frase con puntos suspensivos, cada pedazo va como una cita aparte:
+    así cada uno se comprueba tal cual y no se descarta un dato bien citado.
+    """
     documento = str(cita.get("documento", "")).strip()
     pagina = str(cita.get("pagina", "")).strip()
-    frase = str(cita.get("frase", "")).strip()
     if not pagina.isdigit():
-        return ""
-    return f'[{documento}, pág. {pagina}: "{frase}"]'
+        return []
+    pedazos = re.split(r"\.{3}|…", str(cita.get("frase", "")))
+    return [f'[{documento}, pág. {pagina}: "{p.strip()}"]' for p in pedazos if p.strip()]
 
 
 def _sin_cercas(respuesta: str) -> str:

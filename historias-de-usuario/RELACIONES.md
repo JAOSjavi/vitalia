@@ -13,7 +13,7 @@ Cada historia declara de cuáles **depende** (no puede construirse antes) y a cu
 | 5. Documentos | Carga, visor y lectura | HU-028, HU-029, HU-030, HU-031 |
 | 6. Asistente | Autorización, aislamiento, preguntas y resumen | HU-032, HU-033, HU-034, HU-035 |
 | 7. Tratamientos | Registro por el médico y consulta del paciente | HU-038, HU-039 |
-| 8. Historia clínica | Identificación, pantalla de atención, consulta, cierre, historial y copia | HU-041, HU-042, HU-043, HU-044, HU-045, HU-046 |
+| 8. Historia clínica | Identificación, pantalla de atención, consulta, cierre, historial y copia | HU-041, HU-042, HU-043, HU-044, HU-045, HU-046, HU-047 |
 
 Las etapas 4 y 5 pueden avanzar en paralelo: los documentos solo necesitan el ingreso y el almacenamiento. La etapa 7 solo necesita la ficha del paciente, así que puede adelantarse a la 5 y la 6. La etapa 8 necesita la ficha, la agenda del día y el tratamiento; la pantalla de atención funciona sin el asistente, así que tampoco tiene que esperar a la 5 y la 6.
 
@@ -81,6 +81,7 @@ Las etapas 4 y 5 pueden avanzar en paralelo: los documentos solo necesitan el in
 | **HU-044** Cerrar y firmar la atención | E9 | HU-041, HU-043 | HU-045, HU-046 |
 | **HU-045** Consultar la historia clínica de un paciente | E9 | HU-044 | — |
 | **HU-046** Copia de la historia clínica para el paciente | E9 | HU-044 | — |
+| **HU-047** Sugerencias para la historia con los documentos del paciente | E9 | HU-034, HU-043 | — |
 
 ## Cadenas críticas
 

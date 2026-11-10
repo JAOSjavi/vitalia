@@ -31,8 +31,8 @@ No es un producto para vender a otros consultorios. Se construye para uno.
 | [E6 Asistente de IA](../historias-de-usuario/E6-asistente-de-ia/README.md) | Autorización del paciente, preguntas del médico, resumen del paciente, aislamiento por paciente | 4 | 24 |
 | [E7 Seguridad base](../historias-de-usuario/E7-seguridad-base/README.md) | Permisos por fila y bitácora de auditoría | 2 | 13 |
 | [E8 Tratamientos](../historias-de-usuario/E8-tratamientos/README.md) | El médico registra el tratamiento y el paciente lo consulta en "Mis tratamientos" | 2 | 8 |
-| [E9 Historia clínica del consultorio](../historias-de-usuario/E9-historia-clinica-del-consultorio/README.md) | Datos de identificación, pantalla de atención con el asistente a un lado, registro de la consulta, cierre con firma, consulta de atenciones y copia para el paciente | 6 | 27 |
-| **Total** | | **46** | **200** |
+| [E9 Historia clínica del consultorio](../historias-de-usuario/E9-historia-clinica-del-consultorio/README.md) | Datos de identificación, pantalla de atención con el asistente a un lado, registro de la consulta, cierre con firma, consulta de atenciones, copia para el paciente y sugerencias con los documentos | 7 | 32 |
+| **Total** | | **47** | **205** |
 
 ## 4. Fuera del alcance
 

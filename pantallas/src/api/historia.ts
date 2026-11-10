@@ -77,6 +77,27 @@ export function abrirAtencion(paciente: string, cita?: string | null) {
   });
 }
 
+export type OrigenDeSugerencia = {
+  etiqueta: string;
+  documento_id: string;
+  documento: string;
+  pagina: number;
+  frase: string;
+};
+
+export type Sugerencia = { campo: string; valor: string; origenes: OrigenDeSugerencia[] };
+
+export type Sugerencias = {
+  sugerencias: Sugerencia[];
+  consultado: { documento_id: string; documento: string; fecha_documento: string; paginas: number[] }[];
+  aviso: string;
+};
+
+/** Lo que dicen los documentos del paciente para algunos campos (HU-047). No guarda nada. */
+export function sugerirCampos(atencion: string) {
+  return enviar<Sugerencias>(`/api/v1/atenciones/${atencion}/sugerencias`, "POST");
+}
+
 export function verAtencion(atencion: string) {
   return pedir<AtencionParaEscribir>(`/api/v1/atenciones/${atencion}`);
 }

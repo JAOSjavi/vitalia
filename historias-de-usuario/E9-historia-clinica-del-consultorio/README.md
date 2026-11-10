@@ -4,8 +4,8 @@
 
 | Dato | Valor |
 |---|---|
-| Historias | 6 |
-| Puntos | 27 |
+| Historias | 7 |
+| Puntos | 32 |
 | Requisitos | RF-41 a RF-46 y RNF-15 |
 
 ## Historias de esta épica
@@ -18,6 +18,7 @@
 | HU-044 | [Cerrar y firmar la atención](HU-044-cerrar-y-firmar-la-atencion.md) | Médico | Must | 5 |
 | HU-045 | [Consultar la historia clínica de un paciente](HU-045-consultar-la-historia-clinica-de-un-paciente.md) | Médico | Must | 3 |
 | HU-046 | [Copia de la historia clínica para el paciente](HU-046-copia-de-la-historia-clinica-para-el-paciente.md) | Médico | Should | 3 |
+| HU-047 | [Sugerencias para la historia con los documentos del paciente](HU-047-sugerencias-de-la-historia-con-los-documentos.md) | Médico | Should | 5 |
 
 ## Qué entra y qué no
 

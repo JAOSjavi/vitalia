@@ -57,6 +57,9 @@ class IAQueCita:
         yield f'También [{etiqueta}, pág. {pagina}: "una frase que no está"]. '
         yield 'Y esto [D9, pág. 1: "inventado"].'
 
+    async def responder_en_json(self, instrucciones: str, texto: str) -> str:
+        return '{"campos": []}'
+
 
 async def subir_y_procesar(
     api: FastAPI, cliente: httpx.AsyncClient, pdf: bytes, fecha: str

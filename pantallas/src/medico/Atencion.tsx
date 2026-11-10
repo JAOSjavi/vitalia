@@ -5,13 +5,14 @@ import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { Link, useParams } from "react-router";
 
 import { ErrorDeApi } from "../api/cliente";
-import { etiquetasDeDocumentos, fichaDelPaciente } from "../api/documentos";
+import { direccionDelArchivo, etiquetasDeDocumentos, fichaDelPaciente } from "../api/documentos";
 import {
   agregarNota,
   buscarCie10,
   cerrarAtencion,
   guardarBorrador,
   guardarIdentificacion,
+  sugerirCampos,
   verAtencion,
   type AtencionParaEscribir,
   type CampoDelFormulario,
@@ -19,6 +20,7 @@ import {
   type Faltantes,
   type Formulario,
   type Medicamento,
+  type Sugerencia,
   type Valor,
 } from "../api/historia";
 import { hora } from "../comunes/fechas";
@@ -168,7 +170,12 @@ export function Atencion() {
       <div className={`atencion__columnas atencion__columnas--${lado}`}>
         <div className="atencion__centro">
           {abierta ? (
-            <Editor key={atencion.id} consulta={consulta.data} f={formulario.data} />
+            <Editor
+              key={atencion.id}
+              consulta={consulta.data}
+              f={formulario.data}
+              puedeSugerir={ficha.data.ia_autorizada && ficha.data.documentos.length > 0}
+            />
           ) : (
             <Cerrada consulta={consulta.data} />
           )}
@@ -239,7 +246,24 @@ function comoTexto(valor: Valor) {
   return typeof valor === "number" ? String(valor).replace(".", ",") : String(valor);
 }
 
-function Editor({ consulta, f }: { consulta: AtencionParaEscribir; f: Formulario }) {
+// "No refiere" y "Sin hallazgos" se reemplazan al usar una sugerencia; lo demás no se toca.
+const ATAJOS = ["No refiere", "Sin hallazgos"];
+
+/** Lo que había en el campo más lo que propone la sugerencia, sin borrar lo escrito (HU-047, CA-3). */
+function conSugerencia(actual: Valor | undefined, sugerido: string) {
+  const texto = comoTexto(actual ?? null).trim();
+  return !texto || ATAJOS.includes(texto) ? sugerido : `${texto}\n${sugerido}`;
+}
+
+function Editor({
+  consulta,
+  f,
+  puedeSugerir,
+}: {
+  consulta: AtencionParaEscribir;
+  f: Formulario;
+  puedeSugerir: boolean;
+}) {
   const { atencion } = consulta;
   const cliente = useQueryClient();
   const [estado, setEstado] = useState<EstadoDelEditor>({ datos: { ...atencion.datos }, errores: {} });
@@ -247,6 +271,12 @@ function Editor({ consulta, f }: { consulta: AtencionParaEscribir; f: Formulario
   const [diagnosticos, setDiagnosticos] = useState<Diagnostico[]>(atencion.diagnosticos);
   const [medicamentos, setMedicamentos] = useState<Medicamento[]>(atencion.medicamentos);
   const [identificando, setIdentificando] = useState(false);
+  const [sugerencias, setSugerencias] = useState<Record<string, Sugerencia>>({});
+  const sugerir = useMutation({
+    mutationFn: () => sugerirCampos(atencion.id),
+    onSuccess: (respuesta) =>
+      setSugerencias(Object.fromEntries(respuesta.sugerencias.map((s) => [s.campo, s]))),
+  });
   // Lo que es a criterio del médico se pregunta primero; queda abierto si ya tiene algo escrito.
   const [requiere, setRequiere] = useState<Record<string, boolean | undefined>>(() => {
     const d = atencion.datos;
@@ -318,6 +348,23 @@ function Editor({ consulta, f }: { consulta: AtencionParaEscribir; f: Formulario
     soltar(campo, valor);
   }
 
+  function quitarSugerencia(campo: string) {
+    setSugerencias((todas) => {
+      const resto = { ...todas };
+      delete resto[campo];
+      return resto;
+    });
+  }
+
+  /** Agrega la sugerencia a lo escrito o, si el médico lo pide, lo reemplaza. */
+  function usarSugerencia(campo: string, reemplazar = false) {
+    const sugerencia = sugerencias[campo];
+    if (!sugerencia) return;
+    const nuevo = reemplazar ? sugerencia.valor : conSugerencia(estado.datos[campo], sugerencia.valor);
+    elegir(campo, nuevo.slice(0, f.atencion[campo]?.largo ?? undefined));
+    quitarSugerencia(campo);
+  }
+
   function guardarDiagnosticos(lista: Diagnostico[]) {
     setDiagnosticos(lista);
     guardar.mutate({
@@ -368,6 +415,9 @@ function Editor({ consulta, f }: { consulta: AtencionParaEscribir; f: Formulario
     cambiar,
     soltar,
     elegir,
+    sugerencias,
+    usarSugerencia,
+    quitarSugerencia,
   };
   const pendientes = consulta.faltantes.identificacion;
   const faltan = queFalta(f, estado.datos, diagnosticos, requiere.incapacidad);
@@ -403,6 +453,15 @@ function Editor({ consulta, f }: { consulta: AtencionParaEscribir; f: Formulario
         <Identificacion consulta={consulta} f={f} alCerrar={() => setIdentificando(false)} />
       )}
       {estado.errores.general && <Nota tono="rojo">{estado.errores.general}</Nota>}
+      {puedeSugerir && (
+        <Completar
+          pidiendo={sugerir.isPending}
+          error={sugerir.error}
+          respuesta={sugerir.data}
+          pendientes={Object.keys(sugerencias).length}
+          alPedir={() => sugerir.mutate()}
+        />
+      )}
 
       <form className="atencion__formulario" onSubmit={(e) => e.preventDefault()} noValidate>
         <nav className="atencion__indice" aria-label="Secciones de la historia clínica">
@@ -666,7 +725,101 @@ type PropiedadesDeCampo = {
   cambiar: (campo: string, valor: Valor) => void;
   soltar: (campo: string, valor?: Valor) => void;
   elegir: (campo: string, valor: Valor) => void;
+  sugerencias?: Record<string, Sugerencia>;
+  usarSugerencia?: (campo: string, reemplazar?: boolean) => void;
+  quitarSugerencia?: (campo: string) => void;
 };
+
+/** El botón que pide las sugerencias y lo que pasó con el último pedido (HU-047). */
+function Completar({
+  pidiendo,
+  error,
+  respuesta,
+  pendientes,
+  alPedir,
+}: {
+  pidiendo: boolean;
+  error: Error | null;
+  respuesta: { sugerencias: Sugerencia[]; aviso: string } | undefined;
+  pendientes: number;
+  alPedir: () => void;
+}) {
+  let resultado: ReactNode = null;
+  if (error) {
+    resultado = (
+      <Nota tono="rojo">
+        {error instanceof ErrorDeApi ? error.message : "No se pudo consultar. Intente de nuevo."}
+      </Nota>
+    );
+  } else if (respuesta && respuesta.sugerencias.length === 0) {
+    resultado = (
+      <p className="atencion__ayuda" role="status">
+        Los documentos no dicen nada de los antecedentes ni de la enfermedad actual.
+      </p>
+    );
+  } else if (respuesta && pendientes > 0) {
+    resultado = (
+      <p className="atencion__ayuda" role="status">
+        {pendientes === 1 ? "Hay 1 sugerencia" : `Hay ${pendientes} sugerencias`} debajo de los
+        campos. {respuesta.aviso}
+      </p>
+    );
+  }
+  return (
+    <div className="atencion__completar">
+      <Boton clase="borde" onClick={alPedir} disabled={pidiendo} aria-busy={pidiendo || undefined}>
+        {pidiendo ? "Leyendo los documentos…" : "Completar con los documentos"}
+      </Boton>
+      {resultado}
+    </div>
+  );
+}
+
+/** Una sugerencia debajo de su campo: el texto, de dónde sale y qué hacer con ella. */
+function Sugerida({
+  sugerencia,
+  conTexto,
+  alUsar,
+  alDescartar,
+}: {
+  sugerencia: Sugerencia;
+  conTexto: boolean;
+  alUsar: (reemplazar?: boolean) => void;
+  alDescartar: () => void;
+}) {
+  return (
+    <div className="atencion__sugerencia">
+      <p className="atencion__sugerencia-titulo">
+        <span className="atencion__punto atencion__punto--acento" aria-hidden="true" />
+        Según los documentos
+      </p>
+      <p className="atencion__sugerencia-texto">{sugerencia.valor}</p>
+      <ul className="atencion__origenes">
+        {sugerencia.origenes.map((o) => (
+          <li key={`${o.etiqueta}-${o.pagina}-${o.frase}`}>
+            <a href={direccionDelArchivo(o.documento_id, o.pagina)} target="_blank" rel="noopener">
+              {o.etiqueta}, pág. {o.pagina}
+            </a>
+            : «{o.frase}»
+          </li>
+        ))}
+      </ul>
+      <div className="atencion__sugerencia-acciones">
+        <button type="button" className="atencion__atajo" onClick={() => alUsar()}>
+          {conTexto ? "Agregar al texto" : "Usar"}
+        </button>
+        {conTexto && (
+          <button type="button" className="atencion__atajo" onClick={() => alUsar(true)}>
+            Reemplazar
+          </button>
+        )}
+        <button type="button" className="atencion__atajo atencion__atajo--suave" onClick={alDescartar}>
+          Descartar
+        </button>
+      </div>
+    </div>
+  );
+}
 
 function Envoltura({
   id,
@@ -732,9 +885,14 @@ function Area({
   elegir,
   filas,
   atajo,
+  sugerencias,
+  usarSugerencia,
+  quitarSugerencia,
 }: PropiedadesDeCampo & { filas: number; atajo?: string }) {
   const id = `campo-${campo}`;
   const descripcion = f.atencion[campo];
+  const sugerencia = sugerencias?.[campo];
+  const escrito = comoTexto(datos[campo] ?? null).trim();
   return (
     <Envoltura id={id} descripcion={descripcion} etiqueta={etiqueta} ayuda={ayuda} error={errores[campo]}>
       <textarea
@@ -751,6 +909,14 @@ function Area({
         <button type="button" className="atencion__atajo" onClick={() => elegir(campo, atajo)}>
           Marcar "{atajo}"
         </button>
+      )}
+      {sugerencia && usarSugerencia && quitarSugerencia && (
+        <Sugerida
+          sugerencia={sugerencia}
+          conTexto={Boolean(escrito) && !ATAJOS.includes(escrito)}
+          alUsar={(reemplazar) => usarSugerencia(campo, reemplazar)}
+          alDescartar={() => quitarSugerencia(campo)}
+        />
       )}
     </Envoltura>
   );

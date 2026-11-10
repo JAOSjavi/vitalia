@@ -793,3 +793,76 @@
     animation: none;
   }
 }
+
+/* Sugerencias con los documentos (HU-047): punto de color y texto, sin caja. */
+.atencion__completar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+}
+
+.atencion__completar .boton {
+  min-height: 44px;
+  border-radius: var(--radio-boton);
+}
+
+.atencion__completar .atencion__ayuda {
+  flex: 1 1 320px;
+  margin: 0;
+}
+
+.atencion__punto--acento {
+  background: var(--acento);
+}
+
+.atencion__sugerencia {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+  padding: 4px 0 4px 14px;
+  border-left: 2px solid var(--linea);
+}
+
+.atencion__sugerencia p {
+  margin: 0;
+}
+
+.atencion__sugerencia-titulo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--tinta-suave);
+  font-size: var(--tamano-secundario);
+  font-weight: 700;
+}
+
+.atencion__sugerencia-texto {
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.atencion__origenes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--tinta-suave);
+  font-size: var(--tamano-secundario);
+  line-height: 20px;
+  overflow-wrap: anywhere;
+}
+
+.atencion__origenes a {
+  color: var(--acento-texto);
+  font-weight: 600;
+}
+
+.atencion__sugerencia-acciones {
+  display: flex;
+  gap: 20px;
+}
+
+.atencion__atajo--suave {
+  color: var(--tinta-suave);
+}

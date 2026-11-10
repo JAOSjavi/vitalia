@@ -58,6 +58,7 @@ Si falta algo, la atención no se cierra y el sistema dice qué falta.
 | El paciente solo ve sus atenciones cerradas | Permiso por fila `propias_cerradas` |
 | Cada consulta de la historia queda en la bitácora | `consulta_de_historia` |
 | Al cerrar, la cita queda como atendida | `casos_de_uso/historia_clinica.py` |
+| Las sugerencias con los documentos solo llenan antecedentes, alergias, factores de riesgo y enfermedad actual, y nada se guarda hasta que el médico las usa (HU-047, D-36) | `dominio/sugerencias.py` y `casos_de_uso/sugerir_campos.py` |
 
 ## 4. Lo que queda pendiente
 
@@ -65,5 +66,6 @@ Si falta algo, la atención no se cierra y el sistema dice qué falta.
 - **Municipio** en texto libre: falta la lista de municipios del DANE (DIVIPOLA).
 - **Copia en PDF para el paciente** (HU-046).
 - **La fórmula como tratamiento del paciente** (E8, HU-038 y HU-039): hoy la fórmula queda dentro de la atención y el paciente la ve ahí.
-- **Las atenciones cerradas en el asistente**: requiere la versión 2 del texto de autorización de IA, que debe revisar el abogado.
+- **Las atenciones cerradas en el asistente y en las sugerencias**: requiere la versión 2 del texto de autorización de IA, que debe revisar el abogado.
+- **Sugerencias de diagnóstico o plan**: la autorización v1 dice que la IA no diagnostica ni recomienda tratamientos. Necesita un texto nuevo revisado por el abogado y la revisión de un médico (D-36).
 - **Firma**: hoy es la sesión más la contraseña del médico. La firma digital certificada es la pregunta 7 para el abogado.
