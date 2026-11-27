@@ -3,13 +3,21 @@ import "./ZonaPaciente.css";
 import { NavLink, Navigate, Route, Routes, useLocation } from "react-router";
 
 import { Ajustes } from "../comunes/Ajustes";
-import { CalendarBlankIcon, ClipboardTextIcon, FileTextIcon, GearIcon, HouseIcon } from "../comunes/iconos";
+import {
+  CalendarBlankIcon,
+  ClipboardTextIcon,
+  CreditCardIcon,
+  FileTextIcon,
+  GearIcon,
+  HouseIcon,
+} from "../comunes/iconos";
 import { Marca } from "../comunes/piezas/Marca";
 import { Agendar } from "./Agendar";
 import { Inicio } from "./Inicio";
 import { MiHistoria } from "./MiHistoria";
 import { MisCitas } from "./MisCitas";
 import { MisDocumentos } from "./MisDocumentos";
+import { MisFacturas } from "./MisFacturas";
 
 // Zona del paciente: en celular, la barra de secciones abajo; en computador, a la izquierda.
 export default function ZonaPaciente() {
@@ -25,6 +33,8 @@ export default function ZonaPaciente() {
         <Route path="documentos" element={<MisDocumentos />} />
         <Route path="historia" element={<MiHistoria />} />
         <Route path="historia/:atencion" element={<MiHistoria />} />
+        <Route path="facturas" element={<MisFacturas />} />
+        <Route path="facturas/:cita" element={<MisFacturas />} />
         <Route path="ajustes" element={<Ajustes />} />
         <Route path="*" element={<Navigate to="/paciente" replace />} />
       </Routes>
@@ -56,6 +66,12 @@ export default function ZonaPaciente() {
               <ClipboardTextIcon aria-hidden="true" />
             </span>
             Historia
+          </NavLink>
+          <NavLink to="/paciente/facturas" className="zona-paciente__seccion">
+            <span className="zona-paciente__icono-seccion">
+              <CreditCardIcon aria-hidden="true" />
+            </span>
+            Facturas
           </NavLink>
           <NavLink to="/paciente/ajustes" className="zona-paciente__seccion">
             <span className="zona-paciente__icono-seccion">

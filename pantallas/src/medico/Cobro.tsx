@@ -6,7 +6,6 @@ import { Link } from "react-router";
 
 import { ErrorDeApi } from "../api/cliente";
 import {
-  direccionDelPdf,
   facturar,
   MEDIOS_DE_PAGO,
   verCobros,
@@ -15,6 +14,7 @@ import {
   type Factura,
   type MedioDePago,
 } from "../api/facturas";
+import { DetalleDeFactura, enPesos } from "../comunes/DetalleDeFactura";
 import { conMayuscula, fechaCorta, hora } from "../comunes/fechas";
 import { CreditCardIcon, FileTextIcon } from "../comunes/iconos";
 import { Boton } from "../comunes/piezas/Boton";
@@ -23,16 +23,6 @@ import { Estado } from "../comunes/piezas/Estado";
 import { Hoja } from "../comunes/piezas/Hoja";
 import { Nota } from "../comunes/piezas/Nota";
 import { Tarjeta } from "../comunes/piezas/Tarjeta";
-
-const pesos = new Intl.NumberFormat("es-CO", {
-  style: "currency",
-  currency: "COP",
-  maximumFractionDigits: 0,
-});
-
-export function enPesos(valor: number) {
-  return pesos.format(valor);
-}
 
 const AMBIENTES: Record<
   Ambiente,
@@ -50,6 +40,7 @@ const AMBIENTES: Record<
 export function Cobro() {
   const lista = useQuery({ queryKey: ["cobros"], queryFn: verCobros });
   const [cobrando, setCobrando] = useState<CobroDeCita | null>(null);
+  const [viendo, setViendo] = useState<CobroDeCita | null>(null);
   const datos = lista.data;
   const sinFacturar = datos?.cobros.filter((c) => !c.factura).length ?? 0;
 
@@ -93,13 +84,37 @@ export function Cobro() {
               key={cobro.cita.id}
               cobro={cobro}
               alCobrar={() => setCobrando(cobro)}
+              alVer={() => setViendo(cobro)}
             />
           ))}
         </Tarjeta>
       )}
 
       {cobrando && (
-        <HojaDeCobro cobro={cobrando} alCerrar={() => setCobrando(null)} />
+        <HojaDeCobro
+          cobro={cobrando}
+          alCerrar={() => setCobrando(null)}
+          // Recién emitida, se muestra la factura: es lo que el médico quiere ver.
+          alEmitir={(factura) => {
+            setCobrando(null);
+            setViendo({ cita: cobrando.cita, factura });
+          }}
+        />
+      )}
+
+      {viendo?.factura && (
+        <Hoja
+          titulo="Factura"
+          icono={<FileTextIcon />}
+          alCerrar={() => setViendo(null)}
+          ancha
+        >
+          <DetalleDeFactura
+            factura={viendo.factura}
+            paciente={viendo.cita.paciente}
+            atencion={viendo.cita.inicio}
+          />
+        </Hoja>
       )}
     </main>
   );
@@ -108,9 +123,11 @@ export function Cobro() {
 function Fila({
   cobro,
   alCobrar,
+  alVer,
 }: {
   cobro: CobroDeCita;
   alCobrar: () => void;
+  alVer: () => void;
 }) {
   const { cita, factura } = cobro;
   return (
@@ -128,7 +145,7 @@ function Fila({
         </span>
       </div>
       {factura ? (
-        <Facturada citaId={cita.id} factura={factura} />
+        <Facturada factura={factura} alVer={alVer} />
       ) : (
         <Boton onClick={alCobrar} className="cobro__boton">
           <CreditCardIcon aria-hidden="true" />
@@ -139,7 +156,7 @@ function Fila({
   );
 }
 
-function Facturada({ citaId, factura }: { citaId: string; factura: Factura }) {
+function Facturada({ factura, alVer }: { factura: Factura; alVer: () => void }) {
   return (
     <div className="cobro__factura">
       <div className="cobro__resumen">
@@ -147,17 +164,10 @@ function Facturada({ citaId, factura }: { citaId: string; factura: Factura }) {
         <span className="cobro__numero">{factura.numero}</span>
         <span className="cobro__valor">{enPesos(factura.valor)}</span>
       </div>
-      <div className="cobro__enlaces">
-        <a href={direccionDelPdf(citaId)} target="_blank" rel="noreferrer">
-          <FileTextIcon aria-hidden="true" />
-          Ver PDF
-        </a>
-        {factura.enlace_qr && (
-          <a href={factura.enlace_qr} target="_blank" rel="noreferrer">
-            Consultar en la DIAN
-          </a>
-        )}
-      </div>
+      <Boton clase="borde" onClick={alVer} className="cobro__ver">
+        <FileTextIcon aria-hidden="true" />
+        Ver factura
+      </Boton>
     </div>
   );
 }
@@ -165,9 +175,11 @@ function Facturada({ citaId, factura }: { citaId: string; factura: Factura }) {
 function HojaDeCobro({
   cobro,
   alCerrar,
+  alEmitir,
 }: {
   cobro: CobroDeCita;
   alCerrar: () => void;
+  alEmitir: (factura: Factura) => void;
 }) {
   const cliente = useQueryClient();
   const [valor, setValor] = useState("");
@@ -175,9 +187,9 @@ function HojaDeCobro({
   const emitir = useMutation({
     mutationFn: () =>
       facturar(cobro.cita.id, Number(valor), medio as MedioDePago),
-    onSuccess: async () => {
+    onSuccess: async (factura) => {
       await cliente.invalidateQueries({ queryKey: ["cobros"] });
-      alCerrar();
+      alEmitir(factura);
     },
   });
   const error = emitir.error instanceof ErrorDeApi ? emitir.error : null;

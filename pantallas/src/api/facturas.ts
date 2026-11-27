@@ -13,6 +13,7 @@ export const MEDIOS_DE_PAGO: Record<MedioDePago, string> = {
 };
 
 export type Factura = {
+  cita_id: string;
   numero: string;
   cufe: string;
   concepto: string;
@@ -29,6 +30,11 @@ export type ListaDeCobros = { ambiente: Ambiente; cobros: Cobro[] };
 
 export function verCobros() {
   return pedir<ListaDeCobros>("/api/v1/cobros");
+}
+
+/** Las facturas del paciente de la sesión, la más reciente primero. */
+export function misFacturas() {
+  return pedir<Factura[]>("/api/v1/yo/facturas");
 }
 
 export function facturar(citaId: string, valor: number, medio: MedioDePago) {

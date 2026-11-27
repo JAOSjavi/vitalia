@@ -17,6 +17,7 @@ rutas = APIRouter(prefix="/api/v1")
 
 
 class Factura(BaseModel):
+    cita_id: UUID
     numero: str
     cufe: str
     concepto: str
@@ -30,6 +31,7 @@ class Factura(BaseModel):
     @classmethod
     def de(cls, factura: FacturaDelDominio) -> "Factura":
         return cls(
+            cita_id=factura.cita_id,
             numero=factura.numero,
             cufe=factura.cufe,
             concepto=factura.concepto,
@@ -79,8 +81,14 @@ async def facturar(
     return Factura.de(factura)
 
 
+@rutas.get("/yo/facturas")
+async def mis_facturas(identidad: Sesion, request: Request) -> list[Factura]:
+    return [Factura.de(f) for f in await casos(request).cobros.mias(identidad)]
+
+
 @rutas.get("/citas/{cita_id}/factura/pdf")
 async def pdf_de_la_factura(cita_id: UUID, identidad: Sesion, request: Request) -> Response:
+    """La usan el médico y el paciente dueño de la factura."""
     nombre, contenido = await casos(request).cobros.pdf(identidad, cita_id)
     return Response(
         contenido,

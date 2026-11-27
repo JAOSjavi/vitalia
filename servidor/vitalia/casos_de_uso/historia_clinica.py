@@ -7,20 +7,21 @@ cambia. El paciente ve sus atenciones cerradas.
 
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timedelta
 from decimal import Decimal
 from uuid import UUID
 
 from vitalia.casos_de_uso.autorizar import Autorizador
 from vitalia.casos_de_uso.puertos import (
     AtencionGuardada,
+    Cita,
     Contrasenas,
     NotaAclaratoria,
     Reloj,
     Trabajo,
     UnidadDeTrabajo,
 )
-from vitalia.dominio.cuentas import DatosInvalidos
+from vitalia.dominio.cuentas import COLOMBIA, DatosInvalidos
 from vitalia.dominio.errores import NoEncontrado
 from vitalia.dominio.historia_clinica import (
     ANTECEDENTES,
@@ -41,6 +42,8 @@ from vitalia.dominio.historia_clinica import (
 from vitalia.dominio.identidad import Identidad
 
 LARGO_MAXIMO_DE_LA_NOTA = 4000
+# Igual que la lista de Cobro: una cita más vieja ya no se marca al cerrar una atención sin cita.
+DIAS_PARA_ATENDER = 30
 RESULTADOS_CIE10 = 20
 
 
@@ -171,7 +174,10 @@ class Atenciones:
     async def cerrar(self, identidad: Identidad, atencion_id: UUID, contrasena: str) -> datetime:
         """Revisa la contraseña, la identificación y la consulta, en ese orden (diseno/03-api.md).
 
-        Si falta algo no cierra y dice qué. Al cerrar, la cita queda como atendida.
+        Si falta algo no cierra y dice qué. Al cerrar, la cita queda como atendida aunque no haya
+        llegado su hora, y se puede cobrar (D-35). Si la atención se abrió desde la ficha, sin
+        cita, se marca la cita confirmada del paciente de hoy o, si no hay, la más reciente de los
+        últimos 30 días.
         """
         await self._autorizador.exigir(identidad, "atenciones.registrar")
         assert identidad.usuario_id is not None
@@ -192,15 +198,33 @@ class Atenciones:
             if pendientes:
                 raise FaltanDatos(pendientes)
             await trabajo.historia.cerrar(atencion_id, fin, firma)
-            if atencion.cita_id is not None:
-                cita = await trabajo.agenda.cita(atencion.cita_id)
-                if cita is not None and cita.estado == "confirmada":
-                    await trabajo.agenda.marcar_asistencia(cita.id, "atendida")
-                    await trabajo.agenda.anotar_cambio(cita.id, identidad.usuario_id, "asistencia")
+            cita = await self._cita_atendida(trabajo, atencion.paciente_id, atencion.cita_id, fin)
+            if cita is not None and cita.estado == "confirmada":
+                await trabajo.agenda.marcar_asistencia(cita.id, "atendida")
+                await trabajo.agenda.anotar_cambio(cita.id, identidad.usuario_id, "asistencia")
             await trabajo.bitacora.registrar(
                 "cierre_de_atencion", paciente_id=atencion.paciente_id, objeto=str(atencion_id)
             )
         return fin
+
+    @staticmethod
+    async def _cita_atendida(
+        trabajo: Trabajo, paciente_id: UUID, cita_id: UUID | None, fin: datetime
+    ) -> Cita | None:
+        """La cita que la atención deja atendida: la suya o, sin cita, la que corresponde."""
+        if cita_id is not None:
+            return await trabajo.agenda.cita(cita_id)
+        hoy = fin.astimezone(COLOMBIA).replace(hour=0, minute=0, second=0, microsecond=0)
+        confirmadas = await trabajo.agenda.citas(
+            desde=hoy - timedelta(days=DIAS_PARA_ATENDER),
+            hasta=hoy + timedelta(days=1),
+            paciente_id=paciente_id,
+            estado="confirmada",
+        )
+        de_hoy = [c for c in confirmadas if c.inicio >= hoy]
+        if de_hoy:
+            return de_hoy[0]
+        return confirmadas[-1] if confirmadas else None
 
     async def agregar_nota(self, identidad: Identidad, atencion_id: UUID, texto: str) -> None:
         """La única forma de corregir una atención cerrada (Resolución 1995, art. 18)."""

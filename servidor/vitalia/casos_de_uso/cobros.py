@@ -120,8 +120,16 @@ class Cobros:
             )
         return factura
 
+    async def mias(self, identidad: Identidad) -> list[Factura]:
+        """Las facturas del paciente de la sesión: la base no le deja ver otras."""
+        await self._autorizador.exigir(identidad, "facturas.propias")
+        async with self._unidad.abrir(identidad) as trabajo:
+            return await trabajo.facturas.todas()
+
     async def pdf(self, identidad: Identidad, cita_id: UUID) -> tuple[str, bytes]:
-        await self._autorizador.exigir(identidad, "facturas.ver")
+        """El médico abre cualquiera; el paciente, solo las suyas."""
+        permiso = "facturas.propias" if identidad.clase == "paciente" else "facturas.ver"
+        await self._autorizador.exigir(identidad, permiso)
         async with self._unidad.abrir(identidad) as trabajo:
             factura = await trabajo.facturas.de_la_cita(cita_id)
             if factura is None:

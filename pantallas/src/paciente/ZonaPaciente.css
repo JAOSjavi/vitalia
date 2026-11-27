@@ -57,6 +57,23 @@
   border-radius: var(--radio-campo);
 }
 
+/* Seis secciones en un celular angosto: la letra y el resalte se encogen para que no se toquen. */
+@media (max-width: 430px) {
+  .zona-paciente__secciones {
+    column-gap: 2px;
+    padding-inline: 4px;
+  }
+
+  .zona-paciente__seccion {
+    font-size: 11px;
+    letter-spacing: -0.01em;
+  }
+
+  .zona-paciente__icono-seccion {
+    padding: 4px 12px;
+  }
+}
+
 .zona-paciente__seccion.active {
   color: var(--acento-texto);
   font-weight: 700;

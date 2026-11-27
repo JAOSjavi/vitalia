@@ -87,23 +87,9 @@ a.cobro__paciente:hover {
   font-variant-numeric: tabular-nums;
 }
 
-.cobro__enlaces {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 16px;
-}
-
-.cobro__enlaces a {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--acento-texto);
-  font-weight: 600;
-}
-
-.cobro__enlaces svg {
-  width: 16px;
-  height: 16px;
+.cobro__ver {
+  min-height: 40px;
+  font-size: 14.5px;
 }
 
 .cobro__formulario {

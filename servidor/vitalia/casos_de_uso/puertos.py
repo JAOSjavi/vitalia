@@ -606,6 +606,10 @@ class Facturas(Protocol):
 
     async def de_las_citas(self, citas: Sequence[UUID]) -> dict[UUID, Factura]: ...
 
+    async def todas(self) -> list[Factura]:
+        """La más reciente primero. Los permisos por fila dejan al paciente solo las suyas."""
+        ...
+
     async def guardar(self, nueva: FacturaNueva) -> Factura:
         """Si otra petición ya guardó la de esa cita, devuelve esa."""
         ...

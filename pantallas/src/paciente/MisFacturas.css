@@ -1,0 +1,132 @@
+.mis-facturas__ayuda {
+  color: var(--tinta-suave);
+  font-size: var(--tamano-secundario);
+  line-height: 21px;
+}
+
+.mis-facturas__columnas {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+}
+
+.mis-facturas__lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mis-facturas__factura {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 44px 14px 16px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-tarjeta);
+  background: var(--superficie);
+  box-shadow: var(--sombra-2);
+  color: var(--tinta);
+  text-decoration: none;
+}
+
+.mis-facturas__factura:hover {
+  border-color: var(--acento);
+}
+
+.mis-facturas__factura[aria-current="page"] {
+  border-color: var(--acento);
+  box-shadow: 0 0 0 2px var(--acento-suave), var(--sombra-2);
+}
+
+.mis-facturas__fecha {
+  color: var(--tinta-suave);
+  font-size: var(--tamano-secundario);
+  line-height: 20px;
+  font-weight: 700;
+}
+
+.mis-facturas__concepto {
+  font-size: var(--tamano-texto);
+  line-height: 23px;
+  font-weight: 700;
+}
+
+.mis-facturas__valor {
+  color: var(--tinta);
+  font-size: var(--tamano-secundario);
+  line-height: 20px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.mis-facturas__flecha {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  width: 20px;
+  height: 20px;
+  color: var(--tinta-suave);
+  transform: translateY(-50%);
+}
+
+.mis-facturas__detalle {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-tarjeta);
+  background: var(--superficie);
+  box-shadow: var(--sombra-2);
+}
+
+.mis-facturas__volver {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  color: var(--acento-texto);
+  font-size: var(--tamano-secundario);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.mis-facturas__volver svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Celular: la lista, o la factura elegida con el enlace para volver. */
+@media (max-width: 899px) {
+  .mis-facturas .mis-facturas__detalle {
+    display: none;
+  }
+
+  .mis-facturas--con-detalle .mis-facturas__detalle {
+    display: flex;
+    padding: 16px;
+  }
+
+  .mis-facturas--con-detalle .mis-facturas__lista,
+  .mis-facturas--con-detalle .mis-facturas__ayuda {
+    display: none;
+  }
+
+  .mis-facturas__volver {
+    display: flex;
+  }
+}
+
+/* Computador: la lista a la izquierda y la factura a la derecha. */
+@media (min-width: 900px) {
+  .mis-facturas__columnas {
+    grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .mis-facturas__lista {
+    position: sticky;
+    top: 24px;
+  }
+}

@@ -54,6 +54,12 @@ class FacturasPostgres:
         )
         return {f.cita_id: _factura(f) for f in filas}
 
+    async def todas(self) -> list[Factura]:
+        filas = await self._conexion.execute(
+            text(f"SELECT {_COLUMNAS} FROM facturas ORDER BY emitida_en DESC")
+        )
+        return [_factura(f) for f in filas]
+
     async def guardar(self, nueva: FacturaNueva) -> Factura:
         # Dos clics seguidos llegan con la misma factura de Factus: se queda la primera.
         fila = (
