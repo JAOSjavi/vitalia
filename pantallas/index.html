@@ -4,6 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Vitalia</title>
+    <script>
+      // Aplica el tema guardado antes de pintar, para que no parpadee (src/comunes/tema.ts).
+      try {
+        var tema = localStorage.getItem("vitalia.tema");
+        if (tema === "claro" || tema === "oscuro") document.documentElement.dataset.tema = tema;
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="raiz"></div>

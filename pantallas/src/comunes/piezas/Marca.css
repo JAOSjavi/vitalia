@@ -10,7 +10,7 @@
   align-items: center;
   justify-content: center;
   background: var(--acento);
-  color: var(--superficie);
+  color: var(--sobre-acento);
   font-family: var(--letra-titulo);
   font-weight: 700;
 }
@@ -18,21 +18,23 @@
 .marca--pequena .marca__sello {
   width: 36px;
   height: 36px;
-  border-radius: 11px;
+  border-radius: var(--radio-campo);
   font-size: 23px;
 }
 
 .marca--grande .marca__sello {
   width: 56px;
   height: 56px;
-  border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(31, 71, 184, 0.28);
+  border-radius: var(--radio-tarjeta);
+  box-shadow: var(--sombra-acento);
   font-size: 34px;
 }
 
 .marca__nombre {
   font-family: var(--letra-titulo);
-  font-size: 23px;
+  font-size: 25px;
   line-height: 26px;
   font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }

@@ -1,0 +1,668 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-03T00:00:00Z",
+  "title": "Design System: Vitalia Salud",
+  "extensions": {
+    "colorMeta": {
+      "fondo": {
+        "role": "neutral",
+        "displayName": "Gris de muro",
+        "canonical": "#eceef2",
+        "oklch": "oklch(94.9% 0.006 265)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#232426",
+          "#3f4042",
+          "#5c5e61",
+          "#7c7d81",
+          "#9d9ea1",
+          "#c3c4c6",
+          "#eeeef0"
+        ],
+        "dark": "#0d1015"
+      },
+      "superficie": {
+        "role": "neutral",
+        "displayName": "Blanco de mosaico",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 90)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#7d7d7d",
+          "#9e9e9e",
+          "#c4c4c4",
+          "#eeeeee"
+        ],
+        "dark": "#161a21"
+      },
+      "superficie-2": {
+        "role": "neutral",
+        "displayName": "Gris de reposo",
+        "canonical": "#f5f6f8",
+        "oklch": "oklch(97.3% 0.003 265)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#242425",
+          "#3f4041",
+          "#5d5e5f",
+          "#7c7d7f",
+          "#9e9ea0",
+          "#c3c4c5",
+          "#eeeeef"
+        ],
+        "dark": "#1d222b"
+      },
+      "tinta": {
+        "role": "neutral",
+        "displayName": "Tinta",
+        "canonical": "#11141a",
+        "oklch": "oklch(19.1% 0.013 264)",
+        "tonalRamp": [
+          "#0a0b0e",
+          "#222428",
+          "#3d4045",
+          "#5a5e64",
+          "#797d85",
+          "#9b9ea5",
+          "#c1c4c9",
+          "#eceef2"
+        ],
+        "dark": "#f1efe9"
+      },
+      "tinta-suave": {
+        "role": "neutral",
+        "displayName": "Tinta suave",
+        "canonical": "#4a5160",
+        "oklch": "oklch(43.4% 0.026 266)",
+        "tonalRamp": [
+          "#090b10",
+          "#20242c",
+          "#3b404a",
+          "#575e6b",
+          "#767d8d",
+          "#989eac",
+          "#bfc4cf",
+          "#ebeef6"
+        ],
+        "dark": "#b3b8c2"
+      },
+      "linea": {
+        "role": "neutral",
+        "displayName": "Filete",
+        "canonical": "#d3d7df",
+        "oklch": "oklch(87.8% 0.012 265)",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#222427",
+          "#3d4044",
+          "#5b5e64",
+          "#7a7d84",
+          "#9b9ea4",
+          "#c2c4c9",
+          "#edeef2"
+        ],
+        "dark": "#2d333e"
+      },
+      "linea-suave": {
+        "role": "neutral",
+        "displayName": "Filete suave",
+        "canonical": "#e6e8ed",
+        "oklch": "oklch(93.1% 0.007 269)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#232426",
+          "#3e4043",
+          "#5c5d61",
+          "#7b7d81",
+          "#9d9ea2",
+          "#c3c4c7",
+          "#edeef0"
+        ],
+        "dark": "#232831"
+      },
+      "linea-campo": {
+        "role": "neutral",
+        "displayName": "Borde de campo",
+        "canonical": "#7a8293",
+        "oklch": "oklch(60.6% 0.027 265)",
+        "tonalRamp": [
+          "#090b10",
+          "#20242c",
+          "#3b404b",
+          "#575e6c",
+          "#767d8d",
+          "#989eac",
+          "#bfc4cf",
+          "#ebeef6"
+        ],
+        "dark": "#6e7687"
+      },
+      "acento": {
+        "role": "primary",
+        "displayName": "Verde azulado de Vitalia",
+        "canonical": "#0a7d72",
+        "oklch": "oklch(53.1% 0.092 184)",
+        "tonalRamp": [
+          "#00110e",
+          "#002d27",
+          "#004c44",
+          "#006d63",
+          "#318e83",
+          "#63aea4",
+          "#94d2c9",
+          "#c9fbf2"
+        ],
+        "dark": "#1fb8a6",
+        "brandSource": "#0f9d8f (página de Vitalia); la app rellena con su tono oscuro #0a7d72 para que el blanco encima pase 4.5:1"
+      },
+      "acento-fuerte": {
+        "role": "primary",
+        "displayName": "Verde azulado de presión",
+        "canonical": "#087068",
+        "oklch": "oklch(49.1% 0.084 186)",
+        "tonalRamp": [
+          "#00110e",
+          "#002d28",
+          "#004b45",
+          "#166c64",
+          "#3b8d84",
+          "#69ada5",
+          "#98d1ca",
+          "#ccfaf3"
+        ],
+        "dark": "#3fd0bf"
+      },
+      "acento-texto": {
+        "role": "primary",
+        "displayName": "Verde azulado de lectura",
+        "canonical": "#087068",
+        "oklch": "oklch(49.1% 0.084 186)",
+        "tonalRamp": [
+          "#00110e",
+          "#002d27",
+          "#004c44",
+          "#006d63",
+          "#318e83",
+          "#63aea4",
+          "#94d2c9",
+          "#c9fbf2"
+        ],
+        "dark": "#5fdccd"
+      },
+      "acento-oscuro": {
+        "role": "primary",
+        "displayName": "Verde azulado profundo",
+        "canonical": "#075f57",
+        "oklch": "oklch(43.7% 0.075 185)",
+        "tonalRamp": [
+          "#00100d",
+          "#002c27",
+          "#0c4a44",
+          "#266a62",
+          "#468b83",
+          "#70aca3",
+          "#9ed0c8",
+          "#d0f8f2"
+        ],
+        "dark": "#a6efe6"
+      },
+      "acento-suave": {
+        "role": "primary",
+        "displayName": "Verde azulado tenue",
+        "canonical": "#e6f6f4",
+        "oklch": "oklch(96.1% 0.017 188)",
+        "tonalRamp": [
+          "#070c0c",
+          "#1e2625",
+          "#384241",
+          "#54615f",
+          "#73817f",
+          "#95a1a0",
+          "#bcc7c5",
+          "#e8f1ef"
+        ],
+        "dark": "#103430"
+      },
+      "sobre-acento": {
+        "role": "primary",
+        "displayName": "Blanco sobre acento",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 90)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#7d7d7d",
+          "#9e9e9e",
+          "#c4c4c4",
+          "#eeeeee"
+        ],
+        "dark": "#04241f"
+      },
+      "resalte": {
+        "role": "neutral",
+        "displayName": "Resalte",
+        "canonical": "#f1faf9",
+        "oklch": "oklch(97.8% 0.010 189)",
+        "tonalRamp": [
+          "#090c0c",
+          "#212525",
+          "#3b4140",
+          "#585f5e",
+          "#777f7e",
+          "#99a09f",
+          "#bfc5c5",
+          "#ebf0ef"
+        ],
+        "dark": "#0f201e"
+      },
+      "foco": {
+        "role": "primary",
+        "displayName": "Foco",
+        "canonical": "#087068",
+        "oklch": "oklch(49.1% 0.084 186)",
+        "tonalRamp": [
+          "#00110e",
+          "#002d27",
+          "#004c44",
+          "#006d63",
+          "#318e83",
+          "#63aea4",
+          "#94d2c9",
+          "#c9fbf2"
+        ],
+        "dark": "#5fdccd"
+      },
+      "velo": {
+        "role": "neutral",
+        "displayName": "Velo",
+        "canonical": "rgba(10, 12, 16, 0.55)",
+        "dark": "rgba(0, 0, 0, 0.68)"
+      },
+      "punto-verde": {
+        "role": "status",
+        "displayName": "Punto verde",
+        "canonical": "#1a8c55",
+        "oklch": "oklch(56.6% 0.129 156)",
+        "tonalRamp": [
+          "#001103",
+          "#002e14",
+          "#004e29",
+          "#017041",
+          "#30925e",
+          "#67b184",
+          "#9bd4af",
+          "#d2fae0"
+        ],
+        "dark": "#3fbf7f"
+      },
+      "punto-rojo": {
+        "role": "status",
+        "displayName": "Punto rojo",
+        "canonical": "#cc3a2e",
+        "oklch": "oklch(56.5% 0.185 29)",
+        "tonalRamp": [
+          "#230000",
+          "#4b0000",
+          "#78120c",
+          "#a7271e",
+          "#d0483b",
+          "#ea7869",
+          "#ffa89a",
+          "#ffdcd1"
+        ],
+        "dark": "#ef6a5e"
+      },
+      "punto-ambar": {
+        "role": "status",
+        "displayName": "Punto ámbar",
+        "canonical": "#c98a00",
+        "oklch": "oklch(67.9% 0.142 76)",
+        "tonalRamp": [
+          "#180600",
+          "#3a1c00",
+          "#5e3500",
+          "#855000",
+          "#a97000",
+          "#c69547",
+          "#e4bd84",
+          "#ffeac3"
+        ],
+        "dark": "#f0b429"
+      },
+      "punto-gris": {
+        "role": "status",
+        "displayName": "Punto gris",
+        "canonical": "#7d8698",
+        "oklch": "oklch(61.9% 0.029 264)",
+        "tonalRamp": [
+          "#090b10",
+          "#20242c",
+          "#3a404b",
+          "#565e6d",
+          "#757d8e",
+          "#979fad",
+          "#bec4d0",
+          "#eaeff7"
+        ],
+        "dark": "#8a94a9"
+      },
+      "rojo-suave": {
+        "role": "status",
+        "displayName": "Rojo tenue",
+        "canonical": "#fbeeed",
+        "oklch": "oklch(95.9% 0.014 23)",
+        "tonalRamp": [
+          "#0e0a0a",
+          "#282322",
+          "#453e3d",
+          "#655b5a",
+          "#857a79",
+          "#a59c9b",
+          "#cac2c1",
+          "#f2eded"
+        ],
+        "dark": "#3a1815"
+      },
+      "verde-fuerte": {
+        "role": "status",
+        "displayName": "Verde fuerte",
+        "canonical": "#0f6b43",
+        "oklch": "oklch(46.7% 0.104 158)",
+        "tonalRamp": [
+          "#001005",
+          "#012c18",
+          "#114c30",
+          "#246d49",
+          "#448f67",
+          "#72ae8b",
+          "#a2d1b5",
+          "#d7f8e4"
+        ],
+        "dark": "#1d8a57"
+      },
+      "alerta": {
+        "role": "status",
+        "displayName": "Alerta",
+        "canonical": "#a8211a",
+        "oklch": "oklch(47.7% 0.172 29)",
+        "tonalRamp": [
+          "#220000",
+          "#490503",
+          "#741913",
+          "#a32e25",
+          "#cb4e42",
+          "#e67b6d",
+          "#ffaa9e",
+          "#ffddd3"
+        ],
+        "dark": "#ff8a7e"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hora monumental de la próxima cita (64 px) y título de Hoy del médico (56 px)."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Título de pantalla y nombre de quien sigue, en mayúsculas."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Título de mosaico y de hoja, en mayúsculas."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Texto del paciente."
+      },
+      "body-medico": {
+        "displayName": "Body médico",
+        "purpose": "Texto de la zona del médico, más denso."
+      },
+      "secondary": {
+        "displayName": "Secundario",
+        "purpose": "Ayudas de campo y detalle de filas."
+      },
+      "label": {
+        "displayName": "Rótulo",
+        "purpose": "Rótulos de grupo y de columna en mayúsculas; nunca como antetítulo."
+      },
+      "data": {
+        "displayName": "Dato",
+        "purpose": "Horas de la agenda y números de documento, con cifras tabulares."
+      }
+    },
+    "shadows": [
+      {
+        "name": "sombra-flotante",
+        "value": "0 2px 4px rgba(12, 14, 18, 0.08), 0 12px 32px rgba(12, 14, 18, 0.14)",
+        "dark": "0 2px 4px rgba(0, 0, 0, 0.5), 0 12px 32px rgba(0, 0, 0, 0.5)",
+        "purpose": "Menús desplegables y la hoja inferior: lo que se superpone al contenido."
+      },
+      {
+        "name": "halo-campo",
+        "value": "0 0 0 3px var(--acento-suave)",
+        "purpose": "Campo o buscador con foco."
+      },
+      {
+        "name": "sombra-hover",
+        "value": "inset 0 0 0 1px var(--linea-campo)",
+        "purpose": "Borde que se marca al pasar sobre botones de superficie y mosaicos que se tocan."
+      },
+      {
+        "name": "sombra-acento-hover",
+        "value": "inset 0 0 0 2px var(--acento-fuerte)",
+        "purpose": "Botón principal al pasar el cursor."
+      },
+      {
+        "name": "marco-activo",
+        "value": "inset 0 0 0 1.5px var(--acento)",
+        "purpose": "Enlace activo del menú (1.5 px) y opción elegida en Ajustes (1 px)."
+      },
+      {
+        "name": "sombra-1, sombra-2, sombra-acento",
+        "value": "none",
+        "purpose": "Sombras de módulo: existen como tokens y valen none a propósito."
+      }
+    ],
+    "motion": [
+      {
+        "name": "salida",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Curva de todo el sistema: arranca rápido y asienta suave."
+      },
+      {
+        "name": "transicion",
+        "value": "160ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Color, borde y sombra de controles."
+      },
+      {
+        "name": "contorno-y-opacidad",
+        "value": "220ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Contorno de acento y atenuado de vecinos en una fila; transform del botón."
+      },
+      {
+        "name": "presionar",
+        "value": "scale(0.97), 90ms",
+        "purpose": "El botón se hunde al presionar."
+      },
+      {
+        "name": "encender",
+        "value": "700ms cubic-bezier(0.16, 1, 0.3, 1), una vez",
+        "purpose": "El mosaico enfocado enciende su borde de acento al aparecer; sin animación con movimiento reducido."
+      },
+      {
+        "name": "cambio-de-tema",
+        "value": "view transition 320ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Fundido entre claro y oscuro (tema.ts); se omite con movimiento reducido."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "medico-angosto",
+        "value": "820px",
+        "purpose": "Por debajo, el menú del médico pasa arriba."
+      },
+      {
+        "name": "computador",
+        "value": "900px",
+        "purpose": "Desde aquí el paciente tiene menú lateral y la hoja se centra como ventana."
+      }
+    ],
+    "themes": {
+      "mechanism": "Claro en :root; oscuro con :root[data-tema=\"oscuro\"] o con prefers-color-scheme: dark si no se fijó claro. La preferencia se guarda en localStorage (vitalia.tema) y index.html la aplica antes de pintar."
+    }
+  },
+  "components": [
+    {
+      "name": "Botón principal",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "La única acción principal de la vista: relleno verde azulado, se hunde al presionar.",
+      "html": "<button class=\"ds-boton ds-boton--principal\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"><path d=\"M12 4v16M4 12h16\"/></svg>Agendar otra cita</button>",
+      "css": ".ds-boton{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 20px;border-radius:var(--radio-boton,8px);font-family:var(--letra-texto);font-size:16px;font-weight:700;cursor:pointer;transition:background-color 160ms cubic-bezier(0.16, 1, 0.3, 1),border-color 160ms cubic-bezier(0.16, 1, 0.3, 1),box-shadow 160ms cubic-bezier(0.16, 1, 0.3, 1),transform 220ms cubic-bezier(0.16, 1, 0.3, 1)}.ds-boton:focus-visible{outline:2px solid var(--foco,#087068);outline-offset:2px}.ds-boton:active{transform:scale(.97);transition-duration:90ms}.ds-boton--principal{min-height:54px;border:0;background:var(--acento,#0a7d72);color:var(--sobre-acento,#ffffff);font-size:17px}.ds-boton--principal:hover{background:var(--acento-fuerte,#087068);box-shadow:inset 0 0 0 2px var(--acento-fuerte,#087068)}"
+    },
+    {
+      "name": "Botón de borde",
+      "kind": "button",
+      "refersTo": "button-borde",
+      "description": "Acción secundaria con borde de tinta de 1.5 px.",
+      "html": "<button class=\"ds-boton ds-boton--borde\">Mover</button>",
+      "css": ".ds-boton{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 20px;border-radius:var(--radio-boton,8px);font-family:var(--letra-texto);font-size:16px;font-weight:700;cursor:pointer;transition:background-color 160ms cubic-bezier(0.16, 1, 0.3, 1),border-color 160ms cubic-bezier(0.16, 1, 0.3, 1),box-shadow 160ms cubic-bezier(0.16, 1, 0.3, 1),transform 220ms cubic-bezier(0.16, 1, 0.3, 1)}.ds-boton:focus-visible{outline:2px solid var(--foco,#087068);outline-offset:2px}.ds-boton:active{transform:scale(.97);transition-duration:90ms}.ds-boton--borde{border:1.5px solid var(--tinta,#11141a);background:var(--superficie,#fff);color:var(--tinta,#11141a)}.ds-boton--borde:hover{background:var(--acento-suave,#e6f6f4);box-shadow:inset 0 0 0 1px var(--linea-campo,#7a8293)}"
+    },
+    {
+      "name": "Botón neutro",
+      "kind": "button",
+      "refersTo": "button-neutro",
+      "description": "Acción de bajo peso con borde de campo.",
+      "html": "<button class=\"ds-boton ds-boton--neutro\">Cancelar</button>",
+      "css": ".ds-boton{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 20px;border-radius:var(--radio-boton,8px);font-family:var(--letra-texto);font-size:16px;font-weight:700;cursor:pointer;transition:background-color 160ms cubic-bezier(0.16, 1, 0.3, 1),border-color 160ms cubic-bezier(0.16, 1, 0.3, 1),box-shadow 160ms cubic-bezier(0.16, 1, 0.3, 1),transform 220ms cubic-bezier(0.16, 1, 0.3, 1)}.ds-boton:focus-visible{outline:2px solid var(--foco,#087068);outline-offset:2px}.ds-boton:active{transform:scale(.97);transition-duration:90ms}.ds-boton--neutro{border:1.5px solid var(--linea-campo,#7a8293);background:var(--superficie,#fff);color:var(--tinta,#11141a)}.ds-boton--neutro:hover{background:var(--acento-suave,#e6f6f4);box-shadow:inset 0 0 0 1px var(--linea-campo,#7a8293)}"
+    },
+    {
+      "name": "Campo",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Campo de 52 px con etiqueta arriba; foco en borde de acento y halo tenue.",
+      "html": "<label class=\"ds-campo\"><span class=\"ds-campo__etiqueta\">Número de documento</span><span class=\"ds-entrada\"><input class=\"ds-entrada__control\" value=\"1020304050\"></span><span class=\"ds-campo__ayuda\">Sin puntos ni espacios.</span></label>",
+      "css": ".ds-campo{display:flex;flex-direction:column;gap:6px;max-width:360px;font-family:var(--letra-texto);color:var(--tinta,#11141a)}.ds-campo__etiqueta{font-size:14.5px;line-height:20px;font-weight:700}.ds-campo__ayuda{color:var(--tinta-suave,#4a5160);font-size:14.5px;line-height:20px}.ds-entrada{display:flex;align-items:center;height:52px;padding:0 14px;border:1.5px solid var(--linea-campo,#7a8293);border-radius:var(--radio-campo,8px);background:var(--superficie,#fff);transition:border-color 160ms cubic-bezier(0.16, 1, 0.3, 1),box-shadow 160ms cubic-bezier(0.16, 1, 0.3, 1)}.ds-entrada:focus-within{border-color:var(--acento,#0a7d72);box-shadow:0 0 0 3px var(--acento-suave,#e6f6f4)}.ds-entrada__control{flex:1;min-width:0;height:100%;border:0;outline:0;background:transparent;color:var(--tinta,#11141a);font-family:var(--letra-dato);font-size:15.5px}"
+    },
+    {
+      "name": "Estado",
+      "kind": "chip",
+      "refersTo": "estado",
+      "description": "Punto de color más palabra; informa, no se toca. La variante de acento solo dice \"Sigue\" o \"Principal\", nunca un estado.",
+      "html": "<span class=\"ds-estado\"><span class=\"ds-estado__punto\"></span>Confirmada</span> <span class=\"ds-estado ds-estado--acento\"><span class=\"ds-estado__punto ds-estado__punto--acento\"></span>Sigue</span>",
+      "css": ".ds-estado{display:inline-flex;align-items:center;gap:8px;padding:4px 10px 4px 8px;border-radius:var(--radio-estado,6px);background:var(--superficie-2,#f5f6f8);color:var(--tinta,#11141a);font-family:var(--letra-texto);font-size:13px;line-height:20px;font-weight:700;white-space:nowrap}.ds-estado__punto{width:9px;height:9px;border-radius:999px;background:var(--punto-verde,#1a8c55)}.ds-estado__punto--acento{background:var(--acento,#0a7d72)}.ds-estado--acento{color:var(--acento-texto,#087068)}"
+    },
+    {
+      "name": "Mosaico enfocado",
+      "kind": "card",
+      "refersTo": "mosaico-enfocado",
+      "description": "Lo que sigue: borde de acento de 2 px, título en mayúsculas condensadas y la hora monumental; enciende su borde al aparecer.",
+      "html": "<article class=\"ds-proxima\"><div class=\"ds-proxima__cabeza\"><span class=\"ds-proxima__rotulo\">Su próxima cita</span><span class=\"ds-proxima__cuando\"><span class=\"ds-proxima__punto\"></span>Mañana</span></div><div class=\"ds-proxima__hora\">9:30 a. m.</div><div class=\"ds-proxima__detalle\">Miércoles 4 de noviembre · Consulta general</div><div class=\"ds-proxima__datos\">Calle 93 # 14-20, consultorio 302</div></article>",
+      "css": "@keyframes ds-encender{from{border-color:var(--linea,#d3d7df);box-shadow:0 0 0 0 transparent}55%{box-shadow:0 0 0 6px var(--acento-suave,#e6f6f4)}to{border-color:var(--acento,#0a7d72);box-shadow:0 0 0 0 transparent}}.ds-proxima{display:flex;flex-direction:column;gap:14px;max-width:400px;padding:18px 18px 16px;border:2px solid var(--acento,#0a7d72);border-radius:var(--radio-tarjeta,10px);background:var(--superficie,#fff);color:var(--tinta,#11141a);font-family:var(--letra-texto);animation:ds-encender 700ms cubic-bezier(0.16, 1, 0.3, 1) both}.ds-proxima__cabeza{display:flex;align-items:center;justify-content:space-between;gap:12px}.ds-proxima__rotulo{font-family:var(--letra-titulo);font-size:24px;line-height:1.1;font-weight:600;letter-spacing:.02em;text-transform:uppercase}.ds-proxima__cuando{display:flex;align-items:center;gap:8px;padding:4px 10px;border-radius:var(--radio-estado,6px);background:var(--acento-suave,#e6f6f4);color:var(--acento-oscuro,#075f57);font-size:14px;font-weight:700}.ds-proxima__punto{width:9px;height:9px;border-radius:999px;background:var(--acento,#0a7d72)}.ds-proxima__hora{font-family:var(--letra-titulo);font-size:64px;line-height:.95;font-weight:700;letter-spacing:-.01em;font-variant-numeric:tabular-nums}.ds-proxima__detalle{font-size:18px;line-height:24px;font-weight:700}.ds-proxima__datos{padding-top:14px;border-top:1px solid var(--linea,#d3d7df);color:var(--tinta-suave,#4a5160)}@media (prefers-reduced-motion:reduce){.ds-proxima{animation:none}}"
+    },
+    {
+      "name": "Fila de mosaicos",
+      "kind": "custom",
+      "refersTo": "tarjeta",
+      "description": "Lista con filete; la fila señalada se enmarca en el acento y las vecinas bajan su brillo.",
+      "html": "<section class=\"ds-lista\"><div class=\"ds-fila\" tabindex=\"0\"><time>4:47 p. m.</time><strong>Javier Ordoñez</strong></div><div class=\"ds-fila\" tabindex=\"0\"><time>5:27 p. m.</time><strong>Hernando Castaño Ríos</strong></div><div class=\"ds-fila\" tabindex=\"0\"><time>6:00 p. m.</time><strong>Rosa Elena Díaz</strong></div></section>",
+      "css": ".ds-lista{display:flex;flex-direction:column;max-width:520px;border:1px solid var(--linea,#d3d7df);border-radius:var(--radio-tarjeta,10px);background:var(--superficie,#fff);overflow:hidden;font-family:var(--letra-texto);color:var(--tinta,#11141a)}.ds-fila{display:flex;align-items:center;gap:16px;padding:14px 20px;border-top:1px solid var(--linea,#d3d7df);outline:2px solid transparent;outline-offset:-6px;transition:opacity 220ms cubic-bezier(0.16, 1, 0.3, 1),outline-color 220ms cubic-bezier(0.16, 1, 0.3, 1),outline-offset 220ms cubic-bezier(0.16, 1, 0.3, 1)}.ds-fila:first-child{border-top:0}.ds-fila time{width:96px;color:var(--tinta-suave,#4a5160);font-family:var(--letra-dato);font-size:15px;font-variant-numeric:tabular-nums}.ds-fila:hover,.ds-fila:focus-visible{position:relative;z-index:1;outline:2px solid var(--acento,#0a7d72);outline-offset:-2px;border-radius:var(--radio-campo,8px)}.ds-lista:has(>.ds-fila:hover)>.ds-fila:not(:hover){opacity:.62}"
+    },
+    {
+      "name": "Menú lateral",
+      "kind": "nav",
+      "refersTo": "nav-enlace-activo",
+      "description": "Enlaces de 44 px; el activo con fondo verde azulado tenue y marco interior de acento.",
+      "html": "<nav class=\"ds-menu\"><a class=\"ds-menu__enlace ds-menu__enlace--activo\" href=\"#\">Hoy</a><a class=\"ds-menu__enlace\" href=\"#\">Calendario</a><a class=\"ds-menu__enlace\" href=\"#\">Pacientes</a><span class=\"ds-menu__enlace ds-menu__enlace--pronto\">Bitácora <small>Pronto</small></span></nav>",
+      "css": ".ds-menu{display:flex;flex-direction:column;gap:4px;width:240px;padding:24px 16px;border-right:1px solid var(--linea,#d3d7df);background:var(--superficie,#fff);font-family:var(--letra-texto)}.ds-menu__enlace{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;padding:0 12px;border-radius:var(--radio-campo,8px);color:var(--tinta-suave,#4a5160);font-size:15.5px;font-weight:600;text-decoration:none;transition:background-color 160ms cubic-bezier(0.16, 1, 0.3, 1),color 160ms cubic-bezier(0.16, 1, 0.3, 1)}a.ds-menu__enlace:hover{background:var(--fondo,#eceef2);color:var(--tinta,#11141a)}.ds-menu__enlace:focus-visible{outline:2px solid var(--foco,#087068);outline-offset:2px}.ds-menu__enlace--activo,a.ds-menu__enlace--activo:hover{background:var(--acento-suave,#e6f6f4);box-shadow:inset 0 0 0 1.5px var(--acento,#0a7d72);color:var(--acento-oscuro,#075f57);font-weight:700}.ds-menu__enlace--pronto small{font-size:12.5px;font-weight:600}"
+    },
+    {
+      "name": "Opción de tema",
+      "kind": "custom",
+      "refersTo": "tarjeta",
+      "description": "Mosaico entero que se toca en Ajustes; el elegido se enmarca en el acento.",
+      "html": "<label class=\"ds-opcion\"><input type=\"radio\" name=\"ds-tema\" checked><span class=\"ds-opcion__texto\"><strong>Oscuro</strong><span>Fondo oscuro siempre</span></span></label><label class=\"ds-opcion\"><input type=\"radio\" name=\"ds-tema\"><span class=\"ds-opcion__texto\"><strong>Claro</strong><span>Fondo claro siempre</span></span></label>",
+      "css": ".ds-opcion{display:flex;align-items:center;gap:14px;max-width:420px;min-height:72px;margin-bottom:10px;padding:14px 16px;border:1px solid var(--linea,#d3d7df);border-radius:var(--radio-tarjeta,10px);background:var(--superficie,#fff);color:var(--tinta,#11141a);font-family:var(--letra-texto);cursor:pointer}.ds-opcion:has(input:checked){border-color:var(--acento,#0a7d72);box-shadow:inset 0 0 0 1px var(--acento,#0a7d72)}.ds-opcion:has(input:focus-visible){outline:2px solid var(--foco,#087068);outline-offset:2px}.ds-opcion input{width:22px;height:22px;margin:0;accent-color:var(--acento-texto,#087068)}.ds-opcion__texto{display:flex;flex-direction:column;gap:2px}.ds-opcion__texto strong{font-size:17px;line-height:22px}.ds-opcion__texto span{color:var(--tinta-suave,#4a5160);font-size:14.5px;line-height:20px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "El muro de títulos",
+    "overview": "**Creative North Star: \"El muro de títulos\"**\n\nVitalia se lee como el muro de una plataforma de streaming: una fila de mosaicos quietos y, entre ellos, uno solo que se presenta. Para el paciente es su próxima cita, con la hora enorme. Para el médico es quien sigue en la agenda. Todo lo demás se queda bajo, en filas de mosaicos de esquina corta separados por un filete de 1 px. El verde azulado de la página de Vitalia es la única luz del sistema: marca lo enfocado, lo elegido y la acción principal.\n\nHay un solo mundo para los dos usuarios, con dos densidades. El paciente lo ve en el celular, en una columna de 440 px, con letra grande y áreas táctiles de 52 a 72 px. El médico lo ve en el computador, con menú lateral y texto de 15.5 px. El tema claro es gris frío sin crema y el oscuro es neutro profundo. Los dos comparten cada rol de color, y el tema se elige en Ajustes o sigue al dispositivo.\n\nSe rechaza el panel médico gris azulado de tarjetas blancas con sombra suave. Tampoco se usan píldoras con chulo, cajas amarillas de aviso ni iconos de relleno genérico: un estado es un punto de color más texto.",
+    "keyCharacteristics": [
+      "Un mosaico enfocado por pantalla, con borde de acento de 2 px y cifras monumentales en Antonio.",
+      "Títulos de pantalla y de mosaico en mayúsculas condensadas; el texto corrido nunca.",
+      "Módulos planos con filete de 1 px; la sombra queda solo para lo que flota.",
+      "Movimiento sobrio: los botones se hunden y no se elevan, y en una fila los vecinos del mosaico señalado bajan su brillo.",
+      "Tema claro y oscuro con los mismos nombres de rol; ningún componente escribe un color a mano."
+    ],
+    "rules": [
+      {
+        "name": "The Una Sola Luz Rule",
+        "body": "El acento lleno marca solo tres cosas: el foco, la selección y la acción principal. El acento tenue puede servir de fondo a iconos y hovers, pero nunca hay dos rellenos de acento compitiendo en un mismo mosaico.",
+        "section": "colors"
+      },
+      {
+        "name": "The Rol, No Valor Rule",
+        "body": "Todo color sale de `variables.css` por su nombre de rol. Un color escrito a mano en una pantalla rompe el tema oscuro.",
+        "section": "colors"
+      },
+      {
+        "name": "The Punto Y Texto Rule",
+        "body": "Un estado es un punto de color más su palabra, sobre fondo gris de reposo y esquina de 6 px. No lleva píldora redonda con chulo ni caja de color.",
+        "section": "colors"
+      },
+      {
+        "name": "The Vecinos De Tono Rule",
+        "body": "El punto verde (matiz 156) y el verde azulado del acento (matiz 184) son vecinos y se confunden de reojo. Un estado (confirmada, atendida, activa, guardado) nunca se dice con el acento: va con su punto de estado y su palabra. El acento en un estado solo nombra lo que sigue o lo principal, nunca un resultado.",
+        "section": "colors"
+      },
+      {
+        "name": "The Cartel Rule",
+        "body": "Antonio solo va en títulos y cifras. El texto que se lee de corrido, los botones y los campos van siempre en Atkinson.",
+        "section": "typography"
+      },
+      {
+        "name": "The Cifra Tabular Rule",
+        "body": "Toda hora y todo número que se compara (`time`, `.cifras`) usa cifras tabulares, para que las filas de la agenda alineen.",
+        "section": "typography"
+      },
+      {
+        "name": "The Solo Flota Lo Que Flota Rule",
+        "body": "La sombra difusa es para menús y hojas que se superponen al contenido. Un mosaico en su sitio no la lleva.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Hundirse, No Elevarse Rule",
+        "body": "Al presionar, un botón se escala a 0.97 en 90 ms. Nada sube con `translateY` ni gana sombra al pasar el cursor.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** tomar todo color de su rol en `variables.css` y comprobar la pantalla en los dos temas.",
+      "**Do** dejar un solo mosaico enfocado por pantalla, con borde de acento de 2 px, y la cifra que importa en Antonio Display.",
+      "**Do** separar módulos con filete de 1 px y esquina de 10 px; campos y botones con 8 px.",
+      "**Do** poner los títulos de pantalla y de mosaico en Antonio mayúscula con 0.02em de espaciado, y todo lo demás en Atkinson.",
+      "**Do** mostrar cada estado como punto de color más palabra, con el punto de estado y no con el acento.",
+      "**Do** usar iconos de Hugeicons en trazo redondeado a través de `comunes/iconos.tsx`, a 18–20 px.",
+      "**Do** usar `cubic-bezier(0.16, 1, 0.3, 1)` a 160 ms para color y borde, y a 220 ms para opacidad y contorno.",
+      "**Do** mantener 44 px como área táctil mínima y 52 px para botones y campos del paciente."
+    ],
+    "donts": [
+      "**Don't** poner sombras difusas en mosaicos, listas o botones: la sombra es solo para menús y hojas.",
+      "**Don't** usar fondos crema ni el gris azulado de panel médico con tarjetas blancas sombreadas.",
+      "**Don't** usar el acento lleno para decorar: no va en titulares, fondos de sección ni más de una acción principal.",
+      "**Don't** usar el verde azulado del acento para decir que algo está bien o confirmado: eso es del punto verde con su palabra.",
+      "**Don't** escalar el texto de un mosaico al señalarlo ni elevar botones con `translateY`.",
+      "**Don't** poner un rótulo pequeño en mayúsculas encima de un título como antetítulo: el rótulo de 13 px nombra listas y columnas, no anuncia titulares.",
+      "**Don't** usar píldoras con chulo, cajas amarillas de aviso ni iconos de otra biblioteca.",
+      "**Don't** escribir texto corrido, botones o campos en Antonio."
+    ]
+  }
+}

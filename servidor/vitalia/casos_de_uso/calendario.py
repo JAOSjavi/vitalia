@@ -7,6 +7,7 @@ from uuid import UUID
 from vitalia.casos_de_uso.puertos import ReglasDelConsultorio, Reloj, Trabajo, UnidadDeTrabajo
 from vitalia.dominio.agenda import (
     HORIZONTE,
+    EspacioBloqueado,
     EspacioNoDisponible,
     Franja,
     FueraDeHorario,
@@ -22,7 +23,10 @@ from vitalia.dominio.identidad import Identidad
 @dataclass(frozen=True)
 class Calendario:
     franjas: list[Franja]
+    # Citas y bloqueos: nada de esto se ofrece.
     ocupados: list[Intervalo]
+    # Solo los bloqueos, para no dar una cita encima de uno (HU-009).
+    bloqueos: list[Intervalo]
     # Primer momento que se puede ofrecer: al paciente, con el margen del consultorio.
     desde: datetime
     reglas: ReglasDelConsultorio
@@ -36,14 +40,11 @@ async def cargar_calendario(
     reglas = await trabajo.consultorios.reglas()
     margen = timedelta(minutes=reglas.margen_agenda_minutos)
     desde = ahora + margen if identidad.clase == "paciente" else ahora
-    ocupados = [
-        intervalo
-        for cita_id, intervalo in await trabajo.agenda.ocupados(
-            ahora, ahora + HORIZONTE + timedelta(days=1)
-        )
-        if cita_id != ignorar
-    ]
-    return Calendario(franjas, ocupados, desde, reglas)
+    todo = await trabajo.agenda.ocupados(ahora, ahora + HORIZONTE + timedelta(days=1))
+    ocupados = [intervalo for cita_id, intervalo in todo if cita_id is None or cita_id != ignorar]
+    # Lo ocupado sin cita es un bloqueo.
+    bloqueos = [intervalo for cita_id, intervalo in todo if cita_id is None]
+    return Calendario(franjas, ocupados, bloqueos, desde, reglas)
 
 
 async def tipo_activo(trabajo: Trabajo, tipo_id: UUID) -> TipoDeCita:
@@ -66,12 +67,17 @@ def revisar_espacio(
     salirse del horario si lo confirma (HU-016, CA-3), pero no dar citas en el pasado.
     """
     dentro = en_horario(intervalo, calendario.franjas)
+    bloqueado = any(intervalo.se_cruza_con(b) for b in calendario.bloqueos)
     if identidad.clase == "paciente":
+        if bloqueado:
+            raise EspacioNoDisponible()
         if not dentro or intervalo.inicio < calendario.desde:
             raise EspacioNoDisponible()
         return False
     if intervalo.inicio < ahora:
         raise EspacioNoDisponible()
+    if bloqueado:
+        raise EspacioBloqueado()
     if not dentro and not confirmar_fuera_de_horario:
         raise FueraDeHorario()
     return not dentro

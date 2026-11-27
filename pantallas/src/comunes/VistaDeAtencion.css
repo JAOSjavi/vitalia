@@ -1,0 +1,139 @@
+/* Atención cerrada, de solo lectura: la misma para el médico y para el paciente. */
+
+.vista-atencion {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.vista-atencion__seccion {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.vista-atencion__seccion:has(dl:empty) {
+  display: none;
+}
+
+.vista-atencion h3 {
+  color: var(--tinta-suave);
+  font-family: var(--letra-texto);
+  font-size: var(--tamano-etiqueta);
+  line-height: 18px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.vista-atencion dl {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.vista-atencion__dato {
+  display: grid;
+  grid-template-columns: minmax(150px, 220px) minmax(0, 1fr);
+  gap: 4px 16px;
+}
+
+.vista-atencion__dato dt {
+  color: var(--tinta-suave);
+  font-size: var(--tamano-secundario);
+  line-height: 22px;
+  font-weight: 700;
+}
+
+.vista-atencion__dato dd {
+  margin: 0;
+  font-size: var(--tamano-texto);
+  line-height: 24px;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.vista-atencion__signos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--linea-suave);
+  border-radius: var(--radio-campo);
+  background: var(--fondo);
+}
+
+.vista-atencion__signos .vista-atencion__dato {
+  grid-template-columns: 1fr;
+  gap: 2px;
+}
+
+.vista-atencion__signos dd {
+  font-family: var(--letra-dato);
+  font-size: 15px;
+}
+
+.vista-atencion__lista {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0;
+  list-style: none;
+}
+
+.vista-atencion__lista li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.vista-atencion__codigo {
+  font-family: var(--letra-dato);
+  font-weight: 700;
+}
+
+.vista-atencion__detalle {
+  color: var(--tinta-suave);
+  font-size: var(--tamano-secundario);
+  line-height: 20px;
+}
+
+.vista-atencion__firma {
+  padding-top: 14px;
+  border-top: 1px solid var(--linea-suave);
+  color: var(--tinta-suave);
+  font-size: var(--tamano-secundario);
+  line-height: 21px;
+}
+
+.vista-atencion__firma strong {
+  color: var(--tinta);
+}
+
+.vista-atencion__notas {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.vista-atencion__nota {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 14px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-campo);
+  background: var(--superficie);
+}
+
+.vista-atencion__nota p {
+  line-height: 23px;
+  white-space: pre-line;
+}
+
+@media (max-width: 640px) {
+  .vista-atencion__dato {
+    grid-template-columns: 1fr;
+  }
+}

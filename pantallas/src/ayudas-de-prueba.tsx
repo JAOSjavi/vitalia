@@ -4,7 +4,8 @@ import type { ReactNode } from "react";
 import { MemoryRouter, Route, Routes, useLocation } from "react-router";
 import { vi } from "vitest";
 
-type Respuesta = { estado?: number; cuerpo?: unknown };
+// "texto" es para las respuestas que llegan por partes, como las del asistente.
+type Respuesta = { estado?: number; cuerpo?: unknown; texto?: string };
 
 /** Reemplaza la API: cada "MÉTODO /ruta" devuelve lo indicado y queda anotado lo que se pidió. */
 export function apiDeMentira(respuestas: Record<string, Respuesta>) {
@@ -15,15 +16,21 @@ export function apiDeMentira(respuestas: Record<string, Respuesta>) {
       const clave = `${opciones.method ?? "GET"} ${ruta}`;
       pedidos.push({
         clave,
-        cuerpo: opciones.body ? JSON.parse(String(opciones.body)) : undefined,
+        // Un archivo llega como formulario y se guarda tal cual; lo demás es JSON.
+        cuerpo:
+          typeof opciones.body === "string" ? JSON.parse(opciones.body) : (opciones.body ?? undefined),
         encabezados: new Headers(opciones.headers),
       });
-      const respuesta = respuestas[clave] ?? { estado: 404, cuerpo: { codigo: "no_existe" } };
+      // Si no hay una respuesta para la ruta con sus parámetros, sirve la de la ruta sola.
+      const respuesta = respuestas[clave] ??
+        respuestas[clave.split("?")[0]] ?? { estado: 404, cuerpo: { codigo: "no_existe" } };
       const estado = respuesta.estado ?? 200;
       return {
         ok: estado < 400,
         status: estado,
         json: async () => respuesta.cuerpo,
+        text: async () => respuesta.texto ?? JSON.stringify(respuesta.cuerpo),
+        body: null,
       };
     }),
   );

@@ -23,26 +23,24 @@
   border: 0;
   background: var(--acento);
   box-shadow: var(--sombra-acento);
-  color: var(--superficie);
+  color: var(--sobre-acento);
   font-size: 17px;
 }
 
 .boton--principal:hover {
-  background: var(--acento-oscuro);
-  color: var(--superficie);
+  background: var(--acento-fuerte);
+  color: var(--sobre-acento);
 }
 
 .boton--borde {
-  border: 1.5px solid var(--acento);
+  border: 1.5px solid var(--tinta);
   background: var(--superficie);
-  box-shadow: var(--sombra-1);
-  color: var(--acento);
+  color: var(--tinta);
 }
 
 .boton--neutro {
-  border: 1.5px solid var(--linea);
+  border: 1.5px solid var(--linea-campo);
   background: var(--superficie);
-  box-shadow: var(--sombra-1);
   color: var(--tinta);
 }
 

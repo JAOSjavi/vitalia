@@ -2,11 +2,9 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 5px 12px 5px 10px;
-  border: 1px solid var(--linea);
+  padding: 4px 10px 4px 8px;
   border-radius: var(--radio-estado);
-  background: var(--superficie);
-  box-shadow: var(--sombra-1);
+  background: var(--superficie-2);
   color: var(--tinta);
   font-size: var(--tamano-etiqueta);
   line-height: 20px;
@@ -46,5 +44,5 @@
 }
 
 .estado--azul {
-  color: var(--acento);
+  color: var(--acento-texto);
 }

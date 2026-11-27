@@ -1,7 +1,7 @@
 # Alcance y flujo principal
 
 **Fase del ciclo de vida:** Planificación
-**Versión:** 2.1 · 13 de octubre de 2026
+**Versión:** 2.2 · 26 de octubre de 2026
 
 ---
 
@@ -31,8 +31,8 @@ No es un producto para vender a otros consultorios. Se construye para uno.
 | [E6 Asistente de IA](../historias-de-usuario/E6-asistente-de-ia/README.md) | Autorización del paciente, preguntas del médico, resumen del paciente, aislamiento por paciente | 4 | 24 |
 | [E7 Seguridad base](../historias-de-usuario/E7-seguridad-base/README.md) | Permisos por fila y bitácora de auditoría | 2 | 13 |
 | [E8 Tratamientos](../historias-de-usuario/E8-tratamientos/README.md) | El médico registra el tratamiento y el paciente lo consulta en "Mis tratamientos" | 2 | 8 |
-| [E9 Historia clínica del consultorio](../historias-de-usuario/E9-historia-clinica-del-consultorio/README.md) | Datos de identificación, pantalla de atención con el asistente a un lado, registro de la consulta, cierre con firma, consulta de atenciones y copia para el paciente | 6 | 27 |
-| **Total** | | **46** | **200** |
+| [E9 Historia clínica del consultorio](../historias-de-usuario/E9-historia-clinica-del-consultorio/README.md) | Datos de identificación, pantalla de atención con el asistente a un lado, registro de la consulta, cierre con firma, consulta de atenciones, copia para el paciente y sugerencias con los documentos | 7 | 32 |
+| **Total** | | **47** | **205** |
 
 ## 4. Fuera del alcance
 
@@ -95,6 +95,6 @@ flowchart LR
 El modelo de inteligencia artificial no guarda memoria entre consultas. Cada vez que el médico pregunta, el servidor arma la petición únicamente con los documentos del paciente que tiene abierto. Por eso cada paciente queda aislado y varias consultas pueden ocurrir al tiempo sin mezclarse.
 
 - **Volumen.** El servidor lee el texto de cada documento y al modelo le envía solo texto. Los documentos de un paciente, diez o veinte, caben completos en una consulta; el máximo es un tope configurable. Si un paciente sube mucho más, se envían resúmenes por documento más las páginas relacionadas con la pregunta, y el médico ve que la consulta fue parcial.
-- **Calidad.** El asistente indica el documento y la página de cada dato, y dice "no aparece en los documentos" cuando no lo encuentra. Las fotos borrosas y las notas a mano bajan la calidad.
+- **Calidad.** El asistente busca los fragmentos que responden en los documentos y en las atenciones del paciente (D-30), indica el documento y la página, o la atención, de cada dato, y dice "no lo encontré en los documentos ni en las atenciones" cuando no lo encuentra. Las fotos borrosas y las notas a mano bajan la calidad.
 - **Límite.** Solo resume lo que está escrito. No diagnostica ni recomienda tratamiento.
 - **Permiso.** Sin la autorización del paciente, el asistente no se puede usar sobre sus documentos.

@@ -1,0 +1,209 @@
+/* Movimiento del muro de títulos (D-34). Tesis:
+   - Momento focal: el mosaico de lo que sigue (próxima cita, quien sigue en Hoy) enciende su
+     borde de acento una vez al aparecer.
+   - Gesto propio: en una fila de mosaicos, el que se señala crece un poco y los vecinos bajan.
+   - Respuesta: los botones cambian de color al pasar y se hunden al presionar; nada se eleva.
+   - Continuidad: el cambio de tema se funde con una transición de vista (tema.ts).
+   Cada pantalla define su color de hover; aquí van el movimiento y la sombra. */
+
+:root {
+  --sombra-hover: inset 0 0 0 1px var(--linea-campo);
+  --sombra-acento-hover: inset 0 0 0 2px var(--acento-fuerte);
+  --salida: cubic-bezier(0.16, 1, 0.3, 1);
+  --transicion: 160ms var(--salida);
+}
+
+a,
+button,
+summary,
+.entrada,
+.calendario__celda {
+  transition:
+    background-color var(--transicion),
+    border-color var(--transicion),
+    color var(--transicion),
+    box-shadow var(--transicion),
+    opacity 220ms var(--salida),
+    transform 220ms var(--salida);
+}
+
+@media (hover: hover) {
+  /* Botones principales: su anillo de acento se marca. */
+  .boton--principal:hover:not(:disabled),
+  .hoy__nueva:hover,
+  .calendario__nueva:hover,
+  .mis-citas__agendar:hover,
+  .mis-documentos__subir:hover,
+  .asistente__enviar:hover:not(:disabled) {
+    box-shadow: var(--sombra-acento-hover);
+  }
+
+  /* Botones de superficie y tarjetas que se tocan: su borde se marca. */
+  .boton--borde:hover:not(:disabled),
+  .boton--neutro:hover:not(:disabled),
+  .hoy__atendida:hover,
+  .hoy__accion:hover:not(:disabled),
+  .hoy__sigue-ficha:hover,
+  .hoy__rapido:hover,
+  .bloqueos__eliminar:hover,
+  .calendario__flecha:hover,
+  .calendario__hoy:hover,
+  .calendario__agendar:hover,
+  .calendario__bloque:hover,
+  .mis-citas__telefono:hover,
+  .inicio__documentos:hover,
+  .agendar__tipo:hover,
+  .ficha__agendar:hover,
+  .selector-de-espacio__dia:hover:not(:disabled),
+  .selector-de-espacio__hora:hover:not(:disabled),
+  .nueva-cita__tipos button:hover,
+  .nueva-cita__alternativas button:hover,
+  .agendar__alternativas button:hover {
+    box-shadow: var(--sombra-hover);
+  }
+
+  .boton--neutro:hover:not(:disabled),
+  .hoy__accion:hover:not(:disabled),
+  .hoy__rapido:hover,
+  .calendario__flecha:hover,
+  .calendario__hoy:hover,
+  .mis-citas__telefono:hover,
+  .inicio__documentos:hover,
+  .selector-de-espacio__dia:hover:not(:disabled),
+  .selector-de-espacio__hora:hover:not(:disabled) {
+    border-color: var(--linea-campo);
+  }
+
+  .selector-de-espacio__dia:hover:not(:disabled),
+  .selector-de-espacio__hora:hover:not(:disabled),
+  .nueva-cita__tipos button:hover,
+  .nueva-cita__alternativas button:hover,
+  .agendar__alternativas button:hover {
+    background-color: var(--acento-suave);
+  }
+
+  /* Controles pequeños: solo un fondo suave, sin moverse. */
+  .calendario__vistas button:not([aria-pressed="true"]):hover {
+    background: var(--superficie);
+    color: var(--tinta);
+  }
+
+  .calendario__columna-cabecera:hover .calendario__numero:not(.calendario__numero--hoy) {
+    background: var(--acento-suave);
+  }
+
+  .agendar__atras:hover,
+  .crear-cuenta__atras:hover,
+  .entrada__boton:hover {
+    background: var(--acento-suave);
+    color: var(--acento-oscuro);
+  }
+
+  .inicio__avatar:hover,
+  .inicio__avatar[aria-expanded="true"] {
+    box-shadow: 0 0 0 3px var(--superficie), 0 0 0 5px var(--acento-suave);
+  }
+
+  .zona-paciente__seccion:not(.active):hover {
+    color: var(--tinta);
+  }
+
+  .zona-paciente__seccion:not(.active):hover .zona-paciente__icono-seccion {
+    background: var(--fondo);
+  }
+
+  .nueva-cita__otra summary:hover,
+  .enlace:hover {
+    color: var(--acento-oscuro);
+  }
+
+  .entrada:hover:not(:focus-within) {
+    border-color: var(--linea-campo);
+  }
+}
+
+/* Al presionar, el botón se hunde: se siente el clic. */
+:is(button, .boton, [class*="__agendar"], [class*="__subir"], [class*="__nueva"]):active:not(:disabled) {
+  transform: scale(0.97);
+  transition-duration: 90ms;
+}
+
+/* Gesto propio: en una fila, el mosaico señalado crece y los vecinos bajan. Solo con cursor. */
+@media (hover: hover) {
+  :is(.hoy__fila, .pacientes__fila, .ficha__fila, .mis-citas__fila, .mis-documentos__fila, .mi-historia__atencion, .calendario__cita) {
+    outline: 2px solid transparent;
+    outline-offset: -6px;
+    transition:
+      background-color var(--transicion),
+      opacity 220ms var(--salida),
+      outline-color 220ms var(--salida),
+      outline-offset 220ms var(--salida);
+  }
+
+  :is(.hoy__fila, .pacientes__fila, .ficha__fila, .mis-citas__fila, .mis-documentos__fila, .mi-historia__atencion):is(:hover, :focus-within) {
+    position: relative;
+    z-index: 1;
+    outline: 2px solid var(--acento);
+    outline-offset: -2px;
+    border-radius: var(--radio-campo);
+  }
+
+  :has(> :is(.hoy__fila, .pacientes__fila, .ficha__fila, .mis-citas__fila, .mis-documentos__fila, .mi-historia__atencion):hover)
+    > :is(.hoy__fila, .pacientes__fila, .ficha__fila, .mis-citas__fila, .mis-documentos__fila, .mi-historia__atencion):not(:hover) {
+    opacity: 0.62;
+  }
+}
+
+/* Momento focal: lo que sigue enciende su borde de acento al aparecer. El contenido se ve desde
+   el primer cuadro; solo el brillo del borde se anima. */
+@keyframes encender {
+  from {
+    border-color: var(--linea);
+    box-shadow: 0 0 0 0 transparent;
+  }
+  55% {
+    box-shadow: 0 0 0 6px var(--acento-suave);
+  }
+  to {
+    border-color: var(--acento);
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+.inicio__proxima,
+.hoy__sigue {
+  animation: encender 700ms var(--salida) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  a,
+  button,
+  summary,
+  .entrada,
+  .calendario__celda {
+    transition: none;
+  }
+
+  :is(a, button):hover,
+  :is(a, button):active {
+    transform: none !important;
+  }
+
+  [class*="__fila"],
+  .mi-historia__atencion {
+    transition-property: background-color, opacity, outline-color !important;
+  }
+
+  /* Sin movimiento, pero el vecino que baja y el borde de acento siguen diciendo qué se señala. */
+  .inicio__proxima,
+  .hoy__sigue {
+    animation: none;
+  }
+}
+
+/* Fundido del cambio de tema. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 320ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}

@@ -6,11 +6,13 @@ type Propiedades = {
   titulo: string;
   icono?: ReactNode;
   alCerrar: () => void;
+  /** Para formularios con varias columnas en computador. */
+  ancha?: boolean;
   children: ReactNode;
 };
 
 /** Hoja que sube desde abajo sobre la pantalla, como la del tratamiento de datos. */
-export function Hoja({ titulo, icono, alCerrar, children }: Propiedades) {
+export function Hoja({ titulo, icono, alCerrar, ancha, children }: Propiedades) {
   const hoja = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -27,7 +29,7 @@ export function Hoja({ titulo, icono, alCerrar, children }: Propiedades) {
       <div className="hoja__velo" aria-hidden="true" onClick={alCerrar} />
       <section
         ref={hoja}
-        className="hoja__cuerpo"
+        className={`hoja__cuerpo ${ancha ? "hoja__cuerpo--ancha" : ""}`}
         role="dialog"
         aria-modal="true"
         aria-labelledby="hoja-titulo"

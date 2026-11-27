@@ -15,16 +15,17 @@
 
 ## Criterios de aceptación
 
-- **CA-1** · Dado un paciente con documentos legibles y autorización vigente, cuando pido el resumen, entonces recibo las secciones de diagnósticos, procedimientos, tratamientos y medicamentos, alergias y estado más reciente, cada una en orden de fecha.
-- **CA-2** · Dado cada punto del resumen, cuando lo leo, entonces indica el documento y la página de origen.
-- **CA-3** · Dada una sección sin información en los documentos, cuando se muestra, entonces dice "no aparece en los documentos".
-- **CA-4** · Dado que el paciente sube o elimina un documento, cuando vuelvo a la ficha, entonces el resumen anterior aparece como desactualizado y puedo generarlo de nuevo.
+- **CA-1** · Dado un paciente con documentos indexados o atenciones cerradas y autorización vigente, cuando pido el resumen, entonces recibo las secciones de diagnósticos, procedimientos, tratamientos y medicamentos, alergias y estado más reciente, cada una en orden de fecha.
+- **CA-2** · Dado cada punto del resumen, cuando lo leo, entonces indica el documento y la página, o la atención, de origen. *(Ajustado por D-30.)*
+- **CA-3** · Dada una sección sin información en los documentos ni en las atenciones, cuando se muestra, entonces dice "no aparece en los documentos ni en las atenciones". *(Ajustado por D-30.)*
+- **CA-4** · Dado que el paciente sube o elimina un documento, o se cierra una atención, cuando vuelvo a la ficha, entonces el resumen anterior aparece como desactualizado y puedo generarlo de nuevo.
 - **CA-5** · Dados documentos con datos que se contradicen, cuando se genera el resumen, entonces muestra ambos datos con su origen.
 
 ## Tareas y actividades
 
 ### T-035.1 Servicio de resumen
 
+- Resumen por documento al indexarlo, y resumen del paciente con esos resúmenes y los datos de sus atenciones, sin búsqueda, para que quede completo
 - Estructura fija por secciones
 - Orden por fecha y origen de cada punto
 - Guardar el resumen con la fecha en que se generó

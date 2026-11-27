@@ -89,7 +89,7 @@ export function DatosDelConsultorio() {
   }
 
   return (
-    <main className="zona-medico__contenido">
+    <main className="zona-medico__contenido zona-medico__contenido--angosto">
       <div className="consultorio__titulo">
         <h1>Consultorio</h1>
         <p className="texto-suave">Estos datos los ven sus pacientes al ingresar y en su inicio.</p>

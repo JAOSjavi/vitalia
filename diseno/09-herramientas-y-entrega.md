@@ -1,7 +1,7 @@
 # Herramientas y entrega
 
 **Fase del ciclo de vida:** Diseño
-**Versión:** 1.1 · 13 de octubre de 2026
+**Versión:** 1.2 · 26 de octubre de 2026
 
 Con qué piezas concretas se construye Vitalia, con qué servicios se trabaja y cómo llega el código a Render. Completa la [arquitectura](01-arquitectura.md), que decide los lenguajes y las capas.
 
@@ -39,7 +39,7 @@ Todo lo de este documento es **propuesta de diseño**: cada pieza está detrás 
 | Datos del servidor | TanStack Query | Guarda en memoria lo ya pedido y lo borra al salir. Nada queda en el disco del navegador |
 | Formularios | React Hook Form | El formulario de la historia clínica es largo; esta pieza evita redibujarlo completo en cada tecla |
 | Estilos | CSS con variables, un archivo por pieza. Sin biblioteca de estilos | Las variables son los colores y medidas de la [base visual](08-base-visual.md) |
-| Iconos | `@phosphor-icons/react` | El dueño del proyecto pidió iconos que no se vean genéricos y confirmó esta biblioteca (D-25, D-26). Los del lienzo son provisionales. Ver la sección 6 de la [base visual](08-base-visual.md) |
+| Iconos | `@hugeicons/react` y `@hugeicons/core-free-icons` | El dueño del proyecto pidió iconos que no se vean genéricos y eligió esta biblioteca (D-25, D-31). Los del lienzo son provisionales. Ver la sección 6 de la [base visual](08-base-visual.md) |
 | Calendario | Hecho a mano con las piezas del lienzo | El mes es una rejilla, y el día y la semana son listas. Una biblioteca de calendario pesa más que todo el resto y no se parece al diseño aprobado |
 | Visor de documentos | `react-pdf`, que usa pdf.js | Se descarga solo al abrir un documento |
 | Fechas y horas | Las funciones del propio navegador, con la zona de Colombia | No hace falta una biblioteca |
@@ -51,10 +51,10 @@ El dueño del proyecto decidió montar los servicios **en la nube desde el prime
 
 | Necesidad | Cómo se resuelve |
 |---|---|
-| Base de datos | Para programar, PostgreSQL 18 en Docker (`docker-compose.yml`, D-29). Para publicar, PostgreSQL 18 en Render. En los dos, `vitalia_dev` es la base de trabajo y las pruebas crean y borran `vitalia_pruebas` |
+| Base de datos | Para programar, PostgreSQL 18 en Docker (`docker-compose.yml`, D-29), con la imagen `pgvector/pgvector:pg18-trixie`, que es la oficial de PostgreSQL 18 sobre Debian trixie más la extensión `pgvector` (D-30); trixie porque es la base de `postgres:18`, y la misma versión de glibc ordena igual el texto del volumen ya creado. Las pruebas de GitHub usan la misma. `pgvector` solo lo instala un superusuario: el guion de arranque de Docker y el de las pruebas lo dejan en `template1`, y la migración 0005 solo confirma que esté. En Render se comprueba al publicar. Para publicar, PostgreSQL 18 en Render. En los dos, `vitalia_dev` es la base de trabajo y las pruebas crean y borran `vitalia_pruebas` |
 | Archivos | Cloudflare R2, espacio `vitalia-dev`. Las pruebas escriben bajo un prefijo propio y lo borran |
 | Correo | Un adaptador que escribe el correo en la consola en vez de enviarlo, hasta que exista el servicio de correo |
-| IA | Qwen, con la clave del dueño del proyecto. Las pruebas automáticas usan un adaptador de mentira con respuestas fijas y no gastan |
+| IA | Qwen, con la clave del dueño del proyecto. Las pruebas automáticas usan un adaptador de mentira con respuestas fijas y vectores calculados de las palabras del texto: no gastan y la búsqueda se puede probar igual |
 | Configuración | El archivo `servidor/.env`, que nunca entra al repositorio, y `servidor/.env.example` con los nombres de las variables y sin valores |
 | Datos | Un guion de datos inventados: un médico, unos pocos pacientes, citas y documentos. Nace con las primeras tablas |
 
@@ -112,7 +112,9 @@ El plan gratuito da 1 GB, no tiene respaldos y **vence a los 30 días de creada 
    | `IA_CLAVE` | La clave |
    | `IA_DIRECCION` | `https://<id del espacio>.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1` |
    | `IA_MODELO_RESPUESTAS` | `qwen3.7-plus` |
-   | `IA_MODELO_LECTURA` | `qwen3.5-ocr` |
+   | `IA_MODELO_LECTURA` | `qwen-vl-ocr-2025-11-20` |
+   | `IA_MODELO_VECTORES` | `qwen3.7-text-embedding` |
+   | `IA_DIMENSIONES` | `1024` |
 
 ## 4. Repositorio y ramas
 

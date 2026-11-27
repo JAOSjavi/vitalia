@@ -6,7 +6,7 @@ from uuid import UUID
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncConnection
 
-from vitalia.casos_de_uso.puertos import PacienteEnLista
+from vitalia.casos_de_uso.puertos import DatosDeLaFicha, PacienteEnLista
 from vitalia.dominio.cuentas import Documento, TipoDocumento
 
 # Por nombre, sin tildes ni mayúsculas y con cada palabra en cualquier parte ("ana mejia" encuentra
@@ -52,6 +52,30 @@ class PacientesPostgres:
             for f in filas
         ]
         return pacientes, (filas[0].total if filas else 0)
+
+    async def ficha(self, paciente_id: UUID) -> DatosDeLaFicha | None:
+        fila = (
+            await self._conexion.execute(
+                text(
+                    "SELECT p.id, p.nombres, p.apellidos, p.fecha_nacimiento, p.telefono, "
+                    "u.tipo_documento, u.numero_documento, u.correo, u.activo "
+                    "FROM pacientes p JOIN usuarios u ON u.id = p.usuario_id WHERE p.id = :id"
+                ),
+                {"id": paciente_id},
+            )
+        ).one_or_none()
+        if fila is None:
+            return None
+        return DatosDeLaFicha(
+            id=fila.id,
+            nombres=fila.nombres,
+            apellidos=fila.apellidos,
+            documento=Documento(cast(TipoDocumento, fila.tipo_documento), fila.numero_documento),
+            fecha_nacimiento=fila.fecha_nacimiento,
+            telefono=fila.telefono,
+            correo=fila.correo,
+            activo=fila.activo,
+        )
 
     async def existe(self, paciente_id: UUID) -> bool:
         return bool(

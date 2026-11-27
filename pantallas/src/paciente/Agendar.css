@@ -57,7 +57,7 @@
   gap: 12px;
   padding: 12px 16px;
   border: 1px solid var(--linea);
-  border-radius: 16px;
+  border-radius: var(--radio-tarjeta);
   background: var(--superficie);
   box-shadow: var(--sombra-2);
   color: var(--tinta);
@@ -83,7 +83,7 @@
   height: 40px;
   border-radius: var(--radio-campo);
   background: var(--acento-suave);
-  color: var(--acento);
+  color: var(--acento-texto);
 }
 
 .agendar__tipo-datos {

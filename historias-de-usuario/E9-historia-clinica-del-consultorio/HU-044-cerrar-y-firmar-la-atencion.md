@@ -21,6 +21,7 @@
 - **CA-4** · Dada una atención cerrada que tiene un error, cuando agrego una nota aclaratoria, entonces queda debajo del registro original con mi nombre, la fecha y la hora, y el original no cambia.
 - **CA-5** · Dado que cierro la atención, cuando termina, entonces la cita queda marcada como atendida y el cierre queda en la bitácora.
 - **CA-6** · Dada una atención que lleva más de 24 horas abierta, cuando entro al panel, entonces veo el aviso de que está sin cerrar.
+- **CA-7** · Dado un paciente que autorizó el uso de IA con la versión 2 del texto, cuando cierro su atención o le agrego una nota aclaratoria, entonces se indexa por secciones para el asistente, sin demorar el cierre. *(Agregado por D-30.)*
 
 ## Tareas y actividades
 
@@ -41,6 +42,7 @@
 - Cierre con campos faltantes
 - Intento de modificar una atención cerrada
 - Nota aclaratoria
+- Indexación al cerrar, solo con la autorización versión 2
 
 ## Nota de alcance
 

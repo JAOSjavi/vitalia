@@ -2,6 +2,7 @@ import "./Configuracion.css";
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { Link } from "react-router";
 
 import { ErrorDeApi } from "../api/cliente";
 import {
@@ -27,8 +28,14 @@ const DIAS = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "
 /** M-08 y M-10. Horario semanal de atención y tipos de cita (HU-008, HU-010). */
 export function Configuracion() {
   return (
-    <main className="zona-medico__contenido">
-      <h1 className="configuracion__titulo">Configuración</h1>
+    <main className="zona-medico__contenido zona-medico__contenido--angosto">
+      <header className="configuracion__encabezado">
+        <h1 className="configuracion__titulo">Configuración</h1>
+        {/* En el lienzo el menú no tiene "Consultorio": sus datos se abren desde aquí. */}
+        <Link to="/medico/consultorio" className="configuracion__consultorio">
+          Datos del consultorio
+        </Link>
+      </header>
       <Horario />
       <Tipos />
     </main>

@@ -4,11 +4,28 @@ from collections.abc import AsyncIterator, Mapping, Sequence
 from contextlib import AbstractAsyncContextManager
 from dataclasses import dataclass
 from datetime import date, datetime
+from decimal import Decimal
 from typing import Literal, Protocol
 from uuid import UUID
 
-from vitalia.dominio.agenda import EstadoDeCita, Franja, Intervalo, TipoDeCita
+from vitalia.dominio.agenda import (
+    Asistencia,
+    Bloqueo,
+    EstadoDeCita,
+    Franja,
+    Intervalo,
+    TipoDeCita,
+)
 from vitalia.dominio.cuentas import DatosDelMedico, DatosDelPaciente, Documento
+from vitalia.dominio.documentos import (
+    ArchivoValido,
+    EstadoDeLectura,
+    Formato,
+    TipoDeDocumento,
+)
+from vitalia.dominio.facturas import Ambiente, Emitida, Factura, MedioDePago, Pedido
+from vitalia.dominio.fragmentos import Identificadores
+from vitalia.dominio.historia_clinica import Diagnostico, Medicamento, Valor
 from vitalia.dominio.identidad import Identidad, Rol
 from vitalia.dominio.ingreso import Intentos
 from vitalia.dominio.permisos import MatrizDePermisos
@@ -30,6 +47,10 @@ class Bitacora(Protocol):
         detalle: Mapping[str, object] | None = None,
     ) -> None:
         """Anota quién hizo qué. El detalle nunca lleva contenido clínico."""
+        ...
+
+    async def contar(self, accion: str, desde: datetime) -> int:
+        """Cuántas veces el usuario de la sesión hizo esa acción desde ese momento."""
         ...
 
 
@@ -189,8 +210,10 @@ class Agenda(Protocol):
 
     async def guardar_tipo(self, tipo: TipoDeCita) -> None: ...
 
-    async def ocupados(self, desde: datetime, hasta: datetime) -> list[tuple[UUID, Intervalo]]:
-        """Lo ocupado en el rango, sin decir de quién. Sirve también al paciente."""
+    async def ocupados(
+        self, desde: datetime, hasta: datetime
+    ) -> list[tuple[UUID | None, Intervalo]]:
+        """Lo ocupado en el rango, sin decir de quién; sin cita es un bloqueo. Sirve al paciente."""
         ...
 
     async def citas(
@@ -224,11 +247,23 @@ class Agenda(Protocol):
 
     async def cancelar_cita(self, cita_id: UUID) -> None: ...
 
+    async def marcar_asistencia(self, cita_id: UUID, estado: Asistencia) -> None: ...
+
+    async def bloqueos(self, desde: datetime, hasta: datetime) -> list[Bloqueo]:
+        """Los bloqueos que tocan el rango, en orden. Solo los ve el médico."""
+        ...
+
+    async def bloqueo(self, bloqueo_id: UUID) -> Bloqueo | None: ...
+
+    async def crear_bloqueo(self, intervalo: Intervalo, motivo: str, creado_por: UUID) -> UUID: ...
+
+    async def eliminar_bloqueo(self, bloqueo_id: UUID) -> None: ...
+
     async def anotar_cambio(
         self,
         cita_id: UUID,
         usuario_id: UUID,
-        tipo: Literal["creada", "movida", "cancelada"],
+        tipo: Literal["creada", "movida", "cancelada", "asistencia", "correccion"],
         inicio_anterior: datetime | None = None,
         inicio_nuevo: datetime | None = None,
         motivo: str | None = None,
@@ -246,6 +281,18 @@ class PacienteEnLista:
     telefono: str
 
 
+@dataclass(frozen=True)
+class DatosDeLaFicha:
+    id: UUID
+    nombres: str
+    apellidos: str
+    documento: Documento
+    fecha_nacimiento: date
+    telefono: str
+    correo: str | None
+    activo: bool
+
+
 class Pacientes(Protocol):
     async def buscar(
         self, texto: str | None, pagina: int, tamano: int
@@ -254,6 +301,335 @@ class Pacientes(Protocol):
         ...
 
     async def existe(self, paciente_id: UUID) -> bool: ...
+
+    async def ficha(self, paciente_id: UUID) -> DatosDeLaFicha | None: ...
+
+
+@dataclass(frozen=True)
+class NotaAclaratoria:
+    atencion_id: UUID
+    texto: str
+    fecha: datetime
+    firma_nombre: str
+    firma_registro: str | None
+
+
+@dataclass(frozen=True)
+class AtencionGuardada:
+    """Una atención como está en la base. `datos` trae los campos de CAMPOS_DE_LA_ATENCION."""
+
+    id: UUID
+    paciente_id: UUID
+    cita_id: UUID | None
+    estado: Literal["abierta", "cerrada"]
+    inicio: datetime
+    fin: datetime | None
+    guardada_en: datetime
+    datos: Mapping[str, Valor]
+    diagnosticos: Sequence[Diagnostico]
+    medicamentos: Sequence[Medicamento]
+    firma_nombre: str | None
+    firma_registro: str | None
+    firma_documento: str | None
+
+
+@dataclass(frozen=True)
+class Firma:
+    """Copia del nombre, el registro y el documento del médico al momento de cerrar (HU-044)."""
+
+    nombre: str
+    registro: str | None
+    documento: str
+
+
+class HistoriaClinica(Protocol):
+    """Atenciones, notas aclaratorias, identificación del paciente y CIE-10 (E9)."""
+
+    async def abierta_de(self, paciente_id: UUID) -> UUID | None: ...
+
+    async def abrir(
+        self,
+        paciente_id: UUID,
+        medico_id: UUID,
+        cita_id: UUID | None,
+        antecedentes: Mapping[str, Valor],
+    ) -> UUID:
+        """Lanza AtencionYaAbierta si otra petición abrió una al mismo tiempo."""
+        ...
+
+    async def atencion(self, atencion_id: UUID) -> AtencionGuardada | None: ...
+
+    async def de_paciente(self, paciente_id: UUID) -> list[AtencionGuardada]:
+        """De la más reciente a la más antigua. Al paciente la base solo le entrega las cerradas."""
+        ...
+
+    async def guardar(
+        self,
+        atencion_id: UUID,
+        datos: Mapping[str, Valor],
+        diagnosticos: Sequence[Diagnostico] | None,
+        medicamentos: Sequence[Medicamento] | None,
+        ahora: datetime,
+    ) -> None: ...
+
+    async def cerrar(self, atencion_id: UUID, fin: datetime, firma: Firma) -> None: ...
+
+    async def agregar_nota(
+        self, atencion_id: UUID, medico_id: UUID, texto: str, firma: Firma
+    ) -> None: ...
+
+    async def notas(self, atenciones: Sequence[UUID]) -> list[NotaAclaratoria]: ...
+
+    async def identificacion(self, paciente_id: UUID) -> dict[str, Valor] | None: ...
+
+    async def guardar_identificacion(
+        self, paciente_id: UUID, datos: Mapping[str, Valor]
+    ) -> None: ...
+
+    async def nombres_cie10(self, codigos: Sequence[str]) -> dict[str, str]: ...
+
+    async def buscar_cie10(self, texto: str, limite: int) -> list[tuple[str, str]]: ...
+
+    async def firma_del_medico(self) -> tuple[Firma, str | None]:
+        """La firma del médico de la sesión y el hash de su contraseña, para confirmarla."""
+        ...
+
+
+@dataclass(frozen=True)
+class DocumentoSubido:
+    id: UUID
+    nombre: str
+    fecha_documento: date
+    tipo: TipoDeDocumento
+    formato: Formato
+    tamano: int
+    estado_lectura: EstadoDeLectura
+    paginas: int | None
+    subido_en: datetime
+
+
+@dataclass(frozen=True)
+class DocumentoPorLeer:
+    id: UUID
+    paciente_id: UUID
+    formato: Formato
+    clave_archivo: str
+
+
+@dataclass(frozen=True)
+class DocumentoParaAbrir:
+    id: UUID
+    paciente_id: UUID
+    nombre: str
+    formato: Formato
+    clave_archivo: str
+
+
+@dataclass(frozen=True)
+class TrabajoDeLectura:
+    id: UUID
+    documento_id: UUID
+    intentos: int
+
+
+@dataclass(frozen=True)
+class PaginaLeida:
+    numero: int
+    texto: str
+    origen: Literal["pdf", "reconocido"]
+    legibilidad: float
+
+
+TipoDeTrabajo = Literal["leer", "indexar_documento"]
+
+
+class Documentos(Protocol):
+    """Documentos del paciente y la cola del lector. Los permisos por fila dicen quién ve qué."""
+
+    async def por_huella(self, huella: str) -> UUID | None:
+        """El documento del paciente de la sesión con ese mismo contenido, si ya lo subió."""
+        ...
+
+    async def crear(self, archivo: ArchivoValido, clave_archivo: str) -> DocumentoSubido:
+        """Lo guarda a nombre del paciente de la sesión, ya en proceso de lectura."""
+        ...
+
+    async def listar(self) -> list[DocumentoSubido]:
+        """Los del paciente de la sesión, del más reciente al más antiguo."""
+        ...
+
+    async def listar_de(self, paciente_id: UUID) -> list[DocumentoSubido]:
+        """Los de un paciente, para el médico. Del más reciente al más antiguo."""
+        ...
+
+    async def encolar(self, documento_id: UUID, tipo: TipoDeTrabajo) -> None: ...
+
+    async def para_abrir(self, documento_id: UUID) -> DocumentoParaAbrir | None:
+        """None si no existe o si quien pregunta no lo puede ver: no se distingue."""
+        ...
+
+    async def eliminar(self, documento_id: UUID) -> str | None:
+        """Lo borra con sus páginas y fragmentos y devuelve la clave de su archivo."""
+        ...
+
+    # Lo que sigue lo usa el lector, con la identidad sistema.
+
+    async def tomar_trabajo(self, tipo: TipoDeTrabajo) -> TrabajoDeLectura | None:
+        """El trabajo pendiente más antiguo, ya marcado en curso. Dos lectores no toman el mismo."""
+        ...
+
+    async def terminar_trabajo(
+        self, trabajo_id: UUID, *, error: str | None = None, reintentar: bool = False
+    ) -> None:
+        """Sin error queda hecho; con error, pendiente otra vez o fallido."""
+        ...
+
+    async def por_leer(self, documento_id: UUID) -> DocumentoPorLeer: ...
+
+    async def ia_autorizada(self, paciente_id: UUID) -> bool:
+        """Si la última decisión del paciente sobre la IA es aceptarla."""
+        ...
+
+    async def guardar_paginas(self, documento_id: UUID, paginas: Sequence[PaginaLeida]) -> None: ...
+
+    async def paginas(self, documento_id: UUID) -> list[PaginaLeida]: ...
+
+    async def marcar(
+        self, documento_id: UUID, estado: EstadoDeLectura, paginas: int | None = None
+    ) -> None: ...
+
+
+@dataclass(frozen=True)
+class FragmentoNuevo:
+    pagina: int
+    orden: int
+    texto: str
+    vector: Sequence[float]
+
+
+@dataclass(frozen=True)
+class FragmentoEncontrado:
+    id: UUID
+    documento_id: UUID
+    documento: str
+    fecha_documento: date
+    pagina: int
+    texto: str
+    puntaje: float
+    # Puesto en cada búsqueda; None si esa búsqueda no lo trajo.
+    rango_significado: int | None
+    rango_palabras: int | None
+
+
+class Fragmentos(Protocol):
+    """Lo que busca el asistente. Siempre de un solo paciente."""
+
+    async def identificadores(self, paciente_id: UUID) -> Identificadores:
+        """Lo que hay que tapar antes de enviar texto del paciente al proveedor."""
+        ...
+
+    async def reemplazar_del_documento(
+        self, documento_id: UUID, fragmentos: Sequence[FragmentoNuevo], modelo: str
+    ) -> None:
+        """Borra los que tenga el documento y guarda estos: indexar dos veces da lo mismo."""
+        ...
+
+    async def buscar(
+        self,
+        paciente_id: UUID,
+        vector: Sequence[float],
+        consulta: str,
+        por_metodo: int,
+        total: int,
+    ) -> list[FragmentoEncontrado]:
+        """Por significado y por palabras, combinadas, del más al menos parecido."""
+        ...
+
+    async def caracteres(self, paciente_id: UUID) -> int:
+        """Cuánto texto suman todos los fragmentos del paciente. Cero si no tiene."""
+        ...
+
+    async def todos(self, paciente_id: UUID) -> list[FragmentoEncontrado]:
+        """Todos los del paciente, para cuando caben enteros en una consulta."""
+        ...
+
+
+class Vectorizador(Protocol):
+    """Convierte textos en vectores: números que representan lo que significan."""
+
+    @property
+    def modelo(self) -> str: ...
+
+    async def vectorizar(self, textos: Sequence[str]) -> list[list[float]]:
+        """Un vector por texto, en el mismo orden."""
+        ...
+
+
+class Archivos(Protocol):
+    """Donde se guardan los archivos: privados, sin ninguna ruta pública (HU-027)."""
+
+    async def guardar(self, clave: str, contenido: bytes) -> None: ...
+
+    async def leer(self, clave: str) -> bytes: ...
+
+    async def borrar(self, clave: str) -> None:
+        """No falla si el archivo ya no existe."""
+        ...
+
+
+class LectorDePDF(Protocol):
+    """Lee un PDF dentro del servidor: nada sale a un proveedor externo."""
+
+    async def textos(self, contenido: bytes) -> list[str]:
+        """El texto de cada página, en orden. Una página sin texto da una cadena vacía."""
+        ...
+
+    async def imagen_de_pagina(self, contenido: bytes, numero: int) -> bytes:
+        """La página dibujada como imagen PNG, para reconocer su texto. Empieza en 1."""
+        ...
+
+
+@dataclass(frozen=True)
+class FacturaNueva:
+    cita_id: UUID
+    paciente_id: UUID
+    emitida_por: UUID
+    concepto: str
+    valor: Decimal
+    medio: MedioDePago
+    emitida: Emitida
+    ambiente: Ambiente
+
+
+class Facturas(Protocol):
+    async def de_la_cita(self, cita_id: UUID) -> Factura | None: ...
+
+    async def de_las_citas(self, citas: Sequence[UUID]) -> dict[UUID, Factura]: ...
+
+    async def todas(self) -> list[Factura]:
+        """La más reciente primero. Los permisos por fila dejan al paciente solo las suyas."""
+        ...
+
+    async def guardar(self, nueva: FacturaNueva) -> Factura:
+        """Si otra petición ya guardó la de esa cita, devuelve esa."""
+        ...
+
+    async def direccion_del_paciente(self, paciente_id: UUID) -> str | None: ...
+
+
+class Facturador(Protocol):
+    """Quien emite la factura ante la DIAN: Factus, o uno de mentira sin credenciales."""
+
+    @property
+    def ambiente(self) -> Ambiente: ...
+
+    async def emitir(self, pedido: Pedido) -> Emitida:
+        """FacturaRechazada si la DIAN no la valida; FacturadorNoDisponible si no responde."""
+        ...
+
+    async def pdf(self, numero: str) -> tuple[str, bytes]:
+        """Nombre del archivo y su contenido."""
+        ...
 
 
 class Trabajo(Protocol):
@@ -276,6 +652,18 @@ class Trabajo(Protocol):
 
     @property
     def pacientes(self) -> Pacientes: ...
+
+    @property
+    def documentos(self) -> Documentos: ...
+
+    @property
+    def fragmentos(self) -> Fragmentos: ...
+
+    @property
+    def historia(self) -> HistoriaClinica: ...
+
+    @property
+    def facturas(self) -> Facturas: ...
 
 
 class UnidadDeTrabajo(Protocol):
@@ -305,6 +693,13 @@ class Turno:
     texto: str
 
 
+class ProveedorNoDisponible(Exception):
+    """El proveedor de IA no respondió, tardó demasiado o rechazó la petición.
+
+    No es culpa del documento ni de la pregunta: se puede intentar después.
+    """
+
+
 class ProveedorIA(Protocol):
     async def leer_pagina(self, imagen: bytes) -> str:
         """Transcribe el texto de la imagen de una página."""
@@ -312,6 +707,10 @@ class ProveedorIA(Protocol):
 
     def responder(self, instrucciones: str, turnos: Sequence[Turno]) -> AsyncIterator[str]:
         """Entrega la respuesta por partes, a medida que el proveedor la escribe."""
+        ...
+
+    async def responder_en_json(self, instrucciones: str, texto: str) -> str:
+        """Una sola respuesta, completa, que el proveedor promete en JSON (HU-047)."""
         ...
 
 

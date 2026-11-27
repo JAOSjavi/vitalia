@@ -15,11 +15,13 @@ type Propiedades = {
   alElegir: (inicio: string) => void;
   /** Al mover una cita, su propio espacio cuenta como libre. */
   cita?: string;
+  /** El día con que abre, "2026-10-14"; por ejemplo, el que se eligió en el calendario. */
+  diaInicial?: string | null;
 };
 
 /** Elegir día y hora: solo aparecen los días y las horas disponibles (HU-012, CA-5). */
-export function SelectorDeEspacio({ tipo, elegido, alElegir, cita }: Propiedades) {
-  const [dia, setDia] = useState<string | null>(null);
+export function SelectorDeEspacio({ tipo, elegido, alElegir, cita, diaInicial }: Propiedades) {
+  const [dia, setDia] = useState<string | null>(diaInicial ?? null);
   const consulta = useQuery({
     queryKey: ["disponibilidad", tipo, dia, cita],
     queryFn: () => disponibilidad(tipo, dia, cita),

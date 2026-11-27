@@ -1,7 +1,7 @@
 # Arquitectura
 
 **Fase del ciclo de vida:** Diseño
-**Versión:** 1.2 · 13 de octubre de 2026
+**Versión:** 1.3 · 26 de octubre de 2026
 
 Cómo se construye Vitalia y por qué así. Cada decisión responde a un requisito de [planificacion/02-requisitos.md](../planificacion/02-requisitos.md).
 
@@ -17,6 +17,7 @@ Cómo se construye Vitalia y por qué así. Cada decisión responde a un requisi
 | Publicación | **Render**: un servicio web para la API, un sitio estático para las pantallas y la base de datos | Un solo proveedor para las tres piezas |
 | Archivos | **Almacenamiento compatible con S3** (propuesta: Cloudflare R2) | Render no ofrece almacenamiento de archivos. Se necesita un espacio privado, cifrado y con enlaces firmados (HU-027) |
 | Inteligencia artificial | **Qwen** por la plataforma internacional de Alibaba Cloud, detrás de un adaptador intercambiable | Ver [04-asistente-ia.md](04-asistente-ia.md). El adaptador permite cambiar de proveedor sin tocar el resto |
+| Búsqueda del asistente | **`pgvector`** en la misma base PostgreSQL, más la búsqueda de texto completo en español (D-30) | Los fragmentos quedan bajo los mismos permisos por fila que el resto y se borran en la misma transacción que su documento. Render admite la extensión; no hace falta otro servicio |
 | Correo | Proveedor de correo por API (propuesta: Resend) | Recuperación de contraseña y avisos de cita |
 | Organización del código | **Arquitectura limpia**: capas con las dependencias hacia adentro | Lo pidió el dueño del proyecto (D-19). Las reglas del consultorio quedan separadas de FastAPI, de la base y de los proveedores, y se prueban sin ellos. Ver la sección 7 |
 
@@ -96,14 +97,14 @@ El detalle está en [02-modelo-de-datos.md](02-modelo-de-datos.md).
 
 ### 3.5 Lector de documentos
 
-Proceso que corre en segundo plano y deja cada documento listo para el asistente (HU-031):
+Proceso que corre en segundo plano y deja cada documento listo para el asistente (HU-031). Tiene dos tareas: **leer** (archivo a texto por página) e **indexar** (partir en fragmentos y vectorizar, ver la sección 4 de [04-asistente-ia.md](04-asistente-ia.md)). También indexa cada atención al cerrarla.
 
 | Tipo de documento | Cómo se lee | ¿Sale del servidor? |
 |---|---|---|
 | PDF con texto | Se extrae el texto página por página dentro del servidor | No |
 | PDF escaneado o foto | Un modelo de visión reconoce el texto página por página | Sí, va al proveedor de IA |
 
-Como la lectura de fotos y escaneados envía el contenido al proveedor de IA, **solo corre si el paciente ya autorizó el uso de IA**. Mientras no lo haga, ese documento queda "sin leer": el médico lo puede abrir en el visor, pero el asistente no lo usa.
+Como la lectura de fotos y escaneados envía el contenido al proveedor de IA, **solo corre si el paciente ya autorizó el uso de IA**. Mientras no lo haga, ese documento queda "sin leer": el médico lo puede abrir en el visor, pero el asistente no lo usa. Lo mismo vale para indexar: vectorizar también envía el texto al proveedor, así que sin autorización nada se indexa, ni siquiera el texto de un PDF leído dentro del servidor.
 
 En la primera versión el lector corre dentro del mismo servicio de la API y toma los trabajos de una cola guardada en la base. Si el volumen crece, se pasa a un servicio aparte sin cambiar el código.
 
@@ -136,7 +137,7 @@ Ver [04-asistente-ia.md](04-asistente-ia.md).
 | RNF-05 Tráfico cifrado | Render entrega HTTPS en todos los servicios |
 | RNF-06 Bitácora | Tabla de solo inserción |
 | RNF-07 Ley 1581 | Autorizaciones con versión y fecha; eliminación de documentos con su texto |
-| RNF-08 Mínimo de datos a la IA | El servidor arma el contexto y retira identificadores antes de enviar |
+| RNF-08 Mínimo de datos a la IA | El servidor retira identificadores antes de vectorizar y de preguntar, y en cada pregunta envía solo los fragmentos encontrados, no todo el historial |
 | RNF-09 El asistente no diagnostica | Instrucciones fijas del asistente + pruebas con preguntas de diagnóstico |
 | RNF-10 Rendimiento | Reglas de la sección 8: una pantalla, una operación; índices, paginación, trabajo pesado por cola y respuesta del asistente por partes |
 | RNF-11 Accesibilidad | Criterios WCAG 2.1 AA aplicados desde el prototipo |
@@ -176,7 +177,7 @@ Antes de construir en serio conviene despejar cuatro dudas con pruebas pequeñas
 | # | Duda | Prueba | Historia |
 |---|---|---|---|
 | 1 | ¿La lectura de fotos y de letra a mano es suficientemente buena? | Leer cinco documentos inventados (dos PDF con texto, una foto nítida, una de letra a mano y un PDF largo) y medir cuánto texto queda correcto | HU-031 |
-| 2 | ¿El asistente cita bien el documento y la página? | Preguntas con respuesta conocida sobre esos documentos, en el mismo guion | HU-034 |
+| 2 | ¿La búsqueda trae el fragmento correcto y el asistente lo cita bien? | Preguntas con respuesta conocida sobre esos documentos, en el mismo guion: primero se mide si la búsqueda trae la página, después si la respuesta la cita | HU-034 |
 | 3 | ¿Los permisos por fila funcionan con un usuario sin privilegios en la base de Render? | Crear el usuario, dos pacientes y comprobar que uno no ve al otro. Render permite crear usuarios adicionales; su documentación no dice qué privilegios trae el usuario por defecto | HU-036 |
 | 4 | ¿La cookie de sesión funciona entre el sitio estático y la API? | Publicar un ingreso mínimo en Render con dominio propio | HU-004 |
 

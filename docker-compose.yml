@@ -7,7 +7,9 @@ name: vitalia
 
 services:
   bd:
-    image: postgres:18
+    # PostgreSQL 18 más la extensión pgvector, para los vectores del asistente (D-30).
+    # Sobre Debian trixie, como postgres:18: la misma versión de glibc ordena igual el texto.
+    image: pgvector/pgvector:pg18-trixie
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_CLAVE:?Falta POSTGRES_CLAVE en .env}
       CLAVE_MIGRACIONES: ${CLAVE_MIGRACIONES:?Falta CLAVE_MIGRACIONES en .env}

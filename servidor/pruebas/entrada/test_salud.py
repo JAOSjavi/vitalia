@@ -19,7 +19,11 @@ async def test_salud_con_la_base_en_linea(cliente: Cliente) -> None:
 
 async def test_salud_con_la_base_caida() -> None:
     api = armar(
-        Configuracion(bd_url="postgresql://nadie@127.0.0.1:1/nada", sesion_secreto="pruebas")
+        Configuracion(
+            bd_url="postgresql://nadie@127.0.0.1:1/nada",
+            sesion_secreto="pruebas",
+            lector_en_segundo_plano=False,
+        )
     )
 
     async with api.router.lifespan_context(api):

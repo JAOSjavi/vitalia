@@ -1,0 +1,126 @@
+.cobro__encabezado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+
+.cobro__titulo {
+  font-size: var(--tamano-titulo-pantalla);
+  line-height: 40px;
+}
+
+.cobro__ayuda {
+  max-width: 64ch;
+  font-size: var(--tamano-secundario);
+}
+
+.cobro__cabecera {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--linea-suave);
+  font-size: var(--tamano-secundario);
+}
+
+.cobro__fila {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  padding: 14px 20px;
+}
+
+.cobro__fila + .cobro__fila {
+  border-top: 1px solid var(--linea-suave);
+}
+
+.cobro__datos,
+.cobro__quien {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 200px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.cobro__paciente {
+  color: var(--tinta);
+  font-size: 15.5px;
+  line-height: 22px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+a.cobro__paciente:hover {
+  color: var(--acento-texto);
+  text-decoration: underline;
+}
+
+.cobro__boton {
+  min-height: 44px;
+}
+
+.cobro__factura {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.cobro__resumen {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 4px 14px;
+}
+
+.cobro__numero {
+  font-family: var(--letra-dato);
+  color: var(--tinta-suave);
+}
+
+.cobro__valor {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.cobro__ver {
+  min-height: 40px;
+  font-size: 14.5px;
+}
+
+.cobro__formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.cobro__total {
+  margin-top: -10px;
+  font-family: var(--letra-titulo);
+  font-size: var(--tamano-titulo-tarjeta);
+  font-variant-numeric: tabular-nums;
+}
+
+.cobro__motivos {
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+
+.cobro__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .cobro__factura,
+  .cobro__resumen {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+}

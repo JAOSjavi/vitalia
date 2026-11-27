@@ -82,6 +82,10 @@ class CitaRepetida(Exception):
     """El paciente ya tiene una cita futura de ese tipo y debe confirmar (HU-012, CA-3)."""
 
 
+class EspacioBloqueado(Exception):
+    """El médico pidió un tiempo que él mismo bloqueó: primero se elimina el bloqueo (HU-009)."""
+
+
 class CitaNoModificable(Exception):
     """Una cita atendida, cancelada o con inasistencia ya no se mueve ni se cancela."""
 
@@ -199,3 +203,52 @@ def puede_cambiarla_el_paciente(inicio: datetime, ahora: datetime, anticipacion_
 def revisar_que_se_pueda_cambiar(estado: EstadoDeCita, fin: datetime, ahora: datetime) -> None:
     if estado != "confirmada" or fin <= ahora:
         raise CitaNoModificable()
+
+
+Asistencia = Literal["atendida", "no_asistio"]
+
+
+def revisar_asistencia(
+    estado: EstadoDeCita, nuevo: Asistencia, inicio: datetime, ahora: datetime
+) -> Literal["asistencia", "correccion"]:
+    """Se marca el día de la cita o después; "no asistió" solo cuando su hora ya pasó (HU-018).
+
+    Una cita ya marcada se corrige solo el mismo día. Una cancelada no se marca.
+    """
+    if estado == "cancelada":
+        raise CitaNoModificable()
+    if dia_en_colombia(inicio) > dia_en_colombia(ahora):
+        raise DatosInvalidos({"estado": "La cita todavía no es hoy"})
+    if nuevo == "no_asistio" and inicio > ahora:
+        raise DatosInvalidos({"estado": "La hora de la cita todavía no ha pasado"})
+    if estado == "confirmada":
+        return "asistencia"
+    if estado == nuevo:
+        raise DatosInvalidos({"estado": "La cita ya tiene ese estado"})
+    if dia_en_colombia(inicio) != dia_en_colombia(ahora):
+        raise DatosInvalidos({"estado": "La asistencia solo se corrige el mismo día de la cita"})
+    return "correccion"
+
+
+@dataclass(frozen=True)
+class Bloqueo:
+    id: UUID
+    intervalo: Intervalo
+    motivo: str
+
+
+def revisar_bloqueo(intervalo: Intervalo, motivo: str, ahora: datetime) -> str:
+    """Un bloqueo termina después de empezar, no queda en el pasado y dice por qué (HU-009)."""
+    motivo = motivo.strip()
+    campos: dict[str, str] = {}
+    if intervalo.fin <= intervalo.inicio:
+        campos["fin"] = "El bloqueo debe terminar después de empezar"
+    elif intervalo.fin <= ahora:
+        campos["fin"] = "Ese tiempo ya pasó"
+    if not motivo:
+        campos["motivo"] = "Escriba el motivo del bloqueo"
+    elif len(motivo) > 120:
+        campos["motivo"] = "El motivo puede tener hasta 120 caracteres"
+    if campos:
+        raise DatosInvalidos(campos)
+    return motivo

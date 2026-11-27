@@ -1,0 +1,105 @@
+.detalle-factura {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.detalle-factura__cabeza {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.detalle-factura__etiqueta {
+  color: var(--tinta-suave);
+  font-size: var(--tamano-etiqueta);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.detalle-factura__numero {
+  font-family: var(--letra-titulo);
+  font-size: var(--tamano-titulo-pantalla);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.detalle-factura__datos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px 24px;
+  margin: 0;
+}
+
+.detalle-factura__datos div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.detalle-factura__datos dt {
+  color: var(--tinta-suave);
+  font-size: var(--tamano-etiqueta);
+}
+
+.detalle-factura__datos dd {
+  margin: 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.detalle-factura__total {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 14px 0;
+  border-top: 1px solid var(--linea);
+  border-bottom: 1px solid var(--linea);
+}
+
+.detalle-factura__total strong {
+  font-family: var(--letra-titulo);
+  font-size: var(--tamano-titulo-tarjeta);
+  font-variant-numeric: tabular-nums;
+}
+
+.detalle-factura__cufe {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.detalle-factura__cufe code {
+  padding: 10px 12px;
+  border: 1px solid var(--linea-suave);
+  border-radius: var(--radio-campo);
+  background: var(--superficie-2);
+  color: var(--tinta-suave);
+  font-family: var(--letra-dato);
+  font-size: 12.5px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.detalle-factura__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.detalle-factura__acciones .boton {
+  min-height: 44px;
+  text-decoration: none;
+}
+
+.detalle-factura__acciones svg {
+  width: 18px;
+  height: 18px;
+}

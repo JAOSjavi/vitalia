@@ -19,8 +19,10 @@
 - **CA-2** · Dado un PDF escaneado o una foto, cuando se sube, entonces el sistema reconoce el texto y lo guarda página por página.
 - **CA-3** · Dado un documento que no se pudo leer, cuando termina el proceso, entonces queda marcado como "no legible" y tanto el paciente como el médico lo ven así.
 - **CA-4** · Dado que la lectura tarda, cuando el paciente sube el archivo, entonces la carga no se queda esperando y el documento aparece como "en proceso".
-- **CA-5** · Dado que el paciente elimina el documento, cuando se elimina, entonces también se elimina su texto.
+- **CA-5** · Dado que el paciente elimina el documento, cuando se elimina, entonces también se eliminan su texto y sus fragmentos. *(Ajustado por D-30.)*
 - **CA-6** · Dado un PDF escaneado o una foto de un paciente que no ha autorizado el uso de IA, cuando se sube, entonces no se envía a ningún proveedor externo y queda como "sin leer" hasta que el paciente autorice. *(Agregado en Diseño.)*
+- **CA-7** · Dado un documento legible de un paciente que autorizó el uso de IA, cuando termina la lectura, entonces queda partido en fragmentos de una sola página, sin los identificadores del paciente, con su vector, y disponible para el asistente. *(Agregado por D-30.)*
+- **CA-8** · Dado un documento legible de un paciente que no ha autorizado el uso de IA, cuando termina la lectura, entonces no se indexa ni se envía nada al proveedor, aunque sea un PDF con texto. *(Agregado por D-30.)*
 
 ## Tareas y actividades
 
@@ -36,11 +38,18 @@
 - Estados: sin leer, en proceso, legible y no legible
 - Reintento cuando falla
 
-### T-031.3 Pruebas
+### T-031.3 Indexación
+
+- Partir cada página en fragmentos, sin cruzar de página
+- Retiro de identificadores y vectorización
+- Tabla de fragmentos con `pgvector` y su permiso por fila
+
+### T-031.4 Pruebas
 
 - PDF con texto
 - Foto de buena calidad y foto de mala calidad
 - Documento escrito a mano
+- Paciente sin autorización: no se indexa
 
 ## Nota de diseño
 

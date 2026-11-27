@@ -48,7 +48,7 @@
   justify-content: center;
   gap: 2px;
   min-height: 72px;
-  border-radius: 14px;
+  border-radius: var(--radio-tarjeta);
   font-size: 13px;
   line-height: 18px;
   color: var(--tinta-suave);
@@ -67,11 +67,11 @@
   border-color: var(--acento);
   background: var(--acento);
   box-shadow: var(--sombra-acento);
-  color: var(--superficie);
+  color: var(--sobre-acento);
 }
 
 .selector-de-espacio__dia[aria-pressed="true"] .selector-de-espacio__numero {
-  color: var(--superficie);
+  color: var(--sobre-acento);
 }
 
 .selector-de-espacio__franja {
@@ -98,8 +98,12 @@
 .selector-de-espacio__hora {
   min-height: 48px;
   border-radius: var(--radio-campo);
-  font-family: var(--letra-dato);
-  font-size: 14.5px;
+  padding: 0 8px;
+  font-family: var(--letra-titulo);
+  font-size: 20px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
 }
 
 .selector-de-espacio__hora[aria-pressed="true"] {

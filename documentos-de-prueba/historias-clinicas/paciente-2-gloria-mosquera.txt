@@ -1,0 +1,397 @@
+PACIENTE 2 · GLORIA PATRICIA MOSQUERA VALENCIA · DIABETES TIPO 2 Y OBESIDAD
+Tres historias. Cada una va en un Word aparte: copie desde "IPS SAMANES DEL VALLE" hasta "FIN DE LA HISTORIA".
+
+
+######################################################################
+HISTORIA 1 DE 3 · 05/03/2026
+######################################################################
+
+IPS SAMANES DEL VALLE
+NIT 900.000.222-2 · Código de habilitación 760010000222
+Calle 9 # 40-55, Cali, Valle del Cauca · Teléfono (602) 000 2222
+
+HISTORIA CLÍNICA ELECTRÓNICA
+CONSULTA EXTERNA DE MEDICINA GENERAL
+Registro de atención n.º SV-2026-003318
+
+1. IDENTIFICACIÓN DEL PACIENTE
+Nombres y apellidos: Gloria Patricia Mosquera Valencia
+Documento: Cédula de ciudadanía 31.927.448
+Fecha de nacimiento: 02/09/1974
+Edad: 51 años
+Sexo: Femenino
+Estado civil: Unión libre
+Ocupación: Docente de básica primaria
+Dirección: Calle 5 # 38-12, barrio San Fernando
+Municipio de residencia: Cali, Valle del Cauca · Zona urbana
+Teléfono: 315 290 4416
+Aseguradora: EPS Pacífico Salud · Régimen contributivo, cotizante
+Persona responsable: Jairo Alberto Lucumí Caicedo · Compañero permanente · 316 774 0921
+
+2. DATOS DE LA ATENCIÓN
+Fecha y hora de inicio: 05/03/2026 14:00
+Fecha y hora de fin: 05/03/2026 14:30
+Modalidad: Presencial, en la sede
+Servicio: Consulta externa de medicina general
+Tipo de consulta: Control
+Finalidad de la consulta: Tratamiento, control de enfermedad crónica
+Causa que motiva la atención: Enfermedad general
+Acompañante: Asiste sola
+
+3. MOTIVO DE CONSULTA
+"Control del azúcar."
+
+4. ENFERMEDAD ACTUAL
+Paciente con diabetes mellitus tipo 2 diagnosticada en 2021, en manejo con metformina 850 mg cada 12 horas. Refiere buena adherencia y buena tolerancia digestiva. Trae glucometrías en ayunas de las últimas tres semanas entre 140 y 170 mg/dL. Refiere sed aumentada leve. Come a deshoras por su horario en el colegio y consume pan y gaseosa en las tardes. Niega episodios de hipoglucemia, visión borrosa, hormigueo en pies y heridas. Trae laboratorios del 26/02/2026.
+
+5. ANTECEDENTES
+Personales patológicos: Diabetes mellitus tipo 2 desde 2021. Obesidad. Hígado graso no alcohólico por ecografía en 2022.
+Quirúrgicos: Cesárea en 2001. Colecistectomía laparoscópica en 2016.
+Farmacológicos actuales: Metformina 850 mg cada 12 horas.
+Alérgicos:
+  - Medicamentosos: no refiere.
+  - Alimentarios: no refiere.
+  - Ambientales: no refiere.
+Tóxicos y factores de riesgo: No fuma. No consume alcohol. Sedentaria.
+Gineco-obstétricos: Gestaciones 3, partos 1, cesáreas 1, abortos 1. Menopausia a los 49 años (2023). Citología de 2025 negativa. Mamografía de 2025 BI-RADS 1.
+Familiares:
+  - Madre: diabetes tipo 2 con enfermedad renal crónica en diálisis.
+  - Hermano: hipertensión arterial.
+
+6. REVISIÓN POR SISTEMAS
+Endocrino: sed aumentada leve.
+Demás sistemas: sin hallazgos.
+
+7. SIGNOS VITALES Y MEDIDAS
+Tensión arterial: 128/78 mmHg
+Frecuencia cardiaca: 82 latidos por minuto
+Frecuencia respiratoria: 16 respiraciones por minuto
+Temperatura: 36,6 °C
+Saturación de oxígeno: 98 % al aire ambiente
+Peso: 80,1 kg
+Talla: 1,58 m
+Índice de masa corporal: 32,1 kg/m²
+Perímetro abdominal: 104 cm
+
+8. EXAMEN FÍSICO
+Aspecto general: alerta, buen estado general.
+Cuello: acantosis nigricans en la nuca. Tiroides normal.
+Tórax: ruidos cardiacos rítmicos, sin soplos. Pulmones sin agregados.
+Abdomen: globoso por panículo adiposo, blando, no doloroso.
+Pies: piel íntegra, sin callos ni heridas. Pulsos pedios y tibiales posteriores presentes. Monofilamento de 10 g normal en ambos pies (10 de 10 puntos). Sensibilidad vibratoria conservada.
+Neurológico: sin déficit.
+
+9. RESULTADOS DE PARACLÍNICOS
+Laboratorios del 26/02/2026:
+  - Hemoglobina glicosilada (HbA1c): 8,4 %
+  - Glucemia en ayunas: 162 mg/dL
+  - Creatinina: 0,81 mg/dL · Tasa de filtración estimada (CKD-EPI): 84 mL/min/1,73 m²
+  - Relación albúmina/creatinina en orina: 22 mg/g
+  - Colesterol total: 196 mg/dL
+  - Colesterol LDL: 98 mg/dL
+  - Colesterol HDL: 44 mg/dL
+  - Triglicéridos: 188 mg/dL
+  - TSH: 2,1 µUI/mL
+
+10. ANÁLISIS
+Diabetes tipo 2 sin control: HbA1c de 8,4 % frente a una meta de menos de 7 %. Obesidad grado I. Sin albuminuria y con función renal normal. Sin signos de pie en riesgo. No tiene fondo de ojo en el último año. Por su edad y diabetes está indicada la estatina. Se agrega empagliflozina, que además ayuda con el peso y protege el riñón, y se inicia atorvastatina.
+
+11. DIAGNÓSTICOS (CIE-10)
+Principal: E11.9 Diabetes mellitus no insulinodependiente sin mención de complicación · Confirmado repetido
+Relacionado: E66.0 Obesidad debida a exceso de calorías · Confirmado repetido
+Relacionado: K76.0 Degeneración grasa del hígado, no clasificada en otra parte · Confirmado repetido
+
+12. PLAN DE MANEJO
+
+12.1 Fórmula médica
+  1. Metformina 850 mg tableta. Una tableta por vía oral cada 12 horas, con desayuno y comida. Duración: 90 días. Cantidad: 180 tabletas.
+  2. Empagliflozina 10 mg tableta. Una tableta por vía oral en la mañana. Duración: 90 días. Cantidad: 90 tabletas.
+  3. Atorvastatina 20 mg tableta. Una tableta por vía oral en la noche. Duración: 90 días. Cantidad: 90 tabletas.
+
+12.2 Órdenes de exámenes y procedimientos
+  - Hemoglobina glicosilada, glucemia, creatinina y perfil lipídico en 3 meses.
+
+12.3 Remisiones e interconsultas
+  - Oftalmología: fondo de ojo con pupila dilatada.
+  - Nutrición: plan de alimentación para diabetes y reducción de peso.
+
+12.4 Incapacidad
+No se otorga.
+
+12.5 Recomendaciones y educación
+Tomar dos litros de agua al día. Higiene genital diaria y ropa interior de algodón, porque la empagliflozina aumenta el riesgo de infecciones por hongos. Revisar los pies todos los días. Cambiar gaseosa y pan de la tarde por fruta entera. Caminar 30 minutos diarios.
+
+12.6 Signos de alarma
+Náuseas, vómito, dolor abdominal o respiración rápida: suspender la empagliflozina y consultar a urgencias. También consultar si presenta ardor al orinar, fiebre o una herida en los pies.
+
+12.7 Próximo control
+En 3 meses, con los laboratorios y el fondo de ojo.
+
+13. DESTINO AL FINALIZAR LA ATENCIÓN
+Domicilio.
+
+14. PROFESIONAL QUE ATIENDE
+Carolina Ospina Lenis · Médica general
+Cédula de ciudadanía 66.918.204 · Registro médico 76-2231-15
+Firmado electrónicamente el 05/03/2026 a las 14:30
+
+Documento de prueba con datos inventados. No corresponde a ninguna persona ni institución real.
+FIN DE LA HISTORIA
+
+
+######################################################################
+HISTORIA 2 DE 3 · 11/06/2026
+######################################################################
+
+IPS SAMANES DEL VALLE
+NIT 900.000.222-2 · Código de habilitación 760010000222
+Calle 9 # 40-55, Cali, Valle del Cauca · Teléfono (602) 000 2222
+
+HISTORIA CLÍNICA ELECTRÓNICA
+CONSULTA EXTERNA DE MEDICINA GENERAL
+Registro de atención n.º SV-2026-008751
+
+1. IDENTIFICACIÓN DEL PACIENTE
+Nombres y apellidos: Gloria Patricia Mosquera Valencia
+Documento: Cédula de ciudadanía 31.927.448
+Fecha de nacimiento: 02/09/1974
+Edad: 51 años
+Sexo: Femenino
+Estado civil: Unión libre
+Ocupación: Docente de básica primaria
+Dirección: Calle 5 # 38-12, barrio San Fernando
+Municipio de residencia: Cali, Valle del Cauca · Zona urbana
+Teléfono: 315 290 4416
+Aseguradora: EPS Pacífico Salud · Régimen contributivo, cotizante
+Persona responsable: Jairo Alberto Lucumí Caicedo · Compañero permanente · 316 774 0921
+
+2. DATOS DE LA ATENCIÓN
+Fecha y hora de inicio: 11/06/2026 14:20
+Fecha y hora de fin: 11/06/2026 14:45
+Modalidad: Presencial, en la sede
+Servicio: Consulta externa de medicina general
+Tipo de consulta: Control
+Finalidad de la consulta: Tratamiento, control de enfermedad crónica
+Causa que motiva la atención: Enfermedad general
+Acompañante: Asiste sola
+
+3. MOTIVO DE CONSULTA
+"Control del azúcar, y tengo picazón en mis partes íntimas."
+
+4. ENFERMEDAD ACTUAL
+Control a los tres meses. Toma metformina 850 mg cada 12 horas, empagliflozina 10 mg en la mañana y atorvastatina 20 mg en la noche, sin olvidos. Glucometrías en ayunas entre 110 y 135 mg/dL. La sed desapareció. Fue a nutrición en abril y dejó la gaseosa. Bajó 2,5 kg.
+Desde hace 5 días presenta picazón en la vulva y flujo vaginal blanco, grumoso, sin mal olor. Niega ardor al orinar, fiebre y dolor abdominal. Trae fondo de ojo y laboratorios.
+
+5. ANTECEDENTES
+Personales patológicos: Diabetes mellitus tipo 2 desde 2021. Obesidad. Hígado graso no alcohólico.
+Quirúrgicos: Cesárea en 2001. Colecistectomía laparoscópica en 2016.
+Farmacológicos actuales: Metformina 850 mg cada 12 horas. Empagliflozina 10 mg en la mañana. Atorvastatina 20 mg en la noche.
+Alérgicos: No refiere alergias a medicamentos, alimentos ni del ambiente.
+Tóxicos y factores de riesgo: No fuma. No consume alcohol. Camina 20 minutos cuatro días a la semana.
+Gineco-obstétricos: Gestaciones 3, partos 1, cesáreas 1, abortos 1. Menopausia a los 49 años.
+Familiares: Madre con diabetes tipo 2 en diálisis. Hermano con hipertensión.
+
+6. REVISIÓN POR SISTEMAS
+Genitourinario: picazón vulvar y flujo vaginal, descritos en la enfermedad actual. Sin síntomas urinarios.
+Demás sistemas: sin hallazgos.
+
+7. SIGNOS VITALES Y MEDIDAS
+Tensión arterial: 122/76 mmHg
+Frecuencia cardiaca: 78 latidos por minuto
+Frecuencia respiratoria: 16 respiraciones por minuto
+Temperatura: 36,5 °C
+Saturación de oxígeno: 98 % al aire ambiente
+Peso: 77,6 kg
+Talla: 1,58 m
+Índice de masa corporal: 31,1 kg/m²
+Perímetro abdominal: 101 cm
+
+8. EXAMEN FÍSICO
+Aspecto general: buen estado general.
+Tórax: ruidos cardiacos rítmicos. Pulmones sin agregados.
+Abdomen: blando, no doloroso.
+Genitales, con consentimiento verbal y en presencia de auxiliar de enfermería: eritema en labios menores y en el introito. Flujo blanco grumoso adherido a las paredes vaginales, sin mal olor. Sin úlceras ni vesículas.
+Pies: piel íntegra. Pulsos presentes. Monofilamento normal en ambos pies.
+
+9. RESULTADOS DE PARACLÍNICOS
+Fondo de ojo con pupila dilatada, oftalmología, 22/04/2026: sin retinopatía diabética en ninguno de los dos ojos. Control en un año.
+Laboratorios del 03/06/2026:
+  - Hemoglobina glicosilada (HbA1c): 7,6 %
+  - Glucemia en ayunas: 128 mg/dL
+  - Creatinina: 0,84 mg/dL
+  - Colesterol LDL: 78 mg/dL
+  - Triglicéridos: 156 mg/dL
+
+10. ANÁLISIS
+Buena respuesta al tratamiento: la HbA1c bajó de 8,4 % a 7,6 %, todavía por encima de la meta de menos de 7 %. Bajó 2,5 kg. LDL en meta con atorvastatina. Sin retinopatía. Presenta candidiasis vulvovaginal, efecto adverso conocido de la empagliflozina; no es motivo para suspenderla. Se trata la infección y se refuerza la higiene.
+
+11. DIAGNÓSTICOS (CIE-10)
+Principal: E11.9 Diabetes mellitus no insulinodependiente sin mención de complicación · Confirmado repetido
+Relacionado: B37.3 Candidiasis de la vulva y de la vagina · Confirmado nuevo
+Relacionado: E66.0 Obesidad debida a exceso de calorías · Confirmado repetido
+
+12. PLAN DE MANEJO
+
+12.1 Fórmula médica
+  1. Fluconazol 150 mg cápsula. Una cápsula por vía oral, dosis única. Cantidad: 1 cápsula.
+  2. Clotrimazol 1 % crema vaginal. Una aplicación por vía vaginal en la noche. Duración: 7 días. Cantidad: 1 tubo de 40 g.
+  3. Metformina 850 mg tableta. Una tableta por vía oral cada 12 horas. Duración: 90 días. Cantidad: 180 tabletas.
+  4. Empagliflozina 10 mg tableta. Una tableta por vía oral en la mañana. Duración: 90 días. Cantidad: 90 tabletas.
+  5. Atorvastatina 20 mg tableta. Una tableta por vía oral en la noche. Duración: 90 días. Cantidad: 90 tabletas.
+
+12.2 Órdenes de exámenes y procedimientos
+  - Hemoglobina glicosilada, glucemia, creatinina y relación albúmina/creatinina en orina en 3 meses.
+
+12.3 Remisiones e interconsultas
+  - Nutrición: control en 3 meses.
+
+12.4 Incapacidad
+No se otorga.
+
+12.5 Recomendaciones y educación
+Lavado genital solo con agua y jabón neutro, secar bien y usar ropa interior de algodón. Evitar duchas vaginales. Mantener la alimentación de nutrición y la caminata; subir a cinco días por semana.
+
+12.6 Signos de alarma
+Fiebre, dolor en la parte baja de la espalda, ardor al orinar, náuseas o vómito: consultar. Si la picazón no mejora en una semana, pedir cita.
+
+12.7 Próximo control
+En 3 meses, con los laboratorios.
+
+13. DESTINO AL FINALIZAR LA ATENCIÓN
+Domicilio.
+
+14. PROFESIONAL QUE ATIENDE
+Carolina Ospina Lenis · Médica general
+Cédula de ciudadanía 66.918.204 · Registro médico 76-2231-15
+Firmado electrónicamente el 11/06/2026 a las 14:45
+
+Documento de prueba con datos inventados. No corresponde a ninguna persona ni institución real.
+FIN DE LA HISTORIA
+
+
+######################################################################
+HISTORIA 3 DE 3 · 17/09/2026
+######################################################################
+
+IPS SAMANES DEL VALLE
+NIT 900.000.222-2 · Código de habilitación 760010000222
+Calle 9 # 40-55, Cali, Valle del Cauca · Teléfono (602) 000 2222
+
+HISTORIA CLÍNICA ELECTRÓNICA
+CONSULTA EXTERNA DE MEDICINA GENERAL
+Registro de atención n.º SV-2026-014096
+
+1. IDENTIFICACIÓN DEL PACIENTE
+Nombres y apellidos: Gloria Patricia Mosquera Valencia
+Documento: Cédula de ciudadanía 31.927.448
+Fecha de nacimiento: 02/09/1974
+Edad: 52 años
+Sexo: Femenino
+Estado civil: Unión libre
+Ocupación: Docente de básica primaria
+Dirección: Calle 5 # 38-12, barrio San Fernando
+Municipio de residencia: Cali, Valle del Cauca · Zona urbana
+Teléfono: 315 290 4416
+Aseguradora: EPS Pacífico Salud · Régimen contributivo, cotizante
+Persona responsable: Jairo Alberto Lucumí Caicedo · Compañero permanente · 316 774 0921
+
+2. DATOS DE LA ATENCIÓN
+Fecha y hora de inicio: 17/09/2026 07:30
+Fecha y hora de fin: 17/09/2026 08:00
+Modalidad: Presencial, en la sede
+Servicio: Consulta externa de medicina general
+Tipo de consulta: Control
+Finalidad de la consulta: Tratamiento, control de enfermedad crónica
+Causa que motiva la atención: Enfermedad general
+Acompañante: Jairo Alberto Lucumí Caicedo · Compañero permanente · 316 774 0921
+
+3. MOTIVO DE CONSULTA
+"Control, y en las noches me hormiguean y me arden los pies."
+
+4. ENFERMEDAD ACTUAL
+Control a los tres meses. Sigue con metformina 850 mg cada 12 horas, empagliflozina 10 mg y atorvastatina 20 mg. La candidiasis de junio se resolvió en una semana y no ha vuelto. Glucometrías en ayunas entre 100 y 125 mg/dL.
+Desde hace 6 semanas presenta hormigueo y ardor en las plantas de ambos pies, más en el izquierdo, que empeora en la noche y la despierta; intensidad 6 sobre 10. Niega debilidad, caídas y heridas. Lleva cinco años tomando metformina y nunca le han medido la vitamina B12.
+
+5. ANTECEDENTES
+Personales patológicos: Diabetes mellitus tipo 2 desde 2021. Obesidad. Hígado graso no alcohólico. Candidiasis vulvovaginal en junio de 2026, resuelta.
+Quirúrgicos: Cesárea en 2001. Colecistectomía laparoscópica en 2016.
+Farmacológicos actuales: Metformina 850 mg cada 12 horas. Empagliflozina 10 mg en la mañana. Atorvastatina 20 mg en la noche.
+Alérgicos: No refiere alergias a medicamentos, alimentos ni del ambiente.
+Tóxicos y factores de riesgo: No fuma. No consume alcohol. Camina cinco días a la semana.
+Gineco-obstétricos: Gestaciones 3, partos 1, cesáreas 1, abortos 1. Menopausia a los 49 años.
+Familiares: Madre con diabetes tipo 2 en diálisis. Hermano con hipertensión.
+
+6. REVISIÓN POR SISTEMAS
+Neurológico: hormigueo y ardor en los pies, descritos en la enfermedad actual. Insomnio por el dolor.
+Demás sistemas: sin hallazgos.
+
+7. SIGNOS VITALES Y MEDIDAS
+Tensión arterial: 124/76 mmHg
+Frecuencia cardiaca: 76 latidos por minuto
+Frecuencia respiratoria: 16 respiraciones por minuto
+Temperatura: 36,4 °C
+Saturación de oxígeno: 98 % al aire ambiente
+Peso: 76,0 kg
+Talla: 1,58 m
+Índice de masa corporal: 30,4 kg/m²
+Perímetro abdominal: 99 cm
+
+8. EXAMEN FÍSICO
+Aspecto general: buen estado general.
+Tórax y abdomen: sin hallazgos.
+Pies: piel íntegra, sin heridas ni callos. Pulsos pedios y tibiales posteriores presentes. Monofilamento de 10 g: 10 de 10 puntos en el pie derecho y 7 de 10 en el pie izquierdo. Sensibilidad vibratoria disminuida en el dedo gordo del pie izquierdo. Reflejo aquiliano izquierdo disminuido, derecho normal.
+Neurológico: fuerza normal en las cuatro extremidades. Marcha normal.
+
+9. RESULTADOS DE PARACLÍNICOS
+Laboratorios del 10/09/2026:
+  - Hemoglobina glicosilada (HbA1c): 6,9 %
+  - Glucemia en ayunas: 118 mg/dL
+  - Creatinina: 0,86 mg/dL · Tasa de filtración estimada (CKD-EPI): 79 mL/min/1,73 m²
+  - Relación albúmina/creatinina en orina: 19 mg/g
+
+10. ANÁLISIS
+Diabetes en meta por primera vez: HbA1c de 6,9 %, que venía de 8,4 % en febrero y 7,6 % en junio. Función renal estable y sin albuminuria. Tiene síntomas y hallazgos de neuropatía periférica de predominio izquierdo, compatibles con polineuropatía diabética. Antes de confirmarla se debe descartar déficit de vitamina B12 por el uso prolongado de metformina. Se inicia pregabalina para el dolor nocturno.
+
+11. DIAGNÓSTICOS (CIE-10)
+Principal: E11.4 Diabetes mellitus no insulinodependiente con complicaciones neurológicas · Impresión diagnóstica
+Relacionado: G63.2 Polineuropatía diabética · Impresión diagnóstica
+Relacionado: E66.0 Obesidad debida a exceso de calorías · Confirmado repetido
+
+12. PLAN DE MANEJO
+
+12.1 Fórmula médica
+  1. Pregabalina 75 mg cápsula. Una cápsula por vía oral en la noche. Duración: 45 días. Cantidad: 45 cápsulas.
+  2. Metformina 850 mg tableta. Una tableta por vía oral cada 12 horas. Duración: 90 días. Cantidad: 180 tabletas.
+  3. Empagliflozina 10 mg tableta. Una tableta por vía oral en la mañana. Duración: 90 días. Cantidad: 90 tabletas.
+  4. Atorvastatina 20 mg tableta. Una tableta por vía oral en la noche. Duración: 90 días. Cantidad: 90 tabletas.
+
+12.2 Órdenes de exámenes y procedimientos
+  - Vitamina B12 sérica.
+  - Hemograma completo.
+  - Electromiografía y neuroconducción de miembros inferiores.
+
+12.3 Remisiones e interconsultas
+  - Ninguna en esta consulta. Se definirá con los resultados.
+
+12.4 Incapacidad
+No se otorga.
+
+12.5 Recomendaciones y educación
+Revisar los pies todos los días con un espejo. No caminar descalza. Usar zapato cerrado, cómodo y medias sin costuras. Probar la temperatura del agua con el codo, no con el pie. La pregabalina puede dar sueño o mareo: no manejar si se siente somnolienta.
+
+12.6 Signos de alarma
+Herida, ampolla o cambio de color en los pies, debilidad en las piernas o caídas: consultar de inmediato.
+
+12.7 Próximo control
+En 6 semanas, con la vitamina B12, el hemograma y la electromiografía, para ajustar la pregabalina.
+
+13. DESTINO AL FINALIZAR LA ATENCIÓN
+Domicilio.
+
+14. PROFESIONAL QUE ATIENDE
+Carolina Ospina Lenis · Médica general
+Cédula de ciudadanía 66.918.204 · Registro médico 76-2231-15
+Firmado electrónicamente el 17/09/2026 a las 08:00
+
+Documento de prueba con datos inventados. No corresponde a ninguna persona ni institución real.
+FIN DE LA HISTORIA

@@ -7,15 +7,19 @@ from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
+from vitalia.casos_de_uso.bloqueos import BloqueoConCitas
+from vitalia.casos_de_uso.puertos import ProveedorNoDisponible
 from vitalia.dominio.agenda import (
     AgendaNoDisponible,
     CitaNoModificable,
     CitaRepetida,
+    EspacioBloqueado,
     EspacioNoDisponible,
     EspacioOcupado,
     FaltaAnticipacion,
     FueraDeHorario,
 )
+from vitalia.dominio.asistente import SinFragmentos, TopeDeConsultas
 from vitalia.dominio.cuentas import (
     AutorizacionDesactualizada,
     DatosInvalidos,
@@ -24,7 +28,11 @@ from vitalia.dominio.cuentas import (
     MenorDeEdad,
     YaHayMedico,
 )
+from vitalia.dominio.documentos import DocumentoRepetido
 from vitalia.dominio.errores import NoEncontrado
+from vitalia.dominio.facturas import CitaNoFacturable, FacturadorNoDisponible, FacturaRechazada
+from vitalia.dominio.fragmentos import IANoAutorizada
+from vitalia.dominio.historia_clinica import AtencionCerrada, ContrasenaIncorrecta, FaltanDatos
 from vitalia.dominio.ingreso import CredencialesInvalidas, IngresoBloqueado
 from vitalia.dominio.permisos import AccesoDenegado
 from vitalia.entrada.sesion import SinSesion
@@ -86,6 +94,47 @@ _FIJOS: dict[type[Exception], tuple[int, str, str]] = {
         "Ya tiene una cita futura de este tipo. Confirme si quiere agendar otra.",
     ),
     CitaNoModificable: (409, "cita_no_modificable", "Esta cita ya no se puede mover ni cancelar."),
+    EspacioBloqueado: (
+        409,
+        "espacio_bloqueado",
+        "Ese tiempo está bloqueado. Elimine el bloqueo si quiere dar la cita.",
+    ),
+    IANoAutorizada: (
+        422,
+        "ia_no_autorizada",
+        "El paciente no ha autorizado el uso de inteligencia artificial con sus datos.",
+    ),
+    SinFragmentos: (
+        422,
+        "sin_documentos_indexados",
+        "El paciente todavía no tiene documentos listos para el asistente.",
+    ),
+    AtencionCerrada: (
+        409,
+        "atencion_cerrada",
+        "Esta atención ya está cerrada. Para corregirla, agregue una nota aclaratoria.",
+    ),
+    ContrasenaIncorrecta: (
+        422,
+        "contrasena_incorrecta",
+        "La contraseña no coincide. La atención sigue abierta.",
+    ),
+    CitaNoFacturable: (
+        409,
+        "cita_no_facturable",
+        "Solo se factura una cita marcada como atendida.",
+    ),
+    FacturadorNoDisponible: (
+        503,
+        "facturador_no_disponible",
+        "Factus no respondió. La factura no se emitió; intente de nuevo en un momento.",
+    ),
+    ProveedorNoDisponible: (
+        503,
+        "proveedor_no_disponible",
+        "El asistente no está disponible en este momento. "
+        "Los documentos siguen disponibles en el visor.",
+    ),
 }
 
 
@@ -134,6 +183,18 @@ def registrar_traducciones(api: FastAPI) -> None:
             {"alternativas": [inicio.isoformat() for inicio in error.alternativas]},
         )
 
+    async def bloqueo_con_citas(_: Request, error: Exception) -> JSONResponse:
+        assert isinstance(error, BloqueoConCitas)
+        # La respuesta trae las citas como las da la API, para moverlas o cancelarlas desde ahí.
+        from vitalia.entrada.rutas_citas import Cita
+
+        return respuesta_de_error(
+            409,
+            "bloqueo_con_citas",
+            "Ese tiempo tiene citas agendadas. Muévalas o cancélelas antes de bloquearlo.",
+            {"citas": [Cita.de(c).model_dump(mode="json") for c in error.citas]},
+        )
+
     async def falta_anticipacion(_: Request, error: Exception) -> JSONResponse:
         assert isinstance(error, FaltaAnticipacion)
         return respuesta_de_error(
@@ -144,8 +205,52 @@ def registrar_traducciones(api: FastAPI) -> None:
             {"horas": error.horas},
         )
 
+    async def documento_repetido(_: Request, error: Exception) -> JSONResponse:
+        assert isinstance(error, DocumentoRepetido)
+        return respuesta_de_error(
+            409,
+            "documento_repetido",
+            "Ese archivo ya está en sus documentos.",
+            {"documento_id": str(error.documento_id)},
+        )
+
+    async def faltan_datos(_: Request, error: Exception) -> JSONResponse:
+        assert isinstance(error, FaltanDatos)
+        return respuesta_de_error(
+            422,
+            "faltan_datos",
+            "Faltan datos para cerrar la atención.",
+            {
+                "identificacion": error.faltantes.identificacion,
+                "atencion": error.faltantes.atencion,
+            },
+        )
+
+    async def tope_de_consultas(_: Request, error: Exception) -> JSONResponse:
+        assert isinstance(error, TopeDeConsultas)
+        return respuesta_de_error(
+            429,
+            "tope_de_consultas",
+            f"Llegó al máximo de {error.tope} preguntas por hora. Intente más tarde.",
+            {"tope": error.tope},
+        )
+
+    async def factura_rechazada(_: Request, error: Exception) -> JSONResponse:
+        assert isinstance(error, FacturaRechazada)
+        return respuesta_de_error(
+            422,
+            "factura_rechazada",
+            "La DIAN no validó la factura. Revise los motivos.",
+            {"motivos": error.motivos},
+        )
+
+    api.add_exception_handler(FacturaRechazada, factura_rechazada)
+    api.add_exception_handler(FaltanDatos, faltan_datos)
+    api.add_exception_handler(TopeDeConsultas, tope_de_consultas)
+    api.add_exception_handler(DocumentoRepetido, documento_repetido)
     api.add_exception_handler(EspacioOcupado, espacio_ocupado)
     api.add_exception_handler(FaltaAnticipacion, falta_anticipacion)
+    api.add_exception_handler(BloqueoConCitas, bloqueo_con_citas)
     api.add_exception_handler(DatosInvalidos, datos_invalidos)
     api.add_exception_handler(RequestValidationError, formato_invalido)
     api.add_exception_handler(IngresoBloqueado, bloqueado)

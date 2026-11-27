@@ -142,8 +142,22 @@ def reloj_en_hora(reloj: RelojMovible) -> Iterator[None]:
 
 
 @pytest.fixture(scope="session")
-async def api(url_api: str, reloj: RelojMovible) -> AsyncIterator[FastAPI]:
-    aplicacion = armar(Configuracion(bd_url=url_api, sesion_secreto="pruebas"), reloj)
+def carpeta_de_archivos(tmp_path_factory: pytest.TempPathFactory) -> Path:
+    """Donde las pruebas guardan los documentos subidos. Se borra sola."""
+    return tmp_path_factory.mktemp("archivos")
+
+
+@pytest.fixture(scope="session")
+async def api(
+    url_api: str, reloj: RelojMovible, carpeta_de_archivos: Path
+) -> AsyncIterator[FastAPI]:
+    configuracion = Configuracion(
+        bd_url=url_api,
+        sesion_secreto="pruebas",
+        carpeta_de_archivos=carpeta_de_archivos,
+        lector_en_segundo_plano=False,
+    )
+    aplicacion = armar(configuracion, reloj)
     async with aplicacion.router.lifespan_context(aplicacion):
         yield aplicacion
 
@@ -236,11 +250,14 @@ async def nuevo_paciente(api: FastAPI) -> AsyncIterator[NuevoPaciente]:
     abiertos: list[httpx.AsyncClient] = []
 
     async def _registrar(
-        nombres: str = "Rosa Elena", apellidos: str = "Duarte"
+        nombres: str = "Rosa Elena", apellidos: str = "Duarte", ia: bool = False
     ) -> httpx.AsyncClient:
         cliente = navegador(api)
         abiertos.append(cliente)
         texto = (await cliente.get("/api/v1/autorizaciones/texto?tipo=datos")).json()
+        texto_ia = None
+        if ia:
+            texto_ia = (await cliente.get("/api/v1/autorizaciones/texto?tipo=ia")).json()["id"]
         respuesta = await cliente.post(
             "/api/v1/cuentas/registro",
             json={
@@ -253,6 +270,7 @@ async def nuevo_paciente(api: FastAPI) -> AsyncIterator[NuevoPaciente]:
                 "correo": "paciente@ejemplo.test",
                 "contrasena": "girasol2026",
                 "texto_datos": texto["id"],
+                "texto_ia": texto_ia,
             },
         )
         assert respuesta.status_code == 201, respuesta.text
@@ -301,3 +319,42 @@ async def consultorio_listo(api: FastAPI, medico: UUID) -> dict[str, str]:
             assert creado.status_code == 201, creado.text
             tipos[nombre] = creado.json()["id"]
     return tipos
+
+
+def pdf_con_texto(*paginas: str) -> bytes:
+    """Arma un PDF de verdad, con una página por texto.
+
+    Una cadena vacía da una página sin texto, como la de un escaneado.
+    """
+    objetos = [b"<< /Type /Catalog /Pages 2 0 R >>"]
+    hijas = " ".join(f"{4 + 2 * i} 0 R" for i in range(len(paginas)))
+    objetos.append(f"<< /Type /Pages /Kids [{hijas}] /Count {len(paginas)} >>".encode())
+    objetos.append(
+        b"<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>"
+    )
+    for i, texto in enumerate(paginas):
+        ordenes = ["BT /F1 11 Tf 50 760 Td 14 TL"]
+        for linea in texto.split("\n") if texto else []:
+            escapada = linea.replace("\\", "\\\\").replace("(", "\\(").replace(")", "\\)")
+            ordenes.append(f"({escapada}) Tj T*")
+        ordenes.append("ET")
+        flujo = "\n".join(ordenes).encode("cp1252")
+        objetos.append(
+            f"<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] "
+            f"/Resources << /Font << /F1 3 0 R >> >> /Contents {5 + 2 * i} 0 R >>".encode()
+        )
+        objetos.append(b"<< /Length %d >>\nstream\n" % len(flujo) + flujo + b"\nendstream")
+
+    salida = bytearray(b"%PDF-1.4\n")
+    posiciones = []
+    for numero, cuerpo in enumerate(objetos, 1):
+        posiciones.append(len(salida))
+        salida += f"{numero} 0 obj\n".encode() + cuerpo + b"\nendobj\n"
+    indice = len(salida)
+    salida += f"xref\n0 {len(objetos) + 1}\n0000000000 65535 f \n".encode()
+    for posicion in posiciones:
+        salida += f"{posicion:010d} 00000 n \n".encode()
+    salida += (
+        f"trailer\n<< /Size {len(objetos) + 1} /Root 1 0 R >>\nstartxref\n{indice}\n%%EOF\n"
+    ).encode()
+    return bytes(salida)

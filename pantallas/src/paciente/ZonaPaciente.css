@@ -23,7 +23,7 @@
 
 .zona-paciente__encabezado h1 {
   font-size: var(--tamano-titulo-pantalla);
-  line-height: 32px;
+  line-height: 1.05;
 }
 
 .zona-paciente__secciones {
@@ -54,11 +54,28 @@
 .zona-paciente__icono-seccion {
   display: flex;
   padding: 4px 16px;
-  border-radius: var(--radio-completo);
+  border-radius: var(--radio-campo);
+}
+
+/* Seis secciones en un celular angosto: la letra y el resalte se encogen para que no se toquen. */
+@media (max-width: 430px) {
+  .zona-paciente__secciones {
+    column-gap: 2px;
+    padding-inline: 4px;
+  }
+
+  .zona-paciente__seccion {
+    font-size: 11px;
+    letter-spacing: -0.01em;
+  }
+
+  .zona-paciente__icono-seccion {
+    padding: 4px 12px;
+  }
 }
 
 .zona-paciente__seccion.active {
-  color: var(--acento);
+  color: var(--acento-texto);
   font-weight: 700;
 }
 
@@ -73,7 +90,7 @@
   min-height: 44px;
   padding: 0 12px;
   border: 0;
-  border-radius: 10px;
+  border-radius: var(--radio-boton);
   background: none;
   color: var(--tinta-suave);
   font: inherit;
@@ -85,4 +102,74 @@
 .zona-paciente__salir:hover {
   background: var(--acento-suave);
   color: var(--acento-oscuro);
+}
+
+.zona-paciente__marca {
+  display: none;
+}
+
+/* Computador: las secciones pasan a una columna a la izquierda y el contenido se ensancha. */
+@media (min-width: 900px) {
+  .zona-paciente {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    align-items: start;
+    max-width: none;
+    margin: 0;
+  }
+
+  .zona-paciente > main {
+    grid-row: 1;
+    grid-column: 2;
+    width: 100%;
+    max-width: 1040px;
+    padding: 32px 40px 48px;
+  }
+
+  .zona-paciente__secciones {
+    position: sticky;
+    top: 0;
+    grid-row: 1;
+    grid-column: 1;
+    grid-auto-flow: row;
+    align-content: start;
+    gap: 4px;
+    height: 100vh;
+    padding: 24px 16px;
+    border-top: 0;
+    border-right: 1px solid var(--linea);
+  }
+
+  .zona-paciente__marca {
+    display: flex;
+    margin: 0 8px 20px;
+  }
+
+  .zona-paciente__seccion {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 10px;
+    min-height: 48px;
+    padding: 0 8px;
+    border-radius: var(--radio-campo);
+    font-size: 16px;
+  }
+
+  .zona-paciente__icono-seccion {
+    padding: 4px;
+  }
+
+  .zona-paciente__seccion:hover {
+    background: var(--acento-suave);
+    color: var(--acento-oscuro);
+  }
+
+  .zona-paciente__seccion.active {
+    background: var(--acento-suave);
+    box-shadow: inset 0 0 0 1.5px var(--acento);
+  }
+
+  .zona-paciente__seccion.active .zona-paciente__icono-seccion {
+    background: none;
+  }
 }

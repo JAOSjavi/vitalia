@@ -15,12 +15,13 @@
 
 ## Criterios de aceptación
 
-- **CA-1** · Dado un paciente con documentos legibles y autorización vigente, cuando escribo una pregunta, entonces recibo una respuesta basada solo en esos documentos.
-- **CA-2** · Dada una respuesta, cuando la leo, entonces cada dato indica el documento y la página de donde salió, y puedo abrirlo en el visor en esa página.
-- **CA-3** · Dado que la información no está en los documentos, cuando pregunto por ella, entonces el asistente responde que no aparece, sin suponer.
+- **CA-1** · Dado un paciente con fragmentos indexados y autorización vigente, cuando escribo una pregunta, entonces recibo una respuesta basada solo en los fragmentos encontrados de sus documentos y sus atenciones. *(Ajustado por D-30.)*
+- **CA-2** · Dada una respuesta, cuando la leo, entonces cada dato indica el documento y la página, o la atención, de donde salió, y puedo abrirlo: el documento en el visor en esa página y la atención en la historia clínica. *(Ajustado por D-30.)*
+- **CA-3** · Dado que la información no está en lo encontrado, cuando pregunto por ella, entonces el asistente responde que no la encontró en los documentos ni en las atenciones, sin suponer. *(Ajustado por D-30.)*
 - **CA-4** · Dado que pregunto qué diagnóstico tiene el paciente o qué tratamiento darle, cuando el asistente responde, entonces aclara que solo resume lo registrado y no emite una recomendación clínica.
 - **CA-5** · Dado que hago una segunda pregunta, cuando la envío, entonces el asistente tiene en cuenta la conversación de esa sesión.
 - **CA-6** · Dada toda respuesta, cuando se muestra, entonces incluye el aviso de que es un apoyo y no reemplaza la lectura del documento.
+- **CA-7** · Dada una respuesta, cuando la abro, entonces veo la lista de documentos, páginas y atenciones que consultó el asistente. *(Agregado por D-30.)*
 
 ## Tareas y actividades
 
@@ -38,7 +39,7 @@
 
 ### T-034.3 Pruebas
 
-- Conjunto de preguntas con respuesta conocida
+- Conjunto de preguntas con respuesta conocida, midiendo primero si la búsqueda trae el fragmento
 - Preguntas cuya respuesta no está en los documentos
 - Peticiones de diagnóstico o de tratamiento
 

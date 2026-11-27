@@ -1,0 +1,395 @@
+PACIENTE 3 · MARTHA LUCÍA RESTREPO GIL · SOBREVIVIENTE DE CÁNCER DE MAMA EN TAMOXIFENO
+Tres historias. Cada una va en un Word aparte: copie desde "IPS GUAYACANES" hasta "FIN DE LA HISTORIA".
+
+
+######################################################################
+HISTORIA 1 DE 3 · 20/01/2026
+######################################################################
+
+IPS GUAYACANES
+NIT 900.000.333-3 · Código de habilitación 050010000333
+Carrera 80 # 34-20, Medellín, Antioquia · Teléfono (604) 000 3333
+
+HISTORIA CLÍNICA ELECTRÓNICA
+CONSULTA EXTERNA DE MEDICINA GENERAL
+Registro de atención n.º GY-2026-000941
+
+1. IDENTIFICACIÓN DEL PACIENTE
+Nombres y apellidos: Martha Lucía Restrepo Gil
+Documento: Cédula de ciudadanía 43.578.211
+Fecha de nacimiento: 22/06/1979
+Edad: 46 años
+Sexo: Femenino
+Estado civil: Casada
+Ocupación: Contadora pública
+Dirección: Calle 33 # 76-15, barrio Laureles
+Municipio de residencia: Medellín, Antioquia · Zona urbana
+Teléfono: 300 615 2290
+Aseguradora: EPS Antioquia Vital · Régimen contributivo, cotizante
+Persona responsable: Carlos Mario Uribe Toro · Esposo · 304 118 5532
+
+2. DATOS DE LA ATENCIÓN
+Fecha y hora de inicio: 20/01/2026 10:00
+Fecha y hora de fin: 20/01/2026 10:30
+Modalidad: Presencial, en la sede
+Servicio: Consulta externa de medicina general
+Tipo de consulta: Control
+Finalidad de la consulta: Tratamiento, seguimiento de enfermedad crónica
+Causa que motiva la atención: Enfermedad general
+Acompañante: Asiste sola
+
+3. MOTIVO DE CONSULTA
+"Vengo a control. Me dan muchos calores y no estoy durmiendo bien."
+
+4. ENFERMEDAD ACTUAL
+Paciente con antecedente de cáncer de mama izquierda tratado en 2023, en hormonoterapia con tamoxifeno 20 mg al día desde noviembre de 2023, con adherencia completa. Desde hace 4 meses presenta bochornos (oleadas de calor en cara y pecho) unas 8 a 10 veces al día, con sudoración nocturna que la despierta 3 a 4 veces por noche. Refiere cansancio en el día y le cuesta concentrarse en el trabajo. Ánimo conservado, sin tristeza persistente ni pérdida del interés. Niega sangrado vaginal anormal, dolor en huesos, tos, pérdida de peso y masas en las mamas. Último control en oncología el 10/12/2025: sin evidencia de enfermedad. Mamografía bilateral de noviembre de 2025: BI-RADS 2.
+
+5. ANTECEDENTES
+Personales patológicos: Carcinoma ductal infiltrante de mama izquierda, diagnosticado el 15/03/2023. Receptores de estrógeno 90 %, de progesterona 70 %, HER2 negativo, Ki-67 de 18 %. Estadio IIA (T2 N0 M0). Estudio genético BRCA1 y BRCA2 negativo (2023).
+Tratamiento oncológico:
+  - Cuadrantectomía izquierda con ganglio centinela negativo, abril de 2023.
+  - Quimioterapia adyuvante con 4 ciclos de docetaxel y ciclofosfamida, terminada en agosto de 2023.
+  - Radioterapia en mama izquierda, 15 sesiones, terminada en octubre de 2023.
+  - Tamoxifeno 20 mg al día desde noviembre de 2023; plan de 5 a 10 años definido por oncología.
+  - Seguimiento en la Unidad Oncológica del Aburrá cada 6 meses.
+Quirúrgicos: Cesáreas en 2008 y 2011. Cuadrantectomía izquierda en 2023.
+Farmacológicos actuales: Tamoxifeno 20 mg al día (lo formula oncología).
+Alérgicos:
+  - Medicamentoso: penicilina. Presentó urticaria generalizada en 2010.
+  - Alimentarios: no refiere.
+  - Ambientales: no refiere.
+Tóxicos y factores de riesgo: No fuma. Alcohol ocasional, una copa de vino al mes. Camina 3 veces por semana.
+Gineco-obstétricos: Menarquia a los 12 años. Gestaciones 2, cesáreas 2. Ciclos irregulares desde que inició el tamoxifeno. Fecha de última menstruación: 02/01/2026. Planificación con dispositivo intrauterino de cobre desde 2023, porque no puede usar métodos hormonales.
+Familiares:
+  - Madre: cáncer de mama a los 55 años, viva.
+  - Tía materna: cáncer de ovario a los 60 años.
+  - Padre: diabetes tipo 2.
+
+6. REVISIÓN POR SISTEMAS
+Generales: bochornos, sudoración nocturna y cansancio, descritos en la enfermedad actual.
+Mental: dificultad para dormir. Sin síntomas depresivos.
+Demás sistemas: sin hallazgos.
+
+7. SIGNOS VITALES Y MEDIDAS
+Tensión arterial: 118/74 mmHg
+Frecuencia cardiaca: 76 latidos por minuto
+Frecuencia respiratoria: 15 respiraciones por minuto
+Temperatura: 36,4 °C
+Saturación de oxígeno: 98 % al aire ambiente
+Peso: 64,0 kg
+Talla: 1,63 m
+Índice de masa corporal: 24,1 kg/m²
+
+8. EXAMEN FÍSICO
+Aspecto general: alerta, buen estado general.
+Mamas: mama izquierda con cicatriz de cuadrantectomía en cuadrante superior externo, sin nódulos, retracción ni cambios en la piel. Mama derecha sin masas. Axilas y regiones supraclaviculares sin ganglios palpables.
+Tórax: ruidos cardiacos rítmicos. Pulmones sin agregados.
+Abdomen: blando, sin masas ni crecimiento del hígado.
+Extremidades: sin edema. Pantorrillas blandas, no dolorosas.
+Columna: sin dolor a la percusión.
+
+9. RESULTADOS DE PARACLÍNICOS
+No trae exámenes nuevos. Mamografía bilateral de noviembre de 2025: BI-RADS 2, hallazgos benignos posquirúrgicos.
+
+10. ANÁLISIS
+Paciente sin evidencia de enfermedad oncológica, con bochornos frecuentes por el tamoxifeno que le alteran el sueño y el trabajo. Se inicia venlafaxina a dosis baja, que reduce los bochornos sin disminuir el efecto del tamoxifeno. Se evitan fluoxetina y paroxetina, que bloquean la enzima CYP2D6 y hacen que el tamoxifeno funcione menos. Al estar en tamoxifeno debe tener control ginecológico anual, por el riesgo de cambios en el endometrio.
+
+11. DIAGNÓSTICOS (CIE-10)
+Principal: Z85.3 Historia personal de tumor maligno de la mama · Confirmado repetido
+Relacionado: R23.2 Rubor (bochornos asociados al tamoxifeno) · Confirmado nuevo
+Relacionado: G47.0 Trastornos del inicio y del mantenimiento del sueño (insomnio) · Confirmado nuevo
+
+12. PLAN DE MANEJO
+
+12.1 Fórmula médica
+  1. Venlafaxina 37,5 mg cápsula de liberación prolongada. Una cápsula por vía oral en la mañana. Duración: 90 días. Cantidad: 90 cápsulas.
+  Continúa tamoxifeno 20 mg al día, formulado por oncología.
+
+12.2 Órdenes de exámenes y procedimientos
+  - Hemograma completo.
+  - Perfil hepático: ALT, AST y fosfatasa alcalina.
+  - Perfil lipídico.
+
+12.3 Remisiones e interconsultas
+  - Ginecología: control anual por uso de tamoxifeno.
+
+12.4 Incapacidad
+No se otorga.
+
+12.5 Recomendaciones y educación
+Habitación fresca y ropa de cama ligera. Evitar café después del mediodía, picantes y alcohol. Horario fijo para acostarse y levantarse; no usar el celular en la cama. La venlafaxina puede dar náuseas leves la primera semana; tomarla con el desayuno. No suspender la venlafaxina de golpe. No tomar fluoxetina ni paroxetina mientras use tamoxifeno.
+
+12.6 Signos de alarma
+Consultar si presenta sangrado vaginal anormal, dolor en huesos que no cede, masa en una mama o en la axila, dolor o hinchazón en una pantorrilla, falta de aire súbita o tristeza persistente.
+
+12.7 Próximo control
+En 3 meses, con los laboratorios.
+
+13. DESTINO AL FINALIZAR LA ATENCIÓN
+Domicilio.
+
+14. PROFESIONAL QUE ATIENDE
+Santiago Arango Vélez · Médico general
+Cédula de ciudadanía 71.385.902 · Registro médico 05-3381-12
+Firmado electrónicamente el 20/01/2026 a las 10:30
+
+Documento de prueba con datos inventados. No corresponde a ninguna persona ni institución real.
+FIN DE LA HISTORIA
+
+
+######################################################################
+HISTORIA 2 DE 3 · 21/04/2026
+######################################################################
+
+IPS GUAYACANES
+NIT 900.000.333-3 · Código de habilitación 050010000333
+Carrera 80 # 34-20, Medellín, Antioquia · Teléfono (604) 000 3333
+
+HISTORIA CLÍNICA ELECTRÓNICA
+CONSULTA EXTERNA DE MEDICINA GENERAL
+Registro de atención n.º GY-2026-005677
+
+1. IDENTIFICACIÓN DEL PACIENTE
+Nombres y apellidos: Martha Lucía Restrepo Gil
+Documento: Cédula de ciudadanía 43.578.211
+Fecha de nacimiento: 22/06/1979
+Edad: 46 años
+Sexo: Femenino
+Estado civil: Casada
+Ocupación: Contadora pública
+Dirección: Calle 33 # 76-15, barrio Laureles
+Municipio de residencia: Medellín, Antioquia · Zona urbana
+Teléfono: 300 615 2290
+Aseguradora: EPS Antioquia Vital · Régimen contributivo, cotizante
+Persona responsable: Carlos Mario Uribe Toro · Esposo · 304 118 5532
+
+2. DATOS DE LA ATENCIÓN
+Fecha y hora de inicio: 21/04/2026 10:15
+Fecha y hora de fin: 21/04/2026 10:45
+Modalidad: Presencial, en la sede
+Servicio: Consulta externa de medicina general
+Tipo de consulta: Control
+Finalidad de la consulta: Tratamiento, seguimiento de enfermedad crónica
+Causa que motiva la atención: Enfermedad general
+Acompañante: Carlos Mario Uribe Toro · Esposo · 304 118 5532
+
+3. MOTIVO DE CONSULTA
+"Control, y estoy manchando entre una regla y otra."
+
+4. ENFERMEDAD ACTUAL
+Control a los tres meses. Con venlafaxina 37,5 mg los bochornos bajaron de 8 a 10 por día a 3 o 4 por día, y ahora duerme de corrido la mayoría de las noches. Tuvo náuseas leves la primera semana, que pasaron. Sigue con tamoxifeno 20 mg sin olvidos.
+Desde hace 3 semanas presenta manchado vaginal escaso, oscuro, casi todos los días, sin dolor ni fiebre. Fecha de última menstruación: 28/03/2026. En la cita anual de ginecología del 10/04/2026 le ordenaron ecografía transvaginal, que trae hoy junto con los laboratorios.
+
+5. ANTECEDENTES
+Personales patológicos: Carcinoma ductal infiltrante de mama izquierda, estadio IIA, receptores hormonales positivos y HER2 negativo, diagnosticado en marzo de 2023 y tratado con cuadrantectomía, quimioterapia y radioterapia. Sin evidencia de enfermedad en el control de diciembre de 2025. Bochornos e insomnio por tamoxifeno desde enero de 2026.
+Quirúrgicos: Cesáreas en 2008 y 2011. Cuadrantectomía izquierda en 2023.
+Farmacológicos actuales: Tamoxifeno 20 mg al día. Venlafaxina 37,5 mg en la mañana.
+Alérgicos:
+  - Medicamentoso: penicilina (urticaria generalizada en 2010).
+  - Alimentarios: no refiere.
+  - Ambientales: no refiere.
+Tóxicos y factores de riesgo: No fuma. Alcohol ocasional.
+Gineco-obstétricos: Gestaciones 2, cesáreas 2. Ciclos irregulares con tamoxifeno. Dispositivo intrauterino de cobre desde 2023.
+Familiares: Madre con cáncer de mama a los 55 años. Tía materna con cáncer de ovario a los 60 años. Padre con diabetes tipo 2.
+
+6. REVISIÓN POR SISTEMAS
+Genitourinario: manchado vaginal intermenstrual, descrito en la enfermedad actual.
+Demás sistemas: sin hallazgos.
+
+7. SIGNOS VITALES Y MEDIDAS
+Tensión arterial: 116/72 mmHg
+Frecuencia cardiaca: 72 latidos por minuto
+Frecuencia respiratoria: 15 respiraciones por minuto
+Temperatura: 36,5 °C
+Saturación de oxígeno: 98 % al aire ambiente
+Peso: 64,5 kg
+Talla: 1,63 m
+Índice de masa corporal: 24,3 kg/m²
+
+8. EXAMEN FÍSICO
+Aspecto general: buen estado general.
+Mamas y axilas: sin cambios respecto al control anterior. Sin masas ni ganglios.
+Abdomen: blando, no doloroso, sin masas.
+Genitales, con consentimiento verbal y en presencia de auxiliar de enfermería: especuloscopia con cuello uterino de aspecto sano, hilos del dispositivo visibles, escaso sangrado oscuro que sale de la cavidad uterina. Tacto vaginal sin dolor ni masas.
+Extremidades: sin edema. Pantorrillas no dolorosas.
+
+9. RESULTADOS DE PARACLÍNICOS
+Laboratorios del 30/01/2026:
+  - Hemoglobina: 13,1 g/dL · Leucocitos: 6.200 por mm³ · Plaquetas: 248.000 por mm³
+  - ALT: 28 U/L · AST: 25 U/L · Fosfatasa alcalina: 82 U/L
+  - Colesterol total: 205 mg/dL · LDL: 118 mg/dL · HDL: 61 mg/dL · Triglicéridos: 120 mg/dL
+Ecografía transvaginal del 15/04/2026: útero de tamaño normal. Endometrio engrosado de 9 mm, de aspecto heterogéneo. Ovarios normales. Dispositivo intrauterino bien ubicado.
+
+10. ANÁLISIS
+Bochornos e insomnio mejoraron cerca de un 60 % con venlafaxina; se continúa. Laboratorios normales. Presenta sangrado uterino anormal con endometrio engrosado de 9 mm mientras toma tamoxifeno. El tamoxifeno estimula el endometrio y aumenta el riesgo de pólipos, hiperplasia y cáncer de endometrio, por lo que este hallazgo debe estudiarse con histeroscopia y biopsia. Se remite a ginecología con prioridad y se informa a oncología. No se suspende el tamoxifeno sin concepto de oncología.
+
+11. DIAGNÓSTICOS (CIE-10)
+Principal: N93.8 Otras hemorragias uterinas o vaginales anormales especificadas · Impresión diagnóstica
+Relacionado: Z85.3 Historia personal de tumor maligno de la mama · Confirmado repetido
+Relacionado: R23.2 Rubor (bochornos asociados al tamoxifeno) · Confirmado repetido
+
+12. PLAN DE MANEJO
+
+12.1 Fórmula médica
+  1. Venlafaxina 37,5 mg cápsula de liberación prolongada. Una cápsula por vía oral en la mañana. Duración: 90 días. Cantidad: 90 cápsulas.
+  Continúa tamoxifeno 20 mg al día, formulado por oncología.
+
+12.2 Órdenes de exámenes y procedimientos
+  - Ninguna nueva. Los estudios los define ginecología.
+
+12.3 Remisiones e interconsultas
+  - Ginecología, prioritaria: histeroscopia con biopsia de endometrio por sangrado anormal y endometrio de 9 mm en paciente con tamoxifeno.
+  - Oncología: se envía nota informando el hallazgo.
+
+12.4 Incapacidad
+No se otorga.
+
+12.5 Recomendaciones y educación
+Se explica a la paciente y al esposo por qué se estudia el endometrio y que la mayoría de estos hallazgos son benignos. Pedir la cita de ginecología esta misma semana. Seguir tomando el tamoxifeno.
+
+12.6 Signos de alarma
+Sangrado abundante (más de una toalla por hora), mareo, dolor abdominal fuerte o fiebre: acudir a urgencias. Dolor o hinchazón en una pantorrilla o falta de aire súbita: urgencias.
+
+12.7 Próximo control
+Después de la valoración por ginecología, con el resultado de la biopsia.
+
+13. DESTINO AL FINALIZAR LA ATENCIÓN
+Domicilio, con remisión prioritaria a ginecología.
+
+14. PROFESIONAL QUE ATIENDE
+Santiago Arango Vélez · Médico general
+Cédula de ciudadanía 71.385.902 · Registro médico 05-3381-12
+Firmado electrónicamente el 21/04/2026 a las 10:45
+
+Documento de prueba con datos inventados. No corresponde a ninguna persona ni institución real.
+FIN DE LA HISTORIA
+
+
+######################################################################
+HISTORIA 3 DE 3 · 28/07/2026
+######################################################################
+
+IPS GUAYACANES
+NIT 900.000.333-3 · Código de habilitación 050010000333
+Carrera 80 # 34-20, Medellín, Antioquia · Teléfono (604) 000 3333
+
+HISTORIA CLÍNICA ELECTRÓNICA
+CONSULTA EXTERNA DE MEDICINA GENERAL
+Registro de atención n.º GY-2026-010388
+
+1. IDENTIFICACIÓN DEL PACIENTE
+Nombres y apellidos: Martha Lucía Restrepo Gil
+Documento: Cédula de ciudadanía 43.578.211
+Fecha de nacimiento: 22/06/1979
+Edad: 47 años
+Sexo: Femenino
+Estado civil: Casada
+Ocupación: Contadora pública
+Dirección: Calle 33 # 76-15, barrio Laureles
+Municipio de residencia: Medellín, Antioquia · Zona urbana
+Teléfono: 300 615 2290
+Aseguradora: EPS Antioquia Vital · Régimen contributivo, cotizante
+Persona responsable: Carlos Mario Uribe Toro · Esposo · 304 118 5532
+
+2. DATOS DE LA ATENCIÓN
+Fecha y hora de inicio: 28/07/2026 11:00
+Fecha y hora de fin: 28/07/2026 11:30
+Modalidad: Presencial, en la sede
+Servicio: Consulta externa de medicina general
+Tipo de consulta: Control
+Finalidad de la consulta: Tratamiento
+Causa que motiva la atención: Enfermedad general
+Acompañante: Asiste sola
+
+3. MOTIVO DE CONSULTA
+"Traigo lo de ginecología, y me duele la espalda baja."
+
+4. ENFERMEDAD ACTUAL
+Trae resultados de ginecología: histeroscopia del 18/05/2026 con resección de un pólipo endometrial; patología del 26/05/2026: pólipo endometrial benigno, sin atipia ni hiperplasia. El sangrado se resolvió después del procedimiento. Control en oncología el 15/06/2026: sin evidencia de enfermedad; oncología decide continuar el tamoxifeno con ecografía transvaginal cada año. Bochornos controlados con venlafaxina.
+Desde hace 3 semanas presenta dolor en la parte baja de la espalda, en el centro, que empezó después de cargar cajas en una mudanza. Empeora al agacharse y al estar sentada mucho tiempo, mejora con el reposo, intensidad 6 sobre 10. No se irradia a las piernas. Niega dolor en la noche o en reposo, pérdida de peso, fiebre, debilidad en las piernas y cambios al orinar o al defecar. Ha tomado acetaminofén con alivio parcial.
+
+5. ANTECEDENTES
+Personales patológicos: Carcinoma ductal infiltrante de mama izquierda, estadio IIA, receptores hormonales positivos y HER2 negativo, diagnosticado en marzo de 2023. Sin evidencia de enfermedad en junio de 2026. Bochornos por tamoxifeno, controlados. Pólipo endometrial benigno resecado en mayo de 2026.
+Quirúrgicos: Cesáreas en 2008 y 2011. Cuadrantectomía izquierda en 2023. Histeroscopia con resección de pólipo endometrial en mayo de 2026.
+Farmacológicos actuales: Tamoxifeno 20 mg al día. Venlafaxina 37,5 mg en la mañana.
+Alérgicos:
+  - Medicamentoso: penicilina (urticaria generalizada en 2010). No tiene alergia a antiinflamatorios.
+  - Alimentarios: no refiere.
+  - Ambientales: no refiere.
+Tóxicos y factores de riesgo: No fuma. Alcohol ocasional. Trabajo sentada 8 a 9 horas al día.
+Gineco-obstétricos: Gestaciones 2, cesáreas 2. Dispositivo intrauterino de cobre. Fecha de última menstruación: 12/07/2026.
+Familiares: Madre con cáncer de mama a los 55 años. Tía materna con cáncer de ovario a los 60 años. Padre con diabetes tipo 2.
+
+6. REVISIÓN POR SISTEMAS
+Osteomuscular: dolor lumbar, descrito en la enfermedad actual.
+Genitourinario: sin sangrado anormal desde mayo.
+Demás sistemas: sin hallazgos.
+
+7. SIGNOS VITALES Y MEDIDAS
+Tensión arterial: 120/76 mmHg
+Frecuencia cardiaca: 74 latidos por minuto
+Frecuencia respiratoria: 15 respiraciones por minuto
+Temperatura: 36,6 °C
+Saturación de oxígeno: 98 % al aire ambiente
+Peso: 65,2 kg
+Talla: 1,63 m
+Índice de masa corporal: 24,5 kg/m²
+
+8. EXAMEN FÍSICO
+Aspecto general: buen estado general, camina sin ayuda.
+Mamas y axilas: sin masas ni ganglios.
+Columna: contractura de los músculos a ambos lados de la columna lumbar. Sin dolor a la percusión de las vértebras. Flexión limitada por dolor.
+Neurológico: prueba de Lasègue negativa en ambas piernas. Fuerza, sensibilidad y reflejos normales en las piernas. Marcha en puntas y talones normal.
+Extremidades: sin edema.
+
+9. RESULTADOS DE PARACLÍNICOS
+Histeroscopia del 18/05/2026: pólipo endometrial de 8 mm, resecado por completo.
+Patología del 26/05/2026: pólipo endometrial benigno, sin atipia ni hiperplasia.
+Control de oncología del 15/06/2026: sin evidencia de enfermedad. Continúa tamoxifeno.
+
+10. ANÁLISIS
+El sangrado de abril se explicó por un pólipo endometrial benigno, ya resecado. Presenta dolor lumbar de características mecánicas después de un esfuerzo, sin signos neurológicos. Aunque el cuadro parece muscular, el antecedente de cáncer de mama es una señal de alarma para dolor de espalda, porque este cáncer puede extenderse al hueso. Por eso se piden radiografía y laboratorios aunque el examen sea tranquilizador. Puede recibir antiinflamatorios: su alergia es solo a la penicilina.
+
+11. DIAGNÓSTICOS (CIE-10)
+Principal: M54.5 Lumbago no especificado · Confirmado nuevo
+Relacionado: Z85.3 Historia personal de tumor maligno de la mama · Confirmado repetido
+Relacionado: Z86.0 Historia personal de otros tumores (pólipo endometrial benigno resecado) · Confirmado nuevo
+
+12. PLAN DE MANEJO
+
+12.1 Fórmula médica
+  1. Naproxeno 250 mg tableta. Una tableta por vía oral cada 12 horas, con comida. Duración: 5 días. Cantidad: 10 tabletas.
+  2. Acetaminofén 500 mg tableta. Dos tabletas por vía oral cada 8 horas. Duración: 7 días. Cantidad: 42 tabletas.
+  3. Metocarbamol 750 mg tableta. Una tableta por vía oral cada 8 horas. Duración: 5 días. Cantidad: 15 tabletas.
+  4. Venlafaxina 37,5 mg cápsula de liberación prolongada. Una cápsula por vía oral en la mañana. Duración: 90 días. Cantidad: 90 cápsulas.
+  Continúa tamoxifeno 20 mg al día, formulado por oncología.
+
+12.2 Órdenes de exámenes y procedimientos
+  - Radiografía de columna lumbosacra, proyecciones anteroposterior y lateral.
+  - Fosfatasa alcalina, calcio sérico, hemograma y velocidad de sedimentación globular.
+
+12.3 Remisiones e interconsultas
+  - Ninguna en esta consulta. Si la radiografía o los laboratorios salen alterados, se remite a oncología con prioridad.
+
+12.4 Incapacidad
+Dos días: 28/07/2026 y 29/07/2026.
+
+12.5 Recomendaciones y educación
+Calor local 20 minutos tres veces al día. Mantenerse activa y caminar; no hacer reposo en cama. Al volver al trabajo, pausas activas cada hora y silla con apoyo lumbar. No cargar objetos pesados por dos semanas. El metocarbamol puede dar sueño.
+
+12.6 Signos de alarma
+Dolor que aparece de noche o en reposo, debilidad o adormecimiento en las piernas, pérdida del control de la orina o de las heces, fiebre o pérdida de peso sin explicación: consultar de inmediato.
+
+12.7 Próximo control
+En 2 semanas, con la radiografía y los laboratorios.
+
+13. DESTINO AL FINALIZAR LA ATENCIÓN
+Domicilio.
+
+14. PROFESIONAL QUE ATIENDE
+Santiago Arango Vélez · Médico general
+Cédula de ciudadanía 71.385.902 · Registro médico 05-3381-12
+Firmado electrónicamente el 28/07/2026 a las 11:30
+
+Documento de prueba con datos inventados. No corresponde a ninguna persona ni institución real.
+FIN DE LA HISTORIA

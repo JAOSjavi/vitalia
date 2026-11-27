@@ -2,8 +2,12 @@
 
 import os
 from dataclasses import dataclass
+from pathlib import Path
 
 from dotenv import load_dotenv
+
+# Para programar sin la nube, los archivos van a esta carpeta, que no entra al repositorio.
+_CARPETA_DE_ARCHIVOS = Path(__file__).parent.parent / ".archivos"
 
 
 @dataclass(frozen=True)
@@ -12,14 +16,62 @@ class Configuracion:
     sesion_secreto: str
     # Dirección de las pantallas: con ella se arman los enlaces que se entregan.
     sitio_url: str = "http://localhost:5173"
+    carpeta_de_archivos: Path = _CARPETA_DE_ARCHIVOS
+    # Las pruebas lo apagan y llaman al lector cuando lo necesitan.
+    lector_en_segundo_plano: bool = True
+    # Proveedor de IA. Sin dirección o sin clave, los vectores salen de las palabras.
+    ia_direccion: str | None = None
+    ia_clave: str | None = None
+    ia_modelo_vectores: str = "qwen3.7-text-embedding"
+    ia_dimensiones: int = 1024
+    # Las respuestas y la lectura de fotos pueden ir a otro proveedor con el formato de OpenAI
+    # (D-32). Sin estos dos valores usan la dirección y la clave de los vectores.
+    ia_respuestas_direccion: str | None = None
+    ia_respuestas_clave: str | None = None
+    ia_modelo_respuestas: str = "qwen3.7-plus"
+    ia_modelo_lectura: str = "qwen-vl-ocr-2025-11-20"
+    # Máximo de texto de los fragmentos en una pregunta, en caracteres.
+    ia_tope_contexto: int = 16000
+    ia_tope_consultas_hora: int = 30
+    # Factura electrónica con Factus (D-35). Sin credenciales, las facturas son de mentira.
+    factus_direccion: str = "https://api-sandbox.factus.com.co"
+    factus_client_id: str | None = None
+    factus_client_secret: str | None = None
+    factus_usuario: str | None = None
+    factus_contrasena: str | None = None
+    factus_rango_id: int | None = None
+    # Código DANE del municipio del consultorio. Por defecto Bogotá.
+    factus_municipio: str = "11001"
 
 
 def leer() -> Configuracion:
     load_dotenv()
+    carpeta = os.environ.get("ARCHIVOS_CARPETA")
     return Configuracion(
         bd_url=_obligatoria("BD_URL"),
         sesion_secreto=_obligatoria("SESION_SECRETO"),
         sitio_url=os.environ.get("SITIO_URL") or Configuracion.sitio_url,
+        carpeta_de_archivos=Path(carpeta) if carpeta else _CARPETA_DE_ARCHIVOS,
+        ia_direccion=os.environ.get("IA_DIRECCION") or None,
+        ia_clave=os.environ.get("IA_CLAVE") or None,
+        ia_modelo_vectores=os.environ.get("IA_MODELO_VECTORES") or Configuracion.ia_modelo_vectores,
+        ia_dimensiones=int(os.environ.get("IA_DIMENSIONES") or Configuracion.ia_dimensiones),
+        ia_respuestas_direccion=os.environ.get("IA_RESPUESTAS_DIRECCION") or None,
+        ia_respuestas_clave=os.environ.get("IA_RESPUESTAS_CLAVE") or None,
+        ia_modelo_respuestas=os.environ.get("IA_MODELO_RESPUESTAS")
+        or Configuracion.ia_modelo_respuestas,
+        ia_modelo_lectura=os.environ.get("IA_MODELO_LECTURA") or Configuracion.ia_modelo_lectura,
+        ia_tope_contexto=int(os.environ.get("IA_TOPE_CONTEXTO") or Configuracion.ia_tope_contexto),
+        ia_tope_consultas_hora=int(
+            os.environ.get("IA_TOPE_CONSULTAS_HORA") or Configuracion.ia_tope_consultas_hora
+        ),
+        factus_direccion=os.environ.get("FACTUS_DIRECCION") or Configuracion.factus_direccion,
+        factus_client_id=os.environ.get("FACTUS_CLIENT_ID") or None,
+        factus_client_secret=os.environ.get("FACTUS_CLIENT_SECRET") or None,
+        factus_usuario=os.environ.get("FACTUS_USUARIO") or None,
+        factus_contrasena=os.environ.get("FACTUS_CONTRASENA") or None,
+        factus_municipio=os.environ.get("FACTUS_MUNICIPIO") or Configuracion.factus_municipio,
+        factus_rango_id=int(rango) if (rango := os.environ.get("FACTUS_RANGO_ID")) else None,
     )
 
 

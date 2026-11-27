@@ -7,12 +7,9 @@ otra. El reloj se pone en un momento conocido de esa semana.
 import asyncio
 from datetime import date, datetime, timedelta
 from typing import Any
-from uuid import UUID
 
 import httpx
 import pytest
-from sqlalchemy import text
-from sqlalchemy.ext.asyncio import AsyncEngine
 
 from conftest import IngresarDoctora, NuevoPaciente, RelojMovible
 from vitalia.dominio.cuentas import COLOMBIA
@@ -396,28 +393,106 @@ async def test_una_cita_atendida_no_se_mueve_ni_se_cancela(
     nuevo_paciente: NuevoPaciente,
     reloj: RelojMovible,
     ingresar_doctora: IngresarDoctora,
-    motor_dueno: AsyncEngine,
 ) -> None:
     lunes = date(2031, 6, 30)
     reloj.poner(a_las(lunes - timedelta(days=3), 9))
     rosa = await nuevo_paciente()
     await _agendar(rosa, consultorio_listo["Consulta general"], a_las(lunes, 9))
     cita = (await _mis_citas(rosa))[0]
-    # Marcar la asistencia llega con HU-018: aquí se marca directo en la base.
-    async with motor_dueno.begin() as conexion:
-        await conexion.execute(text("ALTER TABLE citas NO FORCE ROW LEVEL SECURITY"))
-        await conexion.execute(
-            text("UPDATE citas SET estado = 'atendida' WHERE id = :id"), {"id": UUID(cita["id"])}
-        )
-        await conexion.execute(text("ALTER TABLE citas FORCE ROW LEVEL SECURITY"))
-
+    reloj.poner(a_las(lunes, 9, 40))
     doctora = await ingresar_doctora()
+    await doctora.post(f"/api/v1/citas/{cita['id']}/asistencia", json={"estado": "atendida"})
+
     respuesta = await doctora.post(
         f"/api/v1/citas/{cita['id']}/cancelar", json={"motivo": "Prueba"}
     )
 
     assert respuesta.status_code == 409
     assert respuesta.json()["codigo"] == "cita_no_modificable"
+
+
+# --- HU-018: asistencia
+
+
+async def _cita_de(
+    rosa: httpx.AsyncClient, tipo: str, reloj: RelojMovible, inicio: datetime
+) -> str:
+    """Rosa agenda tres días antes; devuelve el número de la cita."""
+    await _agendar(rosa, tipo, inicio)
+    cita_id: str = (await _mis_citas(rosa))[0]["id"]
+    return cita_id
+
+
+async def _marcar(ingresar_doctora: IngresarDoctora, cita_id: str, estado: str) -> httpx.Response:
+    # Cada salto del reloj vence la sesión anterior: la doctora vuelve a ingresar.
+    doctora = await ingresar_doctora()
+    return await doctora.post(f"/api/v1/citas/{cita_id}/asistencia", json={"estado": estado})
+
+
+async def _estado(ingresar_doctora: IngresarDoctora, cita_id: str) -> str:
+    doctora = await ingresar_doctora()
+    citas = (await doctora.get("/api/v1/citas")).json()
+    estado: str = next(c["estado"] for c in citas if c["id"] == cita_id)
+    return estado
+
+
+async def test_la_asistencia_se_marca_el_dia_de_la_cita(
+    consultorio_listo: dict[str, str],
+    nuevo_paciente: NuevoPaciente,
+    reloj: RelojMovible,
+    ingresar_doctora: IngresarDoctora,
+) -> None:
+    lunes = date(2031, 8, 4)
+    reloj.poner(a_las(lunes - timedelta(days=3), 9))
+    rosa = await nuevo_paciente()
+    cita = await _cita_de(rosa, consultorio_listo["Consulta general"], reloj, a_las(lunes, 9))
+
+    antes_de_tiempo = await _marcar(ingresar_doctora, cita, "atendida")
+    reloj.poner(a_las(lunes, 8, 30))
+    no_asistio_antes = await _marcar(ingresar_doctora, cita, "no_asistio")
+    atendida = await _marcar(ingresar_doctora, cita, "atendida")
+
+    assert antes_de_tiempo.status_code == 400
+    assert no_asistio_antes.status_code == 400
+    assert atendida.status_code == 204
+    assert await _estado(ingresar_doctora, cita) == "atendida"
+
+
+async def test_la_asistencia_se_corrige_solo_el_mismo_dia(
+    consultorio_listo: dict[str, str],
+    nuevo_paciente: NuevoPaciente,
+    reloj: RelojMovible,
+    ingresar_doctora: IngresarDoctora,
+) -> None:
+    lunes = date(2031, 8, 11)
+    reloj.poner(a_las(lunes - timedelta(days=3), 9))
+    rosa = await nuevo_paciente()
+    cita = await _cita_de(rosa, consultorio_listo["Consulta general"], reloj, a_las(lunes, 9))
+
+    reloj.poner(a_las(lunes, 10))
+    await _marcar(ingresar_doctora, cita, "no_asistio")
+    corregida = await _marcar(ingresar_doctora, cita, "atendida")
+    reloj.poner(a_las(lunes + timedelta(days=1), 8))
+    al_otro_dia = await _marcar(ingresar_doctora, cita, "no_asistio")
+
+    assert corregida.status_code == 204
+    assert al_otro_dia.status_code == 400
+    assert await _estado(ingresar_doctora, cita) == "atendida"
+
+
+async def test_un_paciente_no_marca_asistencia(
+    consultorio_listo: dict[str, str],
+    nuevo_paciente: NuevoPaciente,
+    reloj: RelojMovible,
+) -> None:
+    lunes = date(2031, 8, 18)
+    reloj.poner(a_las(lunes, 8))
+    rosa = await nuevo_paciente()
+    cita = await _cita_de(rosa, consultorio_listo["Consulta general"], reloj, a_las(lunes, 9, 30))
+
+    respuesta = await rosa.post(f"/api/v1/citas/{cita}/asistencia", json={"estado": "atendida"})
+
+    assert respuesta.status_code == 403
 
 
 # --- HU-021 y HU-001 CA-4: agenda de hoy y lo que falta por configurar
@@ -444,6 +519,10 @@ async def test_la_agenda_de_hoy_va_por_hora_con_paciente_tipo_y_estado(
         ("Carlos Muñoz Hoy", "Control", "confirmada"),
     ]
     assert agenda["pendientes"] == []
+    # La que sigue es la de Rosa: la tarjeta trae su edad y sus documentos, sin abrir la ficha.
+    assert agenda["sigue"]["cita_id"] == agenda["citas"][0]["id"]
+    assert agenda["sigue"]["documentos"] == 0
+    assert agenda["sigue"]["ia_autorizada"] is False
 
 
 async def test_un_dia_sin_citas_muestra_la_proxima(
@@ -607,3 +686,132 @@ async def test_un_paciente_no_puede_ver_la_lista_de_pacientes(
     respuesta = await rosa.get("/api/v1/pacientes")
 
     assert respuesta.status_code == 403
+
+
+# --- HU-009: bloqueos del horario
+
+
+async def _bloquear(
+    doctora: httpx.AsyncClient, inicio: datetime, fin: datetime, motivo: str = "Congreso médico"
+) -> httpx.Response:
+    return await doctora.post(
+        "/api/v1/bloqueos",
+        json={"inicio": inicio.isoformat(), "fin": fin.isoformat(), "motivo": motivo},
+    )
+
+
+async def test_lo_bloqueado_deja_de_ofrecerse_y_vuelve_al_eliminarlo(
+    consultorio_listo: dict[str, str],
+    nuevo_paciente: NuevoPaciente,
+    reloj: RelojMovible,
+    ingresar_doctora: IngresarDoctora,
+) -> None:
+    lunes = date(2031, 9, 1)
+    reloj.poner(a_las(lunes - timedelta(days=3), 9))
+    rosa = await nuevo_paciente()
+    doctora = await ingresar_doctora()
+    consulta = consultorio_listo["Consulta general"]
+
+    creado = await _bloquear(doctora, a_las(lunes, 9), a_las(lunes, 10))
+    horas = [hora_de(h) for h in (await _disponibilidad(rosa, consulta, lunes))["horas"]]
+    encima = await _agendar(rosa, consulta, a_las(lunes, 9))
+
+    assert creado.status_code == 201, creado.text
+    assert "09:00" not in horas and "09:30" not in horas
+    assert "08:30" in horas and "10:00" in horas
+    assert encima.status_code == 422
+
+    eliminado = await doctora.delete(f"/api/v1/bloqueos/{creado.json()['id']}")
+    horas = [hora_de(h) for h in (await _disponibilidad(rosa, consulta, lunes))["horas"]]
+
+    assert eliminado.status_code == 204
+    assert "09:00" in horas
+
+
+async def test_un_bloqueo_que_tapa_citas_las_lista_y_no_se_guarda(
+    consultorio_listo: dict[str, str],
+    nuevo_paciente: NuevoPaciente,
+    reloj: RelojMovible,
+    ingresar_doctora: IngresarDoctora,
+) -> None:
+    lunes = date(2031, 9, 8)
+    reloj.poner(a_las(lunes - timedelta(days=3), 9))
+    rosa = await nuevo_paciente()
+    await _agendar(rosa, consultorio_listo["Control"], a_las(lunes, 15))
+    cita = (await _mis_citas(rosa))[0]
+    doctora = await ingresar_doctora()
+
+    con_citas = await _bloquear(doctora, a_las(lunes, 14), a_las(lunes, 17))
+    await doctora.post(f"/api/v1/citas/{cita['id']}/cancelar", json={"motivo": "Congreso"})
+    despues = await _bloquear(doctora, a_las(lunes, 14), a_las(lunes, 17))
+
+    assert con_citas.status_code == 409
+    assert con_citas.json()["codigo"] == "bloqueo_con_citas"
+    assert [c["id"] for c in con_citas.json()["detalle"]["citas"]] == [cita["id"]]
+    assert despues.status_code == 201
+
+
+async def test_un_bloqueo_de_varios_dias_tapa_cada_dia(
+    consultorio_listo: dict[str, str],
+    nuevo_paciente: NuevoPaciente,
+    reloj: RelojMovible,
+    ingresar_doctora: IngresarDoctora,
+) -> None:
+    lunes = date(2031, 9, 15)
+    reloj.poner(a_las(lunes - timedelta(days=3), 9))
+    rosa = await nuevo_paciente()
+    doctora = await ingresar_doctora()
+
+    await _bloquear(doctora, a_las(lunes, 0), a_las(lunes + timedelta(days=2), 0), "Vacaciones")
+    dias = (await _disponibilidad(rosa, consultorio_listo["Control"]))["dias"]
+
+    assert lunes.isoformat() not in dias
+    assert (lunes + timedelta(days=1)).isoformat() not in dias
+    assert (lunes + timedelta(days=2)).isoformat() in dias
+
+
+async def test_el_medico_no_da_citas_sobre_un_bloqueo_y_hoy_lo_muestra(
+    consultorio_listo: dict[str, str],
+    nuevo_paciente: NuevoPaciente,
+    reloj: RelojMovible,
+    ingresar_doctora: IngresarDoctora,
+) -> None:
+    lunes = date(2031, 9, 22)
+    reloj.poner(a_las(lunes, 7))
+    rosa = await nuevo_paciente()
+    doctora = await ingresar_doctora()
+    paciente = await _id_de(doctora, "rosa elena duarte")
+    await _bloquear(doctora, a_las(lunes, 14), a_las(lunes, 17))
+
+    encima = await _agendar(
+        doctora, consultorio_listo["Control"], a_las(lunes, 15), paciente=paciente
+    )
+    agenda = (await doctora.get("/api/v1/agenda/hoy")).json()
+    del_paciente = await rosa.get(
+        "/api/v1/bloqueos",
+        params={"desde": a_las(lunes, 0).isoformat(), "hasta": a_las(lunes, 23).isoformat()},
+    )
+
+    assert encima.status_code == 409
+    assert encima.json()["codigo"] == "espacio_bloqueado"
+    assert [b["motivo"] for b in agenda["bloqueos"]] == ["Congreso médico"]
+    assert del_paciente.status_code == 403
+
+
+async def test_un_bloqueo_pide_motivo_y_uno_pasado_no_se_elimina(
+    consultorio_listo: dict[str, str],
+    reloj: RelojMovible,
+    ingresar_doctora: IngresarDoctora,
+) -> None:
+    lunes = date(2031, 9, 29)
+    reloj.poner(a_las(lunes, 7))
+    doctora = await ingresar_doctora()
+
+    sin_motivo = await _bloquear(doctora, a_las(lunes, 9), a_las(lunes, 10), "  ")
+    creado = await _bloquear(doctora, a_las(lunes, 9), a_las(lunes, 10))
+    reloj.poner(a_las(lunes, 11))
+    doctora = await ingresar_doctora()
+    pasado = await doctora.delete(f"/api/v1/bloqueos/{creado.json()['id']}")
+
+    assert sin_motivo.status_code == 400
+    assert pasado.status_code == 400

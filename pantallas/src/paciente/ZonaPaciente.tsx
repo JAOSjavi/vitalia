@@ -2,12 +2,24 @@ import "./ZonaPaciente.css";
 
 import { NavLink, Navigate, Route, Routes, useLocation } from "react-router";
 
-import { CalendarBlankIcon, HouseIcon } from "../comunes/iconos";
+import { Ajustes } from "../comunes/Ajustes";
+import {
+  CalendarBlankIcon,
+  ClipboardTextIcon,
+  CreditCardIcon,
+  FileTextIcon,
+  GearIcon,
+  HouseIcon,
+} from "../comunes/iconos";
+import { Marca } from "../comunes/piezas/Marca";
 import { Agendar } from "./Agendar";
 import { Inicio } from "./Inicio";
+import { MiHistoria } from "./MiHistoria";
 import { MisCitas } from "./MisCitas";
+import { MisDocumentos } from "./MisDocumentos";
+import { MisFacturas } from "./MisFacturas";
 
-// Zona del paciente, pensada primero para celular.
+// Zona del paciente: en celular, la barra de secciones abajo; en computador, a la izquierda.
 export default function ZonaPaciente() {
   // Mientras agenda o mueve una cita, la barra de abajo cede su lugar a la elección.
   const enUnFlujo = /\/(agendar|mover)$/.test(useLocation().pathname);
@@ -18,10 +30,19 @@ export default function ZonaPaciente() {
         <Route path="citas" element={<MisCitas />} />
         <Route path="agendar" element={<Agendar />} />
         <Route path="citas/:cita/mover" element={<Agendar />} />
+        <Route path="documentos" element={<MisDocumentos />} />
+        <Route path="historia" element={<MiHistoria />} />
+        <Route path="historia/:atencion" element={<MiHistoria />} />
+        <Route path="facturas" element={<MisFacturas />} />
+        <Route path="facturas/:cita" element={<MisFacturas />} />
+        <Route path="ajustes" element={<Ajustes />} />
         <Route path="*" element={<Navigate to="/paciente" replace />} />
       </Routes>
       {!enUnFlujo && (
         <nav aria-label="Secciones" className="zona-paciente__secciones">
+          <span className="zona-paciente__marca">
+            <Marca conNombre />
+          </span>
           <NavLink to="/paciente" end className="zona-paciente__seccion">
             <span className="zona-paciente__icono-seccion">
               <HouseIcon aria-hidden="true" />
@@ -33,6 +54,30 @@ export default function ZonaPaciente() {
               <CalendarBlankIcon aria-hidden="true" />
             </span>
             Citas
+          </NavLink>
+          <NavLink to="/paciente/documentos" className="zona-paciente__seccion">
+            <span className="zona-paciente__icono-seccion">
+              <FileTextIcon aria-hidden="true" />
+            </span>
+            Documentos
+          </NavLink>
+          <NavLink to="/paciente/historia" className="zona-paciente__seccion">
+            <span className="zona-paciente__icono-seccion">
+              <ClipboardTextIcon aria-hidden="true" />
+            </span>
+            Historia
+          </NavLink>
+          <NavLink to="/paciente/facturas" className="zona-paciente__seccion">
+            <span className="zona-paciente__icono-seccion">
+              <CreditCardIcon aria-hidden="true" />
+            </span>
+            Facturas
+          </NavLink>
+          <NavLink to="/paciente/ajustes" className="zona-paciente__seccion">
+            <span className="zona-paciente__icono-seccion">
+              <GearIcon aria-hidden="true" />
+            </span>
+            Ajustes
           </NavLink>
         </nav>
       )}
